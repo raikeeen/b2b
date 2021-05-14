@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 
         <!-- Styles -->
         <style>
@@ -21,6 +22,180 @@
         </style>
     </head>
     <body class="antialiased">
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="d-flex col-12 d-sm-none d-xl-flex col-xl-3 justify-content-center align-items-center mt-2 mt-xl-0">
+                    <a href="https://www.rm-autodalys.eu/">
+                        <img src="https://www.rm-autodalys.eu/Assets/Themes/Kavateka/Assets/Images/logo.png" alt="RM AUTOMOTIVE AUTO SPARE PARTS SHOP" class="c-page-header__logo">
+                    </a>
+                </div>
+                <div class="col-12 col-xl-9">
+                    <div class="row">
+                        <div class="col-12 col-xl-8 d-flex justify-content-center align-items-center my-2 my-xl-0 order-1 order-sm-2 order-xl-1">
+
+                            <form class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            </form>
+
+                        </div>
+                        <div class="col-12 col-xl-4 order-2 order-sm-1 order-xl-2">
+                            <div class="row">
+                                <div class="c-page-header__item col col-xl-3 ml-xl-auto d-flex justify-content-center align-items-center flex-column px-0 px-3">
+                                    <a href="https://www.rm-autodalys.eu/nowosci" class="text-decoration-none" title="NAUJIENOS">
+                                        <div class="c-page-header__item__icon--bg">
+
+
+                                            <svg class="c-icon c-page-header__item__icon">
+                                                <use xlink:href="#news"></use>
+                                            </svg>
+
+                                        </div>
+                                        <span class="d-none d-md-block">NAUJIENOS</span>
+                                    </a>
+                                </div>
+                                <div class="c-page-header__item col col-xl-3 ml-xl-auto d-flex justify-content-center align-items-center flex-column px-0 px-3">
+                                    <a href="https://www.rm-autodalys.eu/zaloguj-sie">
+                                        <div class="c-page-header__item__icon--bg">
+
+
+                                            <svg class="c-icon c-page-header__item__icon">
+                                                <use xlink:href="#log-out"></use>
+                                            </svg>
+
+                                        </div>
+                                    </a>
+                                    <ul class="c-top-bar__nav-items">
+                                        <li class="c-top-bar__nav-item">
+                                            <a class="c-top-bar__nav-link" href="https://www.rm-autodalys.eu/zaloguj-sie" title="PASKYRA">
+                                                <span class="d-none d-md-block">PASKYRA</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="c-page-header__item col col-xl-3 ml-xl-auto d-flex justify-content-center align-items-center px-0 px-3">
+
+
+                                    <div id="hook_headershoppingcart" class="" data-asp-hook="45" data-asp-hook-name="HeaderShoppingCart">
+                                        <!-- Widget koszyka -->
+
+                                        <div data-control-hook-id="111" data-control-id="6" data-control-order="1" data-control-name="Widget koszyka" data-control-type="ShoppingCartStatus">
+
+
+                                            <div data-control-type="ShoppingCartWidget">
+                                                <a class="c-shopping-cart-status text-center d-block" data-count="0" data-bind="
+      attr: { 'data-count': amount() },
+      init: amount.bind($root, 0)" href="https://www.rm-autodalys.eu/koszyk" title="Krepšelis">
+                                                    <div class="c-page-header__item__icon--bg mb-0 mt-sm-2 mt-md-0 mb-md-2">
+
+
+                                                        <svg class="c-icon c-page-header__item__icon">
+                                                            <use xlink:href="#shoppingcart"></use>
+                                                        </svg>
+
+                                                    </div>
+                                                    <span class="d-none d-sm-inline-block text-uppercase ml-1">
+      <span class="d-none d-md-block">Krepšelis</span>
+    </span>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                        <!-- Widget koszyka -->
+                                    </div>
+
+                                </div>
+                                <div class="c-page-header__item col-auto ml-xl-auto px-0 px-3">
+                                    <div class="d-flex flex-md-column justify-content-center align-items-center">
+                                        <div class="order-1 order-md-0 ml-2 ml-sm-0 mt-1 mt-sm-0">
+
+
+                                            <div id="hook_languageselector" class="  " data-asp-hook="69" data-asp-hook-name="languageSelector">
+                                                <!-- Wyb&#xF3;r j&#x119;zyka -->
+
+                                                <div data-control-hook-id="91" data-control-id="62" data-control-order="0" data-control-name="Wybór języka" data-control-type="LanguageSelector">
+
+
+                                                    <div class="c-lang-selector dropdown">
+                                                        <button class="c-lang-selector__btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+
+                                                            <svg class="c-icon c-icon-language">
+                                                                <use xlink:href="#lt-LT"></use>
+                                                            </svg>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="https://www.rm-autodalys.eu/zaloguj-sie?returnUrl=%2F&amp;hw-lang=en-GB" title="ENGLISH">
+                                                                <div>ENGLISH</div>
+                                                                <div class="ml-2">
+
+
+                                                                    <svg class="c-icon c-icon-language">
+                                                                        <use xlink:href="#en-GB"></use>
+                                                                    </svg>
+
+                                                                </div>
+                                                            </a>
+                                                            <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="https://www.rm-autodalys.eu/zaloguj-sie?returnUrl=%2F&amp;hw-lang=lt-LT" title="LITHUANIAN">
+                                                                <div>LITHUANIAN</div>
+                                                                <div class="ml-2">
+
+
+                                                                    <svg class="c-icon c-icon-language">
+                                                                        <use xlink:href="#lt-LT"></use>
+                                                                    </svg>
+
+                                                                </div>
+                                                            </a>
+                                                            <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="https://www.rm-autodalys.eu/zaloguj-sie?returnUrl=%2F&amp;hw-lang=pl-PL" title="POLSKI">
+                                                                <div>POLSKI</div>
+                                                                <div class="ml-2">
+
+
+                                                                    <svg class="c-icon c-icon-language">
+                                                                        <use xlink:href="#pl-PL"></use>
+                                                                    </svg>
+
+                                                                </div>
+                                                            </a>
+                                                            <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="https://www.rm-autodalys.eu/zaloguj-sie?returnUrl=%2F&amp;hw-lang=ru-RU" title="RUSSIAN">
+                                                                <div>RUSSIAN</div>
+                                                                <div class="ml-2">
+
+
+                                                                    <svg class="c-icon c-icon-language">
+                                                                        <use xlink:href="#ru-RU"></use>
+                                                                    </svg>
+
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Wyb&#xF3;r j&#x119;zyka -->
+                                            </div>
+
+                                        </div>
+                                        <div class="mt-3">
+                                            <a href="https://www.facebook.com/AutoSparePartsAndAccesoriesRMautomotive/" target="_blank">
+
+
+                                                <svg class="c-icon c-icon--fb">
+                                                    <use xlink:href="#fb"></use>
+                                                </svg>
+
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
