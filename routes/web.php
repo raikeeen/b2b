@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
 Route::group(['prefix' => 'admin-kavateka'], function () {
@@ -23,5 +20,11 @@ Route::group(['prefix' => 'admin-kavateka'], function () {
 });
 
 Auth::routes();
+Route::get('/', function () {
+    return redirect('/home');
+});
+
+Route::get('/product',[App\Http\Controllers\ProductController::class, 'index'])->name('product');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
