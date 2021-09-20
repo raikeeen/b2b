@@ -1,15 +1,11 @@
 @extends('welcome')
 
 @section('content')
-    <style>
-        #footer {
-            position: absolute;
-        }
-    </style>
+
     <div class="row bread-crumb-row">
         <ol class="bread-crumb">
             <li class="bread-crumb-item">
-                <a class="bread-crumb-link" href="">
+                <a class="bread-crumb-link" href="{{route('home')}}">
                         <span itemprop="name">
                             <svg class="bread-crumb-icon">
                                 <svg id="breadcrumb-home-name" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
@@ -22,12 +18,12 @@
             </li>
 
             <li class="bread-crumb-item">
-                <a class="bread-crumb-link" href="">
+                <a class="bread-crumb-link" href="{{route('home')}}">
                     <span itemprop="name">Automobilių dalys</span>
                 </a>
             </li>
             <li class="bread-crumb-item">
-                <a class="" href="">
+                <a class="" href="{{route('login')}}">
                     <span itemprop="name">Prisijungimas</span>
                 </a>
             </li>

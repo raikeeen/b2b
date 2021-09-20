@@ -60,26 +60,26 @@
                                 <div class="col-6 d-flex justify-content-center justify-content-sm-start">
                                     <ul class="s">
                                         <li class="">
-                                            <a class="" href="https://www.rm-autodalys.eu/o-firmie" title="Apie įmonę">Apie įmonę</a>
+                                            <a class="" href="{{route('company')}}" title="Apie įmonę">Apie įmonę</a>
                                         </li>
                                         <li class="">
-                                            <a class="" href="https://www.rm-autodalys.eu/kontakt" title="Kontaktas">Kontaktas</a>
+                                            <a class="" href="{{route('contact')}}" title="Kontaktas">Kontaktas</a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="col-6 d-flex justify-content-center justify-content-sm-start">
                                     <ul class="">
                                         <li class="">
-                                            <a class="" href="https://www.rm-autodalys.eu/pliki-do-pobrania" title="Atsisiųsti failai">Atsisiųsti failai</a>
+                                            <a class="" href="#" title="Atsisiųsti failai">Atsisiųsti failai</a>
                                         </li>
                                         <li class="">
-                                            <a class="" href="https://www.rm-autodalys.eu/regulamin" title="nuostatai">nuostatai</a>
+                                            <a class="" href="{{route('regulations')}}" title="nuostatai">Nuostatai</a>
                                         </li>
                                         <li class="">
-                                            <a class="" href="https://www.rm-autodalys.eu/polityka-prywatnosci" title="Privatumo politika">Privatumo politika</a>
+                                            <a class="" href="{{route('privacy')}}" title="Privatumo politika">Privatumo politika</a>
                                         </li>
                                         <li class="">
-                                            <a class="" href="https://www.rm-autodalys.eu/informacja-o-plikach-cookie" title="Slapukų politika">Slapukų politika</a>
+                                            <a class="" href="{{route('cookie')}}" title="Slapukų politika">Slapukų politika</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -109,5 +109,16 @@
                 <small class="pb-2"> <span>Visi prekių pavadinimai, gaminių pavadinimai, įmonių pavadinimai ir logotipai, naudojami mūsų puslapiuose, priklauso jų savininkams ir naudojami tik identifikavimo tikslais. Tai gali būti registruoti prekės ženklai. Visa mūsų puslapiuose pateikta medžiaga, aprašymai ir nuotraukos yra naudojami informaciniais tikslais</span></small>
             </div>
         </div>
+    </div>
+    <div data-control-type="CookieInfo">
+            <div class="c-cookie-info">
+                <button class="close" type="button" data-bind="click: accept" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <span>Ši svetainė naudoja</span>
+                <a target="_blank" href="{{route('cookie')}}" title="cookie ir kitas technologijas.">
+                    <span>slapukus ir kitas technologijas.</span>
+                </a>
+                <span>&nbsp;Naudodamiesi jūs sutinkate su jų naudojimu.</span>
+            </div>
+
     </div>
 </footer>

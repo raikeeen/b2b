@@ -7225,7 +7225,7 @@ p {
     display: block;
     width: 90px;
     height: 90px;
-    background: url("../assets/images/car-brand/car-brand-popular.png")
+    background: url("../storage/images/car-brand-popular.png")
 }
 
 .c-car-brand-popular__bg--chevrolet {
@@ -8223,7 +8223,7 @@ p {
     background-color: #fff;
     border-radius: 50%;
     margin-bottom: 6px;
-    fill: #07456b
+    fill: #3a6eee
 }
 
 @media (max-width: 991.98px) {
@@ -8526,7 +8526,7 @@ p {
     display: inline-block;
     width: 48px;
     height: 48px;
-    background-image: url("../assets/images/loading.gif");
+    background-image: url("../storage/images/loading.gif");
     background-size: contain
 }
 
@@ -9611,7 +9611,7 @@ p {
     left: -3px;
     right: -3px;
     background-color: rgba(255, 255, 255, .8);
-    background-image: url("../assets/images/loading.gif");
+    background-image: url("../storage/images/loading.gif");
     background-repeat: no-repeat;
     background-position: center 85px
 }
@@ -9784,7 +9784,7 @@ p {
     right: 0;
     display: block;
     background-color: rgba(255, 255, 255, .8);
-    background-image: url("../assets/images/loading.gif");
+    background-image: url("../storage/images/loading.gif");
     background-size: 24px 24px;
     background-repeat: no-repeat;
     background-position: center center
@@ -9792,7 +9792,7 @@ p {
 
 .c-select {
     padding: .5rem 5rem .5rem 1rem;
-    background-image: url("../assets/images/lista_rozwijana.svg");
+    background-image: url("../storage/images/lista_rozwijana.svg");
     background-repeat: no-repeat;
     background-position: right calc(0.5rem) center;
     background-size: 13px;
@@ -10263,3 +10263,11 @@ p {
     text-transform: uppercase
 }
 
+
+.filter-blue{
+    filter: invert(35%) sepia(93%) saturate(3763%) hue-rotate(218deg) brightness(104%) contrast(87%);
+}
+
+.filter-grey{
+    filter: invert(100%) sepia(75%) saturate(1%) hue-rotate(265deg) brightness(114%) contrast(92%);
+}
