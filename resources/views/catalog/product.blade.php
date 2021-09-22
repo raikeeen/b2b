@@ -2,6 +2,9 @@
 
 @section('title','Product')
 @section('content')
+    <div id="app">
+        <product></product>
+    </div>
     <div class="row bread-crumb-row">
         <ol class="bread-crumb">
             <li class="bread-crumb-item">
@@ -170,8 +173,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="row">
         <div class="col-12 tabs-border-after mt-4" data-control-type="ArticlePage">
             <ul class="nav" id="myTab" role="tablist">

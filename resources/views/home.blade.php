@@ -2,6 +2,10 @@
 
 @section('title','dashboard')
 @section('content')
+    <div id="app">
+        <articles></articles>
+    </div>
+    <script src="{{ asset('js/app.js') }}"></script>
     <style>
         #footer {
             position: relative !important;

@@ -44,6 +44,10 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'id' => 'required'
+        ]);
+
         $duplicates = Cart::search(function ($cartItem, $rowId) use ($request){
             return $cartItem->id === $request->id;
         });

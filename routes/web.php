@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +24,15 @@ Route::group(['prefix' => 'admin-kavateka'], function () {
 
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
+/*
+    Route::get('/product/{reference}', [ProductController::class, 'detail'])->name('product.index');
+    Route::get('/products', [ProductController::class, 'index'])->name('products');
+*/
+    Route::get('/product/{id}', function (){
+        return view('catalog.product');
+    });
 
-    Route::get('/product/{reference}', [App\Http\Controllers\ProductController::class, 'detail'])->name('product.index');
-    Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('products');
-
-
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::get('/', function () {
         return redirect('/home');
@@ -37,11 +42,11 @@ Route::group(['middleware' => 'auth'], function () {
         Cart::destroy();
     });
 
-    Route::post('/cart', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
-    Route::post('/cart/{rowId}', [App\Http\Controllers\CartController::class, 'edit'])->name('cart.edit');
-    Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+    Route::post('/cart/{rowId}', [CartController::class, 'edit'])->name('cart.edit');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
-    Route::delete('/cart/{product}', [App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
+    Route::delete('/cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
 
     Route::prefix('about')->group(function () {
 

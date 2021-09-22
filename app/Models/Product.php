@@ -11,5 +11,23 @@ class Product extends Model
     use HasFactory, Notifiable;
 
     protected $table = 'product';
+    protected $fillable = [
+        'id',
+        'name',
+        'reference',
+        'supplier_reference',
+        'stock_shop',
+        'stock_supplier',
+        'description',
+        'short_description',
+        'price',
+        'discount_product',
+        'discount_global'
+    ];
+    public $increments = true;
+    /**
+     * @var mixed
+     */
+    //public $name;
 
 }
