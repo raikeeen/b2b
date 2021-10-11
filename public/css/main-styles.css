@@ -340,17 +340,6 @@ hr  {
     color: #3b6ded;
     letter-spacing: -0.25px;
 }
-.c-btn{
-    display: inline-block;
-    padding: calc(0.5rem + 1px) 1rem;
-    background: #ed3b3b;
-    border: none;
-    color: #fff;
-    font-weight: bold;
-    text-decoration: none;
-    fill: #fff;
-    cursor: pointer;
-}
 
 .input-quantity {
     width: 40px;

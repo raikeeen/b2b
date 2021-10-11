@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -69,5 +71,20 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+    public function registerMail(Request $request)
+    {
+        $data = [
+            'email' => $request->replyEmail,
+            'phone' => $request->phone,
+            'message' => $request->message,
+        ];
+        var_dump($data);
+        Mail::send('emails.welcome', $data, function ($message) {
+            $message->from('laravel@example.com', 'Laravel');
+
+            $message->to('nikita.skrobov.dev@gmail.com');
+        });
+        return redirect()->route('register')->with('success_message', 'we have your email!');
     }
 }

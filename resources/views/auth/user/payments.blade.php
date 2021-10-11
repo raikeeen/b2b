@@ -1,7 +1,8 @@
 @extends('welcome')
 
-@section('title','Company')
+@section('title','Mokėjimai')
 @section('content')
+    {{ Breadcrumbs::render('payments') }}
     <h1 class="c-headline c-headline--semi-light u-bd-secondary pl-2 py-1">Mokėjimai</h1>
     <div data-bind="if: paymentsLoaded(), attr: { hidden: false }">
         <div class="c-panel--no-shadow py-2 px-3">

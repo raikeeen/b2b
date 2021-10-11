@@ -18,7 +18,7 @@ class CreateCategoryTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('img')->nullable();
-            $table->integer('discount_category')->nullable();
+            $table->integer('trade_margin')->default(0);
 
             $table->integer('parent_id')->nullable();
             $table->integer('root_id')->nullable();

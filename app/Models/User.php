@@ -40,4 +40,22 @@ class User extends \TCG\Voyager\Models\User
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function address()
+    {
+        return $this->belongsTo('App\Models\Address');
+    }
+    public function order()
+    {
+        return $this->hasMany('App\Models\Order', 'user_id');
+    }
+    static function getUserData($id)
+    {
+        $user = User::find($id);
+        $data = collect([
+
+        ]);
+
+        return $data;
+    }
 }

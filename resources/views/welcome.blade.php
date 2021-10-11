@@ -8,6 +8,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
 
+
         <!-- Fonts -->
     @include('layouts.stylesheets')
 
@@ -22,7 +23,10 @@
     <main class="main-container" style="padding-bottom: 2.5rem;">
         <div class="container">
             @include('layouts.errors')
+            <div id="app">
             @yield('content')
+            </div>
+
 
         </div>
     </main>

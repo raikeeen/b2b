@@ -1,7 +1,8 @@
 @extends('welcome')
 
-@section('title','Company')
+@section('title','Grąžinimai')
 @section('content')
+    {{ Breadcrumbs::render('refunds') }}
     <h1 class="c-headline c-headline--semi-light u-bd-secondary pl-2 py-1">
         <span>Grąžinimai</span>
     </h1>

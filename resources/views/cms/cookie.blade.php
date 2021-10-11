@@ -2,6 +2,7 @@
 
 @section('title','Cookie Policy')
 @section('content')
+    {{ Breadcrumbs::render('cookie') }}
     <h1 class="text-center">Slapukų politika</h1>
     <div class="page-module">
         <p>Čia aprašyta slapukų politika taikoma interneto puslapyje rm-autodalys.eu. Linkime Jums saugaus ir patogaus naršymo mūsų internetiniame puslapyje.</p>

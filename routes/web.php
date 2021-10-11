@@ -1,11 +1,14 @@
 <?php
 
+use App\Models\B1Api;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CouponsController;
+use App\Http\Controllers\Auth\RegisterController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,20 +26,32 @@ Route::group(['prefix' => 'admin-kavateka'], function () {
 });
 
 Auth::routes();
+Route::prefix('emails')->group(function () {
+    Route::post('/register', [\App\Http\Controllers\MailController::class, 'sendMail'])->name('emails.register');
+
+});
 Route::group(['middleware' => 'auth'], function () {
 /*
     Route::get('/product/{reference}', [ProductController::class, 'detail'])->name('product.index');
     Route::get('/products', [ProductController::class, 'index'])->name('products');
 */
-    Route::get('/product/{id}', function (){
-        return view('catalog.product');
+    Route::get('/catalog')->name('catalog');
+
+    Route::resource('/coupon',CouponsController::class);
+    //Route::resource('/order', OrderController::class);
+    Route::get('/cartTest', function (){
+        Cart::destroy();
+    });
+    Route::get('/test1', function (){
+        //ump(B1Api::getInvoice(\App\Models\Order::latest()->first()));
+        dump(config('cart.tax'));
+    });
+    Route::get('/product/{reference}', [ProductController::class, 'detail'])->name('product.index');
+    Route::get('/products', function (){
+        return view('catalog.products');
     });
 
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-    Route::get('/', function () {
-        return redirect('/home');
-    });
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::get('empty', function () {
         Cart::destroy();
@@ -72,16 +87,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     });
     Route::prefix('my-account')->group(function () {
-        Route::get('/close-order', function () {
-            return view('auth.user.close-order');
-        })->name('close-order');
+        Route::resource('/orders', OrderController::class);
 
         Route::get('/documents', function () {
             return view('auth.user.documents');
         })->name('documents');
 
         Route::get('/open-order', function () {
-            return view('auth.user.open-order');
+            return redirect()->route('cart.index');
         })->name('open-order');
 
         Route::get('/password-reset', function () {

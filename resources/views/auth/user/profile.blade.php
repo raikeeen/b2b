@@ -1,7 +1,9 @@
 @extends('welcome')
 
-@section('title','Profile')
+@section('title','Paskyra')
 @section('content')
+
+    {{ Breadcrumbs::render('profile') }}
     <h1 class="c-headline c-headline--semi-light u-bd-secondary py-1">Paskyros redagavimas</h1>
     <div class="row">
         <div class="col-12 col-md-6">

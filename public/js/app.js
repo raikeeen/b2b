@@ -2054,30 +2054,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Articles.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Articles.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Articles"
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Product.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Product.vue?vue&type=script&lang=js& ***!
@@ -2089,13 +2065,279 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Product"
+  name: "Product",
+  //props: ['product'],
+  data: function data() {
+    return {
+      baseUrl: '',
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      active: true,
+      filters: {},
+      fl: true,
+      product: null
+    };
+  },
+  created: function created() {
+    this.fetchProduct();
+  },
+  methods: {
+    fetchProduct: function fetchProduct() {
+      var _this = this;
+
+      fetch('http://localhost:8000/api/products/' + window.location.pathname.split('/')[2]).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.product = res.data;
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    }
+  }
 });
+/* mounted() {
+     axios
+         .get('http://localhost:8000/api/products/1')
+         .then(response => (this.product = response.data.data));
+ },
+ methods: {
+     log(item) {
+         console.log(item)
+     }
+ }*/
+//}
 
 /***/ }),
 
@@ -2114,8 +2356,412 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Products"
+  name: "Products",
+  data: function data() {
+    return {
+      products: [],
+      product: {
+        id: '',
+        name: '',
+        reference: '',
+        stock_shop: '',
+        stock_supplier: '',
+        short_description: '',
+        price: ''
+      },
+      input_page: '',
+      product_id: '',
+      pagination: {},
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      edit: false
+    };
+  },
+  created: function created() {
+    this.fetchProducts();
+  },
+  methods: {
+    fetchProducts: function fetchProducts(page_url) {
+      var _this = this;
+
+      var vm = this;
+      page_url = page_url || 'api/products';
+      fetch(page_url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.products = res.data;
+        vm.makePagination(res.meta, res.links);
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    },
+    makePagination: function makePagination(meta, links) {
+      var pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev
+      };
+      this.pagination = pagination;
+    }
+  }
 });
 
 /***/ }),
@@ -2124,13 +2770,18 @@ __webpack_require__.r(__webpack_exports__);
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_Products__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Products */ "./resources/js/components/Products.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"];
@@ -2144,9 +2795,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('articles', __webpack_require__(/*! ./components/Articles.vue */ "./resources/js/components/Articles.vue")["default"]);
+Vue.component('product', __webpack_require__(/*! ./components/Product.vue */ "./resources/js/components/Product.vue")["default"]);
 Vue.component('products', __webpack_require__(/*! ./components/Products.vue */ "./resources/js/components/Products.vue")["default"]);
-Vue.component('Product', __webpack_require__(/*! ./components/Product.vue */ "./resources/js/components/Product.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -37586,45 +38236,6 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ "./resources/js/components/Articles.vue":
-/*!**********************************************!*\
-  !*** ./resources/js/components/Articles.vue ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Articles_vue_vue_type_template_id_03ba8128_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Articles.vue?vue&type=template&id=03ba8128&scoped=true& */ "./resources/js/components/Articles.vue?vue&type=template&id=03ba8128&scoped=true&");
-/* harmony import */ var _Articles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Articles.vue?vue&type=script&lang=js& */ "./resources/js/components/Articles.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Articles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Articles_vue_vue_type_template_id_03ba8128_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _Articles_vue_vue_type_template_id_03ba8128_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  "03ba8128",
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/Articles.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
 /***/ "./resources/js/components/Product.vue":
 /*!*********************************************!*\
   !*** ./resources/js/components/Product.vue ***!
@@ -37703,22 +38314,6 @@ component.options.__file = "resources/js/components/Products.vue"
 
 /***/ }),
 
-/***/ "./resources/js/components/Articles.vue?vue&type=script&lang=js&":
-/*!***********************************************************************!*\
-  !*** ./resources/js/components/Articles.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Articles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Articles.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Articles.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Articles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
 /***/ "./resources/js/components/Product.vue?vue&type=script&lang=js&":
 /*!**********************************************************************!*\
   !*** ./resources/js/components/Product.vue?vue&type=script&lang=js& ***!
@@ -37748,23 +38343,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Products_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Products.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Products.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Products_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Articles.vue?vue&type=template&id=03ba8128&scoped=true&":
-/*!*****************************************************************************************!*\
-  !*** ./resources/js/components/Articles.vue?vue&type=template&id=03ba8128&scoped=true& ***!
-  \*****************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Articles_vue_vue_type_template_id_03ba8128_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Articles_vue_vue_type_template_id_03ba8128_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Articles_vue_vue_type_template_id_03ba8128_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Articles.vue?vue&type=template&id=03ba8128&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Articles.vue?vue&type=template&id=03ba8128&scoped=true&");
-
 
 /***/ }),
 
@@ -37802,38 +38380,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Articles.vue?vue&type=template&id=03ba8128&scoped=true&":
-/*!********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Articles.vue?vue&type=template&id=03ba8128&scoped=true& ***!
-  \********************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render),
-/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("h2", [_vm._v("Articals")])])
-  }
-]
-render._withStripped = true
-
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Product.vue?vue&type=template&id=7e94e6d4&scoped=true&":
 /*!*******************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Product.vue?vue&type=template&id=7e94e6d4&scoped=true& ***!
@@ -37850,9 +38396,835 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("H2", [_vm._v("PRoduct")])
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "row bread-crumb-row",
+        staticStyle: { "margin-top": "20px" }
+      },
+      [
+        _c("ol", { staticClass: "bread-crumb" }, [
+          _c("li", { staticClass: "bread-crumb-item" }, [
+            _c("a", { staticClass: "bread-crumb-link", attrs: { href: "" } }, [
+              _c("span", { attrs: { itemprop: "name" } }, [
+                _c("svg", { staticClass: "bread-crumb-icon" }, [
+                  _c(
+                    "svg",
+                    {
+                      attrs: {
+                        id: "breadcrumb-home-name",
+                        "data-name": "Layer 1",
+                        xmlns: "http://www.w3.org/2000/svg",
+                        viewBox: "0 0 14 14"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M14,6.8,7,0,0,6.8V14H5.62V9.43H8.38V14H14Zm-1.25,6H9.63V8.21H4.37v4.57H1.25V7.31L7,1.72l5.75,5.59Z"
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("use", {
+                    attrs: { "xlink:href": "#breadcrumb-home-name" }
+                  })
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c("li", { staticClass: "bread-crumb-item" }, [
+            _c("a", { attrs: { href: "" } }, [
+              _c("span", { attrs: { itemprop: "name" } }, [
+                _vm._v(_vm._s(_vm.product.name))
+              ])
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-12" }, [
+            _c("h1", { staticClass: "product-name pl-lg-3 py-1" }, [
+              _vm._v(_vm._s(_vm.product.name))
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "pl-3 mb-0 mt-3 mb-3" }, [
+              _c("span", [_vm._v("Prekės kodas:")]),
+              _vm._v(" "),
+              _c(
+                "span",
+                { staticClass: "c-headline--light c-headline--sm d-inline" },
+                [_vm._v(_vm._s(_vm.product.reference))]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "product-description mb-3 pl-3" }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(_vm.product.short_description) +
+                  "\n                "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 d-flex flex-column" }, [
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "col col-sm-12 d-flex justify-content-start order-1 order-sm-2"
+                },
+                [
+                  _c("div", { staticClass: "mb-4 mt-2 pl-3" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "d-flex flex-column flex-xl-row" },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "product-stock-container d-flex justify-content-center align-items-center pl-0"
+                          },
+                          [
+                            _c(
+                              "span",
+                              { staticClass: "product-stock-name mr-2" },
+                              [_vm._v("Parduotuvė")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticClass: "product-stock-available" },
+                              [
+                                _vm._v(_vm._s(_vm.product.stock_shop) + " "),
+                                _c("span", { staticClass: "ml-1" }, [
+                                  _vm._v("vnt")
+                                ])
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "product-stock-container d-flex justify-content-center align-items-center pl-0"
+                          },
+                          [
+                            _c(
+                              "span",
+                              { staticClass: "product-stock-name mr-2" },
+                              [_vm._v("Sandėlis")]
+                            ),
+                            _vm._v(" "),
+                            _c("span", { staticClass: "product-available" }, [
+                              _vm._v(
+                                ">" + _vm._s(_vm.product.stock_supplier) + " "
+                              ),
+                              _c("span", { staticClass: "ml-1" }, [
+                                _vm._v("vnt")
+                              ])
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("hr", { staticClass: "w-100 mb-4" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "row pl-3" }, [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "col col-sm-6 text-right d-flex flex-column align-items-start"
+                },
+                [
+                  _c("div", { staticClass: "d-flex align-items-center" }, [
+                    _c("div", { staticClass: "product-price-gross" }, [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(_vm.product.price * 1.21) +
+                          "\n                                €\n                            "
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", {}, [
+                    _vm._v(
+                      "\n                            / " +
+                        _vm._s(_vm.product.price) +
+                        "\n                            €\n                            "
+                    ),
+                    _c("span", [_vm._v("be PVM")])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "col-sm-6 mt-1 d-flex justify-content-end align-items-end"
+                },
+                [
+                  _c(
+                    "div",
+                    {
+                      attrs: {
+                        type: "ADD_TO_CART",
+                        "data-control-type": "Order"
+                      }
+                    },
+                    [
+                      _c(
+                        "form",
+                        { attrs: { action: "/cart", method: "post" } },
+                        [
+                          _c("div", { staticClass: "d-flex" }, [
+                            _c("input", {
+                              attrs: { type: "hidden", name: "_token" },
+                              domProps: { value: _vm.csrf }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass:
+                                "c-input c-input--quantity c-input--no-border",
+                              attrs: {
+                                autocomplete: "off",
+                                "data-bind": "",
+                                min: "1",
+                                name: "amount",
+                                step: "1",
+                                type: "number",
+                                value: "1"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              attrs: { type: "hidden", name: "id" },
+                              domProps: { value: _vm.product.id }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "c-btn c-btn--secondary",
+                                staticStyle: { background: "#3b6ded" },
+                                attrs: {
+                                  type: "submit",
+                                  "data-bind":
+                                    "css: { 'c-btn--loading': submitted() }",
+                                  "data-loading": "Prašome palaukti ..."
+                                }
+                              },
+                              [
+                                _c("span", { staticClass: "d-flex" }, [
+                                  _c("svg", { staticClass: "icon-search" }, [
+                                    _c(
+                                      "use",
+                                      {
+                                        attrs: { "xlink:href": "#add-to-cart" }
+                                      },
+                                      [
+                                        _c(
+                                          "svg",
+                                          {
+                                            attrs: {
+                                              id: "add-to-cart",
+                                              "data-name": "Layer 1",
+                                              xmlns:
+                                                "http://www.w3.org/2000/svg",
+                                              viewBox: "0 0 27 22"
+                                            }
+                                          },
+                                          [
+                                            _c("path", {
+                                              attrs: {
+                                                d:
+                                                  "M27,4,23.36,14.11A1.39,1.39,0,0,1,22,15H10l.5,1.37H22.32a.51.51,0,0,1,.51.5.5.5,0,0,1-.51.5H9.79L3.84,1H.51A.5.5,0,0,1,0,.5.5.5,0,0,1,.51,0H4.57l1,2.74h0l.36,1h0L9.65,14H22a.39.39,0,0,0,.36-.25l3.54-10h-.05l.37-1a1,1,0,0,1,.57.36A.91.91,0,0,1,27,4ZM22.11,20a2.09,2.09,0,1,1-2.09-2A2.06,2.06,0,0,1,22.11,20Zm-1,0A1.06,1.06,0,0,0,19,20a1.06,1.06,0,0,0,2.11,0Zm-6.8,0a2.08,2.08,0,1,1-2.08-2A2.06,2.06,0,0,1,14.28,20Zm-1,0a1.06,1.06,0,1,0-1.06,1A1.06,1.06,0,0,0,13.26,20ZM16.44,9V1h-1V9L12.57,6.19l-.72.71,4.08,4L20,6.9l-.72-.71Z"
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "ml-1" }, [
+                                    _vm._v("Įdėti į krepšelį")
+                                  ])
+                                ])
+                              ]
+                            )
+                          ])
+                        ]
+                      )
+                    ]
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm._m(3)
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "bread-crumb-item" }, [
+      _c("a", { staticClass: "bread-crumb-link", attrs: { href: "" } }, [
+        _c("span", { attrs: { itemprop: "name" } }, [
+          _vm._v("Automobilių dalys")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-lg-4 col-md-5 mr-5" }, [
+      _c("div", { staticClass: "c-panel c-panel--no-shadow" }, [
+        _c("div", { staticClass: "c-product-image" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "c-product-image__slides owl-carousel--product owl-carousel owl-loaded owl-drag"
+            },
+            [
+              _c("div", { staticClass: "owl-stage-outer" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "owl-stage",
+                    staticStyle: {
+                      transform: "translate3d(0px, 0px, 0px)",
+                      transition: "all 0s ease 0s",
+                      width: "1934px"
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "owl-item active",
+                        staticStyle: { width: "386.656px" }
+                      },
+                      [
+                        _c("div", { staticClass: "c-product-image__slide" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "c-product-image__link",
+                              attrs: {
+                                href:
+                                  "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-01.jpg",
+                                "data-toggle": "lightbox",
+                                "data-gallery": "big-photo"
+                              }
+                            },
+                            [
+                              _c("img", {
+                                staticClass: "c-product-image__image",
+                                attrs: {
+                                  src:
+                                    "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-01.jpg",
+                                  alt: "AMORTIZATORIAUS ATRAMINIS GUOLIS"
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "owl-item",
+                        staticStyle: { width: "386.656px" }
+                      },
+                      [
+                        _c("div", { staticClass: "c-product-image__slide" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "c-product-image__link",
+                              attrs: {
+                                href:
+                                  "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-02.jpg",
+                                "data-toggle": "lightbox",
+                                "data-gallery": "big-photo"
+                              }
+                            },
+                            [
+                              _c("img", {
+                                staticClass: "c-product-image__image",
+                                attrs: {
+                                  src:
+                                    "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-02.jpg",
+                                  alt: "AMORTIZATORIAUS ATRAMINIS GUOLIS"
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "owl-item",
+                        staticStyle: { width: "386.656px" }
+                      },
+                      [
+                        _c("div", { staticClass: "c-product-image__slide" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "c-product-image__link",
+                              attrs: {
+                                href:
+                                  "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-03.jpg",
+                                "data-toggle": "lightbox",
+                                "data-gallery": "big-photo"
+                              }
+                            },
+                            [
+                              _c("img", {
+                                staticClass: "c-product-image__image",
+                                attrs: {
+                                  src:
+                                    "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-03.jpg",
+                                  alt: "AMORTIZATORIAUS ATRAMINIS GUOLIS"
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "owl-item",
+                        staticStyle: { width: "386.656px" }
+                      },
+                      [
+                        _c("div", { staticClass: "c-product-image__slide" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "c-product-image__link",
+                              attrs: {
+                                href:
+                                  "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-04.jpg",
+                                "data-toggle": "lightbox",
+                                "data-gallery": "big-photo"
+                              }
+                            },
+                            [
+                              _c("img", {
+                                staticClass: "c-product-image__image",
+                                attrs: {
+                                  src:
+                                    "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-04.jpg",
+                                  alt: "AMORTIZATORIAUS ATRAMINIS GUOLIS"
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "owl-item",
+                        staticStyle: { width: "386.656px" }
+                      },
+                      [
+                        _c("div", { staticClass: "c-product-image__slide" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "c-product-image__link",
+                              attrs: {
+                                href:
+                                  "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-05.jpg",
+                                "data-toggle": "lightbox",
+                                "data-gallery": "big-photo"
+                              }
+                            },
+                            [
+                              _c("img", {
+                                staticClass: "c-product-image__image",
+                                attrs: {
+                                  src:
+                                    "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-05.jpg",
+                                  alt: "AMORTIZATORIAUS ATRAMINIS GUOLIS"
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  ]
+                )
+              ]),
+              _c("div", { staticClass: "owl-nav disabled" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "owl-prev",
+                    attrs: { type: "button", role: "presentation" }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-label": "Previous" } }, [
+                      _vm._v("‹")
+                    ])
+                  ]
+                ),
+                _c(
+                  "button",
+                  {
+                    staticClass: "owl-next",
+                    attrs: { type: "button", role: "presentation" }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-label": "Next" } }, [
+                      _vm._v("›")
+                    ])
+                  ]
+                )
+              ]),
+              _c("div", { staticClass: "owl-dots disabled" })
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "c-product__images-nav owl-carousel--product-nav owl-carousel mt-2 mb-3 owl-loaded owl-drag"
+        },
+        [
+          _c("div", { staticClass: "owl-stage-outer" }, [
+            _c(
+              "div",
+              {
+                staticClass: "owl-stage",
+                staticStyle: {
+                  transform: "translate3d(0px, 0px, 0px)",
+                  transition: "all 0s ease 0s",
+                  width: "490px"
+                }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "owl-item active",
+                    staticStyle: { width: "92.914px", "margin-right": "5px" }
+                  },
+                  [
+                    _c("div", { staticClass: "c-product__image-nav current" }, [
+                      _c(
+                        "div",
+                        { staticClass: "c-product__image-nav--slide" },
+                        [
+                          _c("img", {
+                            staticClass: "c-product__image-nav--img",
+                            attrs: {
+                              src:
+                                "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-01.jpg&width=90&height=72",
+                              alt: "AMORTIZATORIAUS ATRAMINIS GUOLIS"
+                            }
+                          })
+                        ]
+                      )
+                    ])
+                  ]
+                ),
+                _c(
+                  "div",
+                  {
+                    staticClass: "owl-item active",
+                    staticStyle: { width: "92.914px", "margin-right": "5px" }
+                  },
+                  [
+                    _c("div", { staticClass: "c-product__image-nav" }, [
+                      _c(
+                        "div",
+                        { staticClass: "c-product__image-nav--slide" },
+                        [
+                          _c("img", {
+                            staticClass: "c-product__image-nav--img",
+                            attrs: {
+                              src:
+                                "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-02.jpg&width=90&height=72",
+                              alt: "AMORTIZATORIAUS ATRAMINIS GUOLIS"
+                            }
+                          })
+                        ]
+                      )
+                    ])
+                  ]
+                ),
+                _c(
+                  "div",
+                  {
+                    staticClass: "owl-item active",
+                    staticStyle: { width: "92.914px", "margin-right": "5px" }
+                  },
+                  [
+                    _c("div", { staticClass: "c-product__image-nav" }, [
+                      _c(
+                        "div",
+                        { staticClass: "c-product__image-nav--slide" },
+                        [
+                          _c("img", {
+                            staticClass: "c-product__image-nav--img",
+                            attrs: {
+                              src:
+                                "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-03.jpg&width=90&height=72",
+                              alt: "AMORTIZATORIAUS ATRAMINIS GUOLIS"
+                            }
+                          })
+                        ]
+                      )
+                    ])
+                  ]
+                ),
+                _c(
+                  "div",
+                  {
+                    staticClass: "owl-item active",
+                    staticStyle: { width: "92.914px", "margin-right": "5px" }
+                  },
+                  [
+                    _c("div", { staticClass: "c-product__image-nav" }, [
+                      _c(
+                        "div",
+                        { staticClass: "c-product__image-nav--slide" },
+                        [
+                          _c("img", {
+                            staticClass: "c-product__image-nav--img",
+                            attrs: {
+                              src:
+                                "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-04.jpg&width=90&height=72",
+                              alt: "AMORTIZATORIAUS ATRAMINIS GUOLIS"
+                            }
+                          })
+                        ]
+                      )
+                    ])
+                  ]
+                ),
+                _c(
+                  "div",
+                  {
+                    staticClass: "owl-item",
+                    staticStyle: { width: "92.914px", "margin-right": "5px" }
+                  },
+                  [
+                    _c("div", { staticClass: "c-product__image-nav" }, [
+                      _c(
+                        "div",
+                        { staticClass: "c-product__image-nav--slide" },
+                        [
+                          _c("img", {
+                            staticClass: "c-product__image-nav--img",
+                            attrs: {
+                              src:
+                                "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-05.jpg&width=90&height=72",
+                              alt: "AMORTIZATORIAUS ATRAMINIS GUOLIS"
+                            }
+                          })
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              ]
+            )
+          ]),
+          _c("div", { staticClass: "owl-nav disabled" }, [
+            _c(
+              "button",
+              {
+                staticClass: "owl-prev",
+                attrs: { type: "button", role: "presentation" }
+              },
+              [
+                _c("span", { attrs: { "aria-label": "Previous" } }, [
+                  _vm._v("‹")
+                ])
+              ]
+            ),
+            _c(
+              "button",
+              {
+                staticClass: "owl-next",
+                attrs: { type: "button", role: "presentation" }
+              },
+              [_c("span", { attrs: { "aria-label": "Next" } }, [_vm._v("›")])]
+            )
+          ]),
+          _c("div", { staticClass: "owl-dots disabled" })
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "small",
+      { staticClass: "d-block text-muted text-uppercase product-stock-text" },
+      [_c("span", [_vm._v("Prieinamumas")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        {
+          staticClass: "col-12 tabs-border-after mt-4",
+          attrs: { "data-control-type": "ArticlePage" }
+        },
+        [
+          _c(
+            "ul",
+            { staticClass: "nav", attrs: { id: "myTab", role: "tablist" } },
+            [
+              _c("li", { staticClass: "tabs-item" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "tabs-item-link-subarticle active show",
+                    attrs: {
+                      "data-toggle": "tab",
+                      "data-target": "#oem-F2000",
+                      title: "OEM kodai"
+                    }
+                  },
+                  [
+                    _c("span", { staticClass: "tabs-nav" }, [
+                      _vm._v("OEM kodai")
+                    ])
+                  ]
+                )
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "tab-content c-panel c-panel--no-shadow mt-3 mt-sm-0",
+              attrs: { id: "myTabContent" }
+            },
+            [
+              _c("div", { staticClass: "tab-pane active show" }, [
+                _c("div", { staticClass: "pb-2 mt-3 mt-sm-0" }, [
+                  _c("div", { staticClass: "row font-weight-bold pt-2" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-4 u-bd-bottom-left u-bd-bottom-left--with-top text-uppercase py-2"
+                      },
+                      [_c("span", [_vm._v("Gamintojas")])]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-8 u-bd-top-out text-uppercase py-2" },
+                      [_c("span", [_vm._v("OE kodai")])]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row row--hover mb-0" }, [
+                    _c("div", { staticClass: "col-4 u-bd-bottom-left py-2" }, [
+                      _vm._v(
+                        "\n                            OE\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-8 u-bd-top-out py-2" }, [
+                      _c("span", {}, [_vm._v("48619-0D011")])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row row--hover mb-0" }, [
+                    _c("div", { staticClass: "col-4 u-bd-bottom-left py-2" }, [
+                      _vm._v(
+                        "\n                            CITROEN\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-8 u-bd-top-out py-2" }, [
+                      _c("span", {}, [_vm._v("5035.57")])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row row--hover mb-0" }, [
+                    _c("div", { staticClass: "col-4 u-bd-bottom-left py-2" }, [
+                      _vm._v(
+                        "\n                            CITROEN\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-8 u-bd-top-out py-2" }, [
+                      _c("span", {}, [_vm._v("5035.57")])
+                    ])
+                  ])
+                ])
+              ])
+            ]
+          )
+        ]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -37875,9 +39247,950 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-12" }),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-12 col-lg-3" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "c-filter__show u-bd-secondary mb-3 d-flex justify-content-between align-items-center"
+        },
+        [
+          _c(
+            "span",
+            {
+              staticClass:
+                "c-headline c-headline--semi-light-toggle pl-2 py-1 mb-0"
+            },
+            [_vm._v("Filtrai")]
+          ),
+          _vm._v(" "),
+          _c("span", { staticClass: "d-lg-none pr-2" }, [
+            _c("svg", { staticClass: "c-icon c-icon--filter" }, [
+              _c("use", { attrs: { "xlink:href": "#category-show" } })
+            ]),
+            _vm._v(" "),
+            _c("svg", { staticClass: "c-icon c-icon--filter-blue" }, [
+              _c("use", { attrs: { "xlink:href": "#category-hide" } })
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1)
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-12 col-lg-9" }, [
+      _c("div", { staticClass: "row my-4" }, [
+        _c("div", { staticClass: "col-12" }),
+        _vm._v(" "),
+        _vm._m(2),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "col d-sm-flex justify-content-xs-center justify-content-sm-end align-items-center"
+          },
+          [
+            _c("ul", { staticClass: "pagination" }, [
+              _c(
+                "li",
+                {
+                  staticClass: "page-item",
+                  class: [{ disabled: !_vm.pagination.prev_page_url }]
+                },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "page-link",
+                      attrs: { href: "#", tabindex: "-1" },
+                      on: {
+                        click: function($event) {
+                          return _vm.fetchProducts(_vm.pagination.prev_page_url)
+                        }
+                      }
+                    },
+                    [_vm._v("Previous")]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("li", { staticClass: "page-item disabled" }, [
+                _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
+                  _vm._v(
+                    "Page " +
+                      _vm._s(_vm.pagination.current_page) +
+                      " of " +
+                      _vm._s(_vm.pagination.last_page)
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "li",
+                {
+                  staticClass: "page-item",
+                  class: [{ disabled: !_vm.pagination.next_page_url }]
+                },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "page-link",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          return _vm.fetchProducts(_vm.pagination.next_page_url)
+                        }
+                      }
+                    },
+                    [_vm._v("Next")]
+                  )
+                ]
+              )
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "c-products" },
+        [
+          _vm._l(_vm.products, function(product) {
+            return _c(
+              "div",
+              { key: _vm.product_id, staticClass: "c-panel c-panel--flatten" },
+              [
+                _c("div", { staticClass: "row my-3 pt-2 pr-3 pb-2 pl-2" }, [
+                  _vm._m(3, true),
+                  _vm._v(" "),
+                  _c("hr", { staticClass: "hr--vertical d-none d-sm-block" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col" }, [
+                    _c(
+                      "h3",
+                      {
+                        staticClass:
+                          "c-product__title c-product__title--light d-flex justify-content-start border-bottom pb-2 mb-2"
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            attrs: {
+                              href: "/product/" + product.reference,
+                              title: product.name
+                            }
+                          },
+                          [_vm._v(_vm._s(product.name))]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "col d-flex flex-column align-items-start"
+                        },
+                        [
+                          _c("p", { staticClass: "c-product__display-code" }, [
+                            _c("span", [_vm._v("Prekės kodas:")]),
+                            _vm._v(" "),
+                            _c("span", [_vm._v(_vm._s(product.reference))])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "c-product__description mb-3" },
+                            [
+                              _vm._v(
+                                "\n\n                                        " +
+                                  _vm._s(product.short_description) +
+                                  "\n                                    "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "c-product-stock d-flex flex-column order-1 order-sm-2"
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "c-product-stock d-flex flex-column"
+                                },
+                                [
+                                  _vm._m(4, true),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex flex-column flex-xl-row"
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "c-product-stock-container d-flex justify-content-center align-items-center pl-0"
+                                        },
+                                        [
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass:
+                                                "c-product-stock__name mr-2"
+                                            },
+                                            [_vm._v("Parduotuvė")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass:
+                                                "c-product-stock__availability"
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(product.stock_shop) +
+                                                  "\n                                                        "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "ml-1" },
+                                                [_vm._v("vnt")]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "c-product-stock-container d-flex justify-content-center align-items-center pl-0"
+                                        },
+                                        [
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass:
+                                                "c-product-stock__name mr-2"
+                                            },
+                                            [_vm._v("Sandėlis")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass:
+                                                "c-product-stock__availability c-product-stock__availability--more"
+                                            },
+                                            [
+                                              _vm._v(
+                                                ">" +
+                                                  _vm._s(
+                                                    product.stock_supplier
+                                                  ) +
+                                                  "\n                                                        "
+                                              ),
+                                              _c(
+                                                "span",
+                                                { staticClass: "ml-1" },
+                                                [_vm._v("vnt")]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-12 col-md-6" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "col col-sm-12 order-2 order-sm-1 d-flex flex-column align-items-end"
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "d-flex align-items-center" },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "c-product__price-gross" },
+                                    [
+                                      _vm._v(
+                                        "\n                                                    " +
+                                          _vm._s(product.price * 1.21) +
+                                          "\n                                                    €\n                                                "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "c-product__price-net" },
+                                [
+                                  _vm._v(
+                                    "\n                                                / " +
+                                      _vm._s(product.price) +
+                                      "\n                                                €\n                                                "
+                                  ),
+                                  _c("span", [_vm._v("be PVM")])
+                                ]
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "mt-4 d-flex justify-content-end align-items-end"
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                attrs: {
+                                  type: "ADD_TO_CART",
+                                  "data-control-type": "Order"
+                                }
+                              },
+                              [
+                                _c(
+                                  "form",
+                                  {
+                                    attrs: { action: "/cart", method: "post" }
+                                  },
+                                  [
+                                    _c("div", { staticClass: "d-flex" }, [
+                                      _c("input", {
+                                        attrs: {
+                                          type: "hidden",
+                                          name: "_token"
+                                        },
+                                        domProps: { value: _vm.csrf }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        staticClass:
+                                          "c-input c-input--quantity c-input--no-border",
+                                        attrs: {
+                                          autocomplete: "off",
+                                          "data-bind": "",
+                                          min: "1",
+                                          name: "amount",
+                                          step: "1",
+                                          type: "number",
+                                          value: "1"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        attrs: { type: "hidden", name: "id" },
+                                        domProps: { value: product.id }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "c-btn c-btn--secondary",
+                                          attrs: {
+                                            type: "submit",
+                                            "data-loading":
+                                              "Prašome palaukti ..."
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "span",
+                                            { staticClass: "d-flex" },
+                                            [
+                                              _c(
+                                                "svg",
+                                                {
+                                                  staticClass:
+                                                    "c-icon c-btn__icon"
+                                                },
+                                                [
+                                                  _c(
+                                                    "use",
+                                                    {
+                                                      attrs: {
+                                                        "xlink:href":
+                                                          "#add-to-cart"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "svg",
+                                                        {
+                                                          attrs: {
+                                                            id: "add-to-cart",
+                                                            "data-name":
+                                                              "Layer 1",
+                                                            xmlns:
+                                                              "http://www.w3.org/2000/svg",
+                                                            viewBox: "0 0 27 22"
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("path", {
+                                                            attrs: {
+                                                              d:
+                                                                "M27,4,23.36,14.11A1.39,1.39,0,0,1,22,15H10l.5,1.37H22.32a.51.51,0,0,1,.51.5.5.5,0,0,1-.51.5H9.79L3.84,1H.51A.5.5,0,0,1,0,.5.5.5,0,0,1,.51,0H4.57l1,2.74h0l.36,1h0L9.65,14H22a.39.39,0,0,0,.36-.25l3.54-10h-.05l.37-1a1,1,0,0,1,.57.36A.91.91,0,0,1,27,4ZM22.11,20a2.09,2.09,0,1,1-2.09-2A2.06,2.06,0,0,1,22.11,20Zm-1,0A1.06,1.06,0,0,0,19,20a1.06,1.06,0,0,0,2.11,0Zm-6.8,0a2.08,2.08,0,1,1-2.08-2A2.06,2.06,0,0,1,14.28,20Zm-1,0a1.06,1.06,0,1,0-1.06,1A1.06,1.06,0,0,0,13.26,20ZM16.44,9V1h-1V9L12.57,6.19l-.72.71,4.08,4L20,6.9l-.72-.71Z"
+                                                            }
+                                                          })
+                                                        ]
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "span",
+                                                { staticClass: "ml-1" },
+                                                [_vm._v("Įdėti į krepšelį")]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "col d-flex justify-content-center align-items-center"
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "d-flex align-items-center justify-content-center c-pagination__top-custom mt-2 mt-sm-0",
+                  attrs: { "data-control-type": "ArticleList" }
+                },
+                [
+                  _c("ul", { staticClass: "pagination" }, [
+                    _c(
+                      "li",
+                      {
+                        staticClass: "page-item",
+                        class: [{ disabled: !_vm.pagination.prev_page_url }]
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "page-link",
+                            attrs: { href: "#", tabindex: "-1" },
+                            on: {
+                              click: function($event) {
+                                return _vm.fetchProducts(
+                                  _vm.pagination.prev_page_url
+                                )
+                              }
+                            }
+                          },
+                          [_vm._v("Previous")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("li", { staticClass: "page-item disabled" }, [
+                      _c(
+                        "a",
+                        { staticClass: "page-link", attrs: { href: "#" } },
+                        [
+                          _vm._v(
+                            "Page " +
+                              _vm._s(_vm.pagination.current_page) +
+                              " of " +
+                              _vm._s(_vm.pagination.last_page)
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "li",
+                      {
+                        staticClass: "page-item",
+                        class: [{ disabled: !_vm.pagination.next_page_url }]
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "page-link",
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                return _vm.fetchProducts(
+                                  _vm.pagination.next_page_url
+                                )
+                              }
+                            }
+                          },
+                          [_vm._v("Next")]
+                        )
+                      ]
+                    )
+                  ])
+                ]
+              )
+            ]
+          )
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _vm._m(5)
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "c-filter__wrapper d-none d-lg-block" }, [
+      _c("div", { attrs: { id: "hook_articlelistsidebar" } }, [
+        _c(
+          "div",
+          {
+            attrs: {
+              "data-control-name": "",
+              "data-control-type": "ArticleListAvailability"
+            }
+          },
+          [
+            _c("div", { staticClass: "mb-4 pl-2" }, [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "custom-control custom-checkbox custom-control--availability custom-checkbox--switch"
+                },
+                [
+                  _c("input", {
+                    staticClass: "custom-control-input",
+                    attrs: {
+                      type: "checkbox",
+                      name: "fromAdvancedSearch1",
+                      id: "fromAvailableSearch1"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "availibility-slider" }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "custom-control-label custom-control-label--availability c-input__text"
+                    },
+                    [_c("span", [_vm._v("Tik prieinamus")])]
+                  )
+                ]
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            attrs: {
+              "data-control-name": "",
+              "data-control-type": "ArticleListPrices"
+            }
+          },
+          [
+            _c("div", { staticClass: "mb-3" }, [
+              _c("div", {}, [
+                _c("form", { attrs: { novalidate: "", id: "price_form" } }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "row no-gutters d-flex align-items-center justify-content-between mt-4"
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "col-12 col-sm col-lg-12 col-xl-5 c-input__text mb-3 pl-2"
+                        },
+                        [_c("span", [_vm._v("Kainų diapazonas")])]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col col-md-5 col-xl-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "c-form-group d-flex align-items-center"
+                          },
+                          [
+                            _c("label", {
+                              staticClass: "label-in-input",
+                              attrs: { for: "from" }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass:
+                                "c-input c-input--label-in text-center",
+                              attrs: {
+                                type: "text",
+                                name: "price-from",
+                                id: "from",
+                                value: "1,25"
+                              }
+                            })
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "mb-3 font-weight-bold" }, [
+                        _vm._v("–")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col col-md-5 col-xl-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "c-form-group d-flex align-items-center"
+                          },
+                          [
+                            _c("label", {
+                              staticClass: "label-in-input",
+                              attrs: { for: "to" }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass:
+                                "c-input c-input--label-in text-center",
+                              attrs: {
+                                type: "text",
+                                name: "price-to",
+                                id: "to",
+                                value: "37,62"
+                              }
+                            })
+                          ]
+                        )
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-12 d-flex justify-content-center px-3 mb-3"
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "slider slider-horizontal",
+                            attrs: { id: "" }
+                          },
+                          [
+                            _c("div", { staticClass: "slider-track" }, [
+                              _c("div", {
+                                staticClass: "slider-track-low",
+                                staticStyle: { left: "0px", width: "0.137476%" }
+                              }),
+                              _vm._v(" "),
+                              _c("div", {
+                                staticClass: "slider-selection",
+                                staticStyle: {
+                                  left: "0.137476%",
+                                  width: "99.8075%"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("div", {
+                                staticClass: "slider-track-high",
+                                staticStyle: {
+                                  right: "0px",
+                                  width: "0.0549904%"
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "tooltip tooltip-main top",
+                                staticStyle: { left: "50.0412%" },
+                                attrs: { role: "presentation" }
+                              },
+                              [
+                                _c("div", { staticClass: "tooltip-arrow" }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "tooltip-inner" }, [
+                                  _vm._v("1.3 : 37.6")
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "tooltip tooltip-min top",
+                                staticStyle: { left: "0.137476%" },
+                                attrs: { role: "presentation" }
+                              },
+                              [
+                                _c("div", { staticClass: "tooltip-arrow" }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "tooltip-inner" }, [
+                                  _vm._v("1.3")
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "tooltip tooltip-max top",
+                                staticStyle: { left: "99.945%" },
+                                attrs: { role: "presentation" }
+                              },
+                              [
+                                _c("div", { staticClass: "tooltip-arrow" }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "tooltip-inner" }, [
+                                  _vm._v("37.6")
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", {
+                              staticClass:
+                                "slider-handle min-slider-handle round",
+                              staticStyle: { left: "0.137476%" },
+                              attrs: {
+                                role: "slider",
+                                "aria-valuemin": "1.25",
+                                "aria-valuemax": "37.62",
+                                "aria-valuenow": "1.3",
+                                tabindex: "0"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("div", {
+                              staticClass:
+                                "slider-handle max-slider-handle round",
+                              staticStyle: { left: "99.945%" },
+                              attrs: {
+                                role: "slider",
+                                "aria-valuemin": "1.25",
+                                "aria-valuemax": "37.62",
+                                "aria-valuenow": "37.6",
+                                tabindex: "0"
+                              }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "c-slider-price",
+                          staticStyle: { display: "none" },
+                          attrs: { id: "input-price-slider", type: "text" }
+                        })
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", {}, [
+      _c("div", {
+        attrs: { id: "hook_category", "data-asp-hook-name": "Category" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 col-sm" }, [
+      _c(
+        "div",
+        {
+          attrs: {
+            id: "hook_articlelistsort",
+            "data-asp-hook-name": "ArticleListSort"
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              attrs: {
+                "data-control-name": "",
+                "data-control-type": "ArticleListSort"
+              }
+            },
+            [
+              _c("div", { attrs: { "data-control-type": "ArticleList" } }, [
+                _c("select", { staticClass: "c-select" }, [
+                  _c(
+                    "option",
+                    { attrs: { value: "avail", selected: "selected" } },
+                    [_vm._v("Rūšiuoti pagal Prieinamumas")]
+                  ),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "kod" } }, [
+                    _vm._v("Rūšiuoti pagal kodą")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "price-asc" } }, [
+                    _vm._v("Rūšiuoti pagal kainą kylančios")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "price-desc" } }, [
+                    _vm._v("Rūšiuoti pagal kainą mažėjančios")
+                  ])
+                ])
+              ])
+            ]
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "col-12 c-product-image-col d-flex align-items-center mx-auto"
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "c-product-image",
+            attrs: { "data-control-type": "Blank" }
+          },
+          [
+            _c("div", { staticClass: "c-product-image__slides" }, [
+              _c("div", { staticClass: "c-product-image__slide" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "c-product-image__link",
+                    attrs: {
+                      href:
+                        "https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A73001B-01.jpg",
+                      "data-toggle": "lightbox",
+                      "data-gallery": "/slopintuvas-spyruokl-s--a73001b"
+                    }
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "c-product-image__image",
+                      attrs: {
+                        src: "/storage/images/no_photo_500.jpg",
+                        alt: "SLOPINTUVAS SPYRUOKLĖS"
+                      }
+                    })
+                  ]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "small",
+      {
+        staticClass: "d-block text-muted text-uppercase c-product-stock__text"
+      },
+      [_c("span", [_vm._v("Prieinamumas")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-12" })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -50114,6 +52427,18 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\Users\\\\User\\\\P
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
 /******/ 		};
 /******/ 	})();
 /******/ 	

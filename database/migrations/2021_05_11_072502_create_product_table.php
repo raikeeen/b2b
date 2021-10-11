@@ -20,14 +20,25 @@ class CreateProductTable extends Migration
             $table->string('reference');
             $table->integer('stock_shop')->default(0);
             $table->integer('stock_supplier')->default(0);
-            $table->integer('discount_product')->default(0);
+            $table->integer('trade_margin')->default(0);
             $table->integer('tax_id')->default(1);
             $table->longText('description')->nullable();
             $table->longText('short_description')->nullable();
             $table->decimal('price')->default(0);
 
-            $table->integer('discount_global')->unsigned()->nullable();
-            $table->foreign('discount_global')->references('id')->on('discount')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('discount_id')->unsigned()->default(1);
+            $table->foreign('discount_id')->references('id')->on('discount')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->integer('supplier_id')->unsigned()->nullable();
+            $table->foreign('supplier_id')->references('id')->on('supplier')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->integer('margin_id')->unsigned()->nullable()->default(1);
+            $table->foreign('margin_id')->references('id')->on('margin')->onUpdate('cascade')->onDelete('cascade');
+
+          /*  $table->integer('cat_trade_margin')->unsigned()->nullable();
+            $table->foreign('cat_trade_margin')->references('id')->on('product_cat')->onUpdate('cascade')->onDelete('cascade');*/
+
+
 
             $table->timestamps();
         });

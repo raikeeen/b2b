@@ -100,7 +100,7 @@
 
                                         @guest
                                         @else
-                                            <div class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton" style="min-width: 300px;">
+                                            <div class="dropdown-menu p-3" style="min-width: 300px;">
                                                     <span class="c-dropdown-menu__user dropdown-item font-weight-bold">
                                                         {{ Auth::user()->name }}
                                                     </span>
@@ -114,7 +114,7 @@
                                                 <a class="dropdown-item mt-3" href="{{route('open-order')}}" title="Atidaryti užsakymai">
                                                     <span>Atidaryti užsakymai</span>
                                                 </a>
-                                                <a class="dropdown-item mt-3" href="{{route('close-order')}}" title="Užsakymai uždaryti">
+                                                <a class="dropdown-item mt-3" href="{{route('orders.index')}}" title="Užsakymai uždaryti">
                                                     <span>Užsakymai uždaryti</span>
                                                 </a>
                                                 <a class="dropdown-item mt-3" href="{{route('refunds')}}" title="Grąžinimas">

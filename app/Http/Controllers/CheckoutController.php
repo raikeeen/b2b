@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Gloudemans\Shoppingcart\Cart;
 use Illuminate\Http\Request;
+use App\Models\Order;
 
 class CheckoutController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
-        //
+
     }
 
     /**

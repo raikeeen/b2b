@@ -1,34 +1,9 @@
 @extends('welcome')
 
+@section('title','Prisijungimas')
 @section('content')
 
-    <div class="row bread-crumb-row">
-        <ol class="bread-crumb">
-            <li class="bread-crumb-item">
-                <a class="bread-crumb-link" href="{{route('home')}}">
-                        <span itemprop="name">
-                            <svg class="bread-crumb-icon">
-                                <svg id="breadcrumb-home-name" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
-                                    <path d="M14,6.8,7,0,0,6.8V14H5.62V9.43H8.38V14H14Zm-1.25,6H9.63V8.21H4.37v4.57H1.25V7.31L7,1.72l5.75,5.59Z"></path>
-                                </svg>
-                                <use xlink:href="#breadcrumb-home-name"></use>
-                            </svg>
-                        </span>
-                </a>
-            </li>
-
-            <li class="bread-crumb-item">
-                <a class="bread-crumb-link" href="{{route('home')}}">
-                    <span itemprop="name">Automobilių dalys</span>
-                </a>
-            </li>
-            <li class="bread-crumb-item">
-                <a class="" href="{{route('login')}}">
-                    <span itemprop="name">Prisijungimas</span>
-                </a>
-            </li>
-        </ol>
-    </div>
+    {{ Breadcrumbs::render('login') }}
     <div class="row">
         <div class="col-12 col-md-6">
             <h1 class="header-sign">

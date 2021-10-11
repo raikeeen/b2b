@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Delivery;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Http\Request;
 //use Gloudemans\Shoppingcart\Cart;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -20,10 +21,16 @@ class CartController extends Controller
     {
         $deliveries = Delivery::all();
         $payments = Payment::all();
+
         return view('cart.cart',[
             'deliveries' => $deliveries,
-            'payments'  => $payments
+            'payments'  => $payments,
+            'discount' => Order::getNumbers()->get('discount'),
+            'newSubTotal' => Order::getNumbers()->get('newSubTotal'),
+            'newTotal' => Order::getNumbers()->get('newTotal')
         ]);
+
+
     }
 
     /**
@@ -116,4 +123,5 @@ class CartController extends Controller
         Cart::remove($id);
         return back()->with('success_message', 'Item has been removed');
     }
+
 }

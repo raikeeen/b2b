@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
 use App\Http\Resources\Product as ProductResource;
 
@@ -17,7 +18,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(5);
+        $products = Product::orderBy('created_at','desc')->paginate(5);
         return ProductResource::collection($products);
 
         /*$products = Product::all();
@@ -68,7 +69,11 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::findOrFail($id);
+        //$product = Product::findOrFail($id);
+        $product = Product::where('reference',$id)->first();
+        if (!isset($product)){
+            $product = Product::findOrFail($id);
+        }
         return new ProductResource($product);
     }
 
@@ -80,7 +85,12 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        //dd(Product::find(1)->discount);
+        $user = 3;
+        //$user = Auth::user()->id;
+        $product = Product::find(1)->totalMargin($user);
+        dd($product);
+
     }
 
     /**

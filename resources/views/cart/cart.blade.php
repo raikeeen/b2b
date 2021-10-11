@@ -1,8 +1,8 @@
 @extends('welcome')
 
-@section('title','Product')
+@section('title','Krepšelis')
 @section('content')
-    <script type="application/ld+json">
+<!--    <script type="application/ld+json">
 {
   "@context": "http://schema.org",
   "@type": "LocalBusiness",
@@ -28,34 +28,8 @@
       "url": "https://www.rm-autodalys.eu/",
   "telephone": "+370 691 31237"
 }
-</script>
-    <div class="row bread-crumb-row">
-        <ol class="c-breadcrumb">
-            <li class="bread-crumb-item">
-                <a class="bread-crumb-link" href="">
-                        <span itemprop="name">
-                            <svg class="bread-crumb-icon">
-                                <svg id="breadcrumb-home-name" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
-                                    <path d="M14,6.8,7,0,0,6.8V14H5.62V9.43H8.38V14H14Zm-1.25,6H9.63V8.21H4.37v4.57H1.25V7.31L7,1.72l5.75,5.59Z"></path>
-                                </svg>
-                                <use xlink:href="#breadcrumb-home-name"></use>
-                            </svg>
-                        </span>
-                </a>
-            </li>
-
-            <li class="bread-crumb-item">
-                <a class="bread-crumb-link" href="">
-                    <span itemprop="name">Automobilių dalys</span>
-                </a>
-            </li>
-            <li class="bread-crumb-item">
-                <a class="" href="">
-                    <span itemprop="name">Krepšelis</span>
-                </a>
-            </li>
-        </ol>
-    </div>
+</script>-->
+    {{ Breadcrumbs::render('cart') }}
     <div class="validationMessage">
         <div>
         @if(session()->has('success_message'))
@@ -132,13 +106,12 @@
 
                         <div class="col-6 col-md-4 col-lg-4 col-xl-2 d-flex justify-content-xl-end mr-1">
                             <div class="d-flex">
-                                <script>
-                                    $('form').submit();
-                                </script>
-                                <form action="{{route('cart.edit',$item->rowId)}}" method="POST">
+
+                                <form id="cart" action="{{route('cart.edit',$item->rowId)}}" method="POST">
                                     {{csrf_field()}}
-                                <input class="c-input c-input--quantity" name="amount" type="number" min="1" step="1" value="{{$item->qty}}">
+                                    <input class="c-input c-input--quantity" name="amount" type="number" min="1" step="1" value="{{$item->qty}}">
                                     <input name="rowId" type="hidden" value="{{$item->rowId}}">
+                                    <input type="submit" hidden>
                                 </form>
                             </div>
                         </div>
@@ -176,6 +149,7 @@
 
             <!-- /ko -->
         </div>
+
         <div class="c-panel c-panel--no-shadow p-3 mt-4">
             <div class="c-headline c-headline--semi-light u-bd-secondary pl-2 py-1">
                 <span>Užsakymo parinktys</span>
@@ -204,10 +178,8 @@
                             <span>Transporto galimybės</span>
                         </label>
                         <div class="c-select__wrapper w-100">
-                            <select class="c-select c-select--block" data-bind="optionsCaption: 'Pasirinkite pristatymo būdą',
-              options: data.delivery.deliveryTransports,
-              optionsValue: 'id',
-              optionsText: 'name', value: data.transportId"><option value="">Pasirinkite pristatymo būdą</option>
+                            <select id="delivery_select" name="delivery_select" class="c-select c-select--block" required>
+                                <option value="">Pasirinkite pristatymo būdą</option>
                                 @foreach($deliveries as $delivery)
                                 <option value="{{$delivery->id}}">{{$delivery->name}}</option>
                                 @endforeach
@@ -226,8 +198,8 @@
                         <div class="c-select__wrapper w-100">
                             <!-- ko if: selectedTransport() --><!-- /ko -->
                             <!-- ko if: !selectedTransport() -->
-                            <select class="c-select c-select--block">
-                                <option>
+                            <select id="payment_select" name="payment_select" class="c-select c-select--block" disabled required>
+                                <option value="">
                                     Pirmiausia pasirinkite transportavimo būdą
                                 </option>
                                 @foreach($payments as $payment)
@@ -239,21 +211,23 @@
                     </div>
                 </div>
             </div>
-            <!-- ko if: selectedTransport() && selectedPayment() && selectedPayment().comment --><!-- /ko -->
+
 
             <div class="d-flex justify-content-start px-4 px-md-2 mt-3">
                 <div class="col-12 col-md-6 c-form-group">
+                @if(!session()->get('coupon'))
                     <!-- ko if: !selectedVoucher() -->
-                    <form class="d-flex flex-column" data-bind="submit: addVoucher">
+                    <form class="d-flex flex-column" action="{{route('coupon.store')}}" method="post">
                         <div class="d-flex flex-column flex-md-row">
-                            <input class="c-input c-input--voucher mb-2 mb-md-0 mr-md-3" placeholder="Įveskite nuolaidos kodą" name="code" required="">
+                            {{csrf_field()}}
+                            <input class="c-input c-input--voucher mb-2 mb-md-0 mr-md-3" placeholder="Įveskite nuolaidos kodą" id="coupon_code" name="coupon_code" >
                             <button class="c-btn c-btn--secondary text-uppercase ml-lg-4" type="submit">
                                 <span>Įjungti</span>
                             </button>
                         </div>
                     </form>
                     <span data-bind="if: invalidVoucher()"></span>
-
+                @endif
                 </div>
             </div>
 
@@ -286,8 +260,8 @@
           <!-- ko if: selectedTransport() --><!-- /ko -->
       </span>
                         <span class="ml-auto">
-        <span data-bind="text: data.priceSummary.transport.displayGross()">0,00</span>
-        <span data-bind="text: data.priceSummary.itemsPrice.currencyCode">EUR</span>
+        <span id="transport_price">0.00</span>
+        <span>EUR</span>
       </span>
                     </div>
                     <hr>
@@ -295,37 +269,79 @@
       <span>
         <span class="mr-1">Apmokėjimas:</span>
           <!-- ko if: selectedPayment() -->
-        <span class="text-muted">(<span data-bind="text: selectedPayment().name">Pervedimas į banką</span>)</span>
+        <span class="text-muted">(<span>Pervedimas į banką</span>)</span>
           <!-- /ko -->
       </span>
                         <span class="ml-auto">
-        <span data-bind="text: data.priceSummary.payment.displayGross()">0,00</span>
+        <span>0.00</span>
+        <span>EUR</span>
+      </span>
+                    </div>
+                    @if(session()->get('coupon'))
+                    <hr>
+                    <div class="d-flex my-2">
+      <span>
+        <span class="mr-1">Nuolaida:</span>
+          <!-- ko if: selectedPayment() -->
+        <span class="text-muted">(<span data-bind="text: selectedPayment().name">{{ session()->get('coupon')['name'] }}</span>)</span>
+            <form action="{{route('coupon.destroy',session()->get('coupon')['name'])}}" method="post" style="display: inline;">
+                {{csrf_field()}}
+                {{method_field('delete')}}
+                <span class="text-muted">(<button class="btn btn-link" type="submit">remove</button>)</span>
+            </form>
+          <!-- /ko -->
+      </span>
+                        <span class="ml-auto">
+        <span data-bind="text: data.priceSummary.payment.displayGross()">- {{ session()->get('coupon')['discount'] }}</span>
         <span data-bind="text: data.priceSummary.itemsPrice.currencyCode">EUR</span>
       </span>
                     </div>
+
                     <hr>
+
                     <div class="d-flex my-2 align-items-center" style="white-space: nowrap;">
-      <span class="c-headline u-text-medium u-text-color-body mb-0">
-        <span>Iš viso:</span>
-      </span>
+                        <span class="c-headline u-text-medium u-text-color-body mb-0">
+                            <span>Iš viso:</span>
+                        </span>
                         <div class="c-headline u-text-medium u-text-color-secondary mb-0 ml-auto">
-                            <span data-bind="text: data.priceSummary.total.displayGross()">{{Cart::total()}}</span>
+                            <span data-bind="text: data.priceSummary.total.displayGross()">{{$newTotal}}</span>
                             <span data-bind="text: data.priceSummary.itemsPrice.currencyCode">EUR</span>
                         </div>
                     </div>
                     <div class="text-right u-text-color-body u-text-small mb-4">
-                        <span data-bind="text: data.priceSummary.total.displayNet()">{{Cart::subtotal()}}</span>
+                        <span data-bind="text: data.priceSummary.total.displayNet()">{{$newSubTotal}}</span>
                         <span data-bind="text: data.priceSummary.itemsPrice.currencyCode">EUR</span>
                         <span>/ be PVM</span>
                     </div>
-
+                    @else
+                        <div class="d-flex my-2 align-items-center" style="white-space: nowrap;">
+                        <span class="c-headline u-text-medium u-text-color-body mb-0">
+                            <span>Iš viso:</span>
+                        </span>
+                            <div class="c-headline u-text-medium u-text-color-secondary mb-0 ml-auto">
+                                <span id="total-cart" aria-valuenow="">{{Cart::total()}}</span>
+                                <span data-bind="text: data.priceSummary.itemsPrice.currencyCode">EUR</span>
+                            </div>
+                        </div>
+                        <div class="text-right u-text-color-body u-text-small mb-4">
+                            <span id="subtotal-cart">{{Cart::subtotal()}}</span>
+                            <span data-bind="text: data.priceSummary.itemsPrice.currencyCode">EUR</span>
+                            <span>/ be PVM</span>
+                        </div>
+                    @endif
 
                 </div>
                 <div class="my-4">
                     <div class="d-flex justify-content-center">
-                        <button class="c-btn c-btn--tertiary c-btn--xl px-sm-5 text-uppercase" data-loading="Realizowane..." data-bind="click: order">
-                            <span class="mx-5">Aš pateikiu užsakymą</span>
-                        </button>
+                        <form action="{{route('orders.store')}}" method="post">
+                            {{csrf_field()}}
+                            <input type="number" id="delivery" name="delivery" value="" hidden>
+                            <input type="number" id="payment" name="payment" value="" hidden>
+                            <button class="c-btn-grey c-btn--tertiary c-btn--xl px-sm-5 text-uppercase" id="btn-order" disabled>
+                                <span class="mx-5">Aš pateikiu užsakymą</span>
+                            </button>
+                        </form>
+
                     </div>
                 </div>
 <!--
@@ -336,6 +352,7 @@
             </div>
 
         </div>
+
 
     </div>
     @else

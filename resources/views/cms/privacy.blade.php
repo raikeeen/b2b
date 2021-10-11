@@ -2,6 +2,7 @@
 
 @section('title','Privacy policy')
 @section('content')
+    {{ Breadcrumbs::render('privacy') }}
     <h1 class="c-headline">Privatumo politika</h1>
     <div><p><span style="color: #121212;"><span style="font-family: Times New Roman, serif;"><span style="font-size: small;"><span lang="lt-LT"><strong>Privatumo Politika</strong></span></span></span></span></p>
         <p><span style="color: #000000;"><span style="font-family: Times New Roman, serif;"><span style="font-size: small;"><span lang="lt-LT"><strong>1. Kokią informaciją mes renkame?</strong></span></span></span></span><span style="font-family: Times New Roman, serif;"><span style="font-size: small;"><span lang="lt-LT">&nbsp;</span></span></span></p>

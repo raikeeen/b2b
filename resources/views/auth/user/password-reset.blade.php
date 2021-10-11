@@ -1,7 +1,8 @@
 @extends('welcome')
 
-@section('title','Company')
+@section('title','Slaptažodžio keitimas')
 @section('content')
+    {{ Breadcrumbs::render('password-reset') }}
     <h1 class="c-headline c-headline--semi-light u-bd-secondary py-1">Slaptažodžio keitimas</h1>
     <div class="row">
         <div class="col-12 col-md-6">

@@ -2,6 +2,7 @@
 
 @section('title','Regulations')
 @section('content')
+    {{ Breadcrumbs::render('regulations') }}
     <h1 class="c-headline">Nuostatai</h1>
     <div class="c-wysiwyg-content"><p><span style="color: #121212;"><span style="font-family: Times New Roman, serif;"><span lang="lt-LT"><strong>Sąlygos ir Taisyklės</strong></span></span></span></p>
         <p>&nbsp;</p>

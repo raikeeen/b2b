@@ -1,7 +1,8 @@
 @extends('welcome')
 
-@section('title','Catalog')
+@section('title','Catalogas')
 @section('content')
+    {{ Breadcrumbs::render('catalog') }}
     <div class="my-2">
         <h1 class="c-headline my-4">Katalogas</h1>
     </div>

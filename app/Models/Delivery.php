@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Delivery extends Model
 {
-    protected $table = 'Delivery';
+    protected $table = 'delivery';
+
     public function order()
     {
-        return $this->belongsTo('App\Order');
+        return $this->hasMany('App\Models\Order','delivery_id');
     }
 }
