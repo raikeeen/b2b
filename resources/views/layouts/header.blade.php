@@ -12,33 +12,8 @@
         <div class="row c-page-header__inner py-2 d-flex flex-column flex-xl-row justify-content-between align-items-center no-gutters">
             <div class="col-12 col-xl-8 d-flex justify-content-center align-items-center my-2 my-xl-0 order-1 order-sm-2 order-xl-1">
 
-
-                <div class="" data-asp-hook-name="HeaderQuickSearch">
-
-
-                    <div data-control-type="QuickSearch">
-
-                        <div class="c-quick-search position-relative">
-                            <form data-bind="">
-                                <input class="c-input c-input--quicksearch" placeholder="Ieškokite produkto pavadinimo ar kodo" required="" data-bind="value: query, valueUpdate: 'afterkeydown', inputDropdown: 'quick-search-autocomplete-dropdown'">
-                                <div id="quick-search-autocomplete-dropdown" class="c-input-dropdown__quick-search" input-dropdown="">
-
-
-                                </div>
-                                <button class="c-quick-search__button" type="submit">
-
-
-                                    <svg class="c-icon">
-                                        <use xlink:href="#search"></use>
-                                        <path d="M19,15.14A10.15,10.15,0,0,0,3,3,10.15,10.15,0,0,0,15.14,19l4.16,4.16a2.87,2.87,0,0,0,2,.86h0A2.3,2.3,0,0,0,23,23.33l.39-.38a2.61,2.61,0,0,0-.19-3.65Zm-14.47.64A8,8,0,0,1,10.15,2.17a8,8,0,0,1,8,8,8,8,0,0,1-2.33,5.64h0a8,8,0,0,1-11.27,0ZM21.8,21.41l-.38.39a.19.19,0,0,1-.12,0,.71.71,0,0,1-.46-.22l-3.9-3.91.38-.38h0l.38-.38,3.91,3.91C21.85,21.08,21.86,21.36,21.8,21.41Z"></path>
-                                    </svg>
-
-                                </button>
-                            </form>
-                        </div>
-
-                    </div>
-
+                <div id="app">
+                    <search></search>
                 </div>
 
             </div>
@@ -100,7 +75,7 @@
 
                                         @guest
                                         @else
-                                            <div class="dropdown-menu p-3" style="min-width: 300px;">
+                                            <div class="transform dropdown-menu p-3" style="min-width: 300px;">
                                                     <span class="c-dropdown-menu__user dropdown-item font-weight-bold">
                                                         {{ Auth::user()->name }}
                                                     </span>
@@ -108,19 +83,16 @@
                                                 <a class="dropdown-item my-3" href="{{route('payments')}}" title="Mokėjimai">
                                                     <span>Mokėjimai</span>
                                                 </a>
-                                                <a class="dropdown-item" href="{{route('documents')}}" title="Dokumentai">
+                                                <a class="dropdown-item" href="{{route('documents.index')}}" title="Dokumentai">
                                                     <span>Dokumentai</span>
                                                 </a>
-                                                <a class="dropdown-item mt-3" href="{{route('open-order')}}" title="Atidaryti užsakymai">
-                                                    <span>Atidaryti užsakymai</span>
-                                                </a>
                                                 <a class="dropdown-item mt-3" href="{{route('orders.index')}}" title="Užsakymai uždaryti">
-                                                    <span>Užsakymai uždaryti</span>
+                                                    <span>Užsakymai</span>
                                                 </a>
                                                 <a class="dropdown-item mt-3" href="{{route('refunds')}}" title="Grąžinimas">
                                                     <span>Grąžinimas</span>
                                                 </a>
-                                                <a class="dropdown-item mt-3" href="{{route('profile')}}" title="Redaguoti paskyrą">
+                                                <a class="dropdown-item mt-3" href="{{route('profile.show')}}" title="Redaguoti paskyrą">
                                                     <span>Redaguoti paskyrą</span>
                                                 </a>
                                                 <a class="dropdown-item mt-3" href="{{route('password-reset')}}" title="Pakeisti slaptažodį">

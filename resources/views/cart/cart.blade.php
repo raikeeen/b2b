@@ -30,24 +30,6 @@
 }
 </script>-->
     {{ Breadcrumbs::render('cart') }}
-    <div class="validationMessage">
-        <div>
-        @if(session()->has('success_message'))
-            <div class="alert alert-success">
-                {{session()->get('success_message')}}
-            </div>
-            @endif
-            @if(count($errors) > 0)
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach($errors->all() as $error)
-                        <li>{{$error}}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        </div>
-    </div>
 
     @if(Cart::count() > 0)
         <h2>{{Cart::count()}} Items shopping cart</h2>
@@ -101,7 +83,7 @@
                         </div>
 
                         <div class="col-12 col-md-8 col-xl d-flex align-items-center">
-                            <a class="" href="{{route('product.index', $item->model->reference)}}" data-bind="text: metadata.article.name, attr: { href: metadata.article.url }">{{$item->model->name}}</a>
+                            <a class="" href="{{route('products.show', $item->model->reference)}}" data-bind="text: metadata.article.name, attr: { href: metadata.article.url }">{{$item->model->name}}</a>
                         </div>
 
                         <div class="col-6 col-md-4 col-lg-4 col-xl-2 d-flex justify-content-xl-end mr-1">
@@ -118,9 +100,17 @@
 
                         <div class="col-6 col-md-4 col-lg-4 col-xl-2 d-flex flex-column justify-content-xl-center align-items-xl-end">
                             <div class="text-right text-md-left text-xl-right">
+                                @if(isset($item->model->price_stock))
+                                <div class="u-text-line-through u-text-color-darker">
+                                    <span data-bind="text: metadata.article.prices.displayPrices.retail.displayGross">{{$item->model->price_stock}}</span>
+                                    <span data-bind="text: price.currencyCode">EUR</span>
+                                    <span>/</span>
+                                    <span data-bind="text: metadata.article.quantityInformation.unit">vnt</span>
+                                </div>
+                                @endif
                                 <!-- ko if: metadata.article.prices.displayPrices.retail.gross() > price.gross() --><!-- /ko -->
                                 <!-- ko if: !metadata.article.prices.additionalCosts -->
-                                <span data-bind="text: price.displayGross">{{$item->model->price*1.21}}</span>
+                                <span data-bind="text: price.displayGross">{{$item->model->priceTax()}}</span>
                                 <span data-bind="text: price.currencyCode">EUR</span>
                                 <span>/</span>
                                 <span data-bind="text: metadata.article.quantityInformation.unit">vnt</span>
@@ -133,7 +123,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="d-flex align-items-center" data-bind="if: processing(), attr: { hidden: false }"></div>
                                 <div class="c-product__price-gross" data-bind="css: { 'c-product-price--loading': processing() }">
-                                    <span data-bind="text: priceSummary.displayGross">{{$item->qty*$item->model->price*1.21}}</span>
+                                    <span data-bind="text: priceSummary.displayGross">{{$item->qty*$item->model->priceTax()}}</span>
                                     <span data-bind="text: price.currencyCode">EUR</span>
                                 </div>
                             </div>
@@ -249,7 +239,7 @@
           <!-- /ko -->
       </span>
                         <span class="ml-auto">
-        <span data-bind="text: data.priceSummary.itemsPrice.displayGross()">{{Cart::total()}}</span>
+        <span data-bind="text: data.priceSummary.itemsPrice.displayGross()">{{Cart::total(2,'.','')}}</span>
         <span data-bind="text: data.priceSummary.itemsPrice.currencyCode">EUR</span>
       </span>
                     </div>
@@ -304,12 +294,12 @@
                             <span>Iš viso:</span>
                         </span>
                         <div class="c-headline u-text-medium u-text-color-secondary mb-0 ml-auto">
-                            <span data-bind="text: data.priceSummary.total.displayGross()">{{$newTotal}}</span>
+                            <span id="total-cart" data-bind="text: data.priceSummary.total.displayGross()">{{$newTotal}}</span>
                             <span data-bind="text: data.priceSummary.itemsPrice.currencyCode">EUR</span>
                         </div>
                     </div>
                     <div class="text-right u-text-color-body u-text-small mb-4">
-                        <span data-bind="text: data.priceSummary.total.displayNet()">{{$newSubTotal}}</span>
+                        <span id="subtotal-cart" data-bind="text: data.priceSummary.total.displayNet()">{{$newSubTotal}}</span>
                         <span data-bind="text: data.priceSummary.itemsPrice.currencyCode">EUR</span>
                         <span>/ be PVM</span>
                     </div>
@@ -319,12 +309,12 @@
                             <span>Iš viso:</span>
                         </span>
                             <div class="c-headline u-text-medium u-text-color-secondary mb-0 ml-auto">
-                                <span id="total-cart" aria-valuenow="">{{Cart::total()}}</span>
+                                <span id="total-cart" aria-valuenow="">{{Cart::total(2,'.','')}}</span>
                                 <span data-bind="text: data.priceSummary.itemsPrice.currencyCode">EUR</span>
                             </div>
                         </div>
                         <div class="text-right u-text-color-body u-text-small mb-4">
-                            <span id="subtotal-cart">{{Cart::subtotal()}}</span>
+                            <span id="subtotal-cart">{{Cart::subtotal(2,'.','')}}</span>
                             <span data-bind="text: data.priceSummary.itemsPrice.currencyCode">EUR</span>
                             <span>/ be PVM</span>
                         </div>
@@ -362,4 +352,60 @@
         </span>
         </div>
     @endif
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+        $('#delivery_select').change(function () {
+            let delivery = $('#delivery_select').find(":selected").val();
+
+
+            if (delivery === '2') {
+                $('#transport_price').text('3.84')
+                let total = $('#total-cart')
+                total.text(parseFloat(total.text()) + 3.84)
+                let totalSub = $('#subtotal-cart')
+                totalSub.text(parseFloat(totalSub.text()) + 3.17)
+
+            } else {
+                $('#transport_price').text('0.00')
+                let total = $('#total-cart')
+                total.text({{Cart::total(2,'.','')}})
+                let totalSub = $('#subtotal-cart')
+                totalSub.text({{Cart::subtotal(2,'.','')}})
+            }
+
+            $('input[id=delivery]').val(delivery);
+
+            if ($('#delivery_select').val() === "") {
+                $('#payment_select').attr("disabled", true);
+            } else {
+                $('#payment_select').attr("disabled", false);
+            }
+        })
+</script>
+{{--<script type="text/javascript">
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('#delivery_select').change(function(e){
+
+        e.preventDefault();
+
+        let delivery = $('#delivery_select').find(":selected").val();
+
+        $.ajax({
+            type:'POST',
+            url:"{{ route('ajax.cart') }}",
+            data:{delivery:delivery},
+            success:function(data){
+                alert(data.success);
+            }
+        });
+
+    });
+</script>--}}
 @endsection

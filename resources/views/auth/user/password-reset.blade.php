@@ -4,8 +4,37 @@
 @section('content')
     {{ Breadcrumbs::render('password-reset') }}
     <h1 class="c-headline c-headline--semi-light u-bd-secondary py-1">Slaptažodžio keitimas</h1>
-    <div class="row">
-        <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6">
+        <form method="POST" action="{{ route('password.email') }}">
+            @csrf
+
+            <div class="c-form-group">
+                <label for="f-100">
+                    Email
+
+                    <span class="text-danger">*</span>
+                </label>
+                <input placeholder="email" id="email" type="email" class="c-input form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                @error('email')
+                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                @enderror
+
+                <span class="d-block validationMessage" data-valmsg-for="f-100" data-valmsg-replace="true"></span>
+            </div>
+
+            <button data-bind="css: { 'c-btn--loading': submitted() }" type="submit" class="c-btn c-btn--primary mt-3" data-loading="Prašome palaukti ...">
+                <span> {{ __('Pakeisti slaptažodį Siusk Nuoroda') }} </span>
+            </button>
+        </form>
+    </div>
+
+
+
+
+
+        {{--<div class="col-12 col-md-6">
             <form data-bind="submit: submit" action="https://www.rm-autodalys.eu/api/stock-change-password-form-field" method="post">
                 <div data-bind="if: errorString(), attr: { hidden: false }"></div>
 
@@ -43,6 +72,6 @@
                     <span>Pakeisti slaptažodį</span>
                 </button>
                 <input name="__RequestVerificationToken" type="hidden" value="CfDJ8FgVZIDTQbtHvQ4qq4bq8ihfngU_JkmPWdo0Xh4jpzp4CEnbGy4FdUufsIuGD1628agseYoVgIC6Ydlxy0d7EXVCoSt7d7Np7ntQ5Up7JhOhExXad4W_e70Z3Ni1V5lmgbpvUz9zzElzBYvfUvgWdnoFFMYFCiaO5NTvCnalFVFeb7QnWPN8jPELNtPGmjoa3w"></form>
-        </div>
+        </div>--}}
     </div>
 @endsection

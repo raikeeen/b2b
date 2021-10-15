@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\CategoryRequest;
 
-class ProductController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,51 +15,52 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at','desc')->paginate(5);
-        /*foreach ($products as $product)
-            if($product->img->first() !== null) {
+        $categories = Category::with('ancestors')->get();
 
-                dump($product->img->first()->name);
-            }
-        dd(0);*/
-        //dd($products);
-        return view('catalog.products', [
-            'products' => $products,
-        ] );
+        //dump($categories);
+        return view('catalog.catalog', compact('categories'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
-        //
+        $categories = Category::latest()->get();
+        return view('catalog.catalog', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        //
+
+        $category = Category::create([
+            'name' => $request->name
+        ]);
+
+        if($request->parent && $request->parent !== 'none') {
+            $node = Category::find($request->parent);
+            $node->appendNode($category);
+        }
+        return redirect()->back();
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Http\Response
      */
-    public function show($reference)
+    public function show($id)
     {
-        $product = Product::where('reference', $reference)->first();
-
-        return view('catalog.product', ['product' => $product]);
+        //
     }
 
     /**

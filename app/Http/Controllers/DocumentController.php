@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProductController extends Controller
+class DocumentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,17 +15,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at','desc')->paginate(5);
-        /*foreach ($products as $product)
-            if($product->img->first() !== null) {
+        $id = Auth::user()->id;
+        $orders = Order::where('user_id',$id)->orderBy('created_at','DESC')->get();
 
-                dump($product->img->first()->name);
-            }
-        dd(0);*/
-        //dd($products);
-        return view('catalog.products', [
-            'products' => $products,
-        ] );
+        return view('auth.user.documents', [
+            'orders' => $orders
+
+        ]);
     }
 
     /**
@@ -53,13 +49,11 @@ class ProductController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Http\Response
      */
-    public function show($reference)
+    public function show($id)
     {
-        $product = Product::where('reference', $reference)->first();
-
-        return view('catalog.product', ['product' => $product]);
+        //
     }
 
     /**

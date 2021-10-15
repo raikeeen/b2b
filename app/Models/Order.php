@@ -25,7 +25,7 @@ class Order extends Model
             $discount = floatval(session()->get('coupon')['discount']);
         } else $discount = 0;
 
-        $newTotal = round(Cart::total() - $discount);
+        $newTotal = round(Cart::total(2,'.','') - $discount);
         $newSubTotal = round($newTotal / (1 + $tax), 2);
 
         return collect([
@@ -48,9 +48,10 @@ class Order extends Model
         $order->delivery_price = $delivery;
         $order->payment_id = $request->payment;
         $order->payment_price = $payment;
-        $order->coupon_id = $coupon;
+        $order->coupon_id = $coupon === 0 ? null : $coupon;
+        $order->secure_key = $request->_token;
         $order->reference = 'B2B'.strtoupper(Str::random(5)).$user_id;
-        $order->total = Tax::priceWithTax(Cart::subtotal()) + $delivery + $payment - $coupon;
+        $order->total = Tax::priceWithTax(Cart::subtotal(2,'.','')) + $delivery + $payment - $coupon;
         $order->save();
 
         $order->status()->attach(1);

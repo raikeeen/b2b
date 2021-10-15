@@ -18,8 +18,8 @@ Route::get('/products', function (){
     return Product::all();
 });
 //Route::get('/products/{id}', [ProductController::class,'show']);
-Route::resource('/products', ProductController::class);
-Route::get('/products/search/{name}', [ProductController::class, 'search']);
+Route::resource('/products', App\Http\Controllers\Api\ApiProductController::class);
+Route::get('/products/search/{name}', [App\Http\Controllers\Api\ApiProductController::class, 'search']);
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

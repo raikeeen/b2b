@@ -17,6 +17,7 @@ class CreateAddress extends Migration
             $table->increments('id');
             $table->string('company_name')->nullable(false);
             $table->string('vat')->nullable();
+            $table->string('pvm')->nullable();
             $table->integer('country_id')->nullable(false);
             $table->integer('city_id')->nullable(false);
             $table->string('street')->nullable();

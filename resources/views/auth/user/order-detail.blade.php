@@ -6,6 +6,25 @@
 @if(isset($order))
     {{ Breadcrumbs::render('orders-detail', $order['order_reference']) }}
 
+    <div class="validationMessage">
+        <div>
+            @if(session()->has('success_message'))
+                <div class="alert alert-success">
+                    {{session()->get('success_message')}}
+                </div>
+            @endif
+            @if(count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </div>
+    </div>
+
     <div data-bind="if: isDataLoaded(), attr: { hidden: false }">
 
         <h1 class="c-headline c-headline--semi-light u-bd-secondary py-1 mb-0">
@@ -65,14 +84,14 @@
             <!-- ko foreach: order().items -->
             <hr class="m-0">
             @foreach($order['products'] as $item)
-                    {{$totalProduct += $item['price'] * $item['amount']}}
+                   <div hidden>{{$totalProduct += $item['price'] * $item['amount']}}</div>
 
-            <div class="row py-2" data-bind="if: metadata.article">
+                <div class="row py-2" data-bind="if: metadata.article">
                 <div class="col-12 col-sm-3 col-md-2 order-1 order-md-1">
                     <span data-bind="text: metadata.article.displayCode">{{$item['reference']}}</span>
                 </div>
                 <div class="col-12 col-md order-2 order-md-2">
-                    <a class="font-weight-bold" href="{{route('product.index', $item['reference'])}}" data-bind="text: metadata.article.name, attr: { href: metadata.article.url }">{{$item['name']}}</a>
+                    <a class="font-weight-bold" href="{{route('products.index', $item['reference'])}}" data-bind="text: metadata.article.name, attr: { href: metadata.article.url }">{{$item['name']}}</a>
                 </div>
                 <div class="col-12 col-sm-2 col-md-1 order-3 order-md-3 text-center">
                     <span data-bind="text: quantity() + ' ' + metadata.article.quantityInformation.unit">{{$item['amount']}} vnt</span>
@@ -90,9 +109,9 @@
     <span class="d-inline-block d-md-none">
       <span>Bendra kaina</span>:
     </span>
-                    <span data-bind="text: priceSummary.displayGross() + ' ' + price.currencyCode">{{$item['price']*1.21}} EUR</span>
+                    <span data-bind="text: priceSummary.displayGross() + ' ' + price.currencyCode">{{round($item['price']*1.21)}} EUR</span>
                     <small class="d-block text-muted">
-                        <span data-bind="text: price.displayGross() + ' ' + price.currencyCode + '/' + metadata.article.quantityInformation.unit">{{$item['price']*1.21}} EUR/vnt</span>
+                        <span data-bind="text: price.displayGross() + ' ' + price.currencyCode + '/' + metadata.article.quantityInformation.unit">{{round($item['price']*1.21)}} EUR/vnt</span>
                     </small>
                 </div>
             </div>

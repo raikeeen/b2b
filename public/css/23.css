@@ -5820,6 +5820,14 @@ a.close.disabled {
     margin-left: 0
 }
 
+.transform {
+    transform: translate3d(-248px, 71px, 0px)!important;
+}
+
+.transform-cat {
+    transform: translate3d(251px, 0px, 0px)!important;
+}
+
 .dropdown-menu {
     position: absolute;
     top: 100%;
@@ -5833,7 +5841,6 @@ a.close.disabled {
     font-size: 1rem;
     color: #212529;
     text-align: left;
-    transform: translate3d(-248px, 71px, 0px)!important;
     list-style: none;
     background-color: #fff;
     background-clip: padding-box;
@@ -7756,6 +7763,7 @@ p {
     width: 108%;
     top: -15px !important;
     left: 7px !important
+
 }
 
 @media (max-width: 1249.98px) {

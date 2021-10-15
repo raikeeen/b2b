@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Discount;
 use App\Models\Category;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class Product extends Model
 {
@@ -29,13 +31,36 @@ class Product extends Model
         'discount_product',
         'discount_global'
     ];
+    protected $appends = ['price_stock'];
     public $increments = true;
     /**
      * @return string
      * @var mixed
      */
+    public function getPriceAttribute($value)
+    {
+        $user = Auth::user();
+        return  round($value + ( $value * (
+                    $this->margin->value +
+                    (isset($this->category[0]) ? $this->category[0]->trade_margin : 0) +
+                    $this->trade_margin  +
+                    $this->supplier->margin )/ 100) -
+            ( $value * ( isset($user->discount) ? $user->discount : 0 + $this->discount->value ) / 100),2);
+    }
 
-    public function presentPrice()
+    public function getPriceStockAttribute()
+    {
+        if($this->discount->value === 0){
+            return null;
+        } else
+            return  round(($this->price + ($this->price * $this->discount->value) / 100) * 1.21,2);
+    }
+    public function priceTax()
+    {
+            return round($this->price*1.21,2);
+    }
+
+    /*public function presentPrice()
     {
         return money_format('$%i', $this->price / 100);
     }
@@ -43,20 +68,16 @@ class Product extends Model
     public function totalMargin($id)
     {
         $user_discount = User::Find($id);
-        $price = (float)$this->price;
+        $price = $this->price;
 
-        return  $price + ( $this->price * (
+        return  $this->price = $price + ( $this->price * (
                 $this->margin->value +
                 (isset($this->category[0]) ? $this->category[0]->trade_margin : 0) +
                 $this->trade_margin  +
                 $this->supplier->margin )/ 100) -
             ( $price*$user_discount->discount ) / 100;
-    }
+    }*/
 
-    public function totalDiscount()
-    {
-        return $this->price - $this->price * $this->discount->value / 100;
-    }
 
     public function order()
     {

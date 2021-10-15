@@ -55,15 +55,16 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return string
      */
     public function store(Request $request)
     {
         $order = Order::createOrder(Auth::user()->id, $request);
 
-        return view('checkout.conf', [
+        //return route('orders.show', $order->reference);
+        return view('auth.user.order-detail', [
             'order' => $order
-        ]);
+        ])->with('success_message', 'Aciu kad pirkate!');
     }
 
     /**

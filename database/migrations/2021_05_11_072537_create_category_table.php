@@ -19,9 +19,7 @@ class CreateCategoryTable extends Migration
             $table->string('description')->nullable();
             $table->string('img')->nullable();
             $table->integer('trade_margin')->default(0);
-
-            $table->integer('parent_id')->nullable();
-            $table->integer('root_id')->nullable();
+            $table->nestedSet();
             $table->timestamps();
         });
     }
@@ -33,6 +31,11 @@ class CreateCategoryTable extends Migration
      */
     public function down()
     {
+        Schema::table('table', function (Blueprint $table) {
+            $table->dropNestedSet();
+        });
+
         Schema::dropIfExists('category');
+
     }
 }

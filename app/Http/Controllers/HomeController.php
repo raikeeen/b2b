@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
 class HomeController extends Controller
@@ -25,9 +27,16 @@ class HomeController extends Controller
     {
         $newProducts = Product::latest()->take(10)->get();
         $soldProducts = Product::where('stock_shop', 0)->orWhere('stock_shop', null)->get();
+        $categories = Category::with('ancestors')->get()->toTree();
+        $brands = Brand::all();
+
+        //return $categories;
+
         return view('home', [
             'newProducts' => $newProducts,
-            'soldProducts' => $soldProducts
+            'soldProducts' => $soldProducts,
+            'categories' => $categories,
+            'brands' => $brands
         ]);
     }
 }

@@ -24,6 +24,7 @@ window.Vue = require('vue').default;
 
 Vue.component('product', require('./components/Product.vue').default);
 Vue.component('products', require('./components/Products.vue').default);
+Vue.component('search', require('./components/Search.vue').default);
 
 
 /**

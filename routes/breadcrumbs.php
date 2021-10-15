@@ -51,12 +51,12 @@ Breadcrumbs::for('cart', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('profile', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Paskyra', route('profile'));
+    $trail->push('Paskyra', route('profile.show'));
 });
 
 Breadcrumbs::for('documents', function (BreadcrumbTrail $trail) {
     $trail->parent('profile');
-    $trail->push('Dokumentai', route('documents'));
+    $trail->push('Dokumentai', route('documents.index'));
 });
 Breadcrumbs::for('orders', function (BreadcrumbTrail $trail) {
     $trail->parent('profile');
@@ -83,17 +83,17 @@ Breadcrumbs::for('password-reset', function (BreadcrumbTrail $trail) {
 // catalog
 Breadcrumbs::for('catalog', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Catalogas', route('catalog'));
+    $trail->push('Catalogas', route('catalog.index'));
 });
 
 Breadcrumbs::for('products', function (BreadcrumbTrail $trail) {
     $trail->parent('catalog');
     $trail->push('Prėkes', route('products.index'));
 });
-/*Breadcrumbs::for('product', function (BreadcrumbTrail $trail,$name) {
+Breadcrumbs::for('product', function (BreadcrumbTrail $trail,$name, $reference) {
     $trail->parent('products');
-    $trail->push($name, route('products.show'));
-});*/
+    $trail->push($name, route('products.show', $reference));
+});
 // Home > Blog > [Category]
 Breadcrumbs::for('category', function (BreadcrumbTrail $trail, $category) {
     $trail->parent('blog');

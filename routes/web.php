@@ -8,7 +8,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CouponsController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\Auth\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +29,9 @@ Route::group(['prefix' => 'admin-kavateka'], function () {
 });
 
 Auth::routes();
+Route::get('ajaxRequest', [AjaxController::class, 'ajaxRequest']);
+Route::post('ajaxRequest', [AjaxController::class, 'ajaxCartPost'])->name('ajax.cart');
+
 Route::prefix('emails')->group(function () {
     Route::post('/register', [\App\Http\Controllers\MailController::class, 'sendMail'])->name('emails.register');
 
@@ -35,7 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/product/{reference}', [ProductController::class, 'detail'])->name('product.index');
     Route::get('/products', [ProductController::class, 'index'])->name('products');
 */
-    Route::get('/catalog')->name('catalog');
+    Route::resource('/catalog',CategoryController::class);
 
     Route::resource('/coupon',CouponsController::class);
     //Route::resource('/order', OrderController::class);
@@ -46,10 +52,11 @@ Route::group(['middleware' => 'auth'], function () {
         //ump(B1Api::getInvoice(\App\Models\Order::latest()->first()));
         dump(config('cart.tax'));
     });
-    Route::get('/product/{reference}', [ProductController::class, 'detail'])->name('product.index');
+    Route::resource('/products',ProductController::class);
+    /*Route::get('/product/{reference}', [ProductController::class, 'detail'])->name('product.index');
     Route::get('/products', function (){
         return view('catalog.products');
-    });
+    });*/
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -89,25 +96,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('my-account')->group(function () {
         Route::resource('/orders', OrderController::class);
 
-        Route::get('/documents', function () {
-            return view('auth.user.documents');
-        })->name('documents');
+        Route::resource('/documents',DocumentController::class);
 
         Route::get('/open-order', function () {
             return redirect()->route('cart.index');
         })->name('open-order');
 
-        Route::get('/password-reset', function () {
-            return view('auth.user.password-reset');
-        })->name('password-reset');
+        Route::get('/password-reset', [UserController::class, 'reset'])->name('password-reset');
 
         Route::get('/payments', function () {
             return view('auth.user.payments');
         })->name('payments');
 
-        Route::get('/profile', function () {
-            return view('auth.user.profile');
-        })->name('profile');
+        Route::get('/profile',[UserController::class, 'show'])->name('profile.show');
+        Route::post('/profile',[UserController::class, 'edit'])->name('profile.edit');
 
         Route::get('/refunds', function () {
             return view('auth.user.refunds');

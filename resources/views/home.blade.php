@@ -12,13 +12,15 @@
                     <hr class="border-bottom-blue">
                 </div>
                 <div class="body d-none d-lg-block">
+                    @foreach($categories as $category)
                     <li class="cat-menu-item border-bottom mx-2 mb-3 pb-2 pl-1">
                         <div class="">
-                            <a class="c-category-menu__symbol dropdown-toggle-split d-flex align-items-center justify-content-between"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            <a  @if(isset($category->children[0])) class="c-category-menu__symbol dropdown-toggle-split d-flex align-items-center justify-content-between"
+                               data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" @else style="padding-left: 10px" @endif
                                href="/"
                                title="AMORTIZAVIMO SISTEMA">
-                                <span class="c-category-menu__name mr-1"> AMORTIZAVIMO SISTEMA</span>
+                                <span class="c-category-menu__name mr-1"> {{$category->name}}</span>
+                                @if(isset($category->children[0]))
                                 <svg class="cat-icon-red">
                                     <use xlink:href="#category-show">
                                         <svg id="category-show" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
@@ -36,16 +38,25 @@
                                         </svg>
                                     </use>
                                 </svg>
+                                    @endif
                             </a>
-                            <ul class="c-category-menu__children dropdown-menu px-3 "
-                                id="category-drop">
-                                <li class="c-category-menu__children__item py-2 text-left">
-                                    <a class="c-category-menu__children__link" id="category-item" href=""
-                                       title="AMORT. MONTAVIMO ELEMENTAI">AMORT. MONTAVIMO ELEMENTAI</a>
-                                </li>
-                            </ul>
+
+                            @if(isset($category->children))
+                                <ul class="c-category-menu__children dropdown-menu px-3" x-placement="right-start" style="position: absolute; transform: translate3d(111px, 0px, 0px); top: 0px; left: 0px; will-change: transform;"
+                                    id="category-drop">
+                                @foreach($category->children as $child)
+
+                                        <li class="c-category-menu__children__item py-2 text-left">
+                                            <a class="c-category-menu__children__link" id="category-item" href=""
+                                               title="AMORT. MONTAVIMO ELEMENTAI">{{$child->name}}</a>
+                                        </li>
+
+                                @endforeach
+                                </ul>
+                            @endif
                         </div>
                     </li>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -319,21 +330,23 @@
                                                         <div class="c-product-image">
                                                             <div class="c-product-image__slides">
                                                                 <div class="c-product-image__slide">
-                                                                    <a class="c-product-image__link" href="{{asset('storage/images/no_photo_200.jpg')}}">
-                                                                        <img class="c-product-image__image owl-lazy" src="{{asset('storage/images/no_photo_200.jpg')}}" alt="" style="opacity: 1;">
+                                                                    <a class="c-product-image__link" href="{{route('products.show', $newProduct->reference)}}">
+                                                                        <img class="c-product-image__image owl-lazy" @if($newProduct->img->first() !== null) src="{{$newProduct->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif alt="" style="opacity: 1;">
                                                                     </a>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <a href="https://www.rm-autodalys.eu/apsauga-amortizatoriaus--a02007b" title="APSAUGA AMORTIZATORIAUS">
+                                                        <a href="{{route('products.show', $newProduct->reference)}}" title="APSAUGA AMORTIZATORIAUS">
                                                             <h3 class="c-product__title c-product__title--light c-product__title--bilinear my-2" title="APSAUGA AMORTIZATORIAUS">{{$newProduct->name}}</h3>
                                                         </a>
                                                         <div class="c-product__price-gross c-product__price-gross--sm c-product__price-gross--secondary">
-                                                            {{$newProduct->price}} €
+                                                            {{$newProduct->priceTax()}} €
                                                         </div>
+                                                        @if(isset($newProduct->price_stock))
                                                         <div class="c-product__price-retail c-product__price-retail--sm">
-                                                            {{$newProduct->price * 1.21}} €
+                                                            {{$newProduct->price_stock}} €
                                                         </div>
+                                                            @endif
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -374,21 +387,23 @@
                                     <div class="c-product-image">
                                         <div class="c-product-image__slides">
                                             <div class="c-product-image__slide">
-                                                <a class="c-product-image__link" href="{{asset('storage/images/no_photo_200.jpg')}}">
-                                                    <img class="c-product-image__image owl-lazy" src="{{asset('storage/images/no_photo_200.jpg')}}" alt="" style="opacity: 1;">
+                                                <a class="c-product-image__link" href="{{route('products.show',$newProduct->reference)}}">
+                                                    <img class="c-product-image__image owl-lazy" @if($newProduct->img->first() !== null) src="{{$newProduct->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif alt="" style="opacity: 1;">
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                        <a href="https://www.rm-autodalys.eu/apsauga-amortizatoriaus--a02007b" title="APSAUGA AMORTIZATORIAUS">
+                                        <a href="{{route('products.show',$newProduct->reference)}}" title="APSAUGA AMORTIZATORIAUS">
                                             <h3 class="c-product__title c-product__title--light c-product__title--bilinear my-2" title="APSAUGA AMORTIZATORIAUS">{{$newProduct->name}}</h3>
                                         </a>
                                         <div class="c-product__price-gross c-product__price-gross--sm c-product__price-gross--secondary">
-                                            {{$newProduct->price}} €
+                                            {{$newProduct->priceTax()}} €
                                         </div>
+                                    @if(isset($newProduct->price_stock))
                                         <div class="c-product__price-retail c-product__price-retail--sm">
-                                            {{$newProduct->price * 1.21}} €
+                                            {{$newProduct->price_stock}} €
                                         </div>
+                                    @endif
                                 </div>
                                 @endforeach
                             </div>
@@ -432,22 +447,9 @@
                         <div class="container">
                             <div class="c-producers p-5 border-top" style="width: 100%;overflow: hidden;">
                                 <div id="owl-brand">
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-                                    <div class="item"><img src="{{asset('storage/images/no_photo_200.jpg')}}" alt="Owl Image"></div>
-
+                                    @foreach($brands as $brand)
+                                        <div class="item"><img src="{{$brand->img}}" alt="Owl Image" style="width: 68px"></div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

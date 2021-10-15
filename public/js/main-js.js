@@ -13,33 +13,7 @@ $( document ).ready(function() {
         }
     })
 
-    $('#delivery_select').change(function () {
-        let delivery = $('#delivery_select').find(":selected").val();
 
-        if (delivery === '2') {
-            $('#transport_price').text('3.84')
-            let total = $('#total-cart')
-            total.text(parseFloat(total.text())+ 3.84)
-            let totalSub = $('#subtotal-cart')
-            totalSub.text(parseFloat(totalSub.text())+ 3.84)
-
-
-        } else {
-            $('#transport_price').text('0.00')
-            let total = $('#total-cart')
-            total.text(parseFloat(total.text())- 3.84)
-            let totalSub = $('#subtotal-cart')
-            totalSub.text(parseFloat(totalSub.text())- 3.84)
-        }
-
-        $('input[id=delivery]').val(delivery);
-
-        if($('#delivery_select').val() === "") {
-            $('#payment_select').attr("disabled", true);
-        } else {
-            $('#payment_select').attr("disabled", false);
-        }
-    })
 
         $("#owl-brand").owlCarousel({
 

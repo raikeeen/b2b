@@ -19,6 +19,7 @@ class CartController extends Controller
      */
     public function index()
     {
+
         $deliveries = Delivery::all();
         $payments = Payment::all();
 

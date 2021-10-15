@@ -23,9 +23,9 @@
     <main class="main-container" style="padding-bottom: 2.5rem;">
         <div class="container">
             @include('layouts.errors')
-            <div id="app">
+            {{--<div id="app">--}}
             @yield('content')
-            </div>
+            {{--</div>--}}
 
 
         </div>
