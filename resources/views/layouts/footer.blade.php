@@ -94,7 +94,7 @@
             <div class="col-12 col-sm-4 col-lg-2 text-right">
                 <div class="row">
                     <div class="col-6 col-sm-12 d-flex justify-content-center justify-content-sm-end mb-2">
-                        <img src="{{asset('storage/images/Ipexpress.png')}}" alt="LP Express">
+                        <img src="{{asset('storage/images/ipexpress.png')}}" alt="LP Express">
                     </div>
                     <div class="col-6 col-sm-12 d-flex justify-content-center justify-content-sm-end mb-2">
                         <img src="{{asset('storage/images/lietuvospastas.png')}}" alt="Lietuvos Pastas">
