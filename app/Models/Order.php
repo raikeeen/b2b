@@ -76,11 +76,6 @@ class Order extends Model
         $order->save();
         B1Api::getInvoice($order);
 
-
-        /*$order->update([
-            'order_b1' => $referenceOrderB1['data']['orderId'],
-            'invoice' => $referenceOrderB1['data']['invoiceDocument']
-            ]);*/
         Cart::destroy();
         session()->forget('coupon');
 

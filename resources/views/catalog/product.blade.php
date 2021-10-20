@@ -12,58 +12,94 @@
                         <div class="c-product-image__slides owl-carousel--product owl-carousel owl-loaded owl-drag">
 
 
-                            <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1934px;"><div class="owl-item active" style="width: 386.656px;"><div class="c-product-image__slide">
-                                            <a class="c-product-image__link" href="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-01.jpg" data-toggle="lightbox" data-gallery="big-photo">
-                                                <img class="c-product-image__image" src="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-01.jpg" alt="AMORTIZATORIAUS ATRAMINIS GUOLIS">
+                            <div class="owl-stage-outer">
+                                <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1934px;">
+                                    @if(isset($product->img))
+                                    @foreach($product->img as $image)
+                                    <div class="owl-item active" style="width: 386.656px;">
+                                        <div class="c-product-image__slide">
+                                            <a class="c-product-image__link" href="{{$image->name}}" data-lightbox="image-1" data-toggle="lightbox" data-gallery="big-photo">
+                                                <img class="c-product-image__image" src="{{$image->name}}" alt="{{$product->name}}">
                                             </a>
-                                        </div></div><div class="owl-item" style="width: 386.656px;"><div class="c-product-image__slide">
-                                            <a class="c-product-image__link" href="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-02.jpg" data-toggle="lightbox" data-gallery="big-photo">
-                                                <img class="c-product-image__image" src="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-02.jpg" alt="AMORTIZATORIAUS ATRAMINIS GUOLIS">
-                                            </a>
-                                        </div></div><div class="owl-item" style="width: 386.656px;"><div class="c-product-image__slide">
-                                            <a class="c-product-image__link" href="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-03.jpg" data-toggle="lightbox" data-gallery="big-photo">
-                                                <img class="c-product-image__image" src="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-03.jpg" alt="AMORTIZATORIAUS ATRAMINIS GUOLIS">
-                                            </a>
-                                        </div></div><div class="owl-item" style="width: 386.656px;"><div class="c-product-image__slide">
-                                            <a class="c-product-image__link" href="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-04.jpg" data-toggle="lightbox" data-gallery="big-photo">
-                                                <img class="c-product-image__image" src="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-04.jpg" alt="AMORTIZATORIAUS ATRAMINIS GUOLIS">
-                                            </a>
-                                        </div></div><div class="owl-item" style="width: 386.656px;"><div class="c-product-image__slide">
-                                            <a class="c-product-image__link" href="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-05.jpg" data-toggle="lightbox" data-gallery="big-photo">
-                                                <img class="c-product-image__image" src="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-05.jpg" alt="AMORTIZATORIAUS ATRAMINIS GUOLIS">
-                                            </a>
-                                        </div></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots disabled"></div></div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @else
+                                        <div class="owl-item active" style="width: 386.656px;">
+                                            <div class="c-product-image__slide">
+                                                <a class="c-product-image__link" href="{{asset('storage/products/no_photo_500.jpg')}}" data-lightbox="image-1" data-toggle="lightbox" data-gallery="big-photo">
+                                                    <img class="c-product-image__image" src="{{asset('storage/products/no_photo_500.jpg')}}" alt="{{$product->name}}">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="owl-nav disabled">
+                                <button type="button" role="presentation" class="owl-prev">
+                                    <span aria-label="Previous">‹</span>
+                                </button>
+                                <button type="button" role="presentation" class="owl-next">
+                                    <span aria-label="Next">›</span>
+                                </button>
+                            </div>
+                            <div class="owl-dots disabled"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="c-product__images-nav owl-carousel--product-nav owl-carousel mt-2 mb-3 owl-loaded owl-drag">
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage" id="owl-product"  style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 490px;">
+                            <div class="owl-carousel">
 
 
-
-                    <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 490px;"><div class="owl-item active" style="width: 92.914px; margin-right: 5px;"><div class="c-product__image-nav current">
-                                    <div class="c-product__image-nav--slide">
-                                        <img class="c-product__image-nav--img" src="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-01.jpg&amp;width=90&amp;height=72" alt="AMORTIZATORIAUS ATRAMINIS GUOLIS">
+                        @if(isset($product->img))
+                            @foreach($product->img as $key => $image)
+                                @if($loop->first)
+                                    <div class="owl-item active" style="width: 92.914px; margin-right: 5px;">
+                                        <div class="c-product__image-nav current">
+                                            <div class="c-product__image-nav--slide">
+                                                <img class="c-product__image-nav--img" src="{{$image->name}}" width="90" height="72" alt="{{$product->name}}">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div></div><div class="owl-item active" style="width: 92.914px; margin-right: 5px;"><div class="c-product__image-nav">
-                                    <div class="c-product__image-nav--slide">
-                                        <img class="c-product__image-nav--img" src="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-02.jpg&amp;width=90&amp;height=72" alt="AMORTIZATORIAUS ATRAMINIS GUOLIS">
+                                @else
+                                    <div class="owl-item active" style="width: 92.914px; margin-right: 5px;">
+                                        <div class="c-product__image-nav">
+                                            <div class="c-product__image-nav--slide">
+                                                <img class="c-product__image-nav--img" src="{{$image->name}}" width="90" height="72" alt="{{$product->name}}">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div></div><div class="owl-item active" style="width: 92.914px; margin-right: 5px;"><div class="c-product__image-nav">
+                                @endif
+                            @endforeach
+                        @else
+                            <div class="owl-item active" style="width: 92.914px; margin-right: 5px;">
+                                <div class="c-product__image-nav current">
                                     <div class="c-product__image-nav--slide">
-                                        <img class="c-product__image-nav--img" src="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-03.jpg&amp;width=90&amp;height=72" alt="AMORTIZATORIAUS ATRAMINIS GUOLIS">
+                                        <img class="c-product__image-nav--img" src="{{$image->name}}" width="90" height="72" alt="{{$product->name}}">
                                     </div>
-                                </div></div><div class="owl-item active" style="width: 92.914px; margin-right: 5px;"><div class="c-product__image-nav">
-                                    <div class="c-product__image-nav--slide">
-                                        <img class="c-product__image-nav--img" src="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-04.jpg&amp;width=90&amp;height=72" alt="AMORTIZATORIAUS ATRAMINIS GUOLIS">
-                                    </div>
-                                </div></div><div class="owl-item" style="width: 92.914px; margin-right: 5px;"><div class="c-product__image-nav">
-                                    <div class="c-product__image-nav--slide">
-                                        <img class="c-product__image-nav--img" src="https://www.rm-autodalys.eu/api/media/stock-article-image?fileName=A02002D-05.jpg&amp;width=90&amp;height=72" alt="AMORTIZATORIAUS ATRAMINIS GUOLIS">
-                                    </div>
-                                </div></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots disabled"></div></div>
+                                </div>
+                            </div>
+                        @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="owl-nav">
+                        <button type="button" role="presentation" class="owl-prev">
+                            <span aria-label="Previous">‹</span>
+                        </button>
+                        <button type="button" role="presentation" class="owl-next">
+                            <span aria-label="Next">›</span>
+                        </button>
+                    </div>
+                    <div class="owl-dots disabled"></div>
+                </div>
             </div>
             <div class="col">
                 <div class="row">
                     <div class="col-12">
+
                         <h1 class="product-name pl-lg-3 py-1">{{$product->name}}</h1>
 
                         <div class="pl-3 mb-0 mt-3 mb-3">

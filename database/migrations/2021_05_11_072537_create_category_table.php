@@ -18,6 +18,7 @@ class CreateCategoryTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('img')->nullable();
+            $table->string('slug')->unique();
             $table->integer('trade_margin')->default(0);
             $table->nestedSet();
             $table->timestamps();

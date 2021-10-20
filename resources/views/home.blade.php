@@ -17,8 +17,8 @@
                         <div class="">
                             <a  @if(isset($category->children[0])) class="c-category-menu__symbol dropdown-toggle-split d-flex align-items-center justify-content-between"
                                data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" @else style="padding-left: 10px" @endif
-                               href="/"
-                               title="AMORTIZAVIMO SISTEMA">
+                               href="{{route('products.index', ['category' => $category->slug])}}"
+                               title="{{$category->name}}">
                                 <span class="c-category-menu__name mr-1"> {{$category->name}}</span>
                                 @if(isset($category->children[0]))
                                 <svg class="cat-icon-red">
@@ -47,8 +47,8 @@
                                 @foreach($category->children as $child)
 
                                         <li class="c-category-menu__children__item py-2 text-left">
-                                            <a class="c-category-menu__children__link" id="category-item" href=""
-                                               title="AMORT. MONTAVIMO ELEMENTAI">{{$child->name}}</a>
+                                            <a class="c-category-menu__children__link" id="category-item" href="{{route('products.index', ['category' => $child->slug])}}"
+                                               title="{{$child->name}}">{{$child->name}}</a>
                                         </li>
 
                                 @endforeach
@@ -74,15 +74,14 @@
 
                         <div class="owl-carousel-custom__wrapper">
                             <div class="owl-prev-custom--main-slider  owl-carousel-custom__icon--bg">
-    <span>
-
-<svg class="c-icon owl-carousel-custom__icon--prev">
-  <use xlink:href="#arrow-left-slider"></use>
-    <svg id="arrow-left-slider" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 13">
-    <path d="M12,13V0L0,6.5Zm-1.35-2.28L2.86,6.5l7.79-4.22Z"></path>
-  </svg>
-</svg>
-</span>
+                                <span>
+                                    <svg class="c-icon owl-carousel-custom__icon--prev">
+                                      <use xlink:href="#arrow-left-slider"></use>
+                                        <svg id="arrow-left-slider" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 13">
+                                        <path d="M12,13V0L0,6.5Zm-1.35-2.28L2.86,6.5l7.79-4.22Z"></path>
+                                      </svg>
+                                    </svg>
+                                </span>
                             </div>
 
                             <div class="c-main-page-slider">
@@ -149,44 +148,7 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="owl-item cloned" style="width: 907.5px; margin-right: 20px;">
-                                                <div class="c-main-page-slider__item">
-                                                    <a href="/#" title="">
-                                                        <img class="c-main--page-baner__img owl-lazy"
-                                                             data-src="api/media/FileSystemMediaConfiguration?filename=Pictures%2FPaie%C5%A1ka%20pagal%20katalog%C4%85.jpg"
-                                                             alt=""
-                                                             src="{{asset('/storage/banners/banner.jpg')}}"
-                                                             style="opacity: 1;">
-                                                        <div class="c-main-page-baner__text pl-2 pl-lg-5">
-                                                            <div class="c-main-page-baner__slogan mt-3 mt-md-0">
 
-                                                            </div>
-                                                            <div class="c-main-page--baner__quotation">
-
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="owl-item cloned" style="width: 907.5px; margin-right: 20px;">
-                                                <div class="c-main-page-slider__item">
-                                                    <a href="/#" title="">
-                                                        <img class="c-main--page-baner__img owl-lazy"
-                                                             data-src="api/media/FileSystemMediaConfiguration?filename=Pictures%2FPaie%C5%A1ka%20pagal%20katalog%C4%85.jpg"
-                                                             alt=""
-                                                             src="{{asset('/storage/banners/banner.jpg')}}"
-                                                             style="opacity: 1;">
-                                                        <div class="c-main-page-baner__text pl-2 pl-lg-5">
-                                                            <div class="c-main-page-baner__slogan mt-3 mt-md-0">
-
-                                                            </div>
-                                                            <div class="c-main-page--baner__quotation">
-
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="owl-nav disabled">
@@ -315,18 +277,49 @@
                                             </div>
 
 
-                                            <div id="owl-newProduct" class="" data-owl="{'items':3,
-        'responsive': {'0': {'items': 1}, '576': {'items': 2}, '992': {'items': 3}, '1280': {'items': 3}},
-        'nav': false,
-        'dots': false,
-        'loop': true,
-        'autoplay': true,
-        'autoplayTimeout': 3000,
-        'autoplayHoverPause': true,
-        'lazyLoad': true
-        }" style="width: 100%;overflow: hidden;">
+                                            <div id="owl-newProduct" class="owl-carousel" style="width: 100%;overflow: hidden;">
                                                 @foreach($newProducts as $newProduct)
-                                                    <div class="item c-product-slider p-3" style="width: 18rem; z-index: 100">
+                                                    <div class="item c-product-slider p-3">
+
+                                                        <div class="c-product-slider__container">
+
+                                                            <div class="c-product-order-slider__container d-flex justify-content-center mb-2">
+                                                                <div class="d-flex">
+                                                                    @if($newProduct->stock_shop + $newProduct->stock_supplier != 0)
+                                                                    <div type="ADD_TO_CART" data-control-type="Order">
+                                                                        <form action="{{route('cart.store')}}" method="post">
+                                                                            {{csrf_field()}}
+                                                                            <div class="d-flex">
+                                                                                <button class="c-btn c-btn--slider-cart u-rounded-circle w-100" type="submit" data-bind="css: { 'c-btn--loading': submitted() }" data-loading="">
+                                                                                        <span class="d-flex justify-content-center align-items-center">
+                                                                                            <svg class="c-icon c-icon--hover">
+                                                                                              <use xlink:href="#add-to-cart">
+                                                                                                  <symbol id="add-to-cart" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 22">
+                                                                                                    <path d="M27,4,23.36,14.11A1.39,1.39,0,0,1,22,15H10l.5,1.37H22.32a.51.51,0,0,1,.51.5.5.5,0,0,1-.51.5H9.79L3.84,1H.51A.5.5,0,0,1,0,.5.5.5,0,0,1,.51,0H4.57l1,2.74h0l.36,1h0L9.65,14H22a.39.39,0,0,0,.36-.25l3.54-10h-.05l.37-1a1,1,0,0,1,.57.36A.91.91,0,0,1,27,4ZM22.11,20a2.09,2.09,0,1,1-2.09-2A2.06,2.06,0,0,1,22.11,20Zm-1,0A1.06,1.06,0,0,0,19,20a1.06,1.06,0,0,0,2.11,0Zm-6.8,0a2.08,2.08,0,1,1-2.08-2A2.06,2.06,0,0,1,14.28,20Zm-1,0a1.06,1.06,0,1,0-1.06,1A1.06,1.06,0,0,0,13.26,20ZM16.44,9V1h-1V9L12.57,6.19l-.72.71,4.08,4L20,6.9l-.72-.71Z"></path>
+                                                                                                  </symbol>
+                                                                                              </use>
+                                                                                            </svg>
+                                                                                        </span>
+                                                                                </button>
+                                                                                <input type="hidden" name="id" value="{{$newProduct->id}}">
+                                                                                <input hidden class="c-input c-input--quantity c-input--no-border" autocomplete="off" data-bind="" min="1" name="amount" step="1" type="number" value="1">                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                    @endif
+                                                                    <a class="c-btn c-btn--slider-eye u-rounded-circle text-center ml-3 d-flex justify-content-center align-items-center" href="{{route('products.show', $newProduct->reference)}}">
+                                                                        <svg class="c-icon c-icon--hover">
+                                                                            <use xlink:href="#look">
+                                                                                <symbol id="look" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 16">
+                                                                                    <path d="M11.5,16A12.43,12.43,0,0,0,22.92,8.19L23,8l-.08-.19A12.43,12.43,0,0,0,11.5,0,12.43,12.43,0,0,0,.08,7.81L0,8l.08.19A12.43,12.43,0,0,0,11.5,16Zm0-15A11.41,11.41,0,0,1,21.9,8a11.41,11.41,0,0,1-10.4,7A11.41,11.41,0,0,1,1.1,8,11.41,11.41,0,0,1,11.5,1Zm0,12a5,5,0,0,0,5.11-5A5,5,0,0,0,11.5,3,5,5,0,0,0,6.39,8,5,5,0,0,0,11.5,13Zm0-9a4,4,0,0,1,4.09,4A4.09,4.09,0,0,1,7.41,8,4,4,0,0,1,11.5,4Z"></path>
+                                                                                </symbol>
+                                                                            </use>
+                                                                        </svg>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
                                                         <div class="c-product-image">
                                                             <div class="c-product-image__slides">
                                                                 <div class="c-product-image__slide">
@@ -366,9 +359,7 @@
                         <div class="tab-pane px-0 px-xl-5" id="sell-off">
                             {{-- Распродан --}}
                             <div class="container mb-5">
-
-
-                                <div class="owl-carousel-custom__wrapper">
+                            <div class="owl-carousel-custom__wrapper">
 
                             <div class="owl-prev-custom  owl-carousel-custom__icon--bg">
                                                 <span>
@@ -381,9 +372,48 @@
                                                     </svg>
                                                 </span>
                             </div>
-                            <div id="owl-soldProduct" style="width: 100%;overflow: hidden;">
+                            <div class="owl-carousel" id="owl-soldProduct" style="width: 100%;overflow: hidden;">
                                 @foreach($soldProducts as $newProduct)
-                                <div class="item c-product-slider p-3" style="width: 18rem; z-index: 1000">
+                                <div class="item c-product-slider p-3">
+                                    <div class="c-product-slider__container">
+
+                                        <div class="c-product-order-slider__container d-flex justify-content-center mb-2">
+                                            <div class="d-flex">
+                                                @if($newProduct->stock_shop + $newProduct->stock_supplier != 0)
+                                                <div type="ADD_TO_CART" data-control-type="Order">
+                                                    <form action="{{route('cart.store')}}" method="post">
+                                                        {{csrf_field()}}
+                                                        <div class="d-flex">
+                                                            <button class="c-btn c-btn--slider-cart u-rounded-circle w-100" type="submit" data-bind="css: { 'c-btn--loading': submitted() }" data-loading="">
+                                                                                        <span class="d-flex justify-content-center align-items-center">
+                                                                                            <svg class="c-icon c-icon--hover">
+                                                                                              <use xlink:href="#add-to-cart">
+                                                                                                  <symbol id="add-to-cart" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 22">
+                                                                                                    <path d="M27,4,23.36,14.11A1.39,1.39,0,0,1,22,15H10l.5,1.37H22.32a.51.51,0,0,1,.51.5.5.5,0,0,1-.51.5H9.79L3.84,1H.51A.5.5,0,0,1,0,.5.5.5,0,0,1,.51,0H4.57l1,2.74h0l.36,1h0L9.65,14H22a.39.39,0,0,0,.36-.25l3.54-10h-.05l.37-1a1,1,0,0,1,.57.36A.91.91,0,0,1,27,4ZM22.11,20a2.09,2.09,0,1,1-2.09-2A2.06,2.06,0,0,1,22.11,20Zm-1,0A1.06,1.06,0,0,0,19,20a1.06,1.06,0,0,0,2.11,0Zm-6.8,0a2.08,2.08,0,1,1-2.08-2A2.06,2.06,0,0,1,14.28,20Zm-1,0a1.06,1.06,0,1,0-1.06,1A1.06,1.06,0,0,0,13.26,20ZM16.44,9V1h-1V9L12.57,6.19l-.72.71,4.08,4L20,6.9l-.72-.71Z"></path>
+                                                                                                  </symbol>
+                                                                                              </use>
+                                                                                            </svg>
+                                                                                        </span>
+                                                            </button>
+                                                            <input type="hidden" name="id" value="{{$newProduct->id}}">
+                                                            <input hidden class="c-input c-input--quantity c-input--no-border" autocomplete="off" data-bind="" min="1" name="amount" step="1" type="number" value="1">                                                                            </div>
+                                                    </form>
+                                                </div>
+                                                @endif
+                                                <a class="c-btn c-btn--slider-eye u-rounded-circle text-center ml-3 d-flex justify-content-center align-items-center" href="{{route('products.show', $newProduct->reference)}}">
+                                                    <svg class="c-icon c-icon--hover">
+                                                        <use xlink:href="#look">
+                                                            <symbol id="look" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 16">
+                                                                <path d="M11.5,16A12.43,12.43,0,0,0,22.92,8.19L23,8l-.08-.19A12.43,12.43,0,0,0,11.5,0,12.43,12.43,0,0,0,.08,7.81L0,8l.08.19A12.43,12.43,0,0,0,11.5,16Zm0-15A11.41,11.41,0,0,1,21.9,8a11.41,11.41,0,0,1-10.4,7A11.41,11.41,0,0,1,1.1,8,11.41,11.41,0,0,1,11.5,1Zm0,12a5,5,0,0,0,5.11-5A5,5,0,0,0,11.5,3,5,5,0,0,0,6.39,8,5,5,0,0,0,11.5,13Zm0-9a4,4,0,0,1,4.09,4A4.09,4.09,0,0,1,7.41,8,4,4,0,0,1,11.5,4Z"></path>
+                                                            </symbol>
+                                                        </use>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
                                     <div class="c-product-image">
                                         <div class="c-product-image__slides">
                                             <div class="c-product-image__slide">
@@ -446,7 +476,7 @@
                     <div class="py-4 mt-4">
                         <div class="container">
                             <div class="c-producers p-5 border-top" style="width: 100%;overflow: hidden;">
-                                <div id="owl-brand">
+                                <div class="owl-carousel" id="owl-brand">
                                     @foreach($brands as $brand)
                                         <div class="item"><img src="{{$brand->img}}" alt="Owl Image" style="width: 68px"></div>
                                     @endforeach
@@ -457,14 +487,11 @@
                 </div>
                 <!-- Slider Producenci -->
             </div>
+
             <style>
-                #owl-demo .item{
-                    margin: 3px;
-                }
-                #owl-demo .item img{
-                    display: block;
-                    width: 100%;
-                    height: auto;
+                .owl-item {
+                    margin-top: 15px;
+                    margin-bottom: 15px;
                 }
             </style>
         </div>

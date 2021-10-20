@@ -133,6 +133,7 @@ class ApiProductController extends Controller
 
     public function search($name)
     {
+
         $product = Product::where('name', 'like', '%'.$name.'%')->get();
 
         if(isset($product)) {

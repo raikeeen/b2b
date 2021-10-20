@@ -12,6 +12,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\AjaxController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,11 +38,8 @@ Route::prefix('emails')->group(function () {
 
 });
 Route::group(['middleware' => 'auth'], function () {
-/*
-    Route::get('/product/{reference}', [ProductController::class, 'detail'])->name('product.index');
-    Route::get('/products', [ProductController::class, 'index'])->name('products');
-*/
-    Route::resource('/catalog',CategoryController::class);
+
+    Route::resource('/categories',CategoryController::class);
 
     Route::resource('/coupon',CouponsController::class);
     //Route::resource('/order', OrderController::class);
@@ -53,6 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
         dump(config('cart.tax'));
     });
     Route::resource('/products',ProductController::class);
+    Route::get('/new-products',[ProductController::class, 'newProduct'])->name('product.new');
     /*Route::get('/product/{reference}', [ProductController::class, 'detail'])->name('product.index');
     Route::get('/products', function (){
         return view('catalog.products');

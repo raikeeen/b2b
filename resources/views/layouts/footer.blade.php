@@ -1,4 +1,3 @@
-
 <footer class="c-page-footer background-f5f5f5" id="footer">
     <div class="container pt-4 pb-2">
         <div class="row d-flex justify-content-center my-4">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,14 +16,40 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at','desc')->paginate(5);
-        /*foreach ($products as $product)
-            if($product->img->first() !== null) {
+        if(request()->category) {
+            $products = Product::with('category')->whereHas('category', function ($query) {
+                $query->where('slug', request()->category);
+            })->paginate(5);
 
-                dump($product->img->first()->name);
-            }
-        dd(0);*/
-        //dd($products);
+        } else {
+            $products = Product::orderBy('created_at','desc')->paginate(5);
+        }
+
+        if(request()->sort === 'low_high') {
+            $products->setCollection(
+                collect(
+                    collect($products->items())->sortBy('price')
+                )->values()
+            );
+        } elseif(request()->sort === 'high_low') {
+            $products->setCollection(
+                collect(
+                    collect($products->items())->sortByDesc('price')
+                )->values()
+            );
+        }
+
+        return view('catalog.products', [
+            'products' => $products,
+        ] );
+    }
+
+    public function newProduct()
+    {
+        $products = Product::where(
+            'created_at', '>=', Carbon::now()->subMonth()->toDateTimeString()
+        )->paginate(5);
+
         return view('catalog.products', [
             'products' => $products,
         ] );
@@ -58,7 +85,7 @@ class ProductController extends Controller
     public function show($reference)
     {
         $product = Product::where('reference', $reference)->first();
-
+        dump($product->img);
         return view('catalog.product', ['product' => $product]);
     }
 

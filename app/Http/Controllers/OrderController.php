@@ -61,10 +61,7 @@ class OrderController extends Controller
     {
         $order = Order::createOrder(Auth::user()->id, $request);
 
-        //return route('orders.show', $order->reference);
-        return view('auth.user.order-detail', [
-            'order' => $order
-        ])->with('success_message', 'Aciu kad pirkate!');
+        return redirect()->route('orders.show', $order->reference)->with('success_message', 'Ačiū kad pirkote!');
     }
 
     /**

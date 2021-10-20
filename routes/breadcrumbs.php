@@ -81,13 +81,14 @@ Breadcrumbs::for('password-reset', function (BreadcrumbTrail $trail) {
 });
 
 // catalog
-Breadcrumbs::for('catalog', function (BreadcrumbTrail $trail) {
+/*Breadcrumbs::for('catalog', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Catalogas', route('catalog.index'));
-});
+    $trail->push('Catalogas', route('categories.index'));
+});*/
 
 Breadcrumbs::for('products', function (BreadcrumbTrail $trail) {
-    $trail->parent('catalog');
+    $trail->parent('home');
+    /*$trail->parent('catalog');*/
     $trail->push('Prėkes', route('products.index'));
 });
 Breadcrumbs::for('product', function (BreadcrumbTrail $trail,$name, $reference) {

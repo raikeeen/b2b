@@ -64,8 +64,9 @@
                     .catch(err => console.log(err));
             },
             searchProducts() {
-
-               return this.fetchProducts('http://localhost:8000/api/products/search/' + this.search)
+                if(this.search === '')
+                    return null;
+               return this.fetchProducts('http://localhost:8000/api/products/search/' + this.search);
             },
             makePagination(meta, links){
                 let pagination = {

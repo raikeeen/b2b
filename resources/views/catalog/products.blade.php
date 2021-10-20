@@ -97,50 +97,21 @@
             <div class="row my-4">
                 <div class="col-12"></div>
                 <div class="col-12 col-sm">
+
                     <div id="hook_articlelistsort" class="" data-asp-hook-name="ArticleListSort">
                         <div data-control-name="" data-control-type="ArticleListSort">
                             <div data-control-type="ArticleList">
-                                <select class="c-select">
+                                <select class="c-select filter-product">
                                     <option value="avail" selected="selected">Rūšiuoti pagal Prieinamumas</option>
                                     <option value="kod">Rūšiuoti pagal kodą</option>
-                                    <option value="price-asc">Rūšiuoti pagal kainą kylančios</option>
-                                    <option value="price-desc">Rūšiuoti pagal kainą mažėjančios</option>
+                                    <option value="low_high"><a href="{{route('products.index', ['category' => request()->category, 'sort' => 'low_high'])}}">Rūšiuoti pagal kainą kylančios</a></option>
+                                    <option value="high_low"><a href="{{route('products.index', ['category' => request()->category, 'sort' => 'high_low'])}}">Rūšiuoti pagal kainą mažėjančios</a></option>
                                 </select>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col d-sm-flex justify-content-xs-center justify-content-sm-end align-items-center">
-                    <!-- <svg class="c-icon c-icon&#45;&#45;pagination">
-                                <use xlink:href="#arrow-left-slider">
-                                    <svg id="arrow-left-slider" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 13">
-                                        <path d="M12,13V0L0,6.5Zm-1.35-2.28L2.86,6.5l7.79-4.22Z"></path>
-                                    </svg>
-                                </use>
-                            </svg>-->
-                    <!--<svg class="c-icon c-icon&#45;&#45;has-next-pagination">
-                                    <use xlink:href="#arrow-right-slider">
-                                        <svg id="arrow-right-slider" data-name="Layer 1"
-                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 13">
-                                            <path d="M0,0V13L12,6.5ZM1.35,2.28,9.14,6.5,1.35,10.72Z"></path>
-                                        </svg>
-                                    </use>
-                                </svg>-->
-                    {{--<ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="{{$products->previousPageUrl()}}" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#">Page {{$products->currentPage()}}  of {{$products->lastPage()}}</a>
-                        </li>
-                        <!-- <li  class="page-item">
-                             <input class="c-input c-input&#45;&#45;top-pagination text-right p-2 mx-3" type="number" v-model="input_page"
-                                    @submit="fetchProducts(pagination.search_page+'value')">
-                         </li>-->
-                        <li class="page-item" >
-                            <a class="page-link" href="{{$products->nextPageUrl()}}">Next</a>
-                        </li>
-                    </ul>--}}
 
                      <div class="d-flex align-items-center justify-content-center c-pagination__top-custom mt-2 mt-sm-0" data-control-type="ArticleList">
 
@@ -188,7 +159,8 @@
 
             </div>
             <div class="c-products">
-                @foreach($products as  $key => $product )
+
+                @forelse($products as  $key => $product )
                 <div class="c-panel c-panel--flatten">
                     <div class="row my-3 pt-2 pr-3 pb-2 pl-2">
                         <div class="col-12 c-product-image-col d-flex align-items-center mx-auto">
@@ -340,7 +312,14 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
+
+                @empty
+                    <div class="text-center my-5 py-5">
+                        <span class="c-headline">
+                          <span>Produktu ne rasta.</span>
+                        </span>
+                    </div>
+                        @endforelse
                 <div class="col d-flex justify-content-center align-items-center">
 
 
@@ -406,4 +385,29 @@
             </div>
         </div>
     </div>
+    <script>
+        $( document ).ready(function() {
+           /* $('.filter-product').change(function(e){
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: "{{route('products.index', ['category' => request()->category])}}",
+                    method: 'get',
+                    data: {
+                        sort: $('.filter-product').val(),
+
+                    },
+                    success: function(result){
+                        console.log(result);
+                    }});
+            });*/
+
+
+        })
+    </script>
 @endsection

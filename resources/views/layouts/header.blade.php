@@ -1,5 +1,5 @@
 
-<header class="c-page-header">
+<header class="c-page-header c-page-header--sticky">
     <div class="container ddd">
 <div class="row">
     <div class="d-flex col-12 d-sm-none d-xl-flex col-xl-3 justify-content-center align-items-center c-page-header__logo-col mt-2 mt-xl-0">
@@ -29,7 +29,7 @@
                     <div class="col-12 col-sm-7 col-md-9 col-xl-12">
                         <div class="row">
                             <div class="c-page-header__item col col-xl-3 ml-xl-auto d-flex justify-content-center align-items-center flex-column px-0 px-3">
-                                <a href="" class="text-decoration-none" title="NAUJIENOS">
+                                <a href="{{route('product.new')}}" class="text-decoration-none" title="NAUJIENOS">
                                     <div class="c-page-header__item__icon--bg">
 
 

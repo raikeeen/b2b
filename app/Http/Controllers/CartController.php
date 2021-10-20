@@ -69,7 +69,7 @@ class CartController extends Controller
         Cart::add($request->id,$product->name,$request->amount,$product->price)
             ->associate('App\Models\Product');
 
-        return redirect()->route('cart.index')->with('success_message', 'Item was added to your cart');
+        return redirect()->route('cart.index')->with('success_message', 'Prekė buvo atnaujinta jūsų pirkimo krepšelyje');
     }
 
     public function empty($param)
@@ -122,7 +122,7 @@ class CartController extends Controller
     public function destroy($id)
     {
         Cart::remove($id);
-        return back()->with('success_message', 'Item has been removed');
+        return back()->with('success_message', 'Prekė buvo išimta');
     }
 
 }
