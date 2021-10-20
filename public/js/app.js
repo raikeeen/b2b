@@ -2845,7 +2845,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     searchProducts: function searchProducts() {
-      if (this.search === '') return null;
+      if (this.search === '') $('.c-input-dropdown').attr("hidden", true);else $('.c-input-dropdown').attr("hidden", false);
       return this.fetchProducts('http://localhost:8000/api/products/search/' + this.search);
     },
     makePagination: function makePagination(meta, links) {
@@ -40424,26 +40424,32 @@ var render = function() {
               attrs: { id: "quick-search-autocomplete-dropdown" }
             },
             _vm._l(_vm.products, function(product) {
-              return _c("ul", { staticClass: "c-input-dropdown__items" }, [
-                _c("a", { attrs: { href: "/products/" + product.reference } }, [
-                  _c(
-                    "li",
-                    {
-                      staticClass: "c-input-dropdown__item",
-                      staticStyle: { "font-weight": "600" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                                    " +
-                          _vm._s(product.reference) +
-                          " - " +
-                          _vm._s(product.name) +
-                          "\n                                "
-                      )
-                    ]
-                  )
-                ])
-              ])
+              return product
+                ? _c("ul", { staticClass: "c-input-dropdown__items" }, [
+                    _c(
+                      "a",
+                      { attrs: { href: "/products/" + product.reference } },
+                      [
+                        _c(
+                          "li",
+                          {
+                            staticClass: "c-input-dropdown__item",
+                            staticStyle: { "font-weight": "600" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(product.reference) +
+                                " - " +
+                                _vm._s(product.name) +
+                                "\n                                "
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                : _vm._e()
             }),
             0
           ),

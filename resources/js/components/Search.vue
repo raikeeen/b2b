@@ -6,7 +6,7 @@
                         <input class="c-input c-input--quicksearch" placeholder="Ieškokite produkto pavadinimo ar kodo" @input="searchProducts()"  required="" v-model="search">
 
                             <div id="quick-search-autocomplete-dropdown" class="c-input-dropdown__quick-search c-input-dropdown" style="display: block; min-width: 450px;">
-                                <ul class="c-input-dropdown__items" v-for="product in products">
+                                <ul class="c-input-dropdown__items" v-for="product in products" v-if="product">
                                     <a v-bind:href=" '/products/' + product.reference">
                                         <li class="c-input-dropdown__item" style="font-weight: 600;">
                                             {{product.reference}} - {{product.name}}
@@ -53,6 +53,7 @@
                 search: ''
             }
         },
+
         methods: {
             fetchProducts(page_url) {
                 fetch(page_url)
@@ -65,7 +66,9 @@
             },
             searchProducts() {
                 if(this.search === '')
-                    return null;
+                $('.c-input-dropdown').attr("hidden",true);
+                else  $('.c-input-dropdown').attr("hidden",false);
+
                return this.fetchProducts('http://localhost:8000/api/products/search/' + this.search);
             },
             makePagination(meta, links){

@@ -42,20 +42,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/categories',CategoryController::class);
 
     Route::resource('/coupon',CouponsController::class);
-    //Route::resource('/order', OrderController::class);
+
     Route::get('/cartTest', function (){
         Cart::destroy();
     });
     Route::get('/test1', function (){
-        //ump(B1Api::getInvoice(\App\Models\Order::latest()->first()));
         dump(config('cart.tax'));
     });
     Route::resource('/products',ProductController::class);
     Route::get('/new-products',[ProductController::class, 'newProduct'])->name('product.new');
-    /*Route::get('/product/{reference}', [ProductController::class, 'detail'])->name('product.index');
-    Route::get('/products', function (){
-        return view('catalog.products');
-    });*/
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
