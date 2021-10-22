@@ -85,7 +85,7 @@ class ProductController extends Controller
     public function show($reference)
     {
         $product = Product::where('reference', $reference)->first();
-        dump($product->img);
+        //dump($product->img);
         return view('catalog.product', ['product' => $product]);
     }
 

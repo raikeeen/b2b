@@ -41,10 +41,10 @@ class Product extends Model
     {
         $user = Auth::user();
         return  round($value + ( $value * (
-                    $this->margin->value +
+                    (isset($this->margin->value) ? $this->margin->value : 0) +
                     (isset($this->category[0]) ? $this->category[0]->trade_margin : 0) +
                     $this->trade_margin  +
-                    $this->supplier->margin )/ 100) -
+                    (isset($this->supplier->margin) ? $this->supplier->margin : 0 ))/ 100) -
             ( $value * ( isset($user->discount) ? $user->discount : 0 + $this->discount->value ) / 100),2);
     }
 
@@ -101,6 +101,10 @@ class Product extends Model
     public function img()
     {
         return $this->hasMany('App\Models\Img','product_id');
+    }
+    public function orderitem()
+    {
+        return $this->hasMany('App\Models\Orderitem','product_id');
     }
     public function supplier()
     {

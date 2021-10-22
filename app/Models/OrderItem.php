@@ -14,6 +14,10 @@ class OrderItem extends Model
     {
         return $this->belongsTo('App\Models\Order');
     }
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product');
+    }
     static function createOrderItem($user_id, $order_id, $cart_item)
     {
         $orderItem = new OrderItem;
@@ -24,5 +28,9 @@ class OrderItem extends Model
         $orderItem->amount = $cart_item->qty;
 
         $orderItem->save();
+    }
+    public function priceTax()
+    {
+        return round($this->price*1.21,2);
     }
 }

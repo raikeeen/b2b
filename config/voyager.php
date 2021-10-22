@@ -14,7 +14,7 @@ return [
         'add_default_role_on_register' => true,
         'default_role'                 => 'user',
         'default_avatar'               => 'users/default.png',
-        'redirect'                     => '/admin',
+        'redirect'                     => '/admin-kavateka',
     ],
 
     /*
@@ -144,9 +144,10 @@ return [
         ],
 
         'widgets' => [
-            'TCG\\Voyager\\Widgets\\UserDimmer',
-            'TCG\\Voyager\\Widgets\\PostDimmer',
-            'TCG\\Voyager\\Widgets\\PageDimmer',
+            /*'TCG\\Voyager\\Widgets\\UserDimmer',*/
+            'App\\Http\\Controllers\\Voyager\\Widgets\\UserDimmer',
+            'App\\Http\\Controllers\\Voyager\\Widgets\\OrderDimmer',
+            'App\\Http\\Controllers\\Voyager\\Widgets\\ProductDimmer',
         ],
 
     ],
