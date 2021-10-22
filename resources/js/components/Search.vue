@@ -69,7 +69,7 @@
                 $('.c-input-dropdown').attr("hidden",true);
                 else  $('.c-input-dropdown').attr("hidden",false);
 
-               return this.fetchProducts('http://localhost:8000/api/products/search/' + this.search);
+               return this.fetchProducts('http://reikiadaliu.eu/api/products/search/' + this.search);
             },
             makePagination(meta, links){
                 let pagination = {
