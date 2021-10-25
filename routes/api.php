@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\API\ApiProductController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,8 +19,8 @@ Route::get('/products', function (){
     return Product::all();
 });
 //Route::get('/products/{id}', [ProductController::class,'show']);
-Route::resource('/products', App\Http\Controllers\Api\ApiProductController::class);
-Route::get('/products/search/{name}', [App\Http\Controllers\Api\ApiProductController::class, 'search']);
+Route::resource('/products', ApiProductController::class);
+Route::get('/products/search/{name}', [ApiProductController::class, 'search']);
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
