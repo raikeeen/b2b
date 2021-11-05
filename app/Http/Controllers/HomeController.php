@@ -22,9 +22,6 @@ use Myrzan\TecDocClient\Generated\GetVehicleIdsByCriteria;
 use SimpleXLSX;
 use XLSXWriter;
 
-include 'C:/Users/User/PhpstormProjects/automotive/xls/src/SimpleXLSX.php';
-include_once("C:\Users\User\PhpstormProjects\automotive\PHP_XLSXWriter-master\xlsxwriter.class.php");
-
 class HomeController extends Controller
 {
     /**
