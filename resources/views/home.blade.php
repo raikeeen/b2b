@@ -476,7 +476,15 @@
 
 
 
-                                            <div class="owl-next-custom owl-carousel-custom__icon--bg"><span><svg class="c-icon owl-carousel-custom__icon--next"><use xlink:href="#arrow-right-slider"></use></svg></span></div>
+                                            <div class="owl-next-custom owl-carousel-custom__icon--bg"><span>
+                                                    <svg class="c-icon owl-carousel-custom__icon--next">
+                                                        <use xlink:href="#arrow-right-slider">
+                                                            <svg id="arrow-right-slider" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 13">
+    <path d="M0,0V13L12,6.5ZM1.35,2.28,9.14,6.5,1.35,10.72Z"></path>
+                                                        </use>
+                                                    </svg>
+                                                </span>
+                                            </div>
                                         </div>
 
 
@@ -568,7 +576,15 @@
                                 @endforeach
                             </div>
 
-                            <div class="owl-next-custom owl-carousel-custom__icon--bg"><span><svg class="c-icon owl-carousel-custom__icon--next"><use xlink:href="#arrow-right-slider"></use></svg></span></div>
+                            <div class="owl-next-custom owl-carousel-custom__icon--bg"><span>
+                                    <svg class="c-icon owl-carousel-custom__icon--next">
+                                        <use xlink:href="#arrow-right-slider">
+    <svg id="arrow-right-slider" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 13">
+    <path d="M0,0V13L12,6.5ZM1.35,2.28,9.14,6.5,1.35,10.72Z"></path>
+                                        </use>
+                                    </svg>
+                                </span>
+                            </div>
 
                                 </div></div>
                         </div>
