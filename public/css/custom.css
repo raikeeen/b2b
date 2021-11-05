@@ -10292,5 +10292,8 @@ p {
     fill: #fff;
     cursor: pointer
 }
+.c-select2 {
+    min-width: 200px;
 
+}
 

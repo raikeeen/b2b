@@ -6,6 +6,25 @@ use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
+use Myrzan\TecDocClient\Client;
+use Myrzan\TecDocClient\Generated\GetAmBrands;
+use Myrzan\TecDocClient\Generated\GetChildNodesAllLinkingTarget2;
+use Myrzan\TecDocClient\Generated\GetKeyValues;
+use Myrzan\TecDocClient\Generated\GetLanguages;
+use Myrzan\TecDocClient\Generated\GetManufacturers;
+use Myrzan\TecDocClient\Generated\GetCountries;
+use Myrzan\TecDocClient\Generated\GetManufacturers2;
+use Myrzan\TecDocClient\Generated\GetModelSeries2;
+use Myrzan\TecDocClient\Generated\GetShortCuts2;
+use Myrzan\TecDocClient\Generated\GetVehicleByIds3;
+use Myrzan\TecDocClient\Generated\GetVehicleIdsByCriteria;
+use SimpleXLSX;
+use XLSXWriter;
+
+include 'C:/Users/User/PhpstormProjects/automotive/xls/src/SimpleXLSX.php';
+include_once("C:\Users\User\PhpstormProjects\automotive\PHP_XLSXWriter-master\xlsxwriter.class.php");
+
 class HomeController extends Controller
 {
     /**
@@ -30,9 +49,73 @@ class HomeController extends Controller
         $categories = Category::with('ancestors')->get()->toTree();
         $brands = Brand::all();
 
-        //return $categories;
+        $client = new Client();
+
+       /* $client = new Client();
+
+        $fuels = (new GetKeyValues())
+            ->setLang('LT')
+            ->setKeyTableId(182);
+        $fuelsResponse = $client->getKeyValues($fuels);
+
+        $modification = [];
+        dump('весь бенз');
+        dump($fuelsResponse);
+        foreach ($fuelsResponse->getData() as $keyFuel => $fuel) {
+
+            dump('первый цикл ' . $fuel->getKeyId());
+            $modifi = (new GetVehicleIdsByCriteria())
+                ->setCountriesCarSelection('LT')
+                ->setLang('LT')
+                ->setCarType('P')
+                ->setFuelTypeId($fuel->getKeyId())
+                ->setManuId(5)
+                ->setModId(4955);
+
+            $modifiResponse = $client->getVehicleIdsByCriteria($modifi);
+            dump('получаем модицикацию');
+            dump($modifiResponse);
+            if ($modifiResponse->getData() !== null) {
+                foreach ($modifiResponse->getData() as $keyMod => $mod) {
+                    dump('второй цикл');
+                    dump($mod);
+                $modification[$fuel->getKeyValue()][$keyMod] = [
+                    'carId' => $mod->getCarId(),
+                    'carName' => $mod->getCarName()
+                ];
+                }
+            }
+        }
+        dd($modification);*/
+
+
+
+
+
+
+
+
+
+        /*$params = (new GetAmBrands())
+            ->setLang('RU')
+            ->setArticleCountry('LT');
+        $response = $client->getAmBrands($params);*/
+
+/*        $params = (new GetLanguages())
+            ->setLang('RU');
+        $response = $client->getLanguages($params);*/
+
+        $params = (new GetManufacturers2())
+            ->setCountry('LT')
+            ->setLang('LT')
+            ->setLinkingTargetType('P')
+            ->setFavouredList(1);
+        $response = $client->getManufacturers2($params);
+
+        $manufacturers = $response->getData();
 
         return view('home', [
+            'manufacturers' => $manufacturers,
             'newProducts' => $newProducts,
             'soldProducts' => $soldProducts,
             'categories' => $categories,

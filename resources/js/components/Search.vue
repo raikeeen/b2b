@@ -65,11 +65,11 @@
                     .catch(err => console.log(err));
             },
             searchProducts() {
-                if(this.search === '')
-                $('.c-input-dropdown').attr("hidden",true);
-                else  $('.c-input-dropdown').attr("hidden",false);
+                if (this.search === '')
+                    $('.c-input-dropdown').attr("hidden", true);
+                else $('.c-input-dropdown').attr("hidden", false);
 
-               return this.fetchProducts(window.location.href + 'api/products/search/' + this.search);
+                return this.fetchProducts(window.location.href + 'api/products/search/' + this.search);
             },
             makePagination(meta, links){
                 let pagination = {

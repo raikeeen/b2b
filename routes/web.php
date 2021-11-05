@@ -32,6 +32,11 @@ Route::group(['prefix' => 'admin-kavateka'], function () {
 Auth::routes();
 Route::get('ajaxRequest', [AjaxController::class, 'ajaxRequest']);
 Route::post('ajaxRequest', [AjaxController::class, 'ajaxCartPost'])->name('ajax.cart');
+Route::post('ajax/getModels', [AjaxController::class, 'ajaxGetModelSeries2Post'])->name('ajax.getModels');
+Route::post('ajax/getVehicleIdsByCriteria', [AjaxController::class, 'ajaxGetVehicleIdsByCriteriaPost'])->name('ajax.getVehicleByCriteria');
+Route::get('vehicle', [AjaxController::class, 'tecDocCatalog'])->name('tecDocCatalog');
+Route::post('vehicle', [AjaxController::class, 'tecDocCatalog'])->name('tecDocCatalog');
+Route::post('ajax/getParentCategory', [AjaxController::class, 'getParentCategory'])->name('ajax.getParentCategory');
 
 Route::prefix('emails')->group(function () {
     Route::post('/register', [\App\Http\Controllers\MailController::class, 'sendMail'])->name('emails.register');

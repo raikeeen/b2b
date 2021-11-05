@@ -1,0 +1,119 @@
+.categoriestree {
+    position: relative;
+    padding-top: 20px;
+}
+.categoriestree__categories {
+    width: 100%;
+}
+.categoriestree__column {
+    width: 50%;
+}
+.categoriestree__category {
+    display: block;
+    position: relative;
+    padding: 0 20px 0 80px;
+    margin-bottom: 30px;
+}
+.categoriestree__categoryimage {
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+.categoriestree__categoryname {
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 700;
+    color: #2c3b4c;
+    margin: 10px 0 0;
+    position: relative;
+    padding-right: 20px;
+}
+.categoriestree__separator {
+    height: 1px;
+    overflow: hidden;
+    background: #e8e8e8;
+    margin: 15px 0;
+}
+.categoriestree__subcategories.was-opened {
+    min-height: 50px;
+    position: relative;
+}
+.categoriestree__subcategories.is-open {
+    display: block;
+}
+.categoriestree__subcategories {
+    padding-left: 20px;
+    display: block;
+}
+.categoriestree__categorytoggle {
+    top: 0;
+    right: 0;
+    position: absolute;
+    padding: 3px;
+}
+.categoriestree__subcategories.was-opened {
+    min-height: 50px;
+    position: relative;
+}
+.categoriestree__subcategory {
+    position: relative;
+}
+.categoriestree__subcategorytoggle {
+    top: 0;
+    left: -20px;
+    position: absolute;
+    padding: 3px;
+}
+.categoriestree__subcategoryname {
+    margin: 10px 0;
+}
+.categoriestree__subcategoryanchor {
+    display: inline-block;
+    cursor: pointer;
+    color: #2c3b4c;
+    word-wrap: break-word;
+}
+.categoriestree__subcategorycount {
+    display: inline-block;
+}
+.categoriestree__subcategorycount{
+    margin-left: 5px;
+    color: #7e8694;
+    white-space: nowrap;
+}
+.categoriestree__subcategorylink {
+    display: inline-block;
+    margin-left: 5px;
+    cursor: pointer;
+    color: #7e8694;
+}
+.layoutvehicle {
+    padding: 0 30px 30px;
+}
+.vehicleinfo__item--big {
+    padding: 10px 5px;
+    font-size: 20px;
+}
+.vehicleinfo__item {
+    padding: 15px 5px;
+    border-bottom: 1px solid #e8e8e8;
+    cursor: pointer;
+}
+.vehicleinfo__table {
+    width: 100%;
+    table-layout: fixed;
+    margin: 10px 0;
+}
+.vehicleinfo__tableitem:first-of-type {
+    width: 150px;
+    padding-left: 0;
+}
+
+.vehicleinfo__tableitem {
+    padding: 5px;
+}

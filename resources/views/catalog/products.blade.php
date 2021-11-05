@@ -316,7 +316,7 @@
                 @empty
                     <div class="text-center my-5 py-5">
                         <span class="c-headline">
-                          <span>Produktu ne rasta.</span>
+                          <span>Produktų neratsa</span>
                         </span>
                     </div>
                         @endforelse

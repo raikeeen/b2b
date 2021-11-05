@@ -61,9 +61,139 @@
             </div>
         </div>
         <div class="col-12 col-lg-9">
+            <form action="{{route('tecDocCatalog')}}" method="post">
+                {{csrf_field()}}
+            <div class="selectors row align-items-center justify-content-center">
+                <div class="col-md-3 col-sm-12">
+                    <select class="c-select2" name="manufacturers" id="manufacturers" style="min-width: 100%">
+                        <option value="0">Pasirinkite gamintoją</option>
+                        @foreach($manufacturers as $manufacturer)
+                            <option value="{{$manufacturer->getManuId()}}">
+                                {{$manufacturer->getManuName()}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="c-select2" name="models" id="models" style="min-width: 100%">
+                        <option selected="selected" value="0">Pasirinkti modelį</option>
+                    </select>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <select class="c-select2" name="modification" id="modification" style="min-width: 100%">
+                        <option selected="selected" value="0">Išsirinkite modifikaciją</option>
+                    </select>
+                </div>
+            </div>
+                <div class="d-flex align-items-center justify-content-center pt-2 pt-xl-5">
+                    <button class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" type="submit" style="color: #212529;">Paieška</button>
+                </div>
+            </form>
+            <script>
+                $(document).ready(function ($) {
+                    $('#manufacturers').select2();
+                    $('#models').select2();
+                    $('#modification').select2();
+                    // getModels
+                    $("#manufacturers").change(function (e) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        e.preventDefault();
+                        var formData = {
+                            manuId: $('#manufacturers').val(),
+                        };
+                        var type = "POST";
+                        var ajaxurl = '{{route('ajax.getModels')}}';
+                        if(formData.manuId !== 0) {
+                            $.ajax({
+                                type: type,
+                                url: ajaxurl,
+                                data: formData,
+                                dataType: 'json',
+                                success: function (data) {
+                                    $('#models')
+                                        .empty()
+                                        .append('<option selected="selected" value="0">Pasirinkti modelį</option>');
 
+                                    var options = $("#models");
+                                    //don't forget error handling!
+                                    $.each(data, function (index, item) {
+                                        //console.log(item);
+                                        options.append($("<option />").val(item.modelId).text(item.modelName + ' ' + item.years));
+                                    });
+                                },
+                                error: function (data) {
+                                    console.log(data);
+                                }
+                            });
+                        } else if(formData.manuId === 0) {
+                            $('#models')
+                                .empty()
+                                .append('<option selected="selected" value="0">Pasirinkti modelį</option>');
 
-            <div id="hook_mainslider" class="" data-asp-hook="70" data-asp-hook-name="mainSlider">
+                        }
+
+                    });
+
+                    $("#models").change(function (e) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        e.preventDefault();
+                        var formData = {
+                            manuId: $('#manufacturers').val(),
+                            modId: $('#models').val(),
+                        };
+                        var type = "POST";
+                        var ajaxurl = '{{route('ajax.getVehicleByCriteria')}}';
+                        if(formData.modId !== 0) {
+                            $.ajax({
+                                type: type,
+                                url: ajaxurl,
+                                data: formData,
+                                dataType: 'json',
+                                success: function (data) {
+                                    console.log(data)
+                                    $('#modification')
+                                        .empty()
+                                        .append('<option selected="selected" value="0">Išsirinkite modifikaciją</option>');
+
+                                    let options = $("#modification");
+
+                                    $.each(data.fuels, function (index, item){
+                                        console.log(item);
+                                        let a = "<optgroup label="+ item + " for=" + item + "></optgroup>";
+                                        options.append(a);
+                                    });
+                                    $.each(data.modification, function (index, item) {
+                                        let opt1 = "optgroup[for=\'" + item.fuelType +"\']";
+                                        //item.cylinderCapacityLiter
+                                        $("<option>").val(index).text(item.typeName +
+                                            ' (' + item.powerKwTo + ' kW / ' + item.powerHpTo + ' AG) ' + item.years).appendTo($(opt1));
+                                       /* options.append($("<option />").val(index).text(item.typeName + ' ' + item.cylinderCapacityLiter +
+                                            ' (' + item.powerKwTo + ' kW / ' + item.powerHpTo + ' AG) ' + item.years));*/
+                                    });
+                                },
+                                error: function (data) {
+                                    console.log(data);
+                                }
+                            });
+                        } else if(formData.modId === 0) {
+                            $('#modification')
+                                .empty()
+                                .append('<option selected="selected" value="0">Pasirinkti modelį</option>');
+
+                        }
+
+                    });
+
+                });
+            </script>
+            {{--<div id="hook_mainslider" class="" data-asp-hook="70" data-asp-hook-name="mainSlider">
                 <!-- Slider g&#x142;&#xF3;wny -->
 
                 <div data-control-hook-id="114" data-control-id="11" data-control-order="3"
@@ -178,7 +308,7 @@
                     </div>
                 </div>
                 <!-- Slider g&#x142;&#xF3;wny -->
-            </div>
+            </div>--}}
 
             <div class="row pb-4 p-sm-4">
                 <div class="c-info__item col-12 col-sm-4 d-flex justify-content-center align-items-center">
