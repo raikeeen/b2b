@@ -14,7 +14,8 @@
 
                             <div class="owl-stage-outer">
                                 <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1934px;">
-                                    @if(isset($product->img))
+
+                                    @if(empty($product->img))
                                     @foreach($product->img as $image)
                                     <div class="owl-item active" style="width: 386.656px;">
                                         <div class="c-product-image__slide">

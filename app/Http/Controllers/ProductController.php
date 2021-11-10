@@ -94,8 +94,8 @@ class ProductController extends Controller
 
         return view('catalog.product', [
             'product' => $product,
-            'cars' => $data['cars'],
-            'oeCodes' => $data['oeCodes']
+            'cars' => (!empty($data) or !empty($data['cars']))  ? $data['cars'] : [],
+            'oeCodes' => (!empty($data) or !empty($data['oeCodes'])) ? $data['oeCodes']: []
         ]);
     }
 
