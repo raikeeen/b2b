@@ -50,14 +50,13 @@
                 pagination: {},
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 edit: false,
-                search: null,
-                link: 'https://reikiadaliu.eu/' + 'api/products/search/' + this.search
+                search: null
             }
         },
         watch: {
             search(after, before) {
                 if (this.search.length > 3) {
-                    this.fetchProducts(this.link);
+                    this.fetchProducts('https://reikiadaliu.eu/api/products/search/' + this.search);
                     //window.location.href
                 } else {
                     this.products = [];
@@ -65,8 +64,8 @@
             }
         },
         methods: {
-            fetchProducts(page_url) {
-                fetch(page_url)
+            fetchProducts(url) {
+                fetch(url)
                     .then(res => res.json())
                     .then(res => {
                         this.products = res;

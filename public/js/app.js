@@ -2828,24 +2828,23 @@ __webpack_require__.r(__webpack_exports__);
       pagination: {},
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       edit: false,
-      search: null,
-      link: 'https://reikiadaliu.eu/' + 'api/products/search/' + this.search
+      search: null
     };
   },
   watch: {
     search: function search(after, before) {
       if (this.search.length > 3) {
-        this.fetchProducts(this.link); //window.location.href
+        this.fetchProducts('https://reikiadaliu.eu/api/products/search/' + this.search); //window.location.href
       } else {
         this.products = [];
       }
     }
   },
   methods: {
-    fetchProducts: function fetchProducts(page_url) {
+    fetchProducts: function fetchProducts(url) {
       var _this = this;
 
-      fetch(page_url).then(function (res) {
+      fetch(url).then(function (res) {
         return res.json();
       }).then(function (res) {
         _this.products = res;
