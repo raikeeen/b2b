@@ -2828,13 +2828,14 @@ __webpack_require__.r(__webpack_exports__);
       pagination: {},
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       edit: false,
-      search: null
+      search: null,
+      link: 'https://reikiadaliu.eu/' + 'api/products/search/' + this.search
     };
   },
   watch: {
     search: function search(after, before) {
       if (this.search.length > 3) {
-        this.fetchProducts('https://reikiadaliu.eu/' + 'api/products/search/' + this.search); //window.location.href
+        this.fetchProducts(this.link); //window.location.href
       } else {
         this.products = [];
       }
