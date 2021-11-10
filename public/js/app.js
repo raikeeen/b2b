@@ -2828,8 +2828,17 @@ __webpack_require__.r(__webpack_exports__);
       pagination: {},
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       edit: false,
-      search: ''
+      search: null
     };
+  },
+  watch: {
+    search: function search(after, before) {
+      if (this.search.length > 3) {
+        this.fetchProducts(window.location.href + 'api/products/search/' + this.search);
+      } else {
+        this.products = [];
+      }
+    }
   },
   methods: {
     fetchProducts: function fetchProducts(page_url) {
@@ -2838,24 +2847,11 @@ __webpack_require__.r(__webpack_exports__);
       fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
-        //console.log(res);
         _this.products = res;
       })["catch"](function (err) {
-        return console.log(err);
+        console.log(err);
+        _this.products = [];
       });
-    },
-    searchProducts: function searchProducts() {
-      if (this.search === '') $('.c-input-dropdown').attr("hidden", true);else $('.c-input-dropdown').attr("hidden", false);
-      return this.fetchProducts(window.location.href + 'api/products/search/' + this.search);
-    },
-    makePagination: function makePagination(meta, links) {
-      var pagination = {
-        current_page: meta.current_page,
-        last_page: meta.last_page,
-        next_page_url: links.next,
-        prev_page_url: links.prev
-      };
-      this.pagination = pagination;
     }
   }
 });
@@ -40402,17 +40398,12 @@ var render = function() {
             },
             domProps: { value: _vm.search },
             on: {
-              input: [
-                function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.search = $event.target.value
-                },
-                function($event) {
-                  return _vm.searchProducts()
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
                 }
-              ]
+                _vm.search = $event.target.value
+              }
             }
           }),
           _vm._v(" "),
@@ -40423,35 +40414,39 @@ var render = function() {
               staticStyle: { display: "block", "min-width": "450px" },
               attrs: { id: "quick-search-autocomplete-dropdown" }
             },
-            _vm._l(_vm.products, function(product) {
-              return product
-                ? _c("ul", { staticClass: "c-input-dropdown__items" }, [
-                    _c(
-                      "a",
-                      { attrs: { href: "/products/" + product.reference } },
-                      [
-                        _c(
-                          "li",
-                          {
-                            staticClass: "c-input-dropdown__item",
-                            staticStyle: { "font-weight": "600" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                    " +
-                                _vm._s(product.reference) +
-                                " - " +
-                                _vm._s(product.name) +
-                                "\n                                "
-                            )
-                          ]
-                        )
-                      ]
-                    )
-                  ])
+            [
+              _vm.products.length > 0
+                ? _c(
+                    "ul",
+                    { staticClass: "c-input-dropdown__items" },
+                    _vm._l(_vm.products, function(product) {
+                      return _c(
+                        "a",
+                        { attrs: { href: "/products/" + product.reference } },
+                        [
+                          _c(
+                            "li",
+                            {
+                              staticClass: "c-input-dropdown__item",
+                              staticStyle: { "font-weight": "600" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(product.reference) +
+                                  " - " +
+                                  _vm._s(product.name) +
+                                  "\n                                "
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
                 : _vm._e()
-            }),
-            0
+            ]
           ),
           _vm._v(" "),
           _c(

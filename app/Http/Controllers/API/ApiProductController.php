@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\TecDocController;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests;
@@ -133,12 +134,37 @@ class ApiProductController extends Controller
 
     public function search($name)
     {
+        if(strlen($name) > 3) {
 
-        $product = Product::where('name', 'like', '%'.$name.'%')->get();
+            $product = Product::where('reference', 'like', $name.'%')->limit(20)->get();
 
-        if(isset($product)) {
-        return Product::where('reference', 'like', '%'.$name.'%')->get();
-    }
-        return Product::where('name', 'like', '%'.$name.'%')->get();
+            if(!$product->isEmpty()) {
+
+                return $product;
+
+            }
+
+            $searchTecDoc = (new TecDocController)->search($name);
+
+            if(!empty($searchTecDoc)) {
+                $allProduct = collect([]);
+
+                foreach ($searchTecDoc as $item) {
+
+                    $getProduct = Product::where('supplier_reference', $item->getArticleNo())->limit(20)->first();
+
+                    if(isset($getProduct))
+                        $allProduct->push($getProduct);
+
+                }
+
+                return $allProduct;
+            }
+
+            $product = Product::where('name', 'like', '%'.$name.'%')->limit(20)->get();
+
+            return $product;
+        }
+        return null;
     }
 }

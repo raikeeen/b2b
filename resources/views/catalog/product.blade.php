@@ -225,16 +225,26 @@
                 <ul class="nav" id="myTab" role="tablist">
 
                     <li class="tabs-item">
-                        <a class="tabs-item-link-subarticle active show" data-toggle="tab" data-target="#oem-F2000" title="OEM kodai">
+                        <a class="c-panel-tabs__item-link active px-2 py-1" data-toggle="tab" data-target="#oem" title="OEM kodai">
                             <span class="tabs-nav">OEM kodai</span>
+                        </a>
+                    </li>
+                    <li class="tabs-item">
+                        <a class="c-panel-tabs__item-link px-2 py-1" data-toggle="tab" data-target="#cars" title="Cars">
+                            <span class="tabs-nav">Automobiliai</span>
+                        </a>
+                    </li>
+                    <li class="tabs-item">
+                        <a class="c-panel-tabs__item-link px-2 py-1" data-toggle="tab" data-target="#original" title="original">
+                            <span class="tabs-nav">OEM originalas</span>
                         </a>
                     </li>
                 </ul>
 
                 <div class="tab-content c-panel c-panel--no-shadow mt-3 mt-sm-0" id="myTabContent">
-                    <div class="tab-pane active show">
+                    <div class="tab-pane active show" id="oem">
                         <div class="pb-2 mt-3 mt-sm-0">
-                            <div class="row font-weight-bold pt-2">
+                            <div class="row font-weight-bold pt-1">
                                 <div class="col-4 u-bd-bottom-left u-bd-bottom-left--with-top text-uppercase py-2">
                                     <span>Gamintojas</span>
                                 </div>
@@ -268,6 +278,49 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="tab-pane" id="cars">
+                        <div class="pb-2 mt-3 mt-sm-0">
+                            @if(!empty($cars))
+                                @foreach($cars as $car)
+                                    <div class="row">{{$car['manuName']." ".$car['modelName']." ".$car['typeName']." (".$car['cylinderCapacityCcm']." ccm / ".$car['powerKwTo']." kW / ".$car['powerHpTo']." AG)"}}</div>
+                                @endforeach
+                            @else
+                                <div class="text-center my-5 py-5">
+                                <span class="c-headline">
+                                  <span>Automobiliu nerasta</span>
+                                </span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="original">
+                        @if(!empty($oeCodes))
+                            <div class="row font-weight-bold pt-1">
+                                <div class="col-4 u-bd-bottom-left u-bd-bottom-left--with-top text-uppercase py-2">
+                                    <span>Gamintojas</span>
+                                </div>
+                                <div class="col-8 u-bd-top-out text-uppercase py-2">
+                                    <span>OE kodai</span>
+                                </div>
+                            </div>
+                            @foreach($oeCodes as $code)
+                                <div class="row row--hover mb-0">
+                                    <div class="col-4 u-bd-bottom-left py-2">
+                                        {{$code['name']}}
+                                    </div>
+                                    <div class="col-8 u-bd-top-out py-2">
+                                        <span class="">{{$code['code']}}</span>
+                                    </div>
+                                </div>
+                            @endforeach
+                            @else
+                            <div class="text-center my-5 py-5">
+                                <span class="c-headline">
+                                  <span>Kodu nerasta</span>
+                                </span>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -12,7 +12,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\Auth\UserController;
-use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\TecDocController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,13 +30,16 @@ Route::group(['prefix' => 'admin-kavateka'], function () {
 });
 
 Auth::routes();
-Route::get('ajaxRequest', [AjaxController::class, 'ajaxRequest']);
-Route::post('ajaxRequest', [AjaxController::class, 'ajaxCartPost'])->name('ajax.cart');
-Route::post('ajax/getModels', [AjaxController::class, 'ajaxGetModelSeries2Post'])->name('ajax.getModels');
-Route::post('ajax/getVehicleIdsByCriteria', [AjaxController::class, 'ajaxGetVehicleIdsByCriteriaPost'])->name('ajax.getVehicleByCriteria');
-Route::get('vehicle', [AjaxController::class, 'tecDocCatalog'])->name('tecDocCatalog');
-Route::post('vehicle', [AjaxController::class, 'tecDocCatalog'])->name('tecDocCatalog');
-Route::post('ajax/getParentCategory', [AjaxController::class, 'getParentCategory'])->name('ajax.getParentCategory');
+Route::get('ajaxRequest', [TecDocController::class, 'ajaxRequest']);
+Route::post('ajaxRequest', [TecDocController::class, 'ajaxCartPost'])->name('ajax.cart');
+Route::post('ajax/getModels', [TecDocController::class, 'ajaxGetModelSeries2Post'])->name('ajax.getModels');
+Route::post('ajax/getVehicleIdsByCriteria', [TecDocController::class, 'ajaxGetVehicleIdsByCriteriaPost'])->name('ajax.getVehicleByCriteria');
+Route::get('vehicle', [TecDocController::class, 'tecDocCatalog'])->name('tecDocCatalog');
+Route::post('vehicle', [TecDocController::class, 'tecDocCatalog'])->name('tecDocCatalog');
+Route::post('ajax/getParentCategory', [TecDocController::class, 'getParentCategory'])->name('ajax.getParentCategory');
+Route::get('vehicle/products', [TecDocController::class, 'products'])->name('tecProducts');
+Route::post('vehicle/products', [TecDocController::class, 'products'])->name('tecProducts');
+Route::get('vehicle/search', [TecDocController::class, 'search'])->name('tecSearch');
 
 Route::prefix('emails')->group(function () {
     Route::post('/register', [\App\Http\Controllers\MailController::class, 'sendMail'])->name('emails.register');

@@ -3,11 +3,11 @@
             <div data-control-type="QuickSearch">
                 <div class="c-quick-search position-relative">
                     <form data-bind="">
-                        <input class="c-input c-input--quicksearch" placeholder="Ieškokite produkto pavadinimo ar kodo" @input="searchProducts()"  required="" v-model="search">
+                        <input class="c-input c-input--quicksearch" placeholder="Ieškokite produkto pavadinimo ar kodo"   required="" v-model="search">
 
                             <div id="quick-search-autocomplete-dropdown" class="c-input-dropdown__quick-search c-input-dropdown" style="display: block; min-width: 450px;">
-                                <ul class="c-input-dropdown__items" v-for="product in products" v-if="product">
-                                    <a v-bind:href=" '/products/' + product.reference">
+                                <ul class="c-input-dropdown__items" v-if="products.length > 0">
+                                    <a v-for="product in products" v-bind:href=" '/products/' + product.reference">
                                         <li class="c-input-dropdown__item" style="font-weight: 600;">
                                             {{product.reference}} - {{product.name}}
                                         </li>
@@ -50,36 +50,29 @@
                 pagination: {},
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 edit: false,
-                search: ''
+                search: null
             }
         },
-
+        watch: {
+            search(after, before) {
+                if (this.search.length > 3) {
+                    this.fetchProducts(window.location.href + 'api/products/search/' + this.search);
+                } else {
+                    this.products = [];
+                }
+            }
+        },
         methods: {
             fetchProducts(page_url) {
                 fetch(page_url)
                     .then(res => res.json())
                     .then(res => {
-                        //console.log(res);
                         this.products = res;
                     })
-                    .catch(err => console.log(err));
-            },
-            searchProducts() {
-                if (this.search === '')
-                    $('.c-input-dropdown').attr("hidden", true);
-                else $('.c-input-dropdown').attr("hidden", false);
-
-                return this.fetchProducts(window.location.href + 'api/products/search/' + this.search);
-            },
-            makePagination(meta, links){
-                let pagination = {
-                    current_page: meta.current_page,
-                    last_page: meta.last_page,
-                    next_page_url: links.next,
-                    prev_page_url: links.prev
-
-                }
-                this.pagination = pagination;
+                    .catch(err => {
+                        console.log(err);
+                        this.products = [];
+                    });
             }
         }
     }

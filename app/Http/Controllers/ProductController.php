@@ -6,6 +6,9 @@ use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Myrzan\TecDocClient\Client;
+use Myrzan\TecDocClient\Generated\GetArticleDirectSearchAllNumbersWithState;
+use Myrzan\TecDocClient\Generated\GetArticleLinkedAllLinkingTarget3;
 
 class ProductController extends Controller
 {
@@ -41,7 +44,7 @@ class ProductController extends Controller
 
         return view('catalog.products', [
             'products' => $products,
-        ] );
+        ]);
     }
 
     public function newProduct()
@@ -85,8 +88,15 @@ class ProductController extends Controller
     public function show($reference)
     {
         $product = Product::where('reference', $reference)->first();
-        //dump($product->img);
-        return view('catalog.product', ['product' => $product]);
+        $tecdoc = new TecDocController;
+
+        $data = $tecdoc->getCarsAndOecodes($product->supplier_reference);
+
+        return view('catalog.product', [
+            'product' => $product,
+            'cars' => $data['cars'],
+            'oeCodes' => $data['oeCodes']
+        ]);
     }
 
     /**

@@ -9,6 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Discount;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Myrzan\TecDocClient\Client;
+use Myrzan\TecDocClient\Generated\GetArticleDirectSearchAllNumbersWithState;
+use Myrzan\TecDocClient\Generated\GetArticleLinkedAllLinkingTarget3;
+use Myrzan\TecDocClient\Generated\GetVehicleByIds3;
 
 
 class Product extends Model

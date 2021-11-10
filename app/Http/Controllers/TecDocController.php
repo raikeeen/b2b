@@ -2,16 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Myrzan\TecDocClient\Client;
+use Myrzan\TecDocClient\Generated\GetArticleDirectSearchAllNumbersWithState;
+use Myrzan\TecDocClient\Generated\GetArticleIdsWithState;
+use Myrzan\TecDocClient\Generated\GetArticleLinkedAllLinkingTarget3;
 use Myrzan\TecDocClient\Generated\GetChildNodesAllLinkingTarget2;
+use Myrzan\TecDocClient\Generated\GetDirectArticlesByIds6;
+use Myrzan\TecDocClient\Generated\GetGenericArticlesByManufacturer6;
 use Myrzan\TecDocClient\Generated\GetKeyValues;
 use Myrzan\TecDocClient\Generated\GetModelSeries2;
 use Myrzan\TecDocClient\Generated\GetVehicleByIds3;
 use Myrzan\TecDocClient\Generated\GetVehicleIdsByCriteria;
 
-class AjaxController extends Controller
+class TecDocController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -134,6 +143,7 @@ class AjaxController extends Controller
 
         $getVehicleByIds3Response = $client->getVehicleByIds3($getVehicleByIds3)->getData();
 
+
         $mod = $getVehicleByIds3Response[0]->getVehicleDetails();
 
         $modification = [
@@ -151,6 +161,34 @@ class AjaxController extends Controller
         ];
 
         return $modification;
+    }
+
+    public function products(Request $request)
+    {
+        $client = new Client();
+        $articles = [];
+        $carId = isset(request()->carId) ? request()->carId : $request->carId;
+        $category = isset(request()->category) ? request()->category : $request->category;
+
+        $getArticleIdsWithState = (new getArticleIdsWithState())
+            ->setArticleCountry('LT')
+            ->setLang('LT')
+            ->setLinkingTargetId($carId)
+            ->setLinkingTargetType('P')
+            ->setAssemblyGroupNodeId($category);
+
+        $getVehicleByIds3Response = $client->getArticleIdsWithState($getArticleIdsWithState)->getData();
+
+        foreach ($getVehicleByIds3Response as $getItem) {
+            array_push($articles, $getItem->getArticleNo());
+        }
+        $products = Product::whereIn('supplier_reference', $articles)
+            ->paginate(15)
+            ->appends(request()->query());
+
+        return view('catalog.tecdoc.products', [
+            'products' => $products,
+        ]);
     }
 
     public function tecDocCatalog(Request $request)
@@ -209,6 +247,88 @@ class AjaxController extends Controller
             substr($model->getYearOfConstrTo(),-2).'.'.
             substr($model->getYearOfConstrTo(),0,4).')';
 
+    }
+    public function getCarsAndOecodes($reference)
+    {
+        if(isset($reference)) {
+            $client = new Client();
+            $cars = [];
+            $oeCodes = [];
+
+            $getArticleDirectSearchAllNumbersWithState = (new getArticleDirectSearchAllNumbersWithState())
+                ->setArticleCountry('LT')
+                ->setLang('LT')
+                ->setArticleNumber($reference)
+                ->setNumberType(0);
+            $getArticleDirectSearchAllNumbersWithStateResponse = $client->getArticleDirectSearchAllNumbersWithState($getArticleDirectSearchAllNumbersWithState)->getData();
+
+             if(!empty($getArticleDirectSearchAllNumbersWithStateResponse)) {
+
+             $getArticleId = $getArticleDirectSearchAllNumbersWithStateResponse[0]->getArticleId();
+             $getArticleLinkedAllLinkingTarget3 = (new getArticleLinkedAllLinkingTarget3())
+                 ->setArticleCountry('LT')
+                 ->setLang('LT')
+                 ->setLinkingTargetType('P')
+                 ->setArticleId($getArticleId);
+             $getArticleLinkedAllLinkingTarget3Response = $client->getArticleLinkedAllLinkingTarget3($getArticleLinkedAllLinkingTarget3)->getData()[0]->getArticleLinkages();
+
+            $getDirectArticlesByIds6 = (new getDirectArticlesByIds6())
+                ->setArticleCountry('LT')
+                ->setLang('LT')
+                ->setOeNumbers(true)
+                ->setArticleId([$getArticleId]);
+            $getDirectArticlesByIds6Response = $client->getDirectArticlesByIds6($getDirectArticlesByIds6)->getData()[0]->getOenNumbers();
+            foreach ($getDirectArticlesByIds6Response as $getOe) {
+                array_push($oeCodes, [
+                    'name' => $getOe->getBrandName(),
+                    'code' => $getOe->getOeNumber()
+                ]);
+            }
+
+            foreach ($getArticleLinkedAllLinkingTarget3Response as $getCar) {
+                array_push($cars, $this->getVehicleByIds3([$getCar->getLinkingTargetId()]));
+            }
+            return [
+                'cars' => $cars,
+                'oeCodes' => $oeCodes
+            ];
+             }
+        }
+        return null;
+    }
+
+    public function search($string)
+    {
+        $originalCode = $this->getArticleDirectSearchAllNumbersWithState($string, 0);
+
+        if(!empty($originalCode)) {
+
+            return $originalCode;
+
+        }
+        else {
+
+            $oemCode = $this->getArticleDirectSearchAllNumbersWithState($string, 1);
+            $comparableCode = $this->getArticleDirectSearchAllNumbersWithState($string, 3);
+
+            return array_merge($oemCode,$comparableCode);
+        }
+
+    }
+
+    public function getArticleDirectSearchAllNumbersWithState($string, $numberType)
+    {
+        $client = new Client();
+
+        $getArticleDirectSearchAllNumbersWithState = (new getArticleDirectSearchAllNumbersWithState())
+            ->setArticleCountry('LT')
+            ->setLang('LT')
+            ->setArticleNumber($string)
+            ->setNumberType($numberType);
+
+        $getArticleDirectSearchAllNumbersWithStateResponse = $client->getArticleDirectSearchAllNumbersWithState($getArticleDirectSearchAllNumbersWithState)->getData();
+
+        return $getArticleDirectSearchAllNumbersWithStateResponse;
     }
 
 }

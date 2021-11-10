@@ -129,9 +129,7 @@
                 @foreach($categories as $category)
                     @if($loop->even)
                         <div class="categoriestree__category js-vehiclepage-categories-tree-category" data-code="{{$category->getAssemblyGroupNodeId()}}" data-child="{{$category->getHasChilds()}}">
-                            <div class="categoriestree__categoryimage js-vehiclepage-categories-tree-category-toggle">
-
-                            </div>
+                            <div class="categoriestree__categoryimage js-vehiclepage-categories-tree-category-toggle"></div>
                             <a href="javascript:void(0)" class="c-category-menu__symbol dropdown-toggle-split d-flex align-items-center justify-content-between    categoriestree__categoryname js-vehiclepage-categories-tree-category-toggle js-vehiclepage-categories-tree-keyboardable js-onboarding-vehicle-category c-category-menu__symbol dropdown-toggle-split d-flex align-items-center justify-content-between">
                                 {{ucfirst($category->getAssemblyGroupName())}}
                                 <div class="categoriestree__categorytoggle js-vehiclepage-categories-tree-category-toggle">
@@ -238,7 +236,8 @@
 
                 let element = $('a[data-code=' + e.target.getAttribute("data-code") + ']')
                 console.log(element.attr('data-code'));
-                    if ( e.target.getAttribute("data-child")) {
+                console.log(e.target.getAttribute("data-child") !== 'false');
+                    if ( e.target.getAttribute("data-child") !== 'false') {
                         console.log(4)
                         let parentId = element.attr("data-code");
                         /*$(this).children('.categoriestree__subcategories').css("display", "block");*/
@@ -297,7 +296,42 @@
                                 console.log(data);
                             }
                         });
-                    }
+                    } else if(e.target.getAttribute("data-child") === 'false') {
+                        let parentId = element.attr("data-code");
+                        let carId = {{isset($modification['carId']) ? $modification['carId'] : null}};
+                        //console.log(parentId)
+                        //console.log(carId)
+                        console.log(window.location.href + "/products?category=" + parentId + "&carId=" +carId);
+                        window.location.href = window.location.href + "/products?category=" + parentId + "&carId=" +carId;
+                        /*$(this).children('.categoriestree__subcategories').css("display", "block");*/
+                        /*let cat = $(this).children('.categoriestree__separator');*/
+                      /*  $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        e.preventDefault();
+                        var formData = {
+                            category: parentId,
+                            carId: {{isset($modification['carId']) ? $modification['carId'] : null}}
+                        };
+                        var type = "GET";
+                        var ajaxurl = '{{route('tecProducts')}}';
+                        $.ajax({
+                            type: type,
+                            url: ajaxurl,
+                            data: formData,
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log(data);
+                                //don't forget error handling!
+                            },
+                            error: function (data) {
+                                console.log(data);
+                            }
+                        });*/
+
+                }
             }
 
         });
