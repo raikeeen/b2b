@@ -2834,14 +2834,14 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     search: function search(after, before) {
       if (this.search.length > 3) {
-        this.fetchProducts('https://reikiadaliu.eu/api/products/search/' + this.search); //window.location.href
+        this.getProducts('https://reikiadaliu.eu/api/products/search/' + this.search); //window.location.href
       } else {
         this.products = [];
       }
     }
   },
   methods: {
-    fetchProducts: function fetchProducts(url) {
+    getProducts: function getProducts(url) {
       var _this = this;
 
       fetch(url).then(function (res) {

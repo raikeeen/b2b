@@ -56,7 +56,7 @@
         watch: {
             search(after, before) {
                 if (this.search.length > 3) {
-                    this.fetchProducts('https://reikiadaliu.eu/api/products/search/' + this.search);
+                    this.getProducts('https://reikiadaliu.eu/api/products/search/' + this.search);
                     //window.location.href
                 } else {
                     this.products = [];
@@ -64,7 +64,7 @@
             }
         },
         methods: {
-            fetchProducts(url) {
+            getProducts(url) {
                 fetch(url)
                     .then(res => res.json())
                     .then(res => {
