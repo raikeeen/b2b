@@ -197,7 +197,7 @@
                                 console.log(item);
                                 //console.log(item);
                                 cat.prepend('<a href="javascript:void(0)" style=" text-transform:capitalize;" class="c-category-menu__symbol dropdown-toggle-split d-flex align-items-center justify-content-between"' +
-                                    ' data-code="' + item.assemblyGroupNodeId + '" data-child="' + item.hasChilds + '">' + item.assemblyGroupName + '</a>');
+                                    ' data-code="' + item.assemblyGroupNodeId + '" data-child="' + item.hasChilds + '">' + item.assemblyGroupName + ' ( ' + item.count + ' )' + '</a>');
                                 if(item.hasChilds){
                                     cat.children('a[data-code='+ item.assemblyGroupNodeId +']').prepend('<svg class="cat-icon-red">\n' +
                                         '                                        <use xlink:href="#category-show">\n' +
@@ -266,7 +266,7 @@
                                     console.log(item);
                                     //console.log(item);
                                     $('.sub[data-code='+ item.parentNodeId +']').prepend('<a href="javascript:void(0)" style=" text-transform:capitalize;" class="c-category-menu__symbol dropdown-toggle-split d-flex align-items-center justify-content-between"' +
-                                        ' data-code="' + item.assemblyGroupNodeId + '" data-child="' + item.hasChilds + '">' + item.assemblyGroupName + '</a>');
+                                        ' data-code="' + item.assemblyGroupNodeId + '" data-child="' + item.hasChilds + '">' + item.assemblyGroupName + ' ( ' + item.count + ' )' + '</a>');
                                     if (item.hasChilds) {
                                         $('.sub[data-code='+ item.parentNodeId +']').children('a[data-code=' + item.assemblyGroupNodeId + ']').prepend('<svg class="cat-icon-red">\n' +
                                             '                                        <use xlink:href="#category-show">\n' +

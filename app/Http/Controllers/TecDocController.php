@@ -214,6 +214,26 @@ class TecDocController extends Controller
             'modification' => $modification
         ]);
     }
+    public function countProduct($parentId, $carId)
+    {
+        $client = new Client();
+        $productsCat = (new getArticleIdsWithState())
+            ->setArticleCountry('LT')
+            ->setLang('LT')
+            ->setLinkingTargetType('P')
+            ->setAssemblyGroupNodeId($parentId)
+            ->setLinkingTargetId($carId);
+
+        $productsCatResponse = $client->getArticleIdsWithState($productsCat)->getData();
+        $articles = [];
+
+        foreach ($productsCatResponse as $productCat) {
+            array_push($articles, $productCat->getArticleNo());
+        }
+        $products = Product::whereIn('supplier_reference', $articles)->count();
+
+        return $products;
+    }
     public function getParentCategory(Request $request)
     {
         $client = new Client();
@@ -233,7 +253,8 @@ class TecDocController extends Controller
                 'assemblyGroupName' => $category->getAssemblyGroupName(),
                 'assemblyGroupNodeId' => $category->getAssemblyGroupNodeId(),
                 'parentNodeId' => $category->getParentNodeId(),
-                'hasChilds' => $category->getHasChilds()
+                'hasChilds' => $category->getHasChilds(),
+                'count' => $this->countProduct($category->getAssemblyGroupNodeId(), $request->carId)
             ]);
         }
 
