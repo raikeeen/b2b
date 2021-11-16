@@ -1845,7 +1845,7 @@ a.bg-dark:hover, a.bg-dark:focus, button.bg-dark:hover, button.bg-dark:focus {
 }
 
 .pt-1, .py-1 {
-    padding-top: .25rem !important
+    padding-top: .20rem !important
 }
 
 .pr-1, .px-1 {
@@ -9456,7 +9456,8 @@ p {
 }
 
 .c-product__description {
-    font-size: .8rem
+    font-size: .8rem;
+    word-break: break-all;
 }
 
 .c-product__price-gross {
@@ -9592,7 +9593,8 @@ p {
     }
 
     .c-product__description {
-        font-size: .9rem
+        font-size: .9rem;
+        word-break: break-all;
     }
 
     .c-product-image-col {

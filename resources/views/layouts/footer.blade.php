@@ -98,7 +98,9 @@
                     <div class="col-6 col-sm-12 d-flex justify-content-center justify-content-sm-end mb-2">
                         <img src="{{asset('storage/images/lietuvospastas.png')}}" alt="Lietuvos Pastas">
                     </div>
-
+                    <div class="col-6 col-sm-12 d-flex justify-content-center justify-content-sm-end mb-2">
+                        <img src="{{asset('storage/images/tec-alliance-logo.png')}}" alt="Tec Alliance">
+                    </div>
                 </div>
             </div>
         </div>

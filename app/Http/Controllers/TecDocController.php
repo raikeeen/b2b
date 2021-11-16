@@ -12,6 +12,7 @@ use Myrzan\TecDocClient\Client;
 use Myrzan\TecDocClient\Generated\GetArticleDirectSearchAllNumbersWithState;
 use Myrzan\TecDocClient\Generated\GetArticleIdsWithState;
 use Myrzan\TecDocClient\Generated\GetArticleLinkedAllLinkingTarget3;
+use Myrzan\TecDocClient\Generated\GetArticleLinkedAllLinkingTargetManufacturer;
 use Myrzan\TecDocClient\Generated\GetChildNodesAllLinkingTarget2;
 use Myrzan\TecDocClient\Generated\GetDirectArticlesByIds6;
 use Myrzan\TecDocClient\Generated\GetGenericArticlesByManufacturer6;
@@ -269,51 +270,95 @@ class TecDocController extends Controller
             substr($model->getYearOfConstrTo(),0,4).')';
 
     }
-    public function getCarsAndOecodes($reference)
+    public function getCarsAndOecodes(Request $request)
     {
-        if(isset($reference)) {
+        $product = Product::where('reference', $request->reference)->first();
+
+        if(isset($request->reference) and isset($product->supplier_reference)) {
             $client = new Client();
-            $cars = [];
             $oeCodes = [];
 
             $getArticleDirectSearchAllNumbersWithState = (new getArticleDirectSearchAllNumbersWithState())
                 ->setArticleCountry('LT')
                 ->setLang('LT')
-                ->setArticleNumber($reference)
+                ->setArticleNumber($product->supplier_reference)
                 ->setNumberType(0);
             $getArticleDirectSearchAllNumbersWithStateResponse = $client->getArticleDirectSearchAllNumbersWithState($getArticleDirectSearchAllNumbersWithState)->getData();
 
-             if(!empty($getArticleDirectSearchAllNumbersWithStateResponse)) {
+            if(!empty($getArticleDirectSearchAllNumbersWithStateResponse)) {
 
-             $getArticleId = $getArticleDirectSearchAllNumbersWithStateResponse[0]->getArticleId();
-             $getArticleLinkedAllLinkingTarget3 = (new getArticleLinkedAllLinkingTarget3())
-                 ->setArticleCountry('LT')
-                 ->setLang('LT')
-                 ->setLinkingTargetType('P')
-                 ->setArticleId($getArticleId);
-             $getArticleLinkedAllLinkingTarget3Response = $client->getArticleLinkedAllLinkingTarget3($getArticleLinkedAllLinkingTarget3)->getData()[0]->getArticleLinkages();
+                $getArticleId = $getArticleDirectSearchAllNumbersWithStateResponse[0]->getArticleId();
 
-            $getDirectArticlesByIds6 = (new getDirectArticlesByIds6())
+                $getDirectArticlesByIds6 = (new getDirectArticlesByIds6())
+                    ->setArticleCountry('LT')
+                    ->setLang('LT')
+                    ->setOeNumbers(true)
+                    ->setArticleId([$getArticleId]);
+
+                $getDirectArticlesByIds6Response = $client->getDirectArticlesByIds6($getDirectArticlesByIds6)->getData()[0]->getOenNumbers();
+
+                foreach ($getDirectArticlesByIds6Response as $getOe) {
+                    array_push($oeCodes, [
+                        'name' => $getOe->getBrandName(),
+                        'code' => $getOe->getOeNumber()
+                    ]);
+                }
+
+                return response()->json([
+                    'oe' => $oeCodes,
+                    'article' => $getArticleId,
+                    'supplier_reference' => $product->supplier_reference
+                ]);
+             }
+        }
+        return null;
+    }
+    public function getArticleManufacturer(Request $request)
+    {
+        $client = new Client();
+        $manuArray = [];
+
+        $getArticleLinkedAllLinkingTargetManufacturer = (new GetArticleLinkedAllLinkingTargetManufacturer())
+            ->setArticleCountry('LT')
+            ->setArticleId($request->article)
+            ->setLinkingTargetType('P');
+
+        $getArticleLinkedAllLinkingTargetManufacturerResponse = $client->getArticleLinkedAllLinkingTargetManufacturer($getArticleLinkedAllLinkingTargetManufacturer)->getData();
+        foreach ($getArticleLinkedAllLinkingTargetManufacturerResponse as $manu) {
+            array_push($manuArray, [
+                'manuId' => $manu->getManuId(),
+                'name' => $manu->getManuName()
+            ]);
+        }
+        return response()->json($manuArray);
+    }
+    public function getCars(Request $request)
+    {
+        if(isset($request->article)) {
+            $client = new Client();
+            $cars = [];
+            $carsCombine = [];
+
+            $getArticleLinkedAllLinkingTarget3 = (new getArticleLinkedAllLinkingTarget3())
                 ->setArticleCountry('LT')
                 ->setLang('LT')
-                ->setOeNumbers(true)
-                ->setArticleId([$getArticleId]);
-            $getDirectArticlesByIds6Response = $client->getDirectArticlesByIds6($getDirectArticlesByIds6)->getData()[0]->getOenNumbers();
-            foreach ($getDirectArticlesByIds6Response as $getOe) {
-                array_push($oeCodes, [
-                    'name' => $getOe->getBrandName(),
-                    'code' => $getOe->getOeNumber()
-                ]);
-            }
+                ->setLinkingTargetType('P')
+                ->setLinkingTargetManuId(183)
+                ->setArticleId($request->article);
+            $getArticleLinkedAllLinkingTarget3Response = $client->getArticleLinkedAllLinkingTarget3($getArticleLinkedAllLinkingTarget3)->getData()[0]->getArticleLinkages();
 
             foreach ($getArticleLinkedAllLinkingTarget3Response as $getCar) {
+
                 array_push($cars, $this->getVehicleByIds3([$getCar->getLinkingTargetId()]));
             }
-            return [
-                'cars' => $cars,
-                'oeCodes' => $oeCodes
-            ];
-             }
+
+            foreach ($cars as $car) {
+
+                $carsCombine += [$car['modelName'] => []];
+                array_push($carsCombine[$car['modelName']], $car);
+            }
+
+            return response()->json($carsCombine);
         }
         return null;
     }

@@ -25,6 +25,7 @@ window.Vue = require('vue').default;
 Vue.component('product', require('./components/Product.vue').default);
 Vue.component('products', require('./components/Products.vue').default);
 Vue.component('search', require('./components/Search.vue').default);
+Vue.component('product-panel', require('./components/Product-panel').default);
 
 
 /**
@@ -35,4 +36,8 @@ Vue.component('search', require('./components/Search.vue').default);
 
 const app = new Vue({
     el: '#app',
+});
+
+const product = new Vue({
+    el: '#app-panel',
 });

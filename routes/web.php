@@ -40,6 +40,10 @@ Route::post('ajax/getParentCategory', [TecDocController::class, 'getParentCatego
 Route::get('vehicle/products', [TecDocController::class, 'products'])->name('tecProducts');
 Route::post('vehicle/products', [TecDocController::class, 'products'])->name('tecProducts');
 Route::get('vehicle/search', [TecDocController::class, 'search'])->name('tecSearch');
+Route::post('ajax/getCars', [TecDocController::class, 'getCars'])->name('getCars');
+Route::get('ajax/getCars', [TecDocController::class, 'getCars'])->name('getCars');
+Route::post('ajax/getCarsAndOecodes', [TecDocController::class, 'getCarsAndOecodes'])->name('getCarsAndOecodes');
+Route::post('ajax/getArticleManufacturer', [TecDocController::class, 'getArticleManufacturer'])->name('getArticleManufacturer');
 
 Route::prefix('emails')->group(function () {
     Route::post('/register', [\App\Http\Controllers\MailController::class, 'sendMail'])->name('emails.register');

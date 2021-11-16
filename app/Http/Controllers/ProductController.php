@@ -90,12 +90,12 @@ class ProductController extends Controller
         $product = Product::where('reference', $reference)->first();
         $tecdoc = new TecDocController;
 
-        $data = $tecdoc->getCarsAndOecodes($product->supplier_reference);
+       /* $data = $tecdoc->getCarsAndOecodes($product->supplier_reference);*/
 
         return view('catalog.product', [
             'product' => $product,
-            'cars' => (!empty($data) or !empty($data['cars']))  ? $data['cars'] : [],
-            'oeCodes' => (!empty($data) or !empty($data['oeCodes'])) ? $data['oeCodes']: []
+/*            'cars' => (!empty($data) or !empty($data['cars']))  ? $data['cars'] : [],
+            'oeCodes' => (!empty($data) or !empty($data['oeCodes'])) ? $data['oeCodes']: []*/
         ]);
     }
 
