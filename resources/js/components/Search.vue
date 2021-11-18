@@ -53,26 +53,37 @@
                 search: null
             }
         },
+        created() {
+            this.debouncedGetAnswer = _.debounce(this.getProducts, 650)
+        },
         watch: {
-            search(after, before) {
+            search: function(){
+
                 if (this.search.length > 3) {
-                    this.getProducts('https://reikiadaliu.eu/api/products/search/' + this.search);
-                    //window.location.href
+
+                    this.products = [];
+                    this.products.push({
+                        name: 'Kraunama',
+                        reference: ''
+                    });
+                    this.debouncedGetAnswer();
+
                 } else {
                     this.products = [];
                 }
             }
+
         },
         methods: {
-            getProducts(url) {
-                fetch(url)
+            getProducts: function() {
+
+                fetch('https://reikiadaliu.eu/api/products/search/' + this.search)
                     .then(res => res.json())
                     .then(res => {
                         this.products = res;
                     })
                     .catch(err => {
                         console.log(err);
-                        this.products = [];
                     });
             }
         }

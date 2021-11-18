@@ -34,7 +34,7 @@ Route::get('ajaxRequest', [TecDocController::class, 'ajaxRequest']);
 Route::post('ajaxRequest', [TecDocController::class, 'ajaxCartPost'])->name('ajax.cart');
 Route::post('ajax/getModels', [TecDocController::class, 'ajaxGetModelSeries2Post'])->name('ajax.getModels');
 Route::post('ajax/getVehicleIdsByCriteria', [TecDocController::class, 'ajaxGetVehicleIdsByCriteriaPost'])->name('ajax.getVehicleByCriteria');
-Route::get('vehicle', [TecDocController::class, 'tecDocCatalog'])->name('tecDocCatalog');
+Route::get('vehicle/{modification}', [TecDocController::class, 'tecDocCatalog'])->name('tecDocCatalog');
 Route::post('vehicle', [TecDocController::class, 'tecDocCatalog'])->name('tecDocCatalog');
 Route::post('ajax/getParentCategory', [TecDocController::class, 'getParentCategory'])->name('ajax.getParentCategory');
 Route::get('vehicle/products', [TecDocController::class, 'products'])->name('tecProducts');
@@ -49,6 +49,7 @@ Route::prefix('emails')->group(function () {
     Route::post('/register', [\App\Http\Controllers\MailController::class, 'sendMail'])->name('emails.register');
 
 });
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/categories',CategoryController::class);

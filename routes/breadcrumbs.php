@@ -19,6 +19,11 @@ Breadcrumbs::for('login', function (BreadcrumbTrail $trail) {
     $trail->push('Prisijungimas', route('login'));
 });
 
+Breadcrumbs::for('404', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('404', route('login'));
+});
+
 Breadcrumbs::for('register', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Registracijos forma', route('register'));

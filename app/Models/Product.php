@@ -35,12 +35,16 @@ class Product extends Model
         'discount_product',
         'discount_global'
     ];
-    protected $appends = ['price_stock'];
+    protected $appends = ['price_stock', 'price_base'];
     public $increments = true;
     /**
      * @return string
      * @var mixed
      */
+    public function getPriceBaseAttribute()
+    {
+        return (float)$this->attributes['price'];
+    }
     public function getPriceAttribute($value)
     {
         $user = Auth::user();

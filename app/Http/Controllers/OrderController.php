@@ -26,15 +26,6 @@ class OrderController extends Controller
         $carts = [];
         $cart = Order::find(1);
 
-        //dd($orders);
-
-        /*var_dump($cart);
-        foreach ($orders as $order) {
-            array_push($carts,Cart::restore($order->id));
-            var_dump(Cart::restore($order->id));
-        }
-        var_dump($carts);*/
-
         return view('auth.user.orders', [
             'orders' => $orders,
             'carts'  => $carts
@@ -72,6 +63,10 @@ class OrderController extends Controller
      */
     public function show($reference)
     {
+        if(isset($reference)) {
+            return abort(404);
+        }
+
         $id = Auth::user()->id;
         $order = Order::where('reference', $reference)->first();
         //dd($order);

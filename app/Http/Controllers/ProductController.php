@@ -87,15 +87,14 @@ class ProductController extends Controller
      */
     public function show($reference)
     {
-        $product = Product::where('reference', $reference)->first();
-        $tecdoc = new TecDocController;
+        if(isset($reference)) {
+            return abort(404);
+        }
 
-       /* $data = $tecdoc->getCarsAndOecodes($product->supplier_reference);*/
+        $product = Product::where('reference', $reference)->first();
 
         return view('catalog.product', [
             'product' => $product,
-/*            'cars' => (!empty($data) or !empty($data['cars']))  ? $data['cars'] : [],
-            'oeCodes' => (!empty($data) or !empty($data['oeCodes'])) ? $data['oeCodes']: []*/
         ]);
     }
 
