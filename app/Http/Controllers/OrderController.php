@@ -63,14 +63,10 @@ class OrderController extends Controller
      */
     public function show($reference)
     {
-        if(isset($reference)) {
-            return abort(404);
-        }
-
         $id = Auth::user()->id;
         $order = Order::where('reference', $reference)->first();
         //dd($order);
-        if($order->user->id !== $id){
+        if($order->user->id !== $id || $order === null){
             return abort(404);
         }
         return view('auth.user.order-detail', [

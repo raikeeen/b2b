@@ -87,11 +87,11 @@ class ProductController extends Controller
      */
     public function show($reference)
     {
-        if(isset($reference)) {
+        $product = Product::where('reference', $reference)->first();
+
+        if($product === null) {
             return abort(404);
         }
-
-        $product = Product::where('reference', $reference)->first();
 
         return view('catalog.product', [
             'product' => $product,
