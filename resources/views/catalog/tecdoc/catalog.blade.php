@@ -301,8 +301,9 @@
                         let carId = {{isset($modification['carId']) ? $modification['carId'] : null}};
                         //console.log(parentId)
                         //console.log(carId)
-                        console.log(window.location.href + "/products?category=" + parentId + "&carId=" +carId);
-                        window.location.href = window.location.href + "/products?category=" + parentId + "&carId=" +carId;
+                        console.log(window.location);
+                        //console.log(window.location.origin + "/vehicleCat/products?category=" + parentId + "&carId=" +carId);
+                        window.location.href = window.location.origin + "/car?category=" + parentId + "&carId=" +carId;
                         /*$(this).children('.categoriestree__subcategories').css("display", "block");*/
                         /*let cat = $(this).children('.categoriestree__separator');*/
                       /*  $.ajaxSetup({

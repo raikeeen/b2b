@@ -15,11 +15,11 @@ use App\Http\Controllers\API\ApiProductController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/products', function (){
+/*Route::get('/products', function (){
     return Product::all();
-});
+});*/
 //Route::get('/products/{id}', [ProductController::class,'show']);
-Route::resource('/products', ApiProductController::class);
+/*Route::resource('/products', ApiProductController::class);*/
 Route::get('/products/search/{name}', [ApiProductController::class, 'search']);
 Route::post('/products/search', [ApiProductController::class, 'search']);
 

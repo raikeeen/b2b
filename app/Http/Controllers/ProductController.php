@@ -89,6 +89,10 @@ class ProductController extends Controller
     {
         $product = Product::where('reference', $reference)->first();
 
+        if($product === null) {
+            return abort(404);
+        }
+
         return view('catalog.product', [
             'product' => $product,
         ]);

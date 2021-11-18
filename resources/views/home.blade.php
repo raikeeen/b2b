@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="col-12 col-lg-9">
-            <form action="{{route('tecDocCatalog')}}" method="post">
+            <form action="{{route('tecDocCatalog1')}}" method="post">
                 {{csrf_field()}}
             <div class="selectors row align-items-center justify-content-center">
                 <div class="col-md-3 col-sm-12">

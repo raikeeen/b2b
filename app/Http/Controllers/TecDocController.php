@@ -167,6 +167,7 @@ class TecDocController extends Controller
 
     public function products(Request $request)
     {
+
         $client = new Client();
         $articles = [];
         $carId = isset(request()->carId) ? request()->carId : $request->carId;
@@ -359,7 +360,7 @@ class TecDocController extends Controller
                 array_push($manuArray[$key]['children'], [
                         'name' => $mod->getManuName().' '.$mod->getModelName().' '.$mod->getTypeName().', '.$this->data($mod).', '.
                             $mod->getCylinderCapacityCcm().' ccm, '.$mod->getPowerHpTo().' AG, '.$mod->getPowerKwTo().' kW, '.$mod->getFuelType(),
-                        'carId' => '/vehicle/'.$mod->getCarId()
+                        'carId' => '/vehicleCat/'.$mod->getCarId()
                 ]);
 
 
