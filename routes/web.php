@@ -37,7 +37,7 @@ Route::post('ajax/getVehicleIdsByCriteria', [TecDocController::class, 'ajaxGetVe
 Route::get('vehicle/{modification}', [TecDocController::class, 'tecDocCatalog'])->name('tecDocCatalog');
 Route::post('vehicle', [TecDocController::class, 'tecDocCatalog'])->name('tecDocCatalog1');
 Route::post('ajax/getParentCategory', [TecDocController::class, 'getParentCategory'])->name('ajax.getParentCategory');
-Route::post('vehicleCat/products', [TecDocController::class, 'products'])->name('tecProductsgit ');
+Route::post('vehicleCat/products', [TecDocController::class, 'products'])->name('tecProducts');
 Route::get('vehicleСat/products', [TecDocController::class, 'products']);
 /*Route::get('vehicle/search', [TecDocController::class, 'search'])->name('tecSearch');*/
 Route::post('ajax/getCars', [TecDocController::class, 'getCars'])->name('getCars1');
