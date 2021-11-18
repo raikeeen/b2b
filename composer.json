@@ -20,7 +20,7 @@
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
         "myrzan/tecdoc-php-client": "dev-master",
-        "spatie/laravel-responsecache": "dev-master",
+        "spatie/laravel-responsecache": "^7.1",
         "tcg/voyager": "^1.4",
         "tu6ge/voyager-excel": "^2.2"
     },
@@ -77,10 +77,6 @@
         "myrzan/tecdoc-php-client": {
             "type": "vcs",
             "url": "https://github.com/raikeeen/tecdoc-php-client"
-        },
-        "spatie/laravel-responsecache": {
-            "type": "vcs",
-            "url": "https://github.com/raikeeen/laravel-responsecache"
         }
     }
 }
