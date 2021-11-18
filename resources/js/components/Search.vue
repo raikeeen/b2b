@@ -76,15 +76,21 @@
         },
         methods: {
             getProducts: function() {
-
-                fetch('https://reikiadaliu.eu/api/products/search/' + this.search)
-                    .then(res => res.json())
-                    .then(res => {
-                        this.products = res;
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+                if(this.search !== '') {
+                    /*fetch('http://localhost:8000/api/products/search/' + this.search)
+                        .then(res => res.json())
+                        .then(res => {
+                            this.products = res;
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });*/
+                    return axios.post(window.location.origin + '/api/products/search', {name: this.search})
+                        .then(function( response ){
+                            console.log(response.data);
+                            this.products = response.data;
+                        }.bind(this));
+                }
             }
         }
     }

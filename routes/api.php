@@ -21,6 +21,7 @@ Route::get('/products', function (){
 //Route::get('/products/{id}', [ProductController::class,'show']);
 Route::resource('/products', ApiProductController::class);
 Route::get('/products/search/{name}', [ApiProductController::class, 'search']);
+Route::post('/products/search', [ApiProductController::class, 'search']);
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

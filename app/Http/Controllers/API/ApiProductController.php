@@ -132,11 +132,21 @@ class ApiProductController extends Controller
         return view('catalog.product', ['product' => $product]);
     }
 
-    public function search($name)
+    public function search(Request $request)
     {
+        $name = $request->name;
+
         if(strlen($name) > 3) {
 
-            $product = Product::where('reference', 'like', $name.'%')->limit(20)->get();
+            $product = \DB::table('product')->where('reference', 'like', $name . '%')->select(['name','reference'])->get();
+
+            if(!$product->isEmpty()) {
+
+                return $product;
+
+            }
+
+            $product = \DB::table('product')->where('supplier_reference', 'like', $name . '%')->select(['name','reference'])->get();
 
             if(!$product->isEmpty()) {
 
@@ -147,21 +157,19 @@ class ApiProductController extends Controller
             $searchTecDoc = (new TecDocController)->search($name);
 
             if(!empty($searchTecDoc)) {
-                $allProduct = collect([]);
+                $allCodes = [];
 
                 foreach ($searchTecDoc as $item) {
 
-                    $getProduct = Product::where('supplier_reference', $item->getArticleNo())->limit(20)->first();
-
-                    if(isset($getProduct))
-                        $allProduct->push($getProduct);
-
+                    array_push($allCodes, $item->getArticleNo());
                 }
 
-                return $allProduct;
+                $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit(20)->get();
+
+                return $product;
             }
 
-            $product = Product::where('name', 'like', '%'.$name.'%')->limit(20)->get();
+            $product = \DB::table('product')->where('name', 'like', '%'.$name.'%')->select(['name','reference'])->limit(20)->get();
 
             return $product;
         }

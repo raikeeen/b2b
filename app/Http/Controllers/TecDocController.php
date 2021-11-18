@@ -463,21 +463,12 @@ class TecDocController extends Controller
 
     public function search($string)
     {
-        $originalCode = $this->getArticleDirectSearchAllNumbersWithState($string, 0);
 
-        if(!empty($originalCode)) {
+        $oemCode = $this->getArticleDirectSearchAllNumbersWithState($string, 1);
+        $comparableCode = $this->getArticleDirectSearchAllNumbersWithState($string, 3);
+        $eanCode = $this->getArticleDirectSearchAllNumbersWithState($string, 6);
 
-            return $originalCode;
-
-        }
-        else {
-
-            $oemCode = $this->getArticleDirectSearchAllNumbersWithState($string, 1);
-            $comparableCode = $this->getArticleDirectSearchAllNumbersWithState($string, 3);
-
-            return array_merge($oemCode,$comparableCode);
-        }
-
+        return array_merge($oemCode,$comparableCode,$eanCode);
     }
 
     public function getArticleDirectSearchAllNumbersWithState($string, $numberType)

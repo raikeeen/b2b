@@ -45,7 +45,7 @@ class HomeController extends Controller
     public function index()
     {
         $newProducts = Product::latest()->take(10)->get();
-        $soldProducts = Product::where('stock_shop', 0)->orWhere('stock_shop', null)->get();
+        $soldProducts = Product::where('stock_shop', 0)->orWhere('stock_shop', null)->take(10)->get();
         $categories = Category::with('ancestors')->get()->toTree();
         $brands = Brand::all();
 
