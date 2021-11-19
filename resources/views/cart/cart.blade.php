@@ -363,9 +363,9 @@
             if (delivery === '2') {
                 $('#transport_price').text('3.84')
                 let total = $('#total-cart')
-                total.text(parseFloat(total.text()) + 3.84)
+                total.text((parseFloat(total.text()) + 3.84).toFixed(2))
                 let totalSub = $('#subtotal-cart')
-                totalSub.text(parseFloat(totalSub.text()) + 3.17)
+                totalSub.text((parseFloat(totalSub.text()) + 3.17).toFixed(2))
 
             } else {
                 $('#transport_price').text('0.00')
