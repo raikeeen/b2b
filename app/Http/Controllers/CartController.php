@@ -64,7 +64,12 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('success_message', 'Item already in your cart!');
         }
 
-        $product = Product::where('id', $request->id)->first();
+        $product = \DB::table('product')->where('id', $request->id)->select(['stock_shop', 'stock_supplier', 'price', 'name'])->first();
+
+        if($product->stock_shop + $product->stock_supplier < (int)$request->amount) {
+
+            return back()->withErrors('Nėra reikiamo kiekio sandėlyje.');
+        }
 
         Cart::add($request->id,$product->name,$request->amount,$product->price)
             ->associate('App\Models\Product');
@@ -96,9 +101,16 @@ class CartController extends Controller
      */
     public function edit(Request $request,$rowId)
     {
-        Cart::update($rowId, $request->amount);
+        $product = \DB::table('product')->where('id', Cart::get($rowId)->id)->select(['stock_shop', 'stock_supplier'])->first();
 
-        return back()->with('success_message', 'Item was updated to your cart');
+        if($product->stock_shop + $product->stock_supplier >= (int)$request->amount) {
+
+            Cart::update($rowId, $request->amount);
+
+            return back()->with('success_message', 'Prekė buvo atnaujinta jūsų pirkimo krepšelyje.');
+        }
+
+        return back()->withErrors('Nėra reikiamo kiekio sandėlyje.');
     }
 
     /**

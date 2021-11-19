@@ -121,7 +121,7 @@ class Order extends Model
                 array_push($products, [
                     'reference' => $product->product->reference,
                     'name' => $product->product->name,
-                    'amount' => $product->product->amount,
+                    'amount' => $product->amount,
                     'price' => $product->product->price
                 ]);
 

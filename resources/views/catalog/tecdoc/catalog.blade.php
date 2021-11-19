@@ -303,7 +303,7 @@
                         //console.log(carId)
                         console.log(window.location);
                         //console.log(window.location.origin + "/vehicleCat/products?category=" + parentId + "&carId=" +carId);
-                        window.location.href = window.location.origin + "/car?category=" + parentId + "&carId=" +carId;
+                        window.location.href = window.location.origin + "/vehicle-cat?category=" + parentId + "&carId=" +carId;
                         /*$(this).children('.categoriestree__subcategories').css("display", "block");*/
                         /*let cat = $(this).children('.categoriestree__separator');*/
                       /*  $.ajaxSetup({

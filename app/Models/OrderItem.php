@@ -20,8 +20,8 @@ class OrderItem extends Model
     }
     static function createOrderItem($user_id, $order_id, $cart_item)
     {
-
         $orderItem = new OrderItem;
+
         $orderItem->name = $cart_item->name;
         $orderItem->price = $cart_item->price;
         $orderItem->product_id = $cart_item->id;
@@ -30,6 +30,23 @@ class OrderItem extends Model
         $orderItem->amount = $cart_item->qty;
 
         $orderItem->save();
+
+        $product = Product::find($cart_item->id);
+
+        $amount = $product->stock_shop - $cart_item->qty;
+
+        if($amount > 0) {
+
+            $product->stock_shop = $amount;
+
+        } else {
+
+            $product->stock_shop = 0;
+            $product->stock_supplier = $product->stock_supplier - abs($amount);
+
+        }
+
+        $product->save();
     }
     public function priceTax()
     {

@@ -32,7 +32,6 @@
     {{ Breadcrumbs::render('cart') }}
 
     @if(Cart::count() > 0)
-        <h2>{{Cart::count()}} Items shopping cart</h2>
     <div data-bind="if: isDataLoaded(), attr: { hidden: false }">
         <!-- ko if: !data.items().length --><!-- /ko -->
         <!-- ko if: data.items().length -->

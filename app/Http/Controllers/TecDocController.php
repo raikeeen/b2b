@@ -360,7 +360,7 @@ class TecDocController extends Controller
                 array_push($manuArray[$key]['children'], [
                         'name' => $mod->getManuName().' '.$mod->getModelName().' '.$mod->getTypeName().', '.$this->data($mod).', '.
                             $mod->getCylinderCapacityCcm().' ccm, '.$mod->getPowerHpTo().' AG, '.$mod->getPowerKwTo().' kW, '.$mod->getFuelType(),
-                        'carId' => '/vehicle-cat/'.$mod->getCarId()
+                        'carId' => '/vehicle/'.$mod->getCarId()
                 ]);
 
 

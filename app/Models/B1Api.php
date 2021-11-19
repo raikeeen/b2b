@@ -31,7 +31,7 @@ class B1Api extends Model
             // Using version 2.0.0 and up of the B1.php library.
 
                 $data = [
-                    'prefix' => '32a99',
+                    'prefix' => '32B2B1',
                     'orderId' => $order->id,//$order->id,
                     'orderDate' => date('Y-m-d'),
                     'orderNo' => $order->reference,
@@ -173,7 +173,7 @@ class B1Api extends Model
             $keys = new B1Api;
 
             $data = [
-                'prefix' => '32a99',
+                'prefix' => '32B2B1',
                 'orderId' => $order->id,
             ];
             $result = $keys->b1->request('shop/invoices/get', $data);
@@ -185,6 +185,8 @@ class B1Api extends Model
             //dump($order);
             $order->invoice = "/storage/".$path;
             $order->save();
+
+           /* $result = $keys->b1->request('e-commerce/orders/create-write-off', ['orderId' => $order->id]);*/
 
             if($result->code !== 200)
             {
