@@ -47,6 +47,8 @@ class OrderItem extends Model
         }
 
         $product->save();
+
+        return $orderItem;
     }
     public function priceTax()
     {

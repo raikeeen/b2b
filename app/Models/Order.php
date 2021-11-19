@@ -60,8 +60,10 @@ class Order extends Model
 
         foreach (Cart::content() as $item) {
 
-            OrderItem::createOrderItem($user_id, $order->id, $item);
+            $orderItem = OrderItem::createOrderItem($user_id, $order->id, $item);
+
             array_push($itemB1, [
+                'id' => $orderItem->product->b1_product_id,
                 'name' => $item->name,
                 'quantity' => $item->qty*100,
                 'vatRate' => config('cart.tax'),
