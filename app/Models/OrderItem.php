@@ -20,7 +20,9 @@ class OrderItem extends Model
     }
     static function createOrderItem($user_id, $order_id, $cart_item)
     {
+
         $orderItem = new OrderItem;
+        $orderItem->name = $cart_item->name;
         $orderItem->price = $cart_item->price;
         $orderItem->product_id = $cart_item->id;
         $orderItem->order_id = $order_id;

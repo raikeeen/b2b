@@ -115,17 +115,27 @@ class Order extends Model
         $products = [];
 
         foreach ($order->orderitem as $product) {
-            $productFind = Product::find($product->product_id);
-            array_push($products, [
-                'reference' => $productFind->reference,
-                'name' => $productFind->name,
-                'amount' => $product->amount,
-                'price' => $product->price
-            ]);
+
+            if(isset($product->product_id)) {
+
+                array_push($products, [
+                    'reference' => $product->product->reference,
+                    'name' => $product->product->name,
+                    'amount' => $product->product->amount,
+                    'price' => $product->product->price
+                ]);
+
+            } else {
+
+                array_push($products, [
+                    'reference' => '',
+                    'name' => $product->name,
+                    'amount' => $product->amount,
+                    'price' => $product->price
+                ]);
+            }
         }
         $orderdata['products'] = $products;
-        //dd(Tax::priceWithTax($totalPrice + $order->delivery_price + $order->payment_price , 21) -30);
-        //$orderdata['total'] = Tax::priceWithTax($order->total);
 
         return $orderdata;
     }

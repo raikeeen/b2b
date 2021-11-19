@@ -72,7 +72,7 @@
                     <span data-bind="text: metadata.article.displayCode">{{$item['reference']}}</span>
                 </div>
                 <div class="col-12 col-md order-2 order-md-2">
-                    <a class="font-weight-bold" href="{{route('products.index', $item['reference'])}}" data-bind="text: metadata.article.name, attr: { href: metadata.article.url }">{{$item['name']}}</a>
+                    <a class="font-weight-bold" href="{{route('products.show', $item['reference'])}}" data-bind="text: metadata.article.name, attr: { href: metadata.article.url }">{{$item['name']}}</a>
                 </div>
                 <div class="col-12 col-sm-2 col-md-1 order-3 order-md-3 text-center">
                     <span data-bind="text: quantity() + ' ' + metadata.article.quantityInformation.unit">{{$item['amount']}} vnt</span>

@@ -44,7 +44,7 @@ Route::post('ajax/getCars', [TecDocController::class, 'getCars'])->name('getCars
 Route::get('ajax/getCars', [TecDocController::class, 'getCars'])->name('getCars');
 Route::post('ajax/getCarsAndOecodes', [TecDocController::class, 'getCarsAndOecodes'])->name('getCarsAndOecodes');
 Route::post('ajax/getArticleManufacturer', [TecDocController::class, 'getArticleManufacturer'])->name('getArticleManufacturer');
-Route::get('car', [TecDocController::class, 'products']);
+Route::get('vehicle-cat', [TecDocController::class, 'products']);
 
 Route::prefix('emails')->group(function () {
     Route::post('/register', [\App\Http\Controllers\MailController::class, 'sendMail'])->name('emails.register');
