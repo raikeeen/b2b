@@ -29,6 +29,6 @@ class SynchronizationMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mails.SynchronizationMail');
+        return $this->subject($this->details['name'])->markdown('mails.SynchronizationMail');
     }
 }

@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Mail\SynchronizationMail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Mail;
+use SoapClient;
+use Illuminate\Support\Facades\DB;
 class AjsApi extends Model
 {
     use HasFactory;
@@ -13,9 +16,22 @@ class AjsApi extends Model
 
          try
          {
+             $apiMTRLoginLDZ='000078';
+             $apiMTRPassLDZ=md5('export');
+             $apiMTRUrl="http://ajsparts.pl:82/F2000OpenService.svc?wsdl";
+             $client = new SoapClient($apiMTRUrl, array('trace'=>1));
+
              $products = DB::table('product')
-             $arrayChunkTow = array_chunk($arrTow,1000);
-             foreach ($arrayChunkTow as $key => $value) {
+                 ->select('supplier_reference')
+                 ->where('supplier_id', '=', 1)
+                 ->get()
+                 ->pluck('supplier_reference')
+                 ->toArray();
+
+             $productsChunk = array_chunk($products,1000);
+
+             foreach ($productsChunk as $key => $value) {
+
                  $inputQuery = array(
                      'authData' => array(
                          'Login' => $apiMTRLoginLDZ,
@@ -26,39 +42,34 @@ class AjsApi extends Model
                  $requst = json_decode(json_encode($requst), true);
                  $requst = $requst['ArticlesInformationResult']['Article'];
 
-                 $requstCode = [];
-                 $requstAmount = [];
-                 // echo "====== OK =====" . PHP_EOL;
-
                  for ($i = 0; $i < count($requst); $i++) {
                      if ($requst[$i]['ErrorMessage'] === null) {
 
-                         array_push($requstCode, $requst[$i]['ArticleId']);
-                         array_push($requstAmount, $requst[$i]['Branches']['Branch']['Amount']);
-                         //var_dump($requst[$i]['ArticleId']);
-                         //var_dump($requst[$i]['Branches']['Branch']['Amount']);
+                         $count = $requst[$i]['Branches']['Branch']['Amount'];
+
+                         if ($count === '>5') {
+
+                             $count = 5;
+                         }
+
+                         DB::table('product')
+                             ->where('supplier_reference', $requst[$i]['ArticleId'])
+                             ->update([
+                                 'stock_supplier' => $count,
+                                 'price' => $requst[$i]['PriceNet']
+                             ]);
+
                      }
                  }
-                 $mail_message .= 'Found in ajs: ' . count($requstCode) . '<br/>';
-
-
-
-                 for ($i = 0; $i < count($requstCode); $i++) {
-                     if ($requstAmount[$i] === '>5')
-                         $requstAmount[$i] = 5;
-
-                     //var_dump($requstAmount[$i]."     ".$requstCode[$i]."\n");
-                     $sql = "UPDATE ps_product SET quantity = '{$requstAmount[$i]}' WHERE supplier_reference = '{$requstCode[$i]}'";
-                     $result = $conn->query($sql);
-
-                 }
-
 
              }
+             Mail::to(config('mail')['admin'])
+                 ->send(new SynchronizationMail(['name' => 'Synchronization AJS stocks success']));
          }
          catch (SoapFault $fault)
          {
-
+             Mail::to(config('mail')['admin'])
+                 ->send(new SynchronizationMail(['name' => 'ERROR Synchronization AJS stocks']));
          }
      }
 }
