@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
         // synchronization stock b1 every day
         $schedule->call(function () {
             B1Api::synchronizationStock();
-                })->dailyAt('15:50');
+                })->dailyAt('16:07');
 
     }
 
@@ -42,5 +42,14 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
+    }
+    /**
+     * Получить часовой пояс, который должен использоваться по умолчанию для запланированных событий.
+     *
+     * @return \DateTimeZone|string|null
+     */
+    protected function scheduleTimezone()
+    {
+
     }
 }
