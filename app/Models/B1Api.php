@@ -3,10 +3,11 @@
 namespace App\Models;
 include('B1.php');
 use B1;
+use Illuminate\Support\Facades\Mail;
 use Storage;
-//use B1;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Mail\SynchronizationMail;
 
 class B1Api extends Model
 {
@@ -31,7 +32,7 @@ class B1Api extends Model
             // Using version 2.0.0 and up of the B1.php library.
 
                 $data = [
-                    'prefix' => '32B2B1',
+                    'prefix' => '32B2B',
                     'orderId' => $order->id,//$order->id,
                     'orderDate' => date('Y-m-d'),
                     'orderNo' => $order->reference,
@@ -127,10 +128,71 @@ class B1Api extends Model
             //dd($e->getMessage());
             //dd($e->getExtraData());
             //dd($e->getMessage(),$e->getExtraData());
-            print_r([
-                'message' => $e->getMessage(),
-                'extraData' => $e->getExtraData(),
-            ]);
+            Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'order '.$order->id.' got any errors it dont sent to b1']));
+        }
+    }
+    static function synchronizationStock()
+    {
+        try {
+            // Using version 2.0.0 and up of the B1.php library.
+            $keys = new B1Api;
+
+            $products =\DB::table('product')
+                ->where('b1_product_id', '!=',null)
+                ->select(['b1_product_id'])
+                ->get();
+
+            foreach ($products as $product) {
+
+                $count = 0;
+
+                $data = [
+                    'warehouseId' => 1,
+                    'page' => 1,
+                    'pageSize' => 20,
+                    'rows' => 100,
+                    'filters' => [
+                        'groupOp' => 'AND',
+                        'rules' => [
+                            [
+                                'field' => 'id',
+                                'op' => 'eq',
+                                'data' => $product->b1_product_id
+                            ]
+                        ],
+                    ],
+
+                ];
+
+                $result = $keys->b1->request('warehouse/stock/list', $data);
+                $filter = $result->getContent()['data'];
+
+                if(empty($filter)) {
+
+                    \DB::table('product')
+                        ->where('b1_product_id', '=', $product->b1_product_id)
+                        ->update(['stock_shop' => $count]);
+                    break;
+                }
+
+                foreach ($filter as $item) {
+
+                    $count += $item['stock'];
+                }
+
+                $product->stock_shop = $count;
+
+                \DB::table('product')
+                    ->where('b1_product_id', '=', $product->b1_product_id)
+                    ->update(['stock_shop' => $count]);
+
+            }
+
+            Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'Synchronization b1 stocks success']));
+
+        } catch (B1Exception $e) {
+
+            Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'ERROR Synchronization b1 stocks']));
         }
     }
 
@@ -197,10 +259,7 @@ class B1Api extends Model
             return true;
         } catch (\B1Exception $e) {
 
-            return ([
-                'message' => $e->getMessage(),
-                'extraData' => $e->getExtraData(),
-            ]);
+            Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'order '.$order->id.' got any errors it dont gave factura']));
         }
     }
 }

@@ -7,11 +7,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class RegisterMail extends Mailable
+class SynchronizationMail extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public  $details;
+    public $details;
 
     /**
      * Create a new message instance.
@@ -21,7 +20,6 @@ class RegisterMail extends Mailable
     public function __construct($details)
     {
         $this->details = $details;
-
     }
 
     /**
@@ -31,6 +29,6 @@ class RegisterMail extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->details['name'])->view('mails.RegisterMail');
+        return $this->markdown('mails.SynchronizationMail');
     }
 }

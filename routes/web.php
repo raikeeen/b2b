@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\TecDocController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,6 +52,8 @@ Route::prefix('emails')->group(function () {
 
 });
 
+
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('/categories',CategoryController::class);
@@ -61,7 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
         Cart::destroy();
     });
     Route::get('/test1', function (){
-        dump(config('cart.tax'));
+        B1Api::synchronizationStock();
     });
     Route::resource('/products',ProductController::class);
     Route::get('/new-products',[ProductController::class, 'newProduct'])->name('product.new');
