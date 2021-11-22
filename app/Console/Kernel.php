@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
         // synchronization stock b1 every day
         $schedule->call(function () {
             B1Api::synchronizationStock();
-                })->dailyAt('16:07');
+                })->dailyAt('14:10');
 
     }
 
