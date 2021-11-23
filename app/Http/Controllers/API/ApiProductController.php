@@ -171,39 +171,46 @@ class ApiProductController extends Controller
 
             $explodeName = explode(' ',$name);
 
-            switch (count($explodeName)) {
-                case 1:
-                    $product = \DB::table('product')
-                        ->where('name', 'like', '%'.$name.'%')
-                        ->select(['name','reference'])
-                        ->limit(20)
-                        ->get();
-                    break;
-                case 2:
-                    $product = \DB::table('product')
-                        ->where('name', 'like', '%'.$name.'%')
-                        ->orWhere('name', 'like', '%'.$explodeName[0].'%'.$explodeName[1].'%')
-                        ->orWhere('name', 'like', '%'.$explodeName[1].'%'.$explodeName[0].'%')
-                        ->select(['name','reference'])
-                        ->limit(20)
-                        ->get();
-                    break;
-                case 3:
-                    $product = \DB::table('product')
-                        ->where('name', 'like', '%'.$name.'%')
-                        ->orWhere('name', 'like', '%'.$explodeName[0].'%'.$explodeName[1].'%')
-                        ->orWhere('name', 'like', '%'.$explodeName[1].'%'.$explodeName[0].'%')
-                        ->orWhere('name', 'like', '%'.$explodeName[0].'%'.$explodeName[2].'%')
-                        ->orWhere('name', 'like', '%'.$explodeName[1].'%'.$explodeName[2].'%')
-                        ->orWhere('name', 'like', '%'.$explodeName[2].'%'.$explodeName[1].'%')
-                        ->orWhere('name', 'like', '%'.$explodeName[2].'%'.$explodeName[0].'%')
-                        ->select(['name','reference'])
-                        ->limit(20)
-                        ->get();
-                    break;
-            }
+            if(count($explodeName) < 4) {
+                switch (count($explodeName)) {
+                    case 1:
+                        $product = \DB::table('product')
+                            ->where('name', 'like', '%' . $name . '%')
+                            ->select(['name', 'reference'])
+                            ->limit(20)
+                            ->get();
+                        break;
+                    case 2:
+                        $product = \DB::table('product')
+                            ->where('name', 'like', '%' . $name . '%')
+                            ->orWhere('name', 'like', '%' . $explodeName[0] . '%' . $explodeName[1] . '%')
+                            ->orWhere('name', 'like', '%' . $explodeName[1] . '%' . $explodeName[0] . '%')
+                            ->select(['name', 'reference'])
+                            ->limit(20)
+                            ->get();
+                        break;
+                    case 3:
+                        $product = \DB::table('product')
+                            ->where('name', 'like', '%' . $name . '%')
+                            ->orWhere('name', 'like', '%' . $explodeName[0] . '%' . $explodeName[1] . '%')
+                            ->orWhere('name', 'like', '%' . $explodeName[1] . '%' . $explodeName[0] . '%')
+                            ->orWhere('name', 'like', '%' . $explodeName[0] . '%' . $explodeName[2] . '%')
+                            ->orWhere('name', 'like', '%' . $explodeName[1] . '%' . $explodeName[2] . '%')
+                            ->orWhere('name', 'like', '%' . $explodeName[2] . '%' . $explodeName[1] . '%')
+                            ->orWhere('name', 'like', '%' . $explodeName[2] . '%' . $explodeName[0] . '%')
+                            ->select(['name', 'reference'])
+                            ->limit(20)
+                            ->get();
+                        break;
+                }
 
-            return $product;
+                return $product;
+            }
+            return \DB::table('product')
+                ->where('name', 'like', '%' . $name . '%')
+                ->select(['name', 'reference'])
+                ->limit(20)
+                ->get();
         }
         return null;
     }
