@@ -169,7 +169,39 @@ class ApiProductController extends Controller
                 return $product;
             }
 
-            $product = \DB::table('product')->where('name', 'like', '%'.$name.'%')->select(['name','reference'])->limit(20)->get();
+            $explodeName = explode(' ',$name);
+
+            switch (count($explodeName)) {
+                case 1:
+                    $product = \DB::table('product')
+                        ->where('name', 'like', '%'.$name.'%')
+                        ->select(['name','reference'])
+                        ->limit(20)
+                        ->get();
+                    break;
+                case 2:
+                    $product = \DB::table('product')
+                        ->where('name', 'like', '%'.$name.'%')
+                        ->orWhere('name', 'like', '%'.$explodeName[0].'%'.$explodeName[1].'%')
+                        ->orWhere('name', 'like', '%'.$explodeName[1].'%'.$explodeName[0].'%')
+                        ->select(['name','reference'])
+                        ->limit(20)
+                        ->get();
+                    break;
+                case 3:
+                    $product = \DB::table('product')
+                        ->where('name', 'like', '%'.$name.'%')
+                        ->orWhere('name', 'like', '%'.$explodeName[0].'%'.$explodeName[1].'%')
+                        ->orWhere('name', 'like', '%'.$explodeName[1].'%'.$explodeName[0].'%')
+                        ->orWhere('name', 'like', '%'.$explodeName[0].'%'.$explodeName[2].'%')
+                        ->orWhere('name', 'like', '%'.$explodeName[1].'%'.$explodeName[2].'%')
+                        ->orWhere('name', 'like', '%'.$explodeName[2].'%'.$explodeName[1].'%')
+                        ->orWhere('name', 'like', '%'.$explodeName[2].'%'.$explodeName[0].'%')
+                        ->select(['name','reference'])
+                        ->limit(20)
+                        ->get();
+                    break;
+            }
 
             return $product;
         }
