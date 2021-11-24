@@ -3083,11 +3083,16 @@ __webpack_require__.r(__webpack_exports__);
                 console.log(err);
             });*/
         return axios.post(window.location.origin + '/api/products/search', {
-          name: this.search
+          search: this.search
         }).then(function (response) {
           console.log(response.data);
           this.products = response.data;
         }.bind(this));
+      }
+    },
+    submit: function submit() {
+      if (this.search.length > 3) {
+        window.location.href = window.location.origin + "/products?search=" + this.search + "&flag=1";
       }
     }
   }
@@ -42097,8 +42102,23 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { "data-asp-hook-name": "HeaderQuickSearch" } }, [
     _c("div", { attrs: { "data-control-type": "QuickSearch" } }, [
-      _c("div", { staticClass: "c-quick-search position-relative" }, [
-        _c("form", { attrs: { "data-bind": "" } }, [
+      _c(
+        "div",
+        {
+          staticClass: "c-quick-search position-relative",
+          on: {
+            keyup: function($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+              ) {
+                return null
+              }
+              return _vm.submit()
+            }
+          }
+        },
+        [
           _c("input", {
             directives: [
               {
@@ -42170,7 +42190,12 @@ var render = function() {
             "button",
             {
               staticClass: "c-quick-search__button",
-              attrs: { type: "submit" }
+              attrs: { type: "submit" },
+              on: {
+                click: function($event) {
+                  return _vm.submit()
+                }
+              }
             },
             [
               _c("svg", { staticClass: "c-icon" }, [
@@ -42185,8 +42210,8 @@ var render = function() {
               ])
             ]
           )
-        ])
-      ])
+        ]
+      )
     ])
   ])
 }

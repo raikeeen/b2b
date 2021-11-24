@@ -132,9 +132,15 @@ class ApiProductController extends Controller
         return view('catalog.product', ['product' => $product]);
     }
 
-    public function search(Request $request)
+    static function search(Request $request)
     {
-        $name = $request->name;
+
+        $name = $request->search;
+        $limit = null;
+
+        if(!isset($request->flag)) {
+            $limit = 20;
+        }
 
         if(strlen($name) > 3) {
 
@@ -164,7 +170,7 @@ class ApiProductController extends Controller
                     array_push($allCodes, $item->getArticleNo());
                 }
 
-                $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit(20)->get();
+                $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get();
 
                 return $product;
             }
@@ -177,7 +183,7 @@ class ApiProductController extends Controller
                         $product = \DB::table('product')
                             ->where('name', 'like', '%' . $name . '%')
                             ->select(['name', 'reference'])
-                            ->limit(20)
+                            ->limit($limit)
                             ->get();
                         break;
                     case 2:
@@ -186,7 +192,7 @@ class ApiProductController extends Controller
                             ->orWhere('name', 'like', '%' . $explodeName[0] . '%' . $explodeName[1] . '%')
                             ->orWhere('name', 'like', '%' . $explodeName[1] . '%' . $explodeName[0] . '%')
                             ->select(['name', 'reference'])
-                            ->limit(20)
+                            ->limit($limit)
                             ->get();
                         break;
                     case 3:
@@ -199,7 +205,7 @@ class ApiProductController extends Controller
                             ->orWhere('name', 'like', '%' . $explodeName[2] . '%' . $explodeName[1] . '%')
                             ->orWhere('name', 'like', '%' . $explodeName[2] . '%' . $explodeName[0] . '%')
                             ->select(['name', 'reference'])
-                            ->limit(20)
+                            ->limit($limit)
                             ->get();
                         break;
                 }
@@ -209,7 +215,7 @@ class ApiProductController extends Controller
             return \DB::table('product')
                 ->where('name', 'like', '%' . $name . '%')
                 ->select(['name', 'reference'])
-                ->limit(20)
+                ->limit($limit)
                 ->get();
         }
         return null;

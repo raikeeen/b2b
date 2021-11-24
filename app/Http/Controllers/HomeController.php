@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 use Myrzan\TecDocClient\Client;
 use Myrzan\TecDocClient\Generated\GetAmBrands;
+use Myrzan\TecDocClient\Generated\GetArticleDirectSearchAllNumbersWithState;
 use Myrzan\TecDocClient\Generated\GetArticleLinkedAllLinkingTarget3;
 use Myrzan\TecDocClient\Generated\GetArticleLinkedAllLinkingTargetManufacturer;
 use Myrzan\TecDocClient\Generated\GetArticleLinkedAllLinkingTargetsByIds3;
@@ -24,6 +25,10 @@ use Myrzan\TecDocClient\Generated\GetVehicleByIds3;
 use Myrzan\TecDocClient\Generated\GetVehicleIdsByCriteria;
 use SimpleXLSX;
 use XLSXWriter;
+
+/*include "SimpleXLSX.php";
+include "xlsxwriter.class.php";
+ini_set('max_execution_time', 800);*/
 
 class HomeController extends Controller
 {
@@ -50,6 +55,34 @@ class HomeController extends Controller
         $brands = Brand::all();
 
         $client = new Client();
+        /*$writer = new XLSXWriter();
+        $xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\vika.xlsx'));
+
+
+        $eb = $xlsx->rows();
+        unset($eb[0]);
+
+
+        $writer->writeSheetRow('Sheet1', ['id','name', 'brand']);
+        for ($i = 1; $i <= count($eb); $i++) {
+
+            $fuels = (new GetArticleDirectSearchAllNumbersWithState())
+                ->setLang('LT')
+                ->setArticleCountry('LT')
+                ->setNumberType(0)
+                ->setArticleNumber($eb[$i][1]);
+            $fuelsResponse = $client->getArticleDirectSearchAllNumbersWithState($fuels)->getData();
+
+
+            if(empty($fuelsResponse)) {
+                continue;
+            }
+
+            $writer->writeSheetRow('Sheet1', [$eb[$i][1], $fuelsResponse[0]->getArticleName(),$fuelsResponse[0]->getBrandName()]);
+        }
+
+        $writer->writeToFile('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\lol.xlsx');*/
+
 
        /* $client = new Client();
 
