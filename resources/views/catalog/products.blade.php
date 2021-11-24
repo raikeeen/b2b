@@ -266,7 +266,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-4 d-flex justify-content-end align-items-end">
-                                        @if($product->stock_shop + $product->stock_supplier != 0)
+                                        @if($product->stock_shop + $product->stock_supplier != 0 && $product->price > 0)
                                         <div type="ADD_TO_CART" data-control-type="Order">
                                             <form action="{{route('cart.store')}}" method="post">
                                                 <div class="d-flex">

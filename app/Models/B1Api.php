@@ -186,13 +186,16 @@ class B1Api extends Model
                     ->where('b1_product_id', '=', $product->b1_product_id)
                     ->update(['stock_shop' => $count]);
 
+
             }
 
             Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'Synchronization b1 stocks success']));
+            return true;
 
         } catch (B1Exception $e) {
 
             Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'ERROR Synchronization b1 stocks']));
+            return false;
         }
     }
 

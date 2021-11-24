@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         // synchronization stock b1 every day
         $schedule->call(function () {
             B1Api::synchronizationStock();
-                })->dailyAt('03:00');
+                })->dailyAt('15:22');
 
         // synchronization stock ajs every day
         $schedule->call(function () {
@@ -53,8 +53,4 @@ class Kernel extends ConsoleKernel
      *
      * @return \DateTimeZone|string|null
      */
-    protected function scheduleTimezone()
-    {
-
-    }
 }

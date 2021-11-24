@@ -414,7 +414,7 @@
 
                                                             <div class="c-product-order-slider__container d-flex justify-content-center mb-2">
                                                                 <div class="d-flex">
-                                                                    @if($newProduct->stock_shop + $newProduct->stock_supplier != 0)
+                                                                    @if($newProduct->stock_shop + $newProduct->stock_supplier != 0 && $newProduct->price > 0)
                                                                     <div type="ADD_TO_CART" data-control-type="Order">
                                                                         <form action="{{route('cart.store')}}" method="post">
                                                                             {{csrf_field()}}

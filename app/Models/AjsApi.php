@@ -65,11 +65,13 @@ class AjsApi extends Model
              }
              Mail::to(config('mail')['admin'])
                  ->send(new SynchronizationMail(['name' => 'Synchronization AJS stocks success']));
+             return true;
          }
          catch (SoapFault $fault)
          {
              Mail::to(config('mail')['admin'])
                  ->send(new SynchronizationMail(['name' => 'ERROR Synchronization AJS stocks']));
+             return false;
          }
      }
 }
