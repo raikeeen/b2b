@@ -28,13 +28,12 @@ class Kernel extends ConsoleKernel
     {
         // synchronization stock b1 every day
         $schedule->call(function () {
-            B1Api::synchronizationStock();
-                })->dailyAt('15:22');
+            $b1 = B1Api::synchronizationStock();
+            $ajs = AjsApi::synchronizationStock();
+                })->dailyAt('15:37');
 
         // synchronization stock ajs every day
-        $schedule->call(function () {
-            AjsApi::synchronizationStock();
-        })->dailyAt('04:00');
+
     }
 
     /**
