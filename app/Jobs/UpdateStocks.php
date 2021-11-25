@@ -15,7 +15,6 @@ class UpdateStocks implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $timeout = 7200;
     public $failOnTimeout = true;
     /**
      * Create a new job instance.
@@ -36,6 +35,5 @@ class UpdateStocks implements ShouldQueue
     {
         B1Api::synchronizationStock();
         AjsApi::synchronizationStock();
-
     }
 }

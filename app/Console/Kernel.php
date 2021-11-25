@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\test1::class,
     ];
 
     /**
@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
        // $schedule->job(new UpdateStocks())->dailyAt('16:02');
         $schedule->call(function () {
             Queue::push(new UpdateStocks());
-        })->dailyAt('11:20');
+        })->dailyAt('22:00');
         // synchronization stock ajs every day
 
     }
