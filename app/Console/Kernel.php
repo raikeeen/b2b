@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
        // $schedule->job(new UpdateStocks())->dailyAt('16:02');
         $schedule->call(function () {
             Queue::push(new UpdateStocks());
-        })->dailyAt('11:15');
+        })->dailyAt('11:20');
         // synchronization stock ajs every day
 
     }
