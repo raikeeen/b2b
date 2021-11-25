@@ -172,7 +172,7 @@ class B1Api extends Model
                     \DB::table('product')
                         ->where('b1_product_id', '=', $product->b1_product_id)
                         ->update(['stock_shop' => $count]);
-                    break;
+                    continue;
                 }
 
                 foreach ($filter as $item) {

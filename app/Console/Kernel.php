@@ -7,6 +7,7 @@ use App\Models\AjsApi;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Models\B1Api;
+use Illuminate\Support\Facades\Queue;
 
 class Kernel extends ConsoleKernel
 {
@@ -28,11 +29,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // synchronization stock b1 every day
-       /* $schedule->call(function () {
-
-                })->dailyAt('15:40');*/
-        $schedule->job(new UpdateStocks())->dailyAt('16:02');
-
+       // $schedule->job(new UpdateStocks())->dailyAt('16:02');
+        $schedule->call(function () {
+            Queue::push(new UpdateStocks());
+        })->dailyAt('11:15');
         // synchronization stock ajs every day
 
     }
