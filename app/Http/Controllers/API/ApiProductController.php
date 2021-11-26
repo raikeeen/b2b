@@ -204,24 +204,53 @@ class ApiProductController extends Controller
 
                 $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get();
 
-                return $product;
+                if (!empty($product))
+                    return $product;
             }
-            /*if(!$product->isEmpty()) {
 
+            if($product->isEmpty()) {
+                $allCodes = [];
                 $productIdFirst = \DB::table('oe_code')
                     ->where('code', 'like', $name . '%')
-                    ->select(['product_id'])
+                    ->leftJoin('product', function($join) {
+                        $join->on('oe_code.product_id', '=', 'product.id');
+                    })
+                    ->select(['supplier_reference'])
                     ->limit($limit)
-                    ->get();
+                    ->get()->toArray();
+
+                if (count($productIdFirst) > 1)
+                foreach ($productIdFirst as $item) {
+                    array_push($allCodes, $item->supplier_reference);
+                } else {
+                    array_push($allCodes,$productIdFirst[0]->supplier_reference);
+                }
 
                 $productIdSecond = \DB::table('oe_code')
                     ->where('code', 'like', trim($name) . '%')
-                    ->select(['product_id'])
+                    ->leftJoin('product', function($join) {
+                        $join->on('oe_code.product_id', '=', 'product.id');
+                    })
+                    ->select(['supplier_reference'])
                     ->limit($limit)
-                    ->get();
+                    ->get()->toArray();
 
-                return \DB::table('product')->whereIn('id', [$productIdFirst, $productIdSecond])->select(['name','reference'])->get();
-            }*/
+                if (count($productIdSecond) > 1)
+                foreach ($productIdSecond as $item) {
+                    array_push($allCodes, $item->supplier_reference);
+                } else {
+                    array_push($allCodes,$productIdSecond[0]->supplier_reference);
+                }
+
+                //array_unique($allCodes, SORT_STRING);
+
+                $allCodes = array_unique($allCodes, SORT_REGULAR);
+
+                //return \DB::table('product')->whereIn('id', [$productIdFirst, $productIdSecond])->select(['name','reference'])->get();
+
+                $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get();
+                return $product;
+            }
 
             $explodeName = explode(' ',$name);
 
