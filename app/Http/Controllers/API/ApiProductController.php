@@ -219,13 +219,6 @@ class ApiProductController extends Controller
                     ->limit($limit)
                     ->get()->toArray();
 
-                if (count($productIdFirst) > 1)
-                foreach ($productIdFirst as $item) {
-                    array_push($allCodes, $item->supplier_reference);
-                } else {
-                    array_push($allCodes,$productIdFirst[0]->supplier_reference);
-                }
-
                 $productIdSecond = \DB::table('oe_code')
                     ->where('code', 'like', trim($name) . '%')
                     ->leftJoin('product', function($join) {
@@ -235,10 +228,21 @@ class ApiProductController extends Controller
                     ->limit($limit)
                     ->get()->toArray();
 
+                if(count($productIdFirst) >0 || count($productIdSecond) >0) {
+
+
+
+                if (count($productIdFirst) > 1)
+                foreach ($productIdFirst as $item) {
+                    array_push($allCodes, $item->supplier_reference);
+                } elseif(isset($productIdFirst[0]->supplier_reference)) {
+                    array_push($allCodes,$productIdFirst[0]->supplier_reference);
+                }
+
                 if (count($productIdSecond) > 1)
                 foreach ($productIdSecond as $item) {
                     array_push($allCodes, $item->supplier_reference);
-                } else {
+                }  elseif(isset($productIdSecond[0]->supplier_reference)) {
                     array_push($allCodes,$productIdSecond[0]->supplier_reference);
                 }
 
@@ -250,6 +254,8 @@ class ApiProductController extends Controller
 
                 $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get();
                 return $product;
+
+                }
             }
 
             $explodeName = explode(' ',$name);
