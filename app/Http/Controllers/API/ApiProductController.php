@@ -170,10 +170,58 @@ class ApiProductController extends Controller
                     array_push($allCodes, $item->getArticleNo());
                 }
 
+                $productIdFirst = \DB::table('oe_code')
+                    ->where('code', 'like', $name . '%')
+                    ->leftJoin('product', function($join) {
+                        $join->on('oe_code.product_id', '=', 'product.id');
+                    })
+                    ->select(['supplier_reference'])
+                    ->limit($limit)
+                    ->get()->toArray();
+                foreach ($productIdFirst as $item) {
+                    array_push($allCodes, $item->supplier_reference);
+                }
+
+
+
+                $productIdSecond = \DB::table('oe_code')
+                    ->where('code', 'like', trim($name) . '%')
+                    ->leftJoin('product', function($join) {
+                        $join->on('oe_code.product_id', '=', 'product.id');
+                    })
+                    ->select(['supplier_reference'])
+                    ->limit($limit)
+                    ->get()->toArray();
+                foreach ($productIdSecond as $item) {
+                    array_push($allCodes, $item->supplier_reference);
+                }
+
+                //array_unique($allCodes, SORT_STRING);
+
+                $allCodes = array_unique($allCodes, SORT_REGULAR);
+
+                //return \DB::table('product')->whereIn('id', [$productIdFirst, $productIdSecond])->select(['name','reference'])->get();
+
                 $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get();
 
                 return $product;
             }
+            /*if(!$product->isEmpty()) {
+
+                $productIdFirst = \DB::table('oe_code')
+                    ->where('code', 'like', $name . '%')
+                    ->select(['product_id'])
+                    ->limit($limit)
+                    ->get();
+
+                $productIdSecond = \DB::table('oe_code')
+                    ->where('code', 'like', trim($name) . '%')
+                    ->select(['product_id'])
+                    ->limit($limit)
+                    ->get();
+
+                return \DB::table('product')->whereIn('id', [$productIdFirst, $productIdSecond])->select(['name','reference'])->get();
+            }*/
 
             $explodeName = explode(' ',$name);
 

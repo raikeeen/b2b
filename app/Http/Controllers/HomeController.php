@@ -28,7 +28,7 @@ use XLSXWriter;
 
 /*include "SimpleXLSX.php";
 include "xlsxwriter.class.php";
-ini_set('max_execution_time', 800);*/
+ini_set('max_execution_time', 2000);*/
 
 class HomeController extends Controller
 {
@@ -70,7 +70,7 @@ class HomeController extends Controller
                 ->setLang('LT')
                 ->setArticleCountry('LT')
                 ->setNumberType(0)
-                ->setArticleNumber($eb[$i][1]);
+                ->setArticleNumber($eb[$i][0]);
             $fuelsResponse = $client->getArticleDirectSearchAllNumbersWithState($fuels)->getData();
 
 
@@ -78,7 +78,7 @@ class HomeController extends Controller
                 continue;
             }
 
-            $writer->writeSheetRow('Sheet1', [$eb[$i][1], $fuelsResponse[0]->getArticleName(),$fuelsResponse[0]->getBrandName()]);
+            $writer->writeSheetRow('Sheet1', [$eb[$i][0], $fuelsResponse[0]->getArticleName(),$fuelsResponse[0]->getBrandName()]);
         }
 
         $writer->writeToFile('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\lol.xlsx');*/

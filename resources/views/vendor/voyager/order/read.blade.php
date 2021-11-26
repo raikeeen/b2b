@@ -175,12 +175,13 @@
                                 {{$all = 0}}
                             </div>
                             @foreach($products as $product)
+                            @if($product->product_id === null)
                             <tr class="product-line-row">
                                 <td><img src="/storage/images/no_photo_500.jpg" width="55" height="55" alt="" class="imgm img-thumbnail"></td>
                                 <td>
-                                    <a href="{{route('voyager.product.edit', $product->product->id)}}">
-                                        <span class="productName">{{$product->product->name}}</span><br>
-                                        Kodas: {{$product->product->reference}}<br>			Tiekėjo kodas: {{$product->product->supplier_reference}}		</a>
+                                    <a href="{{route('voyager.product.index')}}">
+                                        <span class="productName">{{$product->name}}</span><br>
+                                    </a>
                                     <div class="row-editing-warning" style="display:none;">
                                         <div class="alert alert-warning">
                                             <strong>Paredagavus šią eilutę informacija apie bazinę kainą ir nuolaidą bus pašalinta.</strong>
@@ -207,6 +208,40 @@
                                 </td>
                             </tr>
                             <input type="" hidden {{$all += $product->priceTax() * $product->amount}}>
+                            @else
+                                <tr class="product-line-row">
+                                    <td><img src="/storage/images/no_photo_500.jpg" width="55" height="55" alt="" class="imgm img-thumbnail"></td>
+                                    <td>
+                                        <a href="{{route('voyager.product.edit', $product->product->id)}}">
+                                            <span class="productName">{{$product->product->name}}</span><br>
+                                            Kodas: {{$product->product->reference}}<br>			Tiekėjo kodas: {{$product->product->supplier_reference}}		</a>
+                                        <div class="row-editing-warning" style="display:none;">
+                                            <div class="alert alert-warning">
+                                                <strong>Paredagavus šią eilutę informacija apie bazinę kainą ir nuolaidą bus pašalinta.</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="product_price_show">{{$product->priceTax()}}&nbsp;€</span>
+                                    </td>
+                                    <td class="productQuantity text-center">
+                                        <span class="product_quantity_show">{{$product->amount}}</span>
+                                        <span class="product_quantity_edit" style="display:none;">
+		</span>
+                                    </td>
+                                    <td class="productQuantity text-center">
+                                        <input type="hidden" value="1" class="partialRefundProductQuantity">
+                                        <input type="hidden" value="79.23" class="partialRefundProductAmount">
+                                    </td>
+                                    <td class="productQuantity text-center">
+                                        0
+                                    </td>
+                                    <td class="total_product">
+                                        {{$product->priceTax() * $product->amount}}&nbsp;€
+                                    </td>
+                                </tr>
+                                <input type="" hidden {{$all += $product->priceTax() * $product->amount}}>
+                            @endif
                             @endforeach
                             </tbody>
                         </table>

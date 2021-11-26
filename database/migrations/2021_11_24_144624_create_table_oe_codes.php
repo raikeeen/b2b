@@ -16,6 +16,7 @@ class CreateTableOeCodes extends Migration
         Schema::create('oe_code', function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
+            $table->string('code')->index();
 
             $table->integer('product_id')->unsigned()->nullable(false);
             $table->foreign('product_id')->references('id')->on('product')->onUpdate('cascade')->onDelete('cascade');

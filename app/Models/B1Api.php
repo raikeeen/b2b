@@ -140,6 +140,7 @@ class B1Api extends Model
             $products =\DB::table('product')
                 ->where('b1_product_id', '!=',null)
                 ->select(['b1_product_id'])
+                ->orderBy('b1_product_id', 'ASC')
                 ->get();
 
             foreach ($products as $product) {

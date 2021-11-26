@@ -268,6 +268,7 @@ class OrderController extends VoyagerBaseController
         $order = Order::find($id);
         $products = $order->orderitem;
 
+
         return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted', 'products', 'order'));
     }
 
