@@ -15,12 +15,12 @@
                             <div class="owl-stage-outer">
                                 <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1934px;">
 
-                                    @if(empty($product->img))
+                                    @if(!empty($product->img))
                                     @foreach($product->img as $image)
                                     <div class="owl-item active" style="width: 386.656px;">
                                         <div class="c-product-image__slide">
-                                            <a class="c-product-image__link" href="{{$image->name}}" data-lightbox="image-1" data-toggle="lightbox" data-gallery="big-photo">
-                                                <img class="c-product-image__image" src="{{$image->name}}" alt="{{$product->name}}">
+                                            <a class="c-product-image__link" href="{{asset($image->name)}}" data-lightbox="image-1" data-toggle="lightbox" data-gallery="big-photo">
+                                                <img class="c-product-image__image" src="{{asset($image->name)}}" alt="{{$product->name}}">
                                             </a>
                                         </div>
                                     </div>
@@ -54,13 +54,13 @@
                             <div class="owl-carousel">
 
 
-                        @if(isset($product->img))
+                        @if(!empty($product->img))
                             @foreach($product->img as $key => $image)
                                 @if($loop->first)
                                     <div class="owl-item active" style="width: 92.914px; margin-right: 5px;">
                                         <div class="c-product__image-nav current">
                                             <div class="c-product__image-nav--slide">
-                                                <img class="c-product__image-nav--img" src="{{$image->name}}" width="90" height="72" alt="{{$product->name}}">
+                                                <img class="c-product__image-nav--img" src="{{asset($image->name)}}" width="90" height="72" alt="{{$product->name}}">
                                             </div>
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@
                                     <div class="owl-item active" style="width: 92.914px; margin-right: 5px;">
                                         <div class="c-product__image-nav">
                                             <div class="c-product__image-nav--slide">
-                                                <img class="c-product__image-nav--img" src="{{$image->name}}" width="90" height="72" alt="{{$product->name}}">
+                                                <img class="c-product__image-nav--img" src="{{asset($image->name)}}" width="90" height="72" alt="{{$product->name}}">
                                             </div>
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@
                             <div class="owl-item active" style="width: 92.914px; margin-right: 5px;">
                                 <div class="c-product__image-nav current">
                                     <div class="c-product__image-nav--slide">
-                                        <img class="c-product__image-nav--img" src="{{$image->name}}" width="90" height="72" alt="{{$product->name}}">
+                                        <img class="c-product__image-nav--img" src="{{asset($image->name)}}" width="90" height="72" alt="{{$product->name}}">
                                     </div>
                                 </div>
                             </div>

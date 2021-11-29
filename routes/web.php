@@ -128,3 +128,16 @@ Route::group(['middleware' => 'auth'], function () {
 
     });
 });
+
+Route::get('/storage/products/nty/{filename}', function($filename) {
+
+    return response( file_get_contents('./storage/products/no_photo_500.jpg') )
+        ->header('Content-Type','image/png');
+
+});
+Route::get('/storage/products/skv/{filename}', function($filename) {
+
+    return response( file_get_contents('./storage/products/no_photo_500.jpg') )
+        ->header('Content-Type','image/png');
+
+});

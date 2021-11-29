@@ -102,6 +102,10 @@ class ProductController extends Controller
         if($product === null) {
             return abort(404);
         }
+        foreach($product->img as $image) {
+            dump($image->name);
+        }
+        //dd(empty($product->img));
 
         return view('catalog.product', [
             'product' => $product,

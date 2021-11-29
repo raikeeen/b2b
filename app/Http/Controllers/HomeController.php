@@ -28,7 +28,7 @@ use XLSXWriter;
 
 /*include "SimpleXLSX.php";
 include "xlsxwriter.class.php";
-ini_set('max_execution_time', 2000);*/
+ini_set('max_execution_time', 2500);*/
 
 class HomeController extends Controller
 {
@@ -55,7 +55,7 @@ class HomeController extends Controller
         $brands = Brand::all();
 
         $client = new Client();
-        /*$writer = new XLSXWriter();
+/*        $writer = new XLSXWriter();
         $xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\vika.xlsx'));
 
 
@@ -73,12 +73,21 @@ class HomeController extends Controller
                 ->setArticleNumber($eb[$i][0]);
             $fuelsResponse = $client->getArticleDirectSearchAllNumbersWithState($fuels)->getData();
 
-
+            //dump($eb[$i][0]."   otv     \n");
+            //dump($client->getArticleDirectSearchAllNumbersWithState($fuels));
             if(empty($fuelsResponse)) {
                 continue;
             }
 
-            $writer->writeSheetRow('Sheet1', [$eb[$i][0], $fuelsResponse[0]->getArticleName(),$fuelsResponse[0]->getBrandName()]);
+            foreach ($fuelsResponse as $key => $item) {
+
+                if($item->getBrandName() === 'MAXGEAR' && $item->getArticleSearchNo() === $eb[$i][0]) {
+
+                    $writer->writeSheetRow('Sheet1', [$eb[$i][0], $fuelsResponse[$key]->getArticleName(),$fuelsResponse[$key]->getBrandName()]);
+                    continue;
+                }
+            }
+
         }
 
         $writer->writeToFile('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\lol.xlsx');*/
