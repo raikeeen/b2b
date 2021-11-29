@@ -471,7 +471,7 @@ class TecDocController extends Controller
         $comparableCode = $this->getArticleDirectSearchAllNumbersWithState($string, 3);
         $eanCode = $this->getArticleDirectSearchAllNumbersWithState($string, 6);
 
-        return array_merge($oemCode,$comparableCode,$eanCode,$tradeCode, $oemArc);
+        return array_merge($oemArc, $oemCode,$comparableCode,$eanCode,$tradeCode);
     }
 
     public function getArticleDirectSearchAllNumbersWithState($string, $numberType)
