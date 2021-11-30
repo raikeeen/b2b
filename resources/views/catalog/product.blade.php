@@ -164,7 +164,7 @@
                             <div class="col col-sm-6 text-right d-flex flex-column align-items-start">
                                 <div class="d-flex align-items-center">
                                     <div class="product-price-gross">
-                                        {{$product->price*1.21}}
+                                        {{$product->priceTax()}}
                                         €
                                     </div>
                                 </div>

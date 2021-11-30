@@ -279,6 +279,7 @@ class TecDocController extends Controller
         if(isset($request->reference) and isset($product->supplier_reference)) {
             $client = new Client();
             $oeCodes = [];
+            $getAtributs = [];
 
             $getArticleDirectSearchAllNumbersWithState = (new getArticleDirectSearchAllNumbersWithState())
                 ->setArticleCountry('LT')
@@ -295,20 +296,28 @@ class TecDocController extends Controller
                     ->setArticleCountry('LT')
                     ->setLang('LT')
                     ->setOeNumbers(true)
+                    ->setAttributs(true)
                     ->setArticleId([$getArticleId]);
 
-                $getDirectArticlesByIds6Response = $client->getDirectArticlesByIds6($getDirectArticlesByIds6)->getData()[0]->getOenNumbers();
+                $getDirectArticlesByIds6Response = $client->getDirectArticlesByIds6($getDirectArticlesByIds6)->getData();
 
-                foreach ($getDirectArticlesByIds6Response as $getOe) {
+                foreach ($getDirectArticlesByIds6Response[0]->getOenNumbers() as $getOe) {
                     array_push($oeCodes, [
                         'name' => $getOe->getBrandName(),
                         'code' => $getOe->getOeNumber()
+                    ]);
+                }
+                foreach ($getDirectArticlesByIds6Response[0]->getArticleAttributes() as $getAtr) {
+                    array_push($getAtributs, [
+                        'name' => $getAtr->getAttrName(),
+                        'value' => $getAtr->getAttrValue()
                     ]);
                 }
 
                 return response()->json([
                     'oe' => $oeCodes,
                     'article' => $getArticleId,
+                    'info' => $getAtributs,
                     'supplier_reference' => $product->supplier_reference
                 ]);
              }

@@ -12,6 +12,11 @@
                     <span class="tabs-nav">Automobiliai</span>
                 </a>
             </li>
+            <li class="tabs-item">
+                <a class="c-panel-tabs__item-link px-2 py-1" data-toggle="tab" data-target="#info" title="Info">
+                    <span class="tabs-nav">Parametrai</span>
+                </a>
+            </li>
         </ul>
     <div class="tab-content c-panel c-panel--no-shadow mt-3 mt-sm-0" id="myTabContent">
     <div class="tab-pane active show" id="oem">
@@ -74,6 +79,32 @@
             </span>
         </div>
     </div>
+        <div class="tab-pane" id="info">
+            <div class="info" v-if="info !== null">
+
+            <div class="row font-weight-bold pt-1">
+                <div class="col-4 u-bd-bottom-left u-bd-bottom-left--with-top text-uppercase py-2">
+                    <span>Pavadinimas</span>
+                </div>
+                <div class="col-8 u-bd-top-out text-uppercase py-2">
+                    <span>Papildoma informacija</span>
+                </div>
+            </div>
+                <div class="row row--hover mb-0" v-for="inf in info">
+                    <div class="col-4 u-bd-bottom-left py-2">
+                        {{inf['name']}}
+                    </div>
+                    <div class="col-8 u-bd-top-out py-2">
+                        <span class="">{{inf['value']}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center my-5 py-5" v-else>
+                                <span class="c-headline">
+                                  <span>Informacijos nerasta</span>
+                                </span>
+            </div>
+        </div>
     </div>
     </div>
 </template>
@@ -89,6 +120,7 @@
                 articleId: '',
                 supplier_reference: '',
                 manu: [],
+                info: [],
                 manuId: '',
                 treeData: {
 
@@ -117,6 +149,7 @@
                 return axios.post(link, reference_code)
                     .then(function( response ){
                         this.oem = response.data['oe'];
+                        this.info = response.data['info'];
                         this.articleId = response.data['article'];
                         this.supplier_reference = response.data['supplier_reference'];
                     }.bind(this));

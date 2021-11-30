@@ -2164,6 +2164,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "product-panel.vue",
   data: function data() {
@@ -2174,6 +2205,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       articleId: '',
       supplier_reference: '',
       manu: [],
+      info: [],
       manuId: '',
       treeData: {},
       isFolder: true,
@@ -2220,6 +2252,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getOeCodes: function getOeCodes(link, reference_code) {
       return axios.post(link, reference_code).then(function (response) {
         this.oem = response.data['oe'];
+        this.info = response.data['info'];
         this.articleId = response.data['article'];
         this.supplier_reference = response.data['supplier_reference'];
       }.bind(this));
@@ -40170,6 +40203,39 @@ var render = function() {
               : _vm.responce
               ? _c("div", { staticClass: "text-center my-5 py-5" }, [_vm._m(3)])
               : _c("div", { staticClass: "text-center my-5 py-5" }, [_vm._m(4)])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "tab-pane", attrs: { id: "info" } }, [
+            _vm.info !== null
+              ? _c(
+                  "div",
+                  { staticClass: "info" },
+                  [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _vm._l(_vm.info, function(inf) {
+                      return _c("div", { staticClass: "row row--hover mb-0" }, [
+                        _c(
+                          "div",
+                          { staticClass: "col-4 u-bd-bottom-left py-2" },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(inf["name"]) +
+                                "\n                "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-8 u-bd-top-out py-2" }, [
+                          _c("span", {}, [_vm._v(_vm._s(inf["value"]))])
+                        ])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              : _c("div", { staticClass: "text-center my-5 py-5" }, [_vm._m(6)])
           ])
         ]
       )
@@ -40212,6 +40278,21 @@ var staticRenderFns = [
               }
             },
             [_c("span", { staticClass: "tabs-nav" }, [_vm._v("Automobiliai")])]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "tabs-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "c-panel-tabs__item-link px-2 py-1",
+              attrs: {
+                "data-toggle": "tab",
+                "data-target": "#info",
+                title: "Info"
+              }
+            },
+            [_c("span", { staticClass: "tabs-nav" }, [_vm._v("Parametrai")])]
           )
         ])
       ]
@@ -40258,6 +40339,33 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "c-headline" }, [
       _c("span", [_vm._v("Automobiliu nerasta")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row font-weight-bold pt-1" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "col-4 u-bd-bottom-left u-bd-bottom-left--with-top text-uppercase py-2"
+        },
+        [_c("span", [_vm._v("Pavadinimas")])]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-8 u-bd-top-out text-uppercase py-2" }, [
+        _c("span", [_vm._v("Papildoma informacija")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "c-headline" }, [
+      _c("span", [_vm._v("Informacijos nerasta")])
     ])
   }
 ]
