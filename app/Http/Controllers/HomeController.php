@@ -26,9 +26,9 @@ use Myrzan\TecDocClient\Generated\GetVehicleIdsByCriteria;
 use SimpleXLSX;
 use XLSXWriter;
 
-/*include "SimpleXLSX.php";
+include "SimpleXLSX.php";
 include "xlsxwriter.class.php";
-ini_set('max_execution_time', 2500);*/
+ini_set('max_execution_time', 1800);
 
 class HomeController extends Controller
 {
@@ -78,10 +78,11 @@ class HomeController extends Controller
             if(empty($fuelsResponse)) {
                 continue;
             }
+            //dump($fuelsResponse);
 
             foreach ($fuelsResponse as $key => $item) {
 
-                if($item->getBrandName() === 'MAXGEAR' && $item->getArticleSearchNo() === $eb[$i][0]) {
+                if($item->getArticleSearchNo() === $item->getArticleNo()) {
 
                     $writer->writeSheetRow('Sheet1', [$eb[$i][0], $fuelsResponse[$key]->getArticleName(),$fuelsResponse[$key]->getBrandName()]);
                     continue;

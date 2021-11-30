@@ -141,3 +141,15 @@ Route::get('/storage/products/skv/{filename}', function($filename) {
         ->header('Content-Type','image/png');
 
 });
+Route::get('/storage/products/vika_dpa/{filename}', function($filename) {
+
+    return response( file_get_contents('./storage/products/no_photo_500.jpg') )
+        ->header('Content-Type','image/png');
+
+});
+Route::get('/storage/products/borsehung/{filename}', function($filename) {
+
+    return response( file_get_contents('./storage/products/no_photo_500.jpg') )
+        ->header('Content-Type','image/png');
+
+});
