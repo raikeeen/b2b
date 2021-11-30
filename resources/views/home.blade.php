@@ -34,7 +34,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center justify-content-center pt-2">
+                    <div class="d-flex align-items-center justify-content-center">
                         <button class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" type="submit" style="color: #212529;">Paieška</button>
                     </div>
                 </form>
@@ -145,7 +145,7 @@
                 </script>
             </div>
 
-            <div class="cat">
+            <div class="cat" style="padding-top: 15px">
                 <div class="header-cat justify-content-between align-items-center">
                     <span class="pl-2 py-1 mb-0">Prekių grupės</span>
                     <hr class="border-bottom-blue">
