@@ -116,7 +116,6 @@ class B1Api extends Model
                 ];*/
                 $result = $keys->b1->request('shop/orders/add', $data);
 
-
                 if($result->getContent()['code'] !== 200)
                 {
                     dump($result);

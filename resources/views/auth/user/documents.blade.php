@@ -96,6 +96,10 @@
                             <span>Factura</span>
                         </a>
                     </div>
+                    @else
+                        <div class="col-12 col-md text-right">
+                            nera
+                        </div>
                         @endif
                 </div>
             @endforeach

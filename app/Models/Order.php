@@ -61,9 +61,10 @@ class Order extends Model
         foreach (Cart::content() as $item) {
 
             $orderItem = OrderItem::createOrderItem($user_id, $order->id, $item);
+            $idB1 = $orderItem->product->b1_product_id;
 
             array_push($itemB1, [
-                'id' => $orderItem->product->b1_product_id,
+                'id' => $idB1,
                 'name' => $item->name,
                 'quantity' => $item->qty*100,
                 'vatRate' => config('cart.tax'),
@@ -71,6 +72,7 @@ class Order extends Model
                 'sum' => Tax::priceWithTax($item->price*$item->qty)*100,
             ]);
         }
+
         $referenceOrderB1 = B1Api::pushOrder($order,$itemB1);
 
         $order->order_b1 = $referenceOrderB1['data']['orderId'];

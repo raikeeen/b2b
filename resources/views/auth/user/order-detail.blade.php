@@ -186,6 +186,7 @@
                 </div>
             </div>
         </div>
+        @if(isset($order['invoice']))
         <div class="row">
             <div style="text-align: center;position: relative;flex: auto;">
             <a href="{{$order['invoice']}}" class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" title="Žiūrėti fakturą">
@@ -193,6 +194,7 @@
             </a>
             </div>
         </div>
+        @endif
     </div>
 
 @else
