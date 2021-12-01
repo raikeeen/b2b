@@ -153,3 +153,9 @@ Route::get('/storage/products/borsehung/{filename}', function($filename) {
         ->header('Content-Type','image/png');
 
 });
+Route::get('/storage/products/maxgear/{filename}', function($filename) {
+
+    return response( file_get_contents('./storage/products/no_photo_500.jpg') )
+        ->header('Content-Type','image/png');
+
+});
