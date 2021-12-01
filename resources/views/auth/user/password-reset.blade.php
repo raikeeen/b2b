@@ -10,7 +10,7 @@
 
             <div class="c-form-group">
                 <label for="f-100">
-                    Email
+                    Slaptažodzio pakeitimui išsiųsime nuorodą el.paštu
 
                     <span class="text-danger">*</span>
                 </label>
@@ -25,7 +25,7 @@
             </div>
 
             <button data-bind="css: { 'c-btn--loading': submitted() }" type="submit" class="c-btn c-btn--primary mt-3" data-loading="Prašome palaukti ...">
-                <span> {{ __('Pakeisti slaptažodį Siusk Nuoroda') }} </span>
+                <span> {{ __('Siųsti nuorodą') }} </span>
             </button>
         </form>
     </div>

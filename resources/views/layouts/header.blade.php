@@ -77,20 +77,17 @@
                                         @else
                                             <div class="transform dropdown-menu p-3" style="min-width: 300px;">
                                                     <span class="c-dropdown-menu__user dropdown-item font-weight-bold">
-                                                        {{ Auth::user()->name }}
+                                                        {{ Auth::user()->name }} @if(isset( Auth::user()->surname )) {{Auth::user()->surname}} @endif
                                                     </span>
                                                 <hr class="border-bottom-blue">
-                                                <a class="dropdown-item my-3" href="{{route('payments')}}" title="Mokėjimai">
-                                                    <span>Mokėjimai</span>
-                                                </a>
                                                 <a class="dropdown-item" href="{{route('documents.index')}}" title="Dokumentai">
-                                                    <span>Dokumentai</span>
+                                                    <span>Mokėjimai</span>
                                                 </a>
                                                 <a class="dropdown-item mt-3" href="{{route('orders.index')}}" title="Užsakymai uždaryti">
                                                     <span>Užsakymai</span>
                                                 </a>
                                                 <a class="dropdown-item mt-3" href="{{route('refunds')}}" title="Grąžinimas">
-                                                    <span>Grąžinimas</span>
+                                                    <span>Grąžinimai</span>
                                                 </a>
                                                 <a class="dropdown-item mt-3" href="{{route('profile.show')}}" title="Redaguoti paskyrą">
                                                     <span>Redaguoti paskyrą</span>

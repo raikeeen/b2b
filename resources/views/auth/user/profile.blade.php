@@ -150,7 +150,7 @@
 
                 <div class="c-form-group">
                     <label for="f-101">
-                        Pavadinimas
+                        Vardas
 
                         <span class="text-danger">*</span>
                     </label>
@@ -180,7 +180,7 @@
                 <div class="custom-control custom-checkbox my-2">
                     <input type="hidden" value="field-binded" name="AcceptNewsletter" checked>
                     <input class="custom-control-input" data-field-id="AcceptNewsletter" checked data-val="true" id="f-115" name="AcceptNewsletter" type="checkbox" value="AcceptNewsletter">
-                    <label class="custom-control-label px-3" for="f-115">Sutinku gauti naujienlaiškį</label>
+                    <label class="custom-control-label px-3" for="f-115">Sutinku gauti naujienlaiškį ir būti informuotas apie akcijas</label>
                 </div>
                 <span class="d-block validationMessage" data-valmsg-for="f-115" data-valmsg-replace="true"></span>
                 <button  type="submit" class="c-btn c-btn--primary mt-3" data-loading="Prašome palaukti ...">

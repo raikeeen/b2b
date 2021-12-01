@@ -102,7 +102,7 @@ class Order extends Model
             'user' =>$order->user,
             'invoice' => $order->invoice,
             'status' => $order->status->last()->name,
-            'type_doc' => 'Faktura',
+            'type_doc' => $order->document->name,
             'coupon' => '',
             'total' => $order->total,
             'tax' => Tax::first()->tax_count,
@@ -178,6 +178,10 @@ class Order extends Model
     public function delivery()
     {
         return $this->belongsTo('App\Models\Delivery');
+    }
+    public function document()
+    {
+        return $this->belongsTo('App\Models\Document');
     }
     public function user()
     {
