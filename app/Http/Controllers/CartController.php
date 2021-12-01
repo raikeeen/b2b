@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Delivery;
+use App\Models\Document;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Order;
@@ -22,10 +23,12 @@ class CartController extends Controller
 
         $deliveries = Delivery::all();
         $payments = Payment::all();
+        $documents = Document::all();
 
         return view('cart.cart',[
             'deliveries' => $deliveries,
             'payments'  => $payments,
+            'documents' => $documents,
             'discount' => Order::getNumbers()->get('discount'),
             'newSubTotal' => Order::getNumbers()->get('newSubTotal'),
             'newTotal' => Order::getNumbers()->get('newTotal')

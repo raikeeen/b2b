@@ -44,9 +44,9 @@
                         <div class="col col-auto"><img style="width: 32px;" src="https://www.rm-autodalys.eu/Assets/Themes/Kavateka/Assets/Images/blank.gif"></div>
                         <div class="col col-md-2"><span>Produkto kodas</span></div>
                         <div class="col"><span>Produkto pavadinimas</span></div>
-                        <div class="col-12 col-md-2 text-right"><span>Skaičius</span></div>
-                        <div class="col-12 col-md-2 text-right"><span>Kaina</span></div>
-                        <div class="col-12 col-md-2 text-right"><span>Vertė</span></div>
+                        <div class="col-12 col-md-2 text-right"><span>KIEKIS</span></div>
+                        <div class="col-12 col-md-2 text-right"><span>Kaina su PVM</span></div>
+                        <div class="col-12 col-md-2 text-right"><span>SUMA</span></div>
                     </div>
                     <hr class="mt-2 mb-0">
                 </div>
@@ -150,10 +150,11 @@
                         <label class="mb-2">
                             <span class="u-text-400">Dokumento tipas</span>
                         </label>
-                        <div class="c-select__wrapper w-100">
+                        <div id="document_select" class="c-select__wrapper w-100">
                             <select class="c-select c-select--block">
-                                <option value="F">Faktūra</option>
-                                <option value="P">Čekis</option>
+                                @foreach($documents as $document)
+                                    <option value="{{$document->id}}">{{$document->name}}</option>
+                                @endforeach
 
                             </select>
                         </div>
@@ -211,7 +212,7 @@
                             {{csrf_field()}}
                             <input class="c-input c-input--voucher mb-2 mb-md-0 mr-md-3" placeholder="Įveskite nuolaidos kodą" id="coupon_code" name="coupon_code" >
                             <button class="c-btn c-btn--secondary text-uppercase ml-lg-4" type="submit">
-                                <span>Įjungti</span>
+                                <span>PRITAIKYTI</span>
                             </button>
                         </div>
                     </form>
@@ -224,7 +225,7 @@
         </div>
         <div class="c-panel c-panel--no-shadow p-3 mt-4">
             <div class="c-headline c-headline--semi-light u-bd-secondary pl-2 py-1">
-                <span>Užsakymo išlaidų suvestinė</span>
+                <span>Užsakymo suvestinė</span>
             </div>
             <div class="c-panel c-panel--no-shadow">
                 <div class="c-cart-summary--sm px-4">
@@ -232,9 +233,9 @@
 
                     <div class="d-flex my-2">
       <span>
-        <span class="mr-1">užsakymas:</span>
+        <span class="mr-1">Užsakymas:</span>
           <!-- ko if: selectedDocumentType() -->
-         <span class="text-muted">(<span data-bind="text: selectedDocumentType().name">Čekis</span>) </span>
+         <span class="text-muted">(<span id="doc">Faktūra</span>) </span>
           <!-- /ko -->
       </span>
                         <span class="ml-auto">
@@ -326,6 +327,7 @@
                             {{csrf_field()}}
                             <input type="number" id="delivery" name="delivery" value="" hidden>
                             <input type="number" id="payment" name="payment" value="" hidden>
+                            <input type="number" id="document" name="document" value="{{$documents->first()->id}}" hidden>
                             <button class="c-btn-grey c-btn--tertiary c-btn--xl px-sm-5 text-uppercase" id="btn-order" disabled>
                                 <span class="mx-5">Aš pateikiu užsakymą</span>
                             </button>
@@ -380,6 +382,17 @@
                 $('#payment_select').attr("disabled", true);
             } else {
                 $('#payment_select').attr("disabled", false);
+            }
+        })
+
+        $('#document_select').change(function () {
+            let document = $('#document_select').find(":selected").val();
+            $('input[id=document]').val(document);
+
+            if(document === '1') {
+                $('#doc').text('Faktūra');
+            } else {
+                $('#doc').text('Važtaraštis');
             }
         })
 

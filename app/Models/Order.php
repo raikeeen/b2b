@@ -48,6 +48,7 @@ class Order extends Model
         $order->delivery_price = $delivery;
         $order->payment_id = $request->payment;
         $order->payment_price = $payment;
+        $order->document_id = $request->document;
         $order->coupon_id = $coupon === 0 ? null : $coupon;
         $order->secure_key = $request->_token;
         $order->reference = 'B2B'.strtoupper(Str::random(5)).$user_id;
