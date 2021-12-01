@@ -137,17 +137,17 @@ class B1Api extends Model
             // Using version 2.0.0 and up of the B1.php library.
             $keys = new B1Api;
 
-            $products =\DB::table('product')
+            /*$products =\DB::table('product')
                 ->where('b1_product_id', '!=',null)
                 ->select(['b1_product_id'])
                 ->orderBy('b1_product_id', 'ASC')
-                ->get();
+                ->get();*/
 
-            foreach ($products as $product) {
+           /* foreach ($products as $product) {
 
                 $count = 0;
 
-                $data = [
+                /*$data = [
                     'warehouseId' => 1,
                     'page' => 1,
                     'pageSize' => 20,
@@ -185,10 +185,50 @@ class B1Api extends Model
 
                 \DB::table('product')
                     ->where('b1_product_id', '=', $product->b1_product_id)
-                    ->update(['stock_shop' => $count]);
+                    ->update(['stock_shop' => $count]);*/
+            //}*/
+
+            $dataB1 = [];
+
+            for ($i = 1; $i <= 20; $i++) {
+
+                $data = [
+                    'warehouseId' => 1,
+                    'page' => $i,
+                    'rows' => 100,
+                    'filters' => [
+                        'groupOp' => 'AND',
+                        'rules' => [
+                            [
+                                'field' => 'id',
+                                'op' => 'gt',
+                                'data' => 0
+                            ]
+                        ],
+                    ],
+
+                ];
+
+                $result = $keys->b1->request('warehouse/stock/list', $data);
+                $filter = $result->getContent()['data'];
+                $dataB1 = array_merge($dataB1, $filter);
+
+            }
+
+            $importArrat = [];
+            foreach ($dataB1 as $key => $value) {
+
+
+                //array_push($importArrat, [$value['id']]);
+                $importArrat += [ $value['id'] => $value['stock']];
+
+                //$importArrat[$value['id']] += $value['stock'];
 
 
             }
+
+            dd($importArrat);
+
 
             Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'Synchronization b1 stocks success']));
             return true;
@@ -218,14 +258,13 @@ class B1Api extends Model
 
             if($result->getContent()['code'] !== 200)
             {
-                //dd($result);
+
                 print_r($result);
             }
             return $result->getContent();
-            //print_r($result);
+
         } catch (\B1Exception $e) {
-            //dd($e->getMessage());
-            //dd($e->getExtraData());
+
             print_r([
                 'message' => $e->getMessage(),
                 'extraData' => $e->getExtraData(),
@@ -239,24 +278,21 @@ class B1Api extends Model
             $keys = new B1Api;
 
             $data = [
-                'prefix' => '32B2B1',
+                'prefix' => '32B2B',
                 'orderId' => $order->id,
             ];
+
             $result = $keys->b1->request('shop/invoices/get', $data);
 
             $path = "users/".$order->user_id."/invoice/".$order->invoice.".pdf";
 
             Storage::disk('local')->put("/public/".$path, $result->content);
 
-            //dump($order);
             $order->invoice = "/storage/".$path;
             $order->save();
 
-           /* $result = $keys->b1->request('e-commerce/orders/create-write-off', ['orderId' => $order->id]);*/
-
             if($result->code !== 200)
             {
-                //dd($result);
                 dump($result);
                 print_r($result);
             }

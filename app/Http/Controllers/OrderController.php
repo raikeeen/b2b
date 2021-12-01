@@ -65,7 +65,7 @@ class OrderController extends Controller
     {
         $id = Auth::user()->id;
         $order = Order::where('reference', $reference)->first();
-        //dd($order);
+
         if($order->user->id !== $id || $order === null){
             return abort(404);
         }
