@@ -30,16 +30,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // synchronization stock b1 every day
-       // $schedule->job(new UpdateStocks())->dailyAt('16:02');
-        $schedule->call(function () {
-            Queue::push(new UpdateStockB1());
-        })->dailyAt('08:40');
+        // synchronization stock every day
+        $schedule->job(new UpdateStockB1(), 'update_stock')->dailyAt('09:49');
+        $schedule->job(new UpdateStockAjs(), 'update_stock')->dailyAt('09:49');
 
-        $schedule->call(function () {
-            Queue::push(new UpdateStockAjs());
-        })->dailyAt('08:40');
-        // synchronization stock ajs every day
 
     }
 
