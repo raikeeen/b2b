@@ -15,6 +15,7 @@ class SendMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected $details;
+    public $tries = 5;
     /**
      * Create a new job instance.
      *
