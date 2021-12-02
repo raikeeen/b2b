@@ -2,6 +2,8 @@
 
 namespace App\Models;
 include('B1.php');
+
+use App\Jobs\SendMail;
 use B1;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -9,7 +11,7 @@ use Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Mail\SynchronizationMail;
-ini_set('max_execution_time', 300);
+
 
 class B1Api extends Model
 {
@@ -129,7 +131,8 @@ class B1Api extends Model
             //dd($e->getMessage());
             //dd($e->getExtraData());
             //dd($e->getMessage(),$e->getExtraData());
-            Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'order '.$order->id.' got any errors it dont sent to b1']));
+            SendMail::dispatch(['name' => 'order '.$order->id.' got any errors it dont sent to b1'])->onQueue('mail');
+            //Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'order '.$order->id.' got any errors it dont sent to b1']));
         }
     }
     static function synchronizationStock()
@@ -234,12 +237,12 @@ class B1Api extends Model
 
 
             }
-
-            Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'Synchronization b1 stocks success', 'time' => 'Время выполнения скрипта: '.round(microtime(true) - $start, 4).' сек.']));
+            //Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'Synchronization b1 stocks success', 'time' => 'Время выполнения скрипта: '.round(microtime(true) - $start, 4).' сек.']));
+            SendMail::dispatch(['name' => 'Synchronization b1 stocks success', 'time' => 'Время выполнения скрипта: '.round(microtime(true) - $start, 4).' сек.'])->onQueue('mail');
 
         } catch (B1Exception $e) {
 
-            Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'ERROR Synchronization b1 stocks']));
+            SendMail::dispatch(['name' => 'ERROR Synchronization b1 stocks'])->onQueue('mail');
         }
     }
 

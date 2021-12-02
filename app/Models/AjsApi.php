@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Jobs\SendMail;
 use App\Mail\SynchronizationMail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use SoapClient;
 use Illuminate\Support\Facades\DB;
+
+
 class AjsApi extends Model
 {
     use HasFactory;
@@ -63,15 +66,15 @@ class AjsApi extends Model
                  }
 
              }
-             Mail::to(config('mail')['admin'])
-                 ->send(new SynchronizationMail(['name' => 'Synchronization AJS stocks success']));
-             return true;
+             /*Mail::to(config('mail')['admin'])
+                 ->send(new SynchronizationMail(['name' => 'Synchronization AJS stocks success']));*/
+             SendMail::dispatch(['name' => 'Synchronization AJS stocks success'])->onQueue('mail');
          }
          catch (SoapFault $fault)
          {
-             Mail::to(config('mail')['admin'])
-                 ->send(new SynchronizationMail(['name' => 'ERROR Synchronization AJS stocks']));
-             return false;
+             /*Mail::to(config('mail')['admin'])
+                 ->send(new SynchronizationMail(['name' => 'ERROR Synchronization AJS stocks']));*/
+             SendMail::dispatch(['name' => 'ERROR Synchronization AJS stocks'])->onQueue('mail');
          }
      }
 }
