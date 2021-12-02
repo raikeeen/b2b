@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\AjsApi;
 use App\Models\B1Api;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -11,10 +10,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateStocks implements ShouldQueue
+class UpdateStockB1 implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     public $failOnTimeout = true;
     /**
      * Create a new job instance.
@@ -34,6 +32,5 @@ class UpdateStocks implements ShouldQueue
     public function handle()
     {
         B1Api::synchronizationStock();
-        AjsApi::synchronizationStock();
     }
 }

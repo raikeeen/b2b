@@ -3,11 +3,13 @@
 namespace App\Models;
 include('B1.php');
 use B1;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Mail\SynchronizationMail;
+ini_set('max_execution_time', 300);
 
 class B1Api extends Model
 {
@@ -133,9 +135,12 @@ class B1Api extends Model
     static function synchronizationStock()
     {
         try {
+            $start = microtime(true);
+
+            \DB::table('product')->update(array('stock_shop' => 0));
+
             // Using version 2.0.0 and up of the B1.php library.
             $keys = new B1Api;
-
             /*$products =\DB::table('product')
                 ->where('b1_product_id', '!=',null)
                 ->select(['b1_product_id'])
@@ -187,8 +192,6 @@ class B1Api extends Model
                     ->update(['stock_shop' => $count]);*/
             //}*/
 
-            $dataB1 = [];
-
             for ($i = 1; $i <= 20; $i++) {
 
                 $data = [
@@ -200,7 +203,7 @@ class B1Api extends Model
                         'rules' => [
                             [
                                 'field' => 'id',
-                                'op' => 'gt',
+                                'op' => 'ge',
                                 'data' => 0
                             ]
                         ],
@@ -210,32 +213,33 @@ class B1Api extends Model
 
                 $result = $keys->b1->request('warehouse/stock/list', $data);
                 $filter = $result->getContent()['data'];
-                $dataB1 = array_merge($dataB1, $filter);
+
+
+                foreach ($filter as $itemB1) {
+
+                    $stock = DB::table('product')
+                        ->where('b1_product_id', '=', $itemB1['id'])
+                        ->select(['stock_shop'])
+                        ->first();
+
+                    if(!empty($stock)) {
+
+                        DB::table('product')
+                            ->where('b1_product_id', '=', $itemB1['id'])
+                            ->update(array('stock_shop' => $stock->stock_shop + $itemB1['stock']));
+
+                    }
+
+                }
+
 
             }
 
-            $importArrat = [];
-            foreach ($dataB1 as $key => $value) {
-
-
-                //array_push($importArrat, [$value['id']]);
-                $importArrat += [ $value['id'] => $value['stock']];
-
-                //$importArrat[$value['id']] += $value['stock'];
-
-
-            }
-
-            dd($importArrat);
-
-
-            Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'Synchronization b1 stocks success']));
-            return true;
+            Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'Synchronization b1 stocks success', 'time' => 'Время выполнения скрипта: '.round(microtime(true) - $start, 4).' сек.']));
 
         } catch (B1Exception $e) {
 
             Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'ERROR Synchronization b1 stocks']));
-            return false;
         }
     }
 
