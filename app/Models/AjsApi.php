@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use SoapClient;
 use Illuminate\Support\Facades\DB;
-
+ini_set('max_execution_time', 1800);
 
 class AjsApi extends Model
 {
