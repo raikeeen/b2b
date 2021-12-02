@@ -30,8 +30,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // synchronization stock every day
-        $schedule->job(new UpdateStockB1(), 'update_stock')->dailyAt('12:49');
-        $schedule->job(new UpdateStockAjs(), 'update_stock')->dailyAt('12:49');
+        $schedule->job(new UpdateStockB1(), 'update_stock')->dailyAt('13:12');
+        $schedule->job(new UpdateStockAjs(), 'update_stock')->dailyAt('13:12');
     }
 
     /**

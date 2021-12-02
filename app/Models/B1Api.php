@@ -11,7 +11,6 @@ use Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Mail\SynchronizationMail;
-ini_set('max_execution_time', 1800);
 
 class B1Api extends Model
 {

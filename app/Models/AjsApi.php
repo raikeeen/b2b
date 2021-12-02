@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use SoapClient;
 use Illuminate\Support\Facades\DB;
-ini_set('max_execution_time', 1800);
 
 class AjsApi extends Model
 {
@@ -19,6 +18,7 @@ class AjsApi extends Model
 
          try
          {
+             $start = microtime(true);
              $apiMTRLoginLDZ='000078';
              $apiMTRPassLDZ=md5('export');
              $apiMTRUrl="http://ajsparts.pl:82/F2000OpenService.svc?wsdl";
@@ -66,9 +66,11 @@ class AjsApi extends Model
                  }
 
              }
+
              /*Mail::to(config('mail')['admin'])
                  ->send(new SynchronizationMail(['name' => 'Synchronization AJS stocks success']));*/
-             SendMail::dispatch(['name' => 'Synchronization AJS stocks success'])->onQueue('mail');
+             SendMail::dispatch(['name' => 'Synchronization AJS stocks success', 'time' => 'Время выполнения скрипта: '.round(microtime(true) - $start, 4).' сек.'])->onQueue('mail');
+
          }
          catch (SoapFault $fault)
          {

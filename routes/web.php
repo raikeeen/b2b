@@ -64,7 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
         Cart::destroy();
     });
     Route::get('/test1', function (){
-        //B1Api::synchronizationStock();
+        //AjsApi::synchronizationStock();
     });
     Route::resource('/products',ProductController::class);
     Route::get('/new-products',[ProductController::class, 'newProduct'])->name('product.new');
