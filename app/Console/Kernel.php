@@ -4,7 +4,6 @@ namespace App\Console;
 
 use App\Jobs\UpdateStockAjs;
 use App\Jobs\UpdateStockB1;
-use App\Jobs\UpdateStocks;
 use App\Models\AjsApi;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -31,8 +30,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // synchronization stock every day
-        $schedule->job(new UpdateStockB1(), 'update_stock')->dailyAt('12:37');
-        $schedule->job(new UpdateStockAjs(), 'update_stock')->dailyAt('12:37');
+        $schedule->job(new UpdateStockB1(), 'update_stock')->dailyAt('12:49');
+        $schedule->job(new UpdateStockAjs(), 'update_stock')->dailyAt('12:49');
     }
 
     /**

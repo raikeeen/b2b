@@ -14,6 +14,7 @@ class UpdateStockAjs implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $failOnTimeout = true;
+    public $timeout = 3600;
     /**
      * Create a new job instance.
      *
