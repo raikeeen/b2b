@@ -102,7 +102,7 @@ class ProductController extends Controller
         if($product === null) {
             return abort(404);
         }
-
+        //dd($product->img);
         return view('catalog.product', [
             'product' => $product,
         ]);

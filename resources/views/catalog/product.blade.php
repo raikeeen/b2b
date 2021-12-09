@@ -15,17 +15,18 @@
                             <div class="owl-stage-outer">
                                 <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1934px;">
 
-                                    @if(!empty($product->img))
+                                    @if($product->img->isNotEmpty())
                                     @foreach($product->img as $image)
                                     <div class="owl-item active" style="width: 386.656px;">
                                         <div class="c-product-image__slide">
-                                            <a class="c-product-image__link" href="{{asset($image->name)}}" data-lightbox="image-1" data-toggle="lightbox" data-gallery="big-photo">
+                                            <a class="c-product-image__link" href="{{asset($image->name)}}" data-lightbox="image-2" data-toggle="lightbox" data-gallery="big-photo">
                                                 <img class="c-product-image__image" src="{{asset($image->name)}}" alt="{{$product->name}}">
                                             </a>
                                         </div>
                                     </div>
                                     @endforeach
                                     @else
+
                                         <div class="owl-item active" style="width: 386.656px;">
                                             <div class="c-product-image__slide">
                                                 <a class="c-product-image__link" href="{{asset('storage/products/no_photo_500.jpg')}}" data-lightbox="image-1" data-toggle="lightbox" data-gallery="big-photo">
@@ -49,52 +50,35 @@
                     </div>
                 </div>
                 <div class="c-product__images-nav owl-carousel--product-nav owl-carousel mt-2 mb-3 owl-loaded owl-drag">
-                    <div class="owl-stage-outer">
-                        <div class="owl-stage" id="owl-product"  style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 490px;">
-                            <div class="owl-carousel">
-
-
-                        @if(!empty($product->img))
-                            @foreach($product->img as $key => $image)
-                                @if($loop->first)
-                                    <div class="owl-item active" style="width: 92.914px; margin-right: 5px;">
-                                        <div class="c-product__image-nav current">
-                                            <div class="c-product__image-nav--slide">
-                                                <img class="c-product__image-nav--img" src="{{asset($image->name)}}" width="90" height="72" alt="{{$product->name}}">
-                                            </div>
-                                        </div>
-                                    </div>
+                    <div class="splide" id="test_splide">
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                @if($product->img->isNotEmpty())
+                                    @foreach($product->img as $key => $image)
+                                        @if($loop->first)
+                                            <li class="splide__slide">
+                                                <div class="c-product__image-nav current">
+                                                    <a class="c-product__image-nav--slide" href="{{asset($image->name)}}" data-lightbox="image-1" data-toggle="lightbox" data-gallery="big-photo">
+                                                        <img class="c-product__image-nav--img" src="{{asset($image->name)}}" alt="{{$product->name}}">
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        @else
+                                                <li class="splide__slide">
+                                                    <div class="c-product__image-nav">
+                                                        <a class="c-product__image-nav--slide" href="{{asset($image->name)}}" data-lightbox="image-1" data-toggle="lightbox" data-gallery="big-photo">
+                                                            <img class="c-product__image-nav--img" src="{{asset($image->name)}}" alt="{{$product->name}}">
+                                                        </a>
+                                                    </div>
+                                                </li>
+                                            @endif
+                                    @endforeach
                                 @else
-                                    <div class="owl-item active" style="width: 92.914px; margin-right: 5px;">
-                                        <div class="c-product__image-nav">
-                                            <div class="c-product__image-nav--slide">
-                                                <img class="c-product__image-nav--img" src="{{asset($image->name)}}" width="90" height="72" alt="{{$product->name}}">
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 @endif
-                            @endforeach
-                        @else
-                            <div class="owl-item active" style="width: 92.914px; margin-right: 5px;">
-                                <div class="c-product__image-nav current">
-                                    <div class="c-product__image-nav--slide">
-                                        <img class="c-product__image-nav--img" src="{{asset($image->name)}}" width="90" height="72" alt="{{$product->name}}">
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                            </div>
+                            </ul>
                         </div>
                     </div>
-                    <div class="owl-nav">
-                        <button type="button" role="presentation" class="owl-prev">
-                            <span aria-label="Previous">‹</span>
-                        </button>
-                        <button type="button" role="presentation" class="owl-next">
-                            <span aria-label="Next">›</span>
-                        </button>
-                    </div>
-                    <div class="owl-dots disabled"></div>
                 </div>
             </div>
             <div class="col">
@@ -175,7 +159,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 mt-1 d-flex justify-content-end align-items-end">
-                                @if($product->stock_shop + $product->stock_supplier != 0 && $product->price > 0)
+                                @if($product->stock_shop + $product->stock_supplier > 0 && $product->price > 0)
                                 <div type="ADD_TO_CART" data-control-type="Order">
 
                                     <form action="{{route('cart.store')}}" method="post">

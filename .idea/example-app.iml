@@ -9,6 +9,8 @@
       <sourceFolder url="file://$MODULE_DIR$/tests/Unit" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests/Feature" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Tests\" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/app/public/products/maxgear" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/app/public/products/nty" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/arrilot/laravel-widgets" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/asm89/stack-cors" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/brick/math" />

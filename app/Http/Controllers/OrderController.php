@@ -50,6 +50,16 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+
+        foreach (Cart::content() as $item) {
+
+            $product = Product::find($item->id);
+
+            if (0 <= (int)$item->amount) {
+
+                return back()->withErrors('Nėra reikiamo kiekio sandėlyje. Preke kiekio '.$product->reference);
+            }
+        }
         $order = Order::createOrder(Auth::user()->id, $request);
 
         return redirect()->route('orders.show', $order->reference)->with('success_message', 'Ačiū kad pirkote!');

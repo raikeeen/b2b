@@ -104,4 +104,10 @@ $( document ).ready(function() {
         owlNewProduct.trigger('prev.owl.carousel', [300]);
     })
 
+    new Splide( '#test_splide', {
+        perPage: 4,
+        arrows: false,
+        pagination: false,
+        gap: 5
+    } ).mount();
 });
