@@ -10303,3 +10303,9 @@ p {
 
 }
 
+.credit-limit {
+    padding: 7px 10px;
+    border: 1px solid #ced4da;
+    margin-right: 15px;
+}
+

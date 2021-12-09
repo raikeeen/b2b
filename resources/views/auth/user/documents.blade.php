@@ -3,9 +3,9 @@
 @section('title','documents')
 @section('content')
     {{ Breadcrumbs::render('documents') }}
-    <h1 class="c-headline c-headline--semi-light u-bd-secondary pl-2 py-1">Dokumentai</h1>
+    <h1 class="c-headline c-headline--semi-light u-bd-secondary pl-2 py-1">Sąskaitos faktūros</h1>
     <div class="row mt-3 mb-5">
-        <div class="col-12 col-md-4 col-lg-3">
+        <div class="col-3 col-md-4 col-lg-3">
             <select class="c-select w-100">
                 <option value="CURRENT_DAY">Šiandien</option>
                 <option value="CURRENT_MONTH" selected="">Šis mėnuo</option>
@@ -15,8 +15,15 @@
                 <option value="CUSTOM">Nestandartinis diapazonas</option>
             </select>
         </div>
+        <div class="mb-5 col-2 credit-limit">
+            Kredito limitas: 5000
+        </div>
+        <div class="mb-5 col-2 credit-limit">
+            Liko kredito: 0
+        </div>
         <!-- ko if: viewDate() === 'CUSTOM' --><!-- /ko -->
     </div>
+
     @if(!isset($orders))
         <div class="text-center my-5 py-5">
         <span class="c-headline mb-2">
@@ -37,16 +44,27 @@
                     <span>Užsakymo Nr.</span>
                 </div>
                 <div class="col">
-                    <span>Data</span>
+                    <span>Pirkimo data</span>
                 </div>
-
-                <div class="col text-right">
-                    <span>be PVM</span>
+                <div class="col">
+                    <span>Mokėjimo terminas</span>
                 </div>
-                <div class="col text-right">
-                    <span>su PVM</span>
+                <div class="col">
+                    <span>Liko dienų</span>
                 </div>
-                <div class="col text-right">
+                <div class="col">
+                    <span>Suma be PVM</span>
+                </div>
+                <div class="col">
+                    <span>Suma su PVM</span>
+                </div>
+                <div class="col">
+                    <span>Būsena</span>
+                </div>
+                <div class="col">
+                    <span>Liko apmokėti</span>
+                </div>
+                <div class="col">
                     <span>Nustatymai</span>
                 </div>
             </div>
@@ -66,11 +84,24 @@
                     <div class="col-12 col-md">
 
 
-                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">{{$order->created_at}}</span>
+                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">{{mb_substr($order->created_at,0,10)}}</span>
+
+                    </div>
+                    <div class="col-12 col-md">
+
+
+                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">14</span>
+
+                    </div>
+                    <div class="col-12 col-md">
+
+
+                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">14</span>
 
                     </div>
 
-                    <div class="col-12 col-md text-right">
+
+                    <div class="col-12 col-md">
 
 
   <span class="d-inline-block d-md-none">
@@ -80,7 +111,7 @@
                             data-bind="text: totalPrice ? totalPrice.displayNet() + ' ' + totalPrice.currencyCode : '---'">{{round($order->total/1.21,2)}} EUR</span>
 
                     </div>
-                    <div class="col-12 col-md font-weight-bold text-right">
+                    <div class="col-12 col-md font-weight-bold">
 
 
   <span class="d-inline-block d-md-none">
@@ -90,14 +121,27 @@
                             data-bind="text: totalPrice ? totalPrice.displayGross() + ' ' + totalPrice.currencyCode : '---'">{{$order->total}} EUR</span>
 
                     </div>
-                    @if(isset($order->invoice))
-                    <div class="col-12 col-md text-right">
+                    <div class="col-12 col-md">
+
+
+                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">Neapmokėta</span>
+
+                    </div>
+                    <div class="col-12 col-md">
+
+
+                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">{{$order->total}} EUR</span>
+
+                    </div>
+
+                @if(isset($order->invoice))
+                    <div class="col-12 col-md">
                         <a href="{{$order->invoice}}" title="Detalės">
-                            <span>Factura</span>
+                            <span>Sąskaitos faktūrą</span>
                         </a>
                     </div>
                     @else
-                        <div class="col-12 col-md text-right">
+                        <div class="col-12 col-md">
                             nera
                         </div>
                         @endif
