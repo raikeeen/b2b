@@ -37,6 +37,8 @@ class Product extends Model
     ];
     protected $appends = ['price_stock', 'price_base'];
     public $increments = true;
+    public $additional_attributes = ['price_base'];
+
     /**
      * @return string
      * @var mixed
