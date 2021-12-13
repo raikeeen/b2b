@@ -20,119 +20,376 @@
 @stop
 
 @section('content')
+    @if(session()->has('success_message'))
+        <div class="alert alert-success">
+            {{session()->get('success_message')}}
+        </div>
+    @endif
+    @if(count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="page-content edit-add container-fluid">
         <div class="row">
-            <div class="col-md-12">
-
+            <div class="col-md-8">
                 <div class="panel panel-bordered">
-                    <!-- form start -->
-                    <form role="form"
-                            class="form-edit-add"
-                            action="{{ $edit ? route('voyager.'.$dataType->slug.'.update', $dataTypeContent->getKey()) : route('voyager.'.$dataType->slug.'.store') }}"
-                            method="POST" enctype="multipart/form-data">
-                        <!-- PUT Method if we are editing -->
-                        @if($edit)
-                            {{ method_field("PUT") }}
-                        @endif
+                    <div class="panel-title" style="font-weight: bold">
+                        Užsakymas {{$order->reference." NR. ".$order->id}}
+                    </div>
+                </div>
+                <div class="panel panel-bordered">
+                    <div class="panel-title" style="font-weight: bold">
+                        BŪSENA
+                    </div>
+                    <div class="panel-body">
 
-                        <!-- CSRF TOKEN -->
-                        {{ csrf_field() }}
+                        <div class="tab-content panel">
 
-                        <div class="panel-body">
+                            <!-- Tab status -->
+                            <div class="tab-pane active" id="status">
+                                <h4 class="visible-print">Būsena <span class="badge">(3)</span></h4>
+                                <!-- History of status -->
+                                <div class="table-responsive">
+                                    <table class="table history-status row-margin-bottom">
+                                        <tbody>
 
-                            @if (count($errors) > 0)
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
+                                        @foreach($statuses as $status)
+
+                                        <tr @if($loop->first) style="background-color:#FF8C00; color: black; font-weight: normal;" @else style="color: black; font-weight: normal;"  @endif>
+                                            <td><img @if(!empty($status->status->img)) src="{{$status->status->img}}" @else src="{{asset('storage/images/dot.png')}}" @endif width="16" height="16" alt="{{$status->status->name}}"></td>
+                                            <td>{{$status->status->name}}</td>
+                                            <td></td>
+                                            <td>{{$status->created_at}}</td>
+                                            <td class="text-right">
+                                                <a class="btn btn-default" title="Persiųsti šį laišką klientui">
+                                                    <i class="icon-mail-reply"></i>
+                                                    Pakartoti el. laiško siuntimą
+                                                </a>
+                                            </td>
+                                        </tr>
                                         @endforeach
-                                    </ul>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            @endif
+                                <!-- Change status form -->
+                                <form action="{{route('status.update', $order->id)}}" method="post" class="form-horizontal well hidden-print">
+                                    {{csrf_field()}}
+                                    <div class="row">
+                                        <div class="col-lg-9">
+                                            <select id="id_order_state" class="chosen form-control" name="status_id">
+                                                @foreach($allStatus as $status)
+                                                    <option value="{{$status->id}}" @if($statuses->first()->status_id === $status->id) selected="selected"@endif>{{$status->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <button type="submit" name="submitState" id="submit_state" class="btn btn-primary">
+                                                Atnaujinti būseną
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Tab documents -->
+                            <div class="tab-pane" id="documents">
+                                <h4 class="visible-print">Dokumentai <span class="badge">(1)</span></h4>
+                                <div class="table-responsive">
+                                    <table class="table" id="documents_table">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <span class="title_box ">Data</span>
+                                            </th>
+                                            <th>
+                                                <span class="title_box ">Dokumentas</span>
+                                            </th>
+                                            <th>
+                                                <span class="title_box ">Numeris</span>
+                                            </th>
+                                            <th>
+                                                <span class="title_box ">Suma</span>
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
 
-                            <!-- Adding / Editing -->
-                            @php
-                                $dataTypeRows = $dataType->{($edit ? 'editRows' : 'addRows' )};
-                            @endphp
+                                        <tr id="delivery_2801">
 
-                            @foreach($dataTypeRows as $row)
-                                <!-- GET THE DISPLAY OPTIONS -->
-                                @php
-                                    $display_options = $row->details->display ?? NULL;
-                                    if ($dataTypeContent->{$row->field.'_'.($edit ? 'edit' : 'add')}) {
-                                        $dataTypeContent->{$row->field} = $dataTypeContent->{$row->field.'_'.($edit ? 'edit' : 'add')};
-                                    }
-                                @endphp
-                                @if (isset($row->details->legend) && isset($row->details->legend->text))
-                                    <legend class="text-{{ $row->details->legend->align ?? 'center' }}" style="background-color: {{ $row->details->legend->bgcolor ?? '#f0f0f0' }};padding: 5px;">{{ $row->details->legend->text }}</legend>
-                                @endif
-
-                                <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ $display_options->width ?? 12 }} {{ $errors->has($row->field) ? 'has-error' : '' }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
-                                    {{ $row->slugify }}
-                                    <label class="control-label" for="name">{{ $row->getTranslatedAttribute('display_name') }}</label>
-                                    @include('voyager::multilingual.input-hidden-bread-edit-add')
-                                    @if (isset($row->details->view))
-                                        @include($row->details->view, ['row' => $row, 'dataType' => $dataType, 'dataTypeContent' => $dataTypeContent, 'content' => $dataTypeContent->{$row->field}, 'action' => ($edit ? 'edit' : 'add'), 'view' => ($edit ? 'edit' : 'add'), 'options' => $row->details])
-                                    @elseif ($row->type == 'relationship')
-                                        @include('voyager::formfields.relationship', ['options' => $row->details])
-                                    @else
-                                        {!! app('voyager')->formField($row, $dataType, $dataTypeContent) !!}
-                                    @endif
-
-                                    @foreach (app('voyager')->afterFormFields($row, $dataType, $dataTypeContent) as $after)
-                                        {!! $after->handle($row, $dataType, $dataTypeContent) !!}
-                                    @endforeach
-                                    @if ($errors->has($row->field))
-                                        @foreach ($errors->get($row->field) as $error)
-                                            <span class="help-block">{{ $error }}</span>
-                                        @endforeach
-                                    @endif
+                                            <td>2021-12-13</td>
+                                            <td>
+                                                Pristatymo kvitas
+                                            </td>
+                                            <td>
+                                                <a class="_blank" title="Peržiūrėti dokumentą" href="https://rm-autodalys.lt/admin660go1drk/index.php?controller=AdminPdf&amp;submitAction=generateDeliverySlipPDF&amp;id_order_invoice=2801&amp;token=a03dcb56427295d1d060de6f2f414d65" target="_blank">##DE001152</a>
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td class="text-right document_action">
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            @endforeach
-
-                        </div><!-- panel-body -->
-
-                        <div class="panel-footer">
-                            @section('submit-buttons')
-                                <button type="submit" class="btn btn-primary save">{{ __('voyager::generic.save') }}</button>
-                            @stop
-                            @yield('submit-buttons')
+                            </div>
                         </div>
-                    </form>
 
-                    <iframe id="form_target" name="form_target" style="display:none"></iframe>
-                    <form id="my_form" action="{{ route('voyager.upload') }}" target="form_target" method="post"
-                            enctype="multipart/form-data" style="width:0;height:0;overflow:hidden">
-                        <input name="image" id="upload_file" type="file"
-                                 onchange="$('#my_form').submit();this.value='';">
-                        <input type="hidden" name="type_slug" id="type_slug" value="{{ $dataType->slug }}">
-                        {{ csrf_field() }}
-                    </form>
+                    </div>
+                </div>
+                <div class="panel panel-bordered">
+                <div class="panel-title">
+                    Prekės ({{count($products)}})
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table" id="orderProducts">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th><span class="title_box ">Prekė</span></th>
+                                <th>
+                                    <span class="title_box ">Kaina už vienetą</span>
+                                    <small class="text-muted">                          Su mokesčiais
+                                    </small>
+                                </th>
+                                <th class="text-center"><span class="title_box ">Vnt.</span></th>
+                                <th class="text-center"><span class="title_box ">Grąžinta</span></th>                                      <th class="text-center"><span class="title_box ">Gražinta prekių</span></th>
+                                <th>
+                                    <span class="title_box ">Viso</span>
+                                    <small class="text-muted">                          Su mokesčiais
+                                    </small>
+                                </th>
+                                <th style="display: none;" class="add_product_fields"></th>
+                                <th style="display: none;" class="edit_product_fields"></th>
+                                <th style="display: none;" class="standard_refund_fields">
+                                    <i class="icon-minus-sign"></i>
+                                    Prekių grąžinimai
+                                </th>
+                                <th style="display:none" class="partial_refund_fields">
+                                    <span class="title_box ">Dalinis grąžinimas</span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <div hidden>
+                                {{$all = 0}}
+                            </div>
+                            @foreach($products as $product)
+                                @if($product->product_id === null)
+                                    <tr class="product-line-row">
+                                        <td><img src="/storage/images/no_photo_500.jpg" width="55" height="55" alt="" class="imgm img-thumbnail"></td>
+                                        <td>
+                                            <a href="{{route('voyager.product.index')}}">
+                                                <span class="productName">{{$product->name}}</span><br>
+                                            </a>
+                                            <div class="row-editing-warning" style="display:none;">
+                                                <div class="alert alert-warning">
+                                                    <strong>Paredagavus šią eilutę informacija apie bazinę kainą ir nuolaidą bus pašalinta.</strong>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="product_price_show">{{$product->priceTax()}}&nbsp;€</span>
+                                        </td>
+                                        <td class="productQuantity text-center">
+                                            <span class="product_quantity_show">{{$product->amount}}</span>
+                                            <span class="product_quantity_edit" style="display:none;">
+		</span>
+                                        </td>
+                                        <td class="productQuantity text-center">
+                                            <input type="hidden" value="1" class="partialRefundProductQuantity">
+                                            <input type="hidden" value="79.23" class="partialRefundProductAmount">
+                                        </td>
+                                        <td class="productQuantity text-center">
+                                            0
+                                        </td>
+                                        <td class="total_product">
+                                            {{$product->priceTax() * $product->amount}}&nbsp;€
+                                        </td>
+                                    </tr>
+                                    <input type="" hidden {{$all += $product->priceTax() * $product->amount}}>
+                                @else
+                                    <tr class="product-line-row">
+                                        <td><img src="/storage/images/no_photo_500.jpg" width="55" height="55" alt="" class="imgm img-thumbnail"></td>
+                                        <td>
+                                            <a href="{{route('voyager.product.edit', $product->product->id)}}">
+                                                <span class="productName">{{$product->product->name}}</span><br>
+                                                Kodas: {{$product->product->reference}}<br>			Tiekėjo kodas: {{$product->product->supplier_reference}}		</a>
+                                            <div class="row-editing-warning" style="display:none;">
+                                                <div class="alert alert-warning">
+                                                    <strong>Paredagavus šią eilutę informacija apie bazinę kainą ir nuolaidą bus pašalinta.</strong>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="product_price_show">{{$product->priceTax()}}&nbsp;€</span>
+                                        </td>
+                                        <td class="productQuantity text-center">
+                                            <span class="product_quantity_show">{{$product->amount}}</span>
+                                            <span class="product_quantity_edit" style="display:none;">
+		</span>
+                                        </td>
+                                        <td class="productQuantity text-center">
+                                            <input type="hidden" value="1" class="partialRefundProductQuantity">
+                                            <input type="hidden" value="79.23" class="partialRefundProductAmount">
+                                        </td>
+                                        <td class="productQuantity text-center">
+                                            0
+                                        </td>
+                                        <td class="total_product">
+                                            {{$product->priceTax() * $product->amount}}&nbsp;€
+                                        </td>
+                                    </tr>
+                                    <input type="" hidden {{$all += $product->priceTax() * $product->amount}}>
+                                @endif
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="alert alert-warning">
+                                Šiai pirkėjų grupei kainos rodomos kaip: <strong>                          Su mokesčiais
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="panel panel-total">
+                                <div class="table-responsive">
+                                    <table class="table" style="margin-top: -2px">
+                                        <tbody><tr id="total_products">
+                                            <td class="text-right">Prekės:</td>
+                                            <td class="amount text-right nowrap">
+                                                {{$all}}&nbsp;€
+                                            </td>
+                                            <td class="partial_refund_fields current-edit" style="display:none;"></td>
+                                        </tr>
+                                        <tr id="total_discounts" style="display: none;">
+                                            <td class="text-right">Nuolaidos</td>
+                                            <td class="amount text-right nowrap">
+                                                -0,00&nbsp;€
+                                            </td>
+                                            <td class="partial_refund_fields current-edit" style="display:none;"></td>
+                                        </tr>
+                                        <tr id="total_wrapping" style="display: none;">
+                                            <td class="text-right">Įpakavimas</td>
+                                            <td class="amount text-right nowrap">
+                                                0,00&nbsp;€
+                                            </td>
+                                            <td class="partial_refund_fields current-edit" style="display:none;"></td>
+                                        </tr>
+                                        <tr id="total_shipping">
+                                            <td class="text-right">Pristatymas</td>
+                                            <td class="amount text-right nowrap">
+                                                {{$order->delivery_price}}&nbsp;€
+                                            </td>
+                                            <td class="partial_refund_fields current-edit" style="display:none;">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        €
+                                                    </div>
+                                                    <input type="text" name="partialRefundShippingCost" value="0">
+                                                </div>
+                                                <p class="help-block"><i class="icon-warning-sign"></i> (Maks. 0,00&nbsp;€                           Su mokesčiais
+                                                    )
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr id="total_order">
+                                            <td class="text-right"><strong>Viso</strong></td>
+                                            <td class="amount text-right nowrap">
+                                                <strong>{{$order->total}}&nbsp;€</strong>
+                                            </td>
+                                            <td class="partial_refund_fields current-edit" style="display:none;"></td>
+                                        </tr>
+                                        </tbody></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if(!empty($order->invoice))
+                        <div style="text-align: center;position: relative;flex: auto;">
+                            <a href="{{$order->invoice}}" class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" style="display: inline-block;
+        padding: calc(0.5rem + 1px) 1rem;
+        background: #ed3b3b;
+        border: none;
+        color: #fff;
+        font-weight: bold;
+        text-decoration: none;
+        fill: #fff;
+        cursor: pointer;" title="Žiūrėti fakturą">
+                                <span>Žiūrėti fakturą</span>
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+            </div>
+            <div class="col-md-4">
+            <div class="panel panel panel-bordered panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="icon wb-clipboard">
+
+                        </i> Vartotojas {{$order->user->address->company_name}}</h3>
+                    <div class="panel-actions">
+                        <a class="panel-action voyager-angle-down" data-toggle="panel-collapse" aria-hidden="true"></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="u-text-color-darker">
+                            <a href="{{route('voyager.users.show', $order->user->id)}}">
+                                <h4>{{$order->user->name.' '.$order->user->surname}}</h4>
+                            </a>
+                        </div>
+                        <div class="u-text-color-darker">
+                            Adresas: {{$order->user->address->street.' '.$order->user->address->building}}
+                        </div>
+                        <div class="u-text-color-darker">
+                            {{$order->user->address->post_code.' '.$order->user->address->city->name}}
+                        </div>
+                        <br>
+                        <div class="u-text-color-darker">
+                            Telefonas: {{$order->user->address->phone}}
+                        </div>
+                        <div class="u-text-color-darker">
+                            E-mail: {{$order->user->email}}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel panel panel-bordered panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="icon wb-clipboard"></i> Informacija</h3>
+                    <div class="panel-actions">
+                        <a class="panel-action voyager-angle-down" data-toggle="panel-collapse" aria-hidden="true"></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="u-text-color-darker">
+                            <div style="font-size: 18px;">
+                                <span style="font-weight: 500">Mokėjimas:</span> <span style="font-size: 15px;">{{$order->payment->name}}</span>
+                            </div>
+
+                            <div style="font-size: 18px;">
+                                <span style="font-weight: 500">Pristatymas:</span> <span style="font-size: 15px;">{{$order->delivery->name}}</span>
+                            </div>
+
+                        </div>
+                    </div>
 
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="modal fade modal-danger" id="confirm_delete_modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"
-                            aria-hidden="true">&times;</button>
-                    <h4 class="modal-title"><i class="voyager-warning"></i> {{ __('voyager::generic.are_you_sure') }}</h4>
-                </div>
-
-                <div class="modal-body">
-                    <h4>{{ __('voyager::generic.are_you_sure_delete') }} '<span class="confirm_delete_name"></span>'</h4>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>
-                    <button type="button" class="btn btn-danger" id="confirm_delete">{{ __('voyager::generic.delete_confirm') }}</button>
-                </div>
-            </div>
         </div>
     </div>
     <!-- End Delete File Modal -->
@@ -140,75 +397,6 @@
 
 @section('javascript')
     <script>
-        var params = {};
-        var $file;
 
-        function deleteHandler(tag, isMulti) {
-          return function() {
-            $file = $(this).siblings(tag);
-
-            params = {
-                slug:   '{{ $dataType->slug }}',
-                filename:  $file.data('file-name'),
-                id:     $file.data('id'),
-                field:  $file.parent().data('field-name'),
-                multi: isMulti,
-                _token: '{{ csrf_token() }}'
-            }
-
-            $('.confirm_delete_name').text(params.filename);
-            $('#confirm_delete_modal').modal('show');
-          };
-        }
-
-        $('document').ready(function () {
-            $('.toggleswitch').bootstrapToggle();
-
-            //Init datepicker for date fields if data-datepicker attribute defined
-            //or if browser does not handle date inputs
-            $('.form-group input[type=date]').each(function (idx, elt) {
-                if (elt.hasAttribute('data-datepicker')) {
-                    elt.type = 'text';
-                    $(elt).datetimepicker($(elt).data('datepicker'));
-                } else if (elt.type != 'date') {
-                    elt.type = 'text';
-                    $(elt).datetimepicker({
-                        format: 'L',
-                        extraFormats: [ 'YYYY-MM-DD' ]
-                    }).datetimepicker($(elt).data('datepicker'));
-                }
-            });
-
-            @if ($isModelTranslatable)
-                $('.side-body').multilingual({"editing": true});
-            @endif
-
-            $('.side-body input[data-slug-origin]').each(function(i, el) {
-                $(el).slugify();
-            });
-
-            $('.form-group').on('click', '.remove-multi-image', deleteHandler('img', true));
-            $('.form-group').on('click', '.remove-single-image', deleteHandler('img', false));
-            $('.form-group').on('click', '.remove-multi-file', deleteHandler('a', true));
-            $('.form-group').on('click', '.remove-single-file', deleteHandler('a', false));
-
-            $('#confirm_delete').on('click', function(){
-                $.post('{{ route('voyager.'.$dataType->slug.'.media.remove') }}', params, function (response) {
-                    if ( response
-                        && response.data
-                        && response.data.status
-                        && response.data.status == 200 ) {
-
-                        toastr.success(response.data.message);
-                        $file.parent().fadeOut(300, function() { $(this).remove(); })
-                    } else {
-                        toastr.error("Error removing file.");
-                    }
-                });
-
-                $('#confirm_delete_modal').modal('hide');
-            });
-            $('[data-toggle="tooltip"]').tooltip();
-        });
     </script>
 @stop

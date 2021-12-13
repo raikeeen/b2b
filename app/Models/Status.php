@@ -12,4 +12,8 @@ class Status extends Model
     {
         return $this->belongsToMany('App\Models\Order', 'order_status');
     }
+    public function order_status()
+    {
+        $this->hasOne('App\Models\OrderStatus', 'status_id');
+    }
 }

@@ -55,7 +55,7 @@ class OrderController extends Controller
 
             $product = Product::find($item->id);
 
-            if (0 <= (int)$item->amount) {
+            if ($product->stock_supplier + $product->stock_shop < (int)$item->amount) {
 
                 return back()->withErrors('Nėra reikiamo kiekio sandėlyje. Preke kiekio '.$product->reference);
             }

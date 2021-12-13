@@ -1,7 +1,12 @@
 <?php
 namespace App\Http\Controllers\Voyager;
 
+use App\Jobs\GetDocumentB1;
+use App\Models\B1Api;
 use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\OrderStatus;
+use App\Models\Tax;
 use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
@@ -329,8 +334,30 @@ class OrderController extends VoyagerBaseController
             $view = "voyager::$slug.edit-add";
         }
 
+        $order = Order::find($id);
+        $products = $order->orderitem;
+        $statuses = OrderStatus::where('order_id', $id)->orderBy('created_at', 'DESC')->get();
+        $allStatus = DB::table('status')->select(['id', 'name'])->get();
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable'));
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'order', 'products', 'statuses','allStatus'));
+    }
+
+    public function statusUpdate(Request $request, $id)
+    {
+
+        $orderStatus = new OrderStatus();
+        $orderStatus->order_id = $id;
+        $orderStatus->status_id = $request->status_id;
+        $orderStatus->save();
+
+        if($request->status_id === '10') {
+
+            GetDocumentB1::dispatch($id)->onQueue('high');
+
+            return redirect()->back()->with('success_message', 'Atnaujinta būsena фактура будет готова через 30 сек');
+        }
+
+        return redirect()->back()->with('success_message', 'Atnaujinta būsena');
     }
 
     // POST BR(E)AD

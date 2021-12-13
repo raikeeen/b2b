@@ -14,6 +14,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\TecDocController;
 use App\Models\AjsApi;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +29,7 @@ use App\Models\AjsApi;
 
 Route::group(['prefix' => 'admin-kavateka'], function () {
     Voyager::routes();
+    Route::post('order/{id}/update', [\App\Http\Controllers\Voyager\OrderController::class, 'statusUpdate'])->name('status.update');
 });
 
 Auth::routes();

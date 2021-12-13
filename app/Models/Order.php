@@ -36,6 +36,7 @@ class Order extends Model
     }
     static function createOrder($user_id, $request)
     {
+        $idOrderOld = Order::latest()->first()->id + 1;
         $order = new order;
         $delivery = Delivery::find($request->delivery)->price;
         $payment = Payment::find($request->payment)->price;
@@ -51,35 +52,17 @@ class Order extends Model
         $order->document_id = $request->document;
         $order->coupon_id = $coupon === 0 ? null : $coupon;
         $order->secure_key = $request->_token;
-        $order->reference = 'B2B'.strtoupper(Str::random(5)).$user_id;
+        $order->reference = $idOrderOld.strtoupper(Str::random(4)).$user_id;
         $order->total = Tax::priceWithTax(Cart::subtotal(2,'.','')) + $delivery + $payment - $coupon;
         $order->save();
 
         $order->status()->attach(1);
 
-        $itemB1 = [];
 
         foreach (Cart::content() as $item) {
 
             $orderItem = OrderItem::createOrderItem($user_id, $order->id, $item);
-            $idB1 = $orderItem->product->b1_product_id;
-
-            array_push($itemB1, [
-                'id' => $idB1,
-                'name' => $item->name,
-                'quantity' => $item->qty*100,
-                'vatRate' => config('cart.tax'),
-                'price' => Tax::priceWithTax($item->price)*100,
-                'sum' => Tax::priceWithTax($item->price*$item->qty)*100,
-            ]);
         }
-
-        $referenceOrderB1 = B1Api::pushOrder($order,$itemB1);
-
-        $order->order_b1 = $referenceOrderB1['data']['orderId'];
-        $order->invoice = $referenceOrderB1['data']['invoiceDocument'];
-        $order->save();
-        B1Api::getInvoice($order);
 
         Cart::destroy();
         session()->forget('coupon');
