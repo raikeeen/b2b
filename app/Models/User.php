@@ -18,6 +18,7 @@ class User extends \TCG\Voyager\Models\User
      */
     protected $fillable = [
         'name',
+        'surname',
         'email',
         'password',
     ];
@@ -31,6 +32,7 @@ class User extends \TCG\Voyager\Models\User
         'password',
         'remember_token',
     ];
+    public $additional_attributes = ['full_name'];
 
     /**
      * The attributes that should be cast to native types.
@@ -40,6 +42,14 @@ class User extends \TCG\Voyager\Models\User
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getFullNameAttribute()
+    {
+        if (!empty($this->surname))
+            return $this->name.' '.$this->surname;
+
+        return $this->name;
+    }
 
     public function address()
     {
