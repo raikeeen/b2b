@@ -21,6 +21,9 @@ class User extends \TCG\Voyager\Models\User
         'surname',
         'email',
         'password',
+        'discount',
+        'address_id',
+        'role_id'
     ];
 
     /**
@@ -67,5 +70,9 @@ class User extends \TCG\Voyager\Models\User
         ]);
 
         return $data;
+    }
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
     }
 }

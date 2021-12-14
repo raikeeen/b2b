@@ -124,11 +124,7 @@
                                                 @elseif($row->type == 'image')
                                                     <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:100px">
                                                 @elseif($row->type == 'relationship')
-                                                    @if($row->display_name == 'Būsena')
-                                                        {!! app($row->details->model)::where($row->details->key, $data->{$row->details->column})->first()->status_latest !!}
-                                                    @else
-                                                        @include('voyager::formfields.relationship', ['view' => 'browse','options' => $row->details])
-                                                    @endif
+                                                    @include('voyager::formfields.relationship', ['view' => 'browse','options' => $row->details])
                                                 @elseif($row->type == 'select_multiple')
                                                     @if(property_exists($row->details, 'relationship'))
 
@@ -177,7 +173,7 @@
                                                             <span class="label label-primary">{{ $row->details->off }}</span>
                                                         @endif
                                                     @else
-                                                    {{!! $data->{$row->field} !!}}
+                                                    {{ $data->{$row->field} }}
                                                     @endif
                                                 @elseif($row->type == 'color')
                                                     <span class="badge badge-lg" style="background-color: {{ $data->{$row->field} }}">{{ $data->{$row->field} }}</span>

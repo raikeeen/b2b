@@ -30,6 +30,7 @@ use App\Models\AjsApi;
 Route::group(['prefix' => 'admin-kavateka'], function () {
     Voyager::routes();
     Route::post('order/{id}/update', [\App\Http\Controllers\Voyager\OrderController::class, 'statusUpdate'])->name('status.update');
+    Route::post('users/create', [\App\Http\Controllers\Voyager\UserController::class, 'createNew'])->name('voyager.users.createNew');
 });
 
 Auth::routes();

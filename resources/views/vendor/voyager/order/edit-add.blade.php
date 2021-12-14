@@ -60,7 +60,7 @@
 
                                         @foreach($statuses as $status)
 
-                                        <tr @if($loop->first) style="background-color:#FF8C00; color: black; font-weight: normal;" @else style="color: black; font-weight: normal;"  @endif>
+                                        <tr @if($loop->first) style="background-color: @if(isset($status->status->color)) {{$status->status->color}} @else #FF8C00 @endif; color: black; font-weight: normal;" @else style="color: black; font-weight: normal;"  @endif>
                                             <td><img @if(!empty($status->status->img)) src="{{$status->status->img}}" @else src="{{asset('storage/images/dot.png')}}" @endif width="16" height="16" alt="{{$status->status->name}}"></td>
                                             <td>{{$status->status->name}}</td>
                                             <td></td>

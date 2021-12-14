@@ -50,6 +50,7 @@ class Product extends Model
     public function getPriceAttribute($value)
     {
         $user = Auth::user();
+
         return  round($value + ( $value * (
                     (isset($this->margin->value) ? $this->margin->value : 0) +
                     (isset($this->category[0]) ? $this->category[0]->trade_margin : 0) +
