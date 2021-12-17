@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Voyager;
 
 use App\Models\Category;
+use App\Models\Discount;
+use App\Models\Img;
 use App\Models\Margin;
 use App\Models\Product;
 use App\Models\ProductCat;
+use App\Models\Supplier;
 use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use TCG\Voyager\Database\Schema\SchemaManager;
 use TCG\Voyager\Events\BreadDataAdded;
 use TCG\Voyager\Events\BreadDataDeleted;
@@ -332,8 +337,152 @@ class ProductController extends VoyagerBaseController
         $product = Product::find($id);
         $categoriesForProduct = $product->category()->get();
         $categories = Category::with('ancestors')->get()->toTree();
+        $margin = Margin::all();
+        $discount = Discount::all();
+        $supplier = Supplier::all();
+        $img = [];
+        $edit = true;
+        $image =  Img::where('product_id', $id)->get();
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'categories' , 'categoriesForProduct'));
+        if(isset($image)) {
+            foreach ($image as $value) {
+                $name = $value->name;
+                array_push($img, [
+                    'name' => substr($name, strripos($name, '/') + 1, strlen($name)),
+                    'file' => $name,
+                    'size' => 12345
+                ]);
+            }
+            $img = json_encode($img);
+        }
+
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'edit', 'categories', 'supplier', 'categoriesForProduct', 'product', 'margin', 'discount', 'img'));
+    }
+    public function createNew(Request $request)
+    {
+
+        if ($request->put === 'put')
+        {
+            ProductCat::where('product_id', $request->product_id)->delete();
+
+            //re-insert
+            $this->updateProductCat($request, $request->product_id);
+
+            $product = Product::find($request->product_id);
+
+            $price = $product->price;
+            if($request->price_estimate != $price){
+
+
+                $priceEsti = $request->price_estimate;
+
+                $price = ($priceEsti / $product->price_base * 100 - 100) -
+                    (isset($product->margin->value) ? $product->margin->value : 0) -
+                    (isset($product->category[0]) ? $product->category[0]->trade_margin : 0) -
+                    (isset($product->supplier->margin) ? $product->supplier->margin : 0 ) +
+                    (isset($product->discount->value) ? $product->discount->value : 0);
+
+                $product->update([
+                    'name' => $request->name,
+                    'margin_id' => $request->margin,
+                    'supplier_reference' => $request->supplier_reference,
+                    'reference' => $request->reference,
+                    'stock_shop' => $request->stock_shop,
+                    'stock_supplier' => $request->stock_supplier,
+                    'trade_margin' => $price,
+                    'discount_id' => $request->discount,
+                    'b1_product_id' => $request->b1_id,
+                    'supplier_id' => $request->supplier,
+                    'short_description' => $request->description
+                ]);
+
+                return redirect()->back()->with('success_message', 'Product have been updated!');
+
+            }
+
+            $product->update([
+                'name' => $request->name,
+                'margin_id' => $request->margin,
+                'supplier_reference' => $request->supplier_reference,
+                'reference' => $request->reference,
+                'stock_shop' => $request->stock_shop,
+                'stock_supplier' => $request->stock_supplier,
+                'trade_margin' => $request->product_margin,
+                'discount_id' => $request->discount,
+                'supplier_id' => $request->supplier,
+                'short_description' => $request->description,
+                'b1_product_id' => $request->b1_id
+            ]);
+
+            return redirect()->back()->with('success_message', 'Product have been updated!');
+        }
+
+        try {
+            $product = new Product();
+            $product->name = $request->name;
+            $product->margin_id = $request->margin;
+            $product->supplier_reference = $request->supplier_reference;
+            $product->reference = $request->reference;
+            $product->stock_shop = $request->stock_shop;
+            $product->stock_supplier = $request->stock_supplier;
+            $product->trade_margin = $request->product_margin;
+            $product->discount_id = $request->discount;
+            $product->b1_product_id = $request->b1_id;
+            $product->supplier_id = $request->supplier;
+            $product->description = $request->description;
+            $product->price = $request->price;
+            $product->save();
+
+            if($request->price_estimate > 0) {
+                $priceEsti = $request->price_estimate;
+
+                if($product->price == 0) {
+                    $product->update(['price' =>  rand(1, $priceEsti)]);
+                }
+
+                $price = ($priceEsti / $product->price_base * 100 - 100) -
+                    (isset($product->margin->value) ? $product->margin->value : 0) -
+                    (isset($product->category[0]) ? $product->category[0]->trade_margin : 0) -
+                    (isset($product->supplier->margin) ? $product->supplier->margin : 0) +
+                    (isset($product->discount->value) ? $product->discount->value : 0);
+
+                $product->update(['trade_margin' => $price]);
+            }
+
+        } catch(\Exception $e){
+
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+
+
+        $this->updateProductCat($request, $product->id);
+
+        //$file = base64_decode(request('files'));
+        $file = $request->input('files');
+
+        if(!empty($file))
+            foreach ($file as $fil) {
+
+                if(stripos($fil, 'data:image/jpeg;base64,') !== false)
+                    $image = str_replace('data:image/jpeg;base64,', '', $fil);
+                else
+                    $image = str_replace('data:image/png;base64,', '', $fil);
+
+                $imageName = time() . strtoupper(Str::random(5)) . '.jpg';
+
+                $path = 'products/common_images/'.$imageName;
+
+                Storage::disk('local')->put("/public/".$path, base64_decode($image));
+
+                $path = 'storage/'.$path;
+
+                $imageDb = new Img();
+                $imageDb->name = $path;
+                $imageDb->product_id = $product->id;
+                $imageDb->save();
+            }
+
+        return redirect()->route('voyager.product.edit', $product->id)->with('success_message', 'Product have been created!');
     }
 
     // POST BR(E)AD
@@ -442,9 +591,12 @@ class ProductController extends VoyagerBaseController
         }
 
         $categories = Category::with('ancestors')->get()->toTree();
-        $margin = Margin::all()->first();
+        $margin = Margin::all();
+        $discount = Discount::all();
+        $supplier = Supplier::all();
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'categories', 'margin'));
+
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'categories', 'margin', 'discount', 'supplier'));
     }
 
     /**

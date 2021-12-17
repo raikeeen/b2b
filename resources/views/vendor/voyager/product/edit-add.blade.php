@@ -28,112 +28,168 @@
                 <!-- form start -->
                 <form role="form"
                       class="form-edit-add"
-                      action="{{ $edit ? route('voyager.'.$dataType->slug.'.update', $dataTypeContent->getKey()) : route('voyager.'.$dataType->slug.'.store') }}"
+                      action="{{ route('voyager.product.createNew') }}"
                       method="POST" enctype="multipart/form-data">
-                    <!-- PUT Method if we are editing -->
-                @if($edit)
-                    {{ method_field("PUT") }}
-                @endif
 
-                <!-- CSRF TOKEN -->
+
+
+                    <div class="col-md-12 product-header-panel">
+                       @include('layouts.errors')
+
+                    <div class="panel panel panel-bordered panel-warning container-fluid">
+                        <div class="panel-heading"></div>
+                        <div class="panel-body">
+                            <div class="form-group  col-md-12 ">
+                                <input required="" type="text" class="form-control product-head-text" id="name" name="name" placeholder="Pavadinimas" value="{{$product->name ?? ''}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
                     {{ csrf_field() }}
-
-                    <div class="panel-body">
+                    <div class="panel-body content-center">
                         <div class="col-md-8 panel panel-bordered" style="padding-top: 22px;">
-                            @if (count($errors) > 0)
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
 
                         <!-- Adding / Editing -->
-                            @php
-                                $dataTypeRows = $dataType->{($edit ? 'editRows' : 'addRows' )};
-                            @endphp
-
-                            @foreach($dataTypeRows as $row)
-                            <!-- GET THE DISPLAY OPTIONS -->
-                                @php
-                                    $display_options = $row->details->display ?? NULL;
-                                    if ($dataTypeContent->{$row->field.'_'.($edit ? 'edit' : 'add')}) {
-                                        $dataTypeContent->{$row->field} = $dataTypeContent->{$row->field.'_'.($edit ? 'edit' : 'add')};
-                                    }
-                                @endphp
-                                @if (isset($row->details->legend) && isset($row->details->legend->text))
-                                    <legend class="text-{{ $row->details->legend->align ?? 'center' }}" style="background-color: {{ $row->details->legend->bgcolor ?? '#f0f0f0' }};padding: 5px;">{{ $row->details->legend->text }}</legend>
-                                @endif
-
-                                <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ $display_options->width ?? 12 }} {{ $errors->has($row->field) ? 'has-error' : '' }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
-                                    {{ $row->slugify }}
-                                    <label class="control-label" for="name">{{ $row->getTranslatedAttribute('display_name') }}</label>
-                                    @include('voyager::multilingual.input-hidden-bread-edit-add')
-                                    @if (isset($row->details->view))
-                                        @include($row->details->view, ['row' => $row, 'dataType' => $dataType, 'dataTypeContent' => $dataTypeContent, 'content' => $dataTypeContent->{$row->field}, 'action' => ($edit ? 'edit' : 'add'), 'view' => ($edit ? 'edit' : 'add'), 'options' => $row->details])
-                                    @elseif ($row->type == 'relationship')
-                                        @include('voyager::formfields.relationship', ['options' => $row->details])
-                                    @else
-                                        {!! app('voyager')->formField($row, $dataType, $dataTypeContent) !!}
-                                    @endif
-
-                                    @foreach (app('voyager')->afterFormFields($row, $dataType, $dataTypeContent) as $after)
-                                        {!! $after->handle($row, $dataType, $dataTypeContent) !!}
-                                    @endforeach
-                                    @if ($errors->has($row->field))
-                                        @foreach ($errors->get($row->field) as $error)
-                                            <span class="help-block">{{ $error }}</span>
-                                        @endforeach
-                                    @endif
+                            @if($edit)
+                                <div style="padding-bottom: 50px">
+                                <input type="text" name="put" value="put" hidden>
+                                <input type="text" name="product_id" value="{{$product->id}}" hidden>
+                                <div class="dropzone fallback" id="dropzone"></div>
                                 </div>
-                            @endforeach
+                            @else
+                            <div id="fileUpload1" style="padding-bottom: 50px">
+                                <input hidden id="file" name="file"/>
+                            <div class="dropzone dropzone-file-area fallback" id="fileUpload">
+                                <div class="dropzone-previews"></div>
+                            </div>
+                            </div>
+                            @endif
+
+
+
+                                <div class="form-group col-md-6 product-form">
+                                    <label class="control-label product-label" for="name">Kodas:</label>
+                                    <input required="" id="reference" type="text" class="form-control product-code" name="reference" placeholder="Kodas" value="{{$product->reference ?? ''}}">
+                                </div>
+                                <div class="form-group  col-md-6 product-form">
+                                    <label class="control-label product-label" for="name">Tiekėjo kodas:</label>
+                                    <input required="" id="supplier_reference" type="text" class="form-control product-code" name="supplier_reference" placeholder="Kodas" value="{{$product->supplier_reference ?? ''}}">
+                                </div>
+
+                                <div class="form-group  col-md-6 product-form">
+                                    <div class="row" style="padding-left: 15px">
+                                        <label class="control-label" for="name">Tiekėjas:</label>
+                                    </div>
+                                    <select class="form-control" name="supplier" id="supplier">
+
+                                        @foreach($supplier as $sup)
+                                            <option value="{{$sup->id}}" @if($sup->id == ($product->supplier_id ?? '')) selected="selected"@endif">{{$sup->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group  col-md-6 product-form">
+                                    <label class="control-label" for="name">B1 id:</label>
+                                    <input type="text" class="form-control" id="b1_id" name="b1_id" placeholder="Id" value="{{$product->b1_product_id ?? ''}}">
+                                </div>
+                                <div class="form-group  col-md-12 ">
+                                    <label class="control-label" for="name">Aprašymas:</label>
+                                    <input type="text" class="form-control" id="description" name="description" placeholder="Aprašymas" value="{{$product->short_description ?? ''}}">
+                                </div>
+                                <div class="form-group  col-md-6 product-form">
+                                    <label class="control-label" for="name">Likutis Parduotuve:</label>
+                                    <input required="" type="number" class="form-control" id="stock_shop" name="stock_shop" placeholder="Likutis" value="{{$product->stock_shop ?? 0}}">
+                                </div>
+                                <div class="form-group  col-md-6 product-form">
+                                    <label class="control-label" for="name">Likutis Tiekėjas:</label>
+                                    <input required="" type="number" class="form-control" id="stock_supplier" name="stock_supplier" placeholder="Likutis" value="{{$product->stock_supplier ?? 0}}">
+                                </div>
+
                         </div>
-                        <div class="col-md-4">
-                            <div class="panel panel panel-bordered panel-warning">
+                        <div class="col-md-3" style="padding-right: 0">
+                            <div class="panel panel panel-bordered panel-warning panel-primary">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="icon wb-clipboard"></i> Post Details</h3>
+                                    <h3 class="panel-title"><i class="icon wb-clipboard"></i> Margin</h3>
                                     <div class="panel-actions">
                                         <a class="panel-action voyager-angle-down" data-toggle="panel-collapse" aria-hidden="true"></a>
                                     </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="form-group">
-                                        <label for="slug">URL slug</label>
-                                        <input type="text" class="form-control" id="slug" name="slug" placeholder="slug" data-slug-origin="title" data-slug-forceupdate="true" value="lorem-ipsum-post">
+                                    <div class="form-group product-form">
+                                        <label class="product-label big-text" for="slug">Price stock netto:</label>
+                                        <input required="" type="number" step="0.01" id="price" class="product-price" name="price" data-slug-origin="title" data-slug-forceupdate="true" value="{{$product->price_base ?? '0.00'}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text product-symbol"> €</span>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="status">Post Status</label>
-                                        <select class="form-control" name="status">
-                                            <option value="PUBLISHED" selected="selected">published</option>
-                                            <option value="DRAFT">draft</option>
-                                            <option value="PENDING">pending</option>
+                                    <hr class="hr-grey">
+                                    <div class="form-group product-form">
+                                        <label class="product-label" for="slug">Supplier margin:</label>
+                                            <input disabled type="number" step="0.01" id="supplier_margin" class="product-price" name="supplier_margin" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{$product->supplier->margin ?? '0.00'}}">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text product-symbol"> %</span>
+                                            </div>
+                                    </div>
+                                    <div class="form-group product-form">
+                                        <label class="product-label" for="slug">Category margin:</label>
+                                        <input disabled type="number" step="0.01" class="product-price" id="category_margin" name="category_margin" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product->category[0]) ? $product->category[0]->trade_margin : '0.00'}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text product-symbol"> %</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group product-form">
+                                        <label class="product-label" for="slug">Product margin:</label>
+                                        <input required="" type="number" step="0.01" class="product-price" id="product_margin" name="product_margin" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{$product->trade_margin ?? '0.00'}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text product-symbol"> %</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group product-form">
+                                        <label class="product-label" for="slug">Global margin:</label>
+                                        <select required="" class="product-price" name="margin" id="margin">
+                                            @foreach($margin as $mar)
+                                                <option value="{{$mar->id}}" @if($mar->id == ($product->margin_id ?? '')) selected="selected" @endif>{{$mar->value}}</option>
+                                            @endforeach
                                         </select>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text product-symbol"> %</span>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="category_id">Post Category</label>
-                                        <select class="form-control" name="category_id">
-                                            <option value="1">Category 1</option>
-                                            <option value="2">Category 2</option>
+                                    <div class="form-group product-form">
+                                        <label class="product-label" for="slug">Global discount:</label>
+                                        <select required="" class="product-price" name="discount" id="discount">
+                                            @foreach($discount as $dis)
+                                                <option value="{{$dis->id}}" @if($dis->id == ($product->discount_id ?? '')) selected="selected" @endif>{{$dis->value}}</option>
+                                            @endforeach
                                         </select>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text product-symbol"> %</span>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="featured">Featured</label>
-                                        <input type="checkbox" name="featured">
+                                    <div class="form-group product-form">
+                                        <label class="product-label big-text" for="slug">Sum:</label>
+                                        <input disabled type="number" step="0.01" class="product-price" name="all" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product) ? $product->commonsMargin() : '0.00'}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text product-symbol"> %</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-bordered panel-primary">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="icon wb-image"></i> Post Image</h3>
-                                    <div class="panel-actions">
-                                        <a class="panel-action voyager-angle-up" data-toggle="panel-collapse" aria-hidden="true"></a>
+                                    <hr class="hr-grey">
+                                    <div class="form-group product-form">
+                                        <label class="product-label" for="slug">Kaina be pvm:</label>
+                                        <input required type="number" step="0.01" class="product-price" id="price_estimate" name="price_estimate" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{$product->price ?? '0.00'}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text product-symbol"> €</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="panel-body" style="">
-                                    <img src="http://localhost:8000/storage/posts/post1.jpg" style="width:100%">
-                                    <input type="file" name="image">
+                                    <div class="form-group product-form">
+                                        <label class="product-label" for="slug">Kaina su pvm:</label>
+                                        <input disabled type="number" step="0.01" class="product-price" id="show-price-with-vat" name="show-price-with-vat" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product) ? App\Models\Tax::priceWithTax($product->price) : '0.00'}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text product-symbol"> €</span>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="panel panel-bordered panel-info">
@@ -145,14 +201,13 @@
                                 </div>
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <label for="meta_description">Meta Description</label>
                                         <ul class="category-tree" style="margin-left: -20px;">
                                             @foreach($categories as $category)
                                                 <li class="less">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" name="category[]" value="{{$category->id}}"
-                                                                   class="category" {{$categoriesForProduct->contains($category) ? 'checked': ''}}>
+                                                            <input type="checkbox" id="category" name="category[]" value="{{$category->id}}"
+                                                                   class="category" {{(isset($categoriesForProduct) ? $categoriesForProduct->contains($category) : '') ? 'checked': ''}}>
                                                             {{$category->name}}
                                                         </label>
                                                     </div>
@@ -162,8 +217,8 @@
                                                                 <li>
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" name="category[]" value="{{$child->id}}"
-                                                                                   class="category" {{$categoriesForProduct->contains($child) ? 'checked': ''}}>
+                                                                            <input type="checkbox" id="category" name="category[]" value="{{$child->id}}"
+                                                                                   class="category" {{(isset($categoriesForProduct) ? $categoriesForProduct->contains($child)  : '') ? 'checked': ''}}>
                                                                             {{$child->name}}
                                                                         </label>
                                                                     </div>
@@ -181,11 +236,14 @@
                         </div>
                     </div><!-- panel-body -->
 
-                    <div class="panel-footer">
-                        @section('submit-buttons')
-                            <button type="submit" class="btn btn-primary save">{{ __('voyager::generic.save') }}</button>
-                        @stop
-                        @yield('submit-buttons')
+                    <div class="panel-footer product-footer">
+                        <div class="col-md-4"></div>
+                        <div class="col-sm-5 col-md-8 text-right" style="padding-right: 6%;">
+                            @section('submit-buttons')
+                                <button type="submit" id="save" class="btn btn-primary save">{{ __('Išsaugoti') }}</button>
+                            @stop
+                            @yield('submit-buttons')
+                        </div>
                     </div>
                 </form>
 
@@ -228,65 +286,86 @@
 @stop
 
 @section('javascript')
+    @if($edit)
     <script>
-        var params = {};
-        var $file;
-        function deleteHandler(tag, isMulti) {
-            return function() {
-                $file = $(this).siblings(tag);
-                params = {
-                    slug:   '{{ $dataType->slug }}',
-                    filename:  $file.data('file-name'),
-                    id:     $file.data('id'),
-                    field:  $file.parent().data('field-name'),
-                    multi: isMulti,
-                    _token: '{{ csrf_token() }}'
-                }
-                $('.confirm_delete_name').text(params.filename);
-                $('#confirm_delete_modal').modal('show');
-            };
-        }
-        $('document').ready(function () {
-            $('.toggleswitch').bootstrapToggle();
-            //Init datepicker for date fields if data-datepicker attribute defined
-            //or if browser does not handle date inputs
-            $('.form-group input[type=date]').each(function (idx, elt) {
-                if (elt.hasAttribute('data-datepicker')) {
-                    elt.type = 'text';
-                    $(elt).datetimepicker($(elt).data('datepicker'));
-                } else if (elt.type != 'date') {
-                    elt.type = 'text';
-                    $(elt).datetimepicker({
-                        format: 'L',
-                        extraFormats: [ 'YYYY-MM-DD' ]
-                    }).datetimepicker($(elt).data('datepicker'));
-                }
-            });
-            @if ($isModelTranslatable)
-            $('.side-body').multilingual({"editing": true});
-            @endif
-            $('.side-body input[data-slug-origin]').each(function(i, el) {
-                $(el).slugify();
-            });
-            $('.form-group').on('click', '.remove-multi-image', deleteHandler('img', true));
-            $('.form-group').on('click', '.remove-single-image', deleteHandler('img', false));
-            $('.form-group').on('click', '.remove-multi-file', deleteHandler('a', true));
-            $('.form-group').on('click', '.remove-single-file', deleteHandler('a', false));
-            $('#confirm_delete').on('click', function(){
-                $.post('{{ route('voyager.'.$dataType->slug.'.media.remove') }}', params, function (response) {
-                    if ( response
-                        && response.data
-                        && response.data.status
-                        && response.data.status == 200 ) {
-                        toastr.success(response.data.message);
-                        $file.parent().fadeOut(300, function() { $(this).remove(); })
-                    } else {
-                        toastr.error("Error removing file.");
+        $('#supplier').select2();
+        // Dropzone.options.Dropzone = {
+        //     // Configuration options go here
+        // };
+        var myDropzone = new Dropzone("div#dropzone", {
+            url: "{{route('add-image', $product->id)}}",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            dictFileTooBig: 'Image is larger than 16MB',
+            paramName: 'file',
+            acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
+            addRemoveLinks: true,
+            maxFiles:8,
+            parallelUploads: 1,
+            maxFilesize: 16,
+            init: function () {
+                let myDropzone = this;
+                let callback = null; // Optional callback when it's done
+                let crossOrigin = null; // Added to the `img` tag for crossOrigin handling
+                let resizeThumbnail = false; // Tells Dropzone whether it should resize the image first
+                let existingFiles = {!! $img !!};
+
+                if(existingFiles.length > 0) {
+                    for (i = 0; i < existingFiles.length; i++) {
+                        myDropzone.displayExistingFile(existingFiles[i], window.location.origin + '/' + existingFiles[i].file, callback, crossOrigin, resizeThumbnail);
                     }
+                }
+                this.on("removedfile", function (file) {
+                    $.post({
+                        url: '{{route('delete-image', $product->id)}}',
+                        data: {
+                            id: file.previewElement.querySelector("[data-dz-name]").textContent,
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+
+                        }
+                    });
                 });
-                $('#confirm_delete_modal').modal('hide');
-            });
-            $('[data-toggle="tooltip"]').tooltip();
+            },
+            success: function( file, response ) {
+                var fileuploded = file.previewElement.querySelector("[data-dz-name]");
+                fileuploded.innerHTML = response;
+            }
         });
+        Dropzone.autoDiscover = false;
+
     </script>
+    @else
+        <script>
+            $('#supplier').select2();
+            //var formData = new FormData();
+            var myDropzone = new Dropzone("div#fileUpload", {
+
+                url: 'blackHole.php',
+                addRemoveLinks: true,
+                previewsContainer: 'div.dropzone-previews',
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                maxFiles:8,
+                parallelUploads: 1,
+                maxFilesize: 16,
+                accept: function(file) {
+                    let fileReader = new FileReader();
+
+                    fileReader.readAsDataURL(file);
+                    fileReader.onloadend = function() {
+
+                        let content = fileReader.result;
+                       // $('#file').val(content);
+                        $('#fileUpload1').append('<input hidden name = "files[]" value =' + content + ' /> ');
+                        file.previewElement.classList.add("dz-success");
+                    }
+                    file.previewElement.classList.add("dz-complete");
+                }
+            });
+
+            Dropzone.autoDiscover = false;
+
+        </script>
+    @endif
 @stop

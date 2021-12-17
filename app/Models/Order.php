@@ -26,10 +26,15 @@ class Order extends Model
 
     public function getStatusLatestAttribute()
     {
+        $status = $this->status->last();
+        $color = $status->color;
+        if(!isset($color)) {
+            $color = '#CCCCC';
+        }
 
-        $div = '<span style="border-radius: 0.25em;color: #fff;display: inline;font-size: 90%;font-weight: 700;line-height: 1;padding: 0.15em 0.4em;text-align: center;vertical-align: baseline;
-        white-space: nowrap;background-color:'. $this->status->last()->color ?? ''.'">'.$this->status->last()->name.'</span>';
-        return $div;
+        $html = '<span style="border-radius: 0.25em;color: #fff;display: inline;font-size: 90%;font-weight: 700;line-height: 1;padding: 0.15em 0.4em;text-align: center;vertical-align: baseline;
+        white-space: nowrap;background-color:'. $color.'">'.$status->name.'</span>';
+        return $html;
     }
 
     static function getNumbers()

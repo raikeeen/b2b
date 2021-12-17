@@ -16,7 +16,7 @@ class CreateMargin extends Migration
         Schema::create('margin', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
-            $table->integer('value')->default(0);
+            $table->decimal('value',8,2)->default(0);
             $table->timestamps();
         });
     }

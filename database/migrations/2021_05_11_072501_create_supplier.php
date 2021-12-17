@@ -16,7 +16,7 @@ class CreateSupplier extends Migration
         Schema::create('supplier', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable(false);
-            $table->integer('margin')->default(0);
+            $table->decimal('margin',8,2)->default(0);
             $table->longText('img')->nullable();
             $table->timestamps();
         });

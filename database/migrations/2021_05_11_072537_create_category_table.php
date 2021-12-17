@@ -19,7 +19,7 @@ class CreateCategoryTable extends Migration
             $table->string('description')->nullable();
             $table->string('img')->nullable();
             $table->string('slug')->unique();
-            $table->integer('trade_margin')->default(0);
+            $table->decimal('trade_margin',8,2)->default(0);
             $table->nestedSet();
             $table->timestamps();
         });

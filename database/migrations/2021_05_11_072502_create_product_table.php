@@ -20,11 +20,11 @@ class CreateProductTable extends Migration
             $table->string('reference');
             $table->integer('stock_shop')->default(0);
             $table->integer('stock_supplier')->default(0);
-            $table->integer('trade_margin')->default(0);
+            $table->decimal('trade_margin',8,2)->default(0);
             $table->integer('tax_id')->default(1);
             $table->longText('description')->nullable();
             $table->longText('short_description')->nullable();
-            $table->decimal('price')->default(0);
+            $table->decimal('price',8,2)->default(0);
 
             $table->integer('discount_id')->unsigned()->default(1);
             $table->foreign('discount_id')->references('id')->on('discount')->onUpdate('cascade')->onDelete('cascade');

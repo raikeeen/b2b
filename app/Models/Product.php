@@ -29,6 +29,8 @@ class Product extends Model
         'stock_supplier',
         'discount_id',
         'supplier_id',
+        'margin_id',
+        'trade_margin',
         'description',
         'short_description',
         'price',
@@ -56,7 +58,7 @@ class Product extends Model
                     (isset($this->category[0]) ? $this->category[0]->trade_margin : 0) +
                     $this->trade_margin  +
                     (isset($this->supplier->margin) ? $this->supplier->margin : 0 ))/ 100) -
-            ( $value * ( isset($user->discount) ? $user->discount : 0 + $this->discount->value ) / 100),2);
+            ( $value * ( isset($user->discount) ? $user->discount + $this->discount->value : 0 + $this->discount->value ) / 100),2);
     }
 
     public function getPriceStockAttribute()
@@ -71,24 +73,15 @@ class Product extends Model
             return round($this->price*1.21,2);
     }
 
-    /*public function presentPrice()
+    public function commonsMargin()
     {
-        return money_format('$%i', $this->price / 100);
+        return (isset($this->margin->value) ? $this->margin->value : 0) +
+            (isset($this->category[0]) ? $this->category[0]->trade_margin : 0) +
+            (isset($this->trade_margin) ? $this->trade_margin : 0) +
+            (isset($this->supplier->margin) ? $this->supplier->margin : 0) - $this->discount->value;
+
+
     }
-
-    public function totalMargin($id)
-    {
-        $user_discount = User::Find($id);
-        $price = $this->price;
-
-        return  $this->price = $price + ( $this->price * (
-                $this->margin->value +
-                (isset($this->category[0]) ? $this->category[0]->trade_margin : 0) +
-                $this->trade_margin  +
-                $this->supplier->margin )/ 100) -
-            ( $price*$user_discount->discount ) / 100;
-    }*/
-
 
     public function order()
     {

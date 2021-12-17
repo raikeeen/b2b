@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Img;
+use Illuminate\Support\Facades\File;
 use App\Http\Controllers\API\ApiProductController;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Myrzan\TecDocClient\Client;
 use Myrzan\TecDocClient\Generated\GetArticleDirectSearchAllNumbersWithState;
 use Myrzan\TecDocClient\Generated\GetArticleLinkedAllLinkingTarget3;
@@ -140,5 +143,28 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function addImage(Request $request, $id)
+    {
+        $file = $request->file('file');
+        $imageName = time() . strtoupper(Str::random(5)) . '.' . $file->extension();
+        $path = 'storage/products/common_images';
+        $file->move(public_path($path), $imageName);
+
+        $imageDb = new Img();
+        $imageDb->name = $path.'/'.$imageName;
+        $imageDb->product_id = $id;
+        $imageDb->save();
+
+        return response()->json($imageName);
+    }
+
+    public function deleteImage(Request $request, $id)
+    {
+        $path = public_path('storage/products/common_images/').$request->id;
+        File::delete($path);
+
+        $imageDb = Img::where('name', 'storage/products/common_images/'.$request->id)->delete();
+        return response()->json(['success' => $request->id]);
     }
 }

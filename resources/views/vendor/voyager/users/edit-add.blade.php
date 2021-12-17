@@ -56,27 +56,27 @@
                             @endif
 
                                 <div class="form-group  col-md-12 ">
-                                    <label class="control-label" for="name">Vardas</label>
+                                    <label class="control-label" for="name">Vardas<span class="star-red">*</span>:</label>
                                     <input required="" type="text" class="form-control" name="name" placeholder="Vardas" value="{{$user->name ?? ''}}">
                                 </div>
                                 <div class="form-group  col-md-12 ">
-                                    <label class="control-label" for="name">Pavardė</label>
+                                    <label class="control-label" for="name">Pavardė<span class="star-red">*</span>:</label>
                                     <input required="" type="text" class="form-control" name="surname" placeholder="Pavardė" value="{{$user->surname ?? ''}}">
                                 </div>
                                 <div class="form-group  col-md-12 ">
-                                    <label class="control-label" for="name">el. Paštas</label>
+                                    <label class="control-label" for="name">el. Paštas<span class="star-red">*</span>:</label>
                                     <input required="" type="text" class="form-control" name="email" placeholder="Paštas" value="{{$user->email ?? ''}}">
                                 </div>
                                 <div class="form-group  col-md-12 ">
-                                    <label class="control-label" for="name">Slaptažodis</label>
+                                    <label class="control-label" for="name">Slaptažodis:@if(!$edit) <span class="star-red">*</span>: @endif</label>
                                     <input @if(empty($user))required=""@endif type="text" class="form-control" name="password" placeholder="Slaptažodis" value="">
                                 </div>
 
                                 <div class="form-group  col-md-12 ">
                                     <div class="row" style="padding-left: 15px">
-                                        <label class="control-label" for="name">User role</label>
+                                        <label class="control-label" for="name">User role<span class="star-red">*</span>:</label>
                                     </div>
-                                    <select class="c-select c-select--block" name="role" id="role">
+                                    <select class="form-control" name="role" id="role">
 
                                         @foreach($roles as $role)
                                             <option value="{{$role->id}}" @if($role->id == ($user->role_id ?? 2)) selected="selected"@endif">{{$role->display_name}}</option>
@@ -103,7 +103,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group  col-md-12 ">
-                            <label class="control-label" for="name">Įmonė:</label>
+                            <label class="control-label" for="name">Įmonė<span class="star-red">*</span>:</label>
                             <input required="" type="text" class="form-control" name="company_name" placeholder="Įmonė" value="{{$user->address->company_name ?? ''}}">
                         </div>
                         <div class="form-group  col-md-12 ">
@@ -115,54 +115,57 @@
                             <input type="text" class="form-control" name="pvm" placeholder="PVM kodas" value="{{$user->address->pvm ?? ''}}">
                         </div>
                         <div class="form-group  col-md-12 ">
-                            <label class="control-label" for="name">Šalis:</label>
-                            <select class="c-select c-select--block" name="country" id="country">
+                            <div class="col-md-6" style="padding-left: 0px">
+                            <label class="control-label" for="name">Šalis<span class="star-red">*</span>:</label>
+                            <select class="form-control" name="country" id="country">
                                 @foreach($countries as $country)
                                 <option value="{{$country->id}}" @if(($user->address->country_id ?? 1) == $country->id) selected="selected" @endif>{{$country->name}}</option>
                                 @endforeach
                             </select>
-
-                            <label class="control-label" for="name">Miestas:</label>
-                            <select class="c-select c-select--block" name="city" id="city">
+                            </div>
+                            <div class="col-md-6" style="padding-right: 0px">
+                            <label class="control-label" for="name">Miestas<span class="star-red">*</span>:</label>
+                            <select class="form-control" name="city" id="city">
                                 @foreach($cities as $city)
                                     <option value="{{$city->id}}" @if(($user->address->city_id ?? 1) == $city->id) selected="selected" @endif>{{$city->name}}</option>
                                 @endforeach
                             </select>
+                            </div>
                         </div>
                         <div class="form-group  col-md-12 ">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <label class="control-label" for="name">Gatvė:</label>
+                                    <label class="control-label" for="name">Gatvė<span class="star-red">*</span>:</label>
                                     <input required="" type="text" class="form-control" name="street" placeholder="Gatvė" value="{{$user->address->street ?? ''}}">
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="control-label" for="name">Namas:</label>
+                                    <label class="control-label" for="name">Namas<span class="star-red">*</span>:</label>
                                     <input required="" type="text" class="form-control" name="building" placeholder="№" value="{{$user->address->building ?? ''}}">
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="control-label" for="name">Būtas:</label>
+                                    <label class="control-label" for="name">Būtas</label>
                                     <input type="text" class="form-control" name="apartment" placeholder="№" value="{{$user->address->apartment ?? ''}}">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group  col-md-6 ">
-                            <label class="control-label" for="name">Pašto kodas:</label>
+                            <label class="control-label" for="name">Pašto kodas<span class="star-red">*</span>:</label>
                             <input required="" type="text" class="form-control" name="post_code" placeholder="Pašto kodas" value="{{$user->address->post_code ?? ''}}">
                         </div>
                         <div class="form-group  col-md-6 ">
-                            <label class="control-label" for="name">Telefono numeris:</label>
-                            <input required="" type="number" class="form-control" name="phone" placeholder="Telefono numeris" value="{{$user->address->phone ?? ''}}">
+                            <label class="control-label" for="name">Telefono numeris<span class="star-red">*</span>:</label>
+                            <input required="" type="tel" class="form-control" name="phone" placeholder="Telefono numeris" value="{{$user->address->phone ?? ''}}">
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-bordered">
                     <div class="panel-title" style="font-weight: bold;">
-                        Nuolaida
+                        Nuolaida<span class="star-red">*</span>:
                     </div>
                     <div class="panel-body"style="margin: 0 30px;">
                         <div class="form-group" >
                             <div class="row">
-                            <input type="number" class="form-control" name="discount" placeholder="Nuolaida" value="{{$user->discount ?? ''}}">
+                            <input required="" type="number" class="form-control" name="discount" placeholder="Nuolaida" value="{{$user->discount ?? 0}}">
                             <a style="    position: absolute;
     right: 5px;
     bottom: 20px;
@@ -180,6 +183,8 @@
 
 @section('javascript')
     <script>
-
+        $('#city').select2();
+        $('#country').select2();
+        $('#role').select2();
     </script>
 @stop
