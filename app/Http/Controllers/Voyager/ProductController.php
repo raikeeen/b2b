@@ -370,6 +370,10 @@ class ProductController extends VoyagerBaseController
 
             $product = Product::find($request->product_id);
 
+            if($product->price_base !== $request->price) {
+                $product->update(['price' =>  $request->price]);
+            }
+
             $price = $product->price;
             if($request->price_estimate != $price){
 
