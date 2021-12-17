@@ -397,7 +397,8 @@ class ProductController extends VoyagerBaseController
                     'discount_id' => $request->discount,
                     'b1_product_id' => $request->b1_id,
                     'supplier_id' => $request->supplier,
-                    'short_description' => $request->description
+                    'short_description' => $request->description,
+                    'price_add' => $request->price_add
                 ]);
 
                 return redirect()->back()->with('success_message', 'Product have been updated!');
@@ -415,7 +416,8 @@ class ProductController extends VoyagerBaseController
                 'discount_id' => $request->discount,
                 'supplier_id' => $request->supplier,
                 'short_description' => $request->description,
-                'b1_product_id' => $request->b1_id
+                'b1_product_id' => $request->b1_id,
+                'price_add' => $request->price_add
             ]);
 
             return redirect()->back()->with('success_message', 'Product have been updated!');
@@ -435,6 +437,7 @@ class ProductController extends VoyagerBaseController
             $product->supplier_id = $request->supplier;
             $product->description = $request->description;
             $product->price = $request->price;
+            $product->price_add = $request->price_add;
             $product->save();
 
             if($request->price_estimate > 0) {

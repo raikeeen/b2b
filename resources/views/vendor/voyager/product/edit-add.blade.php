@@ -173,6 +173,11 @@
                                         <div class="input-group-append">
                                             <span class="input-group-text product-symbol"> %</span>
                                         </div>
+                                        <label class="product-label big-text" for="slug" style="padding-left: 10px">Add price:</label>
+                                        <input required type="number" step="0.01" class="product-price" name="price_add" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product) ? $product->price_add : '0.00'}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text product-symbol"> €</span>
+                                        </div>
                                     </div>
                                     <hr class="hr-grey">
                                     <div class="form-group product-form">

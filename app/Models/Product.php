@@ -35,7 +35,8 @@ class Product extends Model
         'short_description',
         'price',
         'discount_product',
-        'discount_global'
+        'discount_global',
+        'price_add'
     ];
     protected $appends = ['price_stock', 'price_base'];
     public $increments = true;
@@ -58,7 +59,7 @@ class Product extends Model
                     (isset($this->category[0]) ? $this->category[0]->trade_margin : 0) +
                     $this->trade_margin  +
                     (isset($this->supplier->margin) ? $this->supplier->margin : 0 ))/ 100) -
-            ( $value * ( isset($user->discount) ? $user->discount + $this->discount->value : 0 + $this->discount->value ) / 100),2);
+            ( $value * ( isset($user->discount) ? $user->discount + $this->discount->value : 0 + $this->discount->value ) / 100) + $this->price_add,2);
     }
 
     public function getPriceStockAttribute()
