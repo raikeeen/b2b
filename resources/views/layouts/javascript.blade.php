@@ -14,6 +14,15 @@
 --}}
 
 <script src="{{asset('js/lightbox.js')}}" crossorigin="anonymous"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66802263-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-66802263-1');
+</script>
 {{--
 <link rel="stylesheet" href="owl-carousel/owl.carousel.css">
 
