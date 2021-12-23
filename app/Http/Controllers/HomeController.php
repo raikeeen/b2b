@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
@@ -55,6 +57,45 @@ class HomeController extends Controller
         $brands = Brand::all();
 
         $client = new Client();
+        /*$writer = new XLSXWriter();
+        $xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\klientu sarasas import.xlsx'));
+
+
+        $rows = $xlsx->rows();
+        unset($rows[0]);
+
+        for($i = 1;$i <= count($rows);$i++) {
+
+
+            $address = new Address();
+            $address->company_name = $rows[$i][0];
+            $address->vat = $rows[$i][4];
+            $address->country_id = $rows[$i][5];
+            $address->city_id = $rows[$i][6];
+            $address->street = $rows[$i][8];
+            $address->building = $rows[$i][9];
+            $address->apartment = $rows[$i][10];
+            $address->pvm = $rows[$i][11];
+            $address->post_code = $rows[$i][7];
+            $address->phone = $rows[$i][15];
+            $address->save();
+
+            $user = new User();
+            $user->role_id = $rows[$i][1];
+            $user->name = $rows[$i][13];
+            $user->surname = $rows[$i][14];
+            $user->discount = 0;
+            $user->address_id = $address->id;
+            $user->email = $rows[$i][16];
+            $user->avatar = 'users/default.png';
+            $user->password = $rows[$i][17];
+            $user->note = $rows[$i][12];
+            $user->save();
+
+        }*/
+
+
+
 /*        $writer = new XLSXWriter();
         $xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\vika.xlsx'));
 

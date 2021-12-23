@@ -25,7 +25,7 @@ class CreateAddress extends Migration
             $table->string('apartment')->nullable();
             $table->string('post_code')->nullable();
             $table->integer('discount')->nullable();
-            $table->integer('phone')->nullable();
+            $table->string('phone')->nullable();
 
             $table->timestamps();
         });

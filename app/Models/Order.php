@@ -17,6 +17,7 @@ class Order extends Model
         'name',
         'order_b1'
     ];
+    protected $appends = ['company', 'status_latest'];
     public $additional_attributes = ['company', 'status_latest'];
 
     public function getCompanyAttribute()
@@ -70,7 +71,6 @@ class Order extends Model
         $order->payment_price = $payment;
         $order->document_id = $request->document;
         $order->coupon_id = $coupon === 0 ? null : $coupon;
-        $order->secure_key = $request->_token;
         $order->reference = $idOrderOld.strtoupper(Str::random(4)).$user_id;
         $order->total = Tax::priceWithTax(Cart::subtotal(2,'.','')) + $delivery + $payment - $coupon;
         $order->save();
@@ -90,6 +90,10 @@ class Order extends Model
     }
     static function detailOrder($order)
     {
+        $invoice = null;
+        if(isset($order->document_b1->name)) {
+            $invoice = $order->getFactura();
+        }
         $orderdata = [
             'products',
             'order_reference' => $order->reference,
@@ -101,8 +105,9 @@ class Order extends Model
                 'name' => $order->delivery->name,
                 'price' => $order->delivery_price
             ],
+            'company' =>$order->company,
             'user' =>$order->user,
-            'invoice' => $order->invoice,
+            'invoice' => $invoice,
             'status' => $order->status->last()->name,
             'type_doc' => $order->document->name,
             'coupon' => '',
@@ -176,6 +181,10 @@ class Order extends Model
 
         return $orderdata;
     }*/
+    public function getFactura()
+    {
+        return 'storage/users/'.$this->user_id.'/invoice/'.$this->document_b1->name.".pdf";
+    }
 
     public function delivery()
     {
@@ -204,6 +213,10 @@ class Order extends Model
     public function coupon()
     {
         return $this->belongsTo('App\Models\Coupons');
+    }
+    public function document_b1()
+    {
+        return $this->belongsTo('App\Models\DocumentB1');
     }
 
 

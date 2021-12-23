@@ -34,6 +34,6 @@ class SendMailFactura implements ShouldQueue
      */
     public function handle()
     {
-       Mail::to($this->order->user->email)->send(new OrderMailWitchDoc($this->order->invoice));
+       Mail::to($this->order->user->email)->send(new OrderMailWitchDoc($this->order));
     }
 }

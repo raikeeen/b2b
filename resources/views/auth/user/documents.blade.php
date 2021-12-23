@@ -16,10 +16,10 @@
             </select>
         </div>
         <div class="mb-5 col-2 credit-limit">
-            Kredito limitas: 5000
+            Kredito limitas: {{$user->limit}}
         </div>
         <div class="mb-5 col-2 credit-limit">
-            Liko kredito: 0
+            Liko kredito: {{$user->limit}}
         </div>
         <!-- ko if: viewDate() === 'CUSTOM' --><!-- /ko -->
     </div>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <!-- ko foreach: orders() -->
-            @foreach($orders as $order)
+            @foreach($orders as $key => $order)
                 <hr class="m-0">
                 <div class="row py-2">
                     <div class="col-12 col-md-2">
@@ -90,13 +90,13 @@
                     <div class="col-12 col-md">
 
 
-                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">14</span>
+                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">{{$user->term}}</span>
 
                     </div>
-                    <div class="col-12 col-md">
+                    <div class="col-12 col-md @if($limitDays[$key] > 0) c-product-stock__availability--more @else c-product-stock__availability--less @endif">
 
 
-                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">14</span>
+                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">{{$limitDays[$key]}}</span>
 
                     </div>
 
@@ -134,9 +134,9 @@
 
                     </div>
 
-                @if(isset($order->invoice))
+                @if(isset($order->document_b1->name))
                     <div class="col-12 col-md">
-                        <a href="{{$order->invoice}}" title="Detalės">
+                        <a target="_blank" href="{{$order->getFactura()}}" title="Detalės">
                             <span>Sąskaitos faktūrą</span>
                         </a>
                     </div>

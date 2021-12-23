@@ -37,6 +37,7 @@ Route::group(['prefix' => 'admin-kavateka'], function () {
 
 });
 
+
 Auth::routes();
 Route::get('ajaxRequest', [TecDocController::class, 'ajaxRequest']);
 Route::post('ajaxRequest', [TecDocController::class, 'ajaxCartPost'])->name('ajax.cart');

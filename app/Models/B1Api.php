@@ -289,12 +289,9 @@ class B1Api extends Model
 
             $result = $keys->b1->request('shop/invoices/get', $data);
 
-            $path = "users/".$order->user_id."/invoice/".$order->invoice.".pdf";
+            $path = "users/".$order->user_id."/invoice/".$order->document_b1->name.".pdf";
 
             Storage::disk('local')->put("/public/".$path, $result->content);
-
-            $order->invoice = "/storage/".$path;
-            $order->save();
 
             if($result->code !== 200)
             {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class DocumentController extends Controller
@@ -15,11 +16,27 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        $id = Auth::user()->id;
-        $orders = Order::where('user_id',$id)->orderBy('created_at','DESC')->get();
+        $user = Auth::user();
+        $limit = $user->term;
+        $orders = Order::where('user_id',$user->id)->orderBy('created_at','DESC')->get();
+
+        $from = Carbon::createFromFormat('Y-m-d H:s:i', Carbon::now());
+        $limitDays = $orders->map(function ($order) use ($from, $limit) {
+
+            $to = Carbon::createFromFormat('Y-m-d H:s:i', $order->created_at);
+            $days = $to->diffInDays($from);
+
+            if($days > $limit) {
+                return 0;
+            }
+
+            return $limit-$days;
+        });
 
         return view('auth.user.documents', [
-            'orders' => $orders
+            'orders' => $orders,
+            'user' => $user,
+            'limitDays' => $limitDays
 
         ]);
     }

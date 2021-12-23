@@ -13,7 +13,26 @@
             <div class="col-12 col-xl-8 d-flex justify-content-center align-items-center my-2 my-xl-0 order-1 order-sm-2 order-xl-1">
 
                 <div id="app">
+                    @guest
+                        <div class="" data-asp-hook-name="HeaderQuickSearch">
+                            <div data-control-type="QuickSearch">
+                                <div class="c-quick-search position-relative" @keyup.enter="submit()">
+
+                                    <input class="c-input c-input--quicksearch" placeholder="Ieškokite produkto pavadinimo ar kodo"   required="">
+
+                                    <button class="c-quick-search__button" type="submit">
+                                        <svg class="c-icon">
+                                            <use xlink:href="#search"></use>
+                                            <path d="M19,15.14A10.15,10.15,0,0,0,3,3,10.15,10.15,0,0,0,15.14,19l4.16,4.16a2.87,2.87,0,0,0,2,.86h0A2.3,2.3,0,0,0,23,23.33l.39-.38a2.61,2.61,0,0,0-.19-3.65Zm-14.47.64A8,8,0,0,1,10.15,2.17a8,8,0,0,1,8,8,8,8,0,0,1-2.33,5.64h0a8,8,0,0,1-11.27,0ZM21.8,21.41l-.38.39a.19.19,0,0,1-.12,0,.71.71,0,0,1-.46-.22l-3.9-3.91.38-.38h0l.38-.38,3.91,3.91C21.85,21.08,21.86,21.36,21.8,21.41Z"></path>
+                                        </svg>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    @else
                     <search></search>
+                    @endguest
                 </div>
 
             </div>
@@ -77,7 +96,7 @@
                                         @else
                                             <div class="transform dropdown-menu p-3" style="min-width: 300px;">
                                                     <span class="c-dropdown-menu__user dropdown-item font-weight-bold">
-                                                        {{ Auth::user()->name }} @if(isset( Auth::user()->surname )) {{Auth::user()->surname}} @endif
+                                                       {{ Auth::user()->address->company_name}}
                                                     </span>
                                                 <hr class="border-bottom-blue">
                                                 <a class="dropdown-item" href="{{route('documents.index')}}" title="Dokumentai">

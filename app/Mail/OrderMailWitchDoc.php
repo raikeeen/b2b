@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\DocumentB1;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -28,7 +29,8 @@ class OrderMailWitchDoc extends Mailable
      */
     public function build()
     {
-        $location = public_path($this->details);
+        $factura = DocumentB1::Find($this->details->document_b1_id);
+        $location = public_path($this->details->getFactura());
         return $this->subject('Sąskaita faktūra')->markdown('mails.OrderMailWithDoc')->attach($location);
     }
 }

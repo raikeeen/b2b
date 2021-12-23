@@ -56,12 +56,12 @@
                             @endif
 
                                 <div class="form-group  col-md-12 ">
-                                    <label class="control-label" for="name">Vardas<span class="star-red">*</span>:</label>
-                                    <input required="" type="text" class="form-control" name="name" placeholder="Vardas" value="{{$user->name ?? ''}}">
+                                    <label class="control-label" for="name">Vardas:</label>
+                                    <input type="text" class="form-control" name="name" placeholder="Vardas" value="{{$user->name ?? ''}}">
                                 </div>
                                 <div class="form-group  col-md-12 ">
-                                    <label class="control-label" for="name">Pavardė<span class="star-red">*</span>:</label>
-                                    <input required="" type="text" class="form-control" name="surname" placeholder="Pavardė" value="{{$user->surname ?? ''}}">
+                                    <label class="control-label" for="name">Pavardė:</label>
+                                    <input type="text" class="form-control" name="surname" placeholder="Pavardė" value="{{$user->surname ?? ''}}">
                                 </div>
                                 <div class="form-group  col-md-12 ">
                                     <label class="control-label" for="name">el. Paštas<span class="star-red">*</span>:</label>
@@ -135,12 +135,12 @@
                         <div class="form-group  col-md-12 ">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <label class="control-label" for="name">Gatvė<span class="star-red">*</span>:</label>
-                                    <input required="" type="text" class="form-control" name="street" placeholder="Gatvė" value="{{$user->address->street ?? ''}}">
+                                    <label class="control-label" for="name">Gatvė:</label>
+                                    <input type="text" class="form-control" name="street" placeholder="Gatvė" value="{{$user->address->street ?? ''}}">
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="control-label" for="name">Namas<span class="star-red">*</span>:</label>
-                                    <input required="" type="text" class="form-control" name="building" placeholder="№" value="{{$user->address->building ?? ''}}">
+                                    <label class="control-label" for="name">Namas:</label>
+                                    <input type="text" class="form-control" name="building" placeholder="№" value="{{$user->address->building ?? ''}}">
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label" for="name">Būtas</label>
@@ -149,12 +149,12 @@
                             </div>
                         </div>
                         <div class="form-group  col-md-6 ">
-                            <label class="control-label" for="name">Pašto kodas<span class="star-red">*</span>:</label>
-                            <input required="" type="text" class="form-control" name="post_code" placeholder="Pašto kodas" value="{{$user->address->post_code ?? ''}}">
+                            <label class="control-label" for="name">Pašto kodas:</label>
+                            <input type="text" class="form-control" name="post_code" placeholder="Pašto kodas" value="{{$user->address->post_code ?? ''}}">
                         </div>
                         <div class="form-group  col-md-6 ">
-                            <label class="control-label" for="name">Telefono numeris<span class="star-red">*</span>:</label>
-                            <input required="" type="tel" class="form-control" name="phone" placeholder="Telefono numeris" value="{{$user->address->phone ?? ''}}">
+                            <label class="control-label" for="name">Telefono numeris:</label>
+                            <input type="tel" class="form-control" name="phone" placeholder="Telefono numeris" value="{{$user->address->phone ?? ''}}">
                         </div>
                     </div>
                 </div>

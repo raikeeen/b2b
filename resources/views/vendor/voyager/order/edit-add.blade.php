@@ -314,9 +314,9 @@
                             </div>
                         </div>
                     </div>
-                    @if(!empty($order->invoice))
+                    @if(!empty($order->document_b1->name))
                         <div style="text-align: center;position: relative;flex: auto;">
-                            <a href="{{$order->invoice}}" class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" style="display: inline-block;
+                            <a target="_blank" href="{{'/'.$order->getFactura()}}" class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" style="display: inline-block;
         padding: calc(0.5rem + 1px) 1rem;
         background: #ed3b3b;
         border: none;
@@ -337,7 +337,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title"><i class="icon wb-clipboard">
 
-                        </i> Vartotojas {{$order->user->address->company_name}}</h3>
+                        </i>Vartotojas</h3>
                     <div class="panel-actions">
                         <a class="panel-action voyager-angle-down" data-toggle="panel-collapse" aria-hidden="true"></a>
                     </div>
@@ -345,20 +345,29 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <div class="u-text-color-darker">
-                            <a href="{{route('voyager.users.show', $order->user->id)}}">
-                                <h4>{{$order->user->name.' '.$order->user->surname}}</h4>
+                            <a href="{{route('voyager.users.edit', $order->user->id)}}">
+                                <h4>{{$order->user->address->company_name}}</h4>
                             </a>
+                            @if(isset($order->user->name))
+                            <h3>{{$order->user->name.' '.$order->user->surname}}</h3>
+                                @endif
                         </div>
+                        @if(isset($order->user->address->street))
                         <div class="u-text-color-darker">
                             Adresas: {{$order->user->address->street.' '.$order->user->address->building}}
                         </div>
+                        @endif
+                        @if(isset($order->user->address->city->name))
                         <div class="u-text-color-darker">
-                            {{$order->user->address->post_code.' '.$order->user->address->city->name}}
+                            {{$order->user->address->post_code.' '.$order->user->address->city->name.', '.$order->user->address->country->name}}
                         </div>
+                        @endif
+                        @if(isset($order->user->address->phone))
                         <br>
                         <div class="u-text-color-darker">
                             Telefonas: {{$order->user->address->phone}}
                         </div>
+                        @endif
                         <div class="u-text-color-darker">
                             E-mail: {{$order->user->email}}
                         </div>

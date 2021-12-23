@@ -26,11 +26,12 @@
         <span class="c-headline c-headline--sm">
           <span>Kliento duomenys</span>
         </span>
-                <p class="u-text-color-darker" style="white-space: pre-line;" data-bind="text: deliveryAddress().address()">{{$order['user']->name.' '.$order['user']->surname}}
-                    Adresas: {{$order['user']->address->street.' '.$order['user']->address->building}}
-                    {{$order['user']->address->post_code.' '.$order['user']->address->city->name}}
+                <p class="u-text-color-darker" style="white-space: pre-line;" data-bind="text: deliveryAddress().address()">{{$order['company']}}
+                    @if(isset($order['user']->name)){{$order['user']->name.' '.$order['user']->surname}} <br>@endif
+                    @if(isset($order['user']->address->street))Adresas: {{$order['user']->address->street.' '.$order['user']->address->building}}@endif
+                    {{$order['user']->address->post_code.' '.$order['user']->address->city->name.', '.$order['user']->address->country->name}}
 
-                    Telefonas: {{$order['user']->address->phone}}
+                    @if(isset($order['user']->address->phone))Telefonas: {{$order['user']->address->phone}}@endif
                     E-mail: {{$order['user']->email}}</p>
                 <div data-bind="if: invoiceAddress()"></div>
             </div>
@@ -186,10 +187,10 @@
                 </div>
             </div>
         </div>
-        @if(isset($order['invoice']))
+        @if($order['invoice'] !== null)
         <div class="row">
             <div style="text-align: center;position: relative;flex: auto;">
-            <a href="{{$order['invoice']}}" class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" title="Žiūrėti fakturą">
+            <a target="_blank" href="{{'/'.$order['invoice']}}" class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" title="Žiūrėti fakturą">
                 <span>Žiūrėti fakturą</span>
             </a>
             </div>

@@ -29,6 +29,10 @@ class Address extends Model
     {
         return $this->belongsTo('App\Models\City');
     }
+    public function country()
+    {
+        return $this->belongsTo('App\Models\Country');
+    }
     public function user()
     {
         return $this->hasOne('App\Models\User', 'address_id');

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\B1Api;
+use App\Models\DocumentB1;
 use App\Models\Order;
 use App\Models\Tax;
 use Illuminate\Bus\Queueable;
@@ -52,7 +53,13 @@ class GetDocumentB1 implements ShouldQueue
         $referenceOrderB1 = B1Api::pushOrder($order,$itemB1);
 
         $order->order_b1 = $referenceOrderB1['data']['orderId'];
-        $order->invoice = $referenceOrderB1['data']['invoiceDocument'];
+
+        $newDocumentB1 = new DocumentB1();
+        $newDocumentB1->name = $referenceOrderB1['data']['invoiceDocument'];
+        $newDocumentB1->price = $order->total;
+        $newDocumentB1->save();
+
+        $order->document_b1_id = $newDocumentB1->id;
         $order->save();
 
         B1Api::getInvoice($order);

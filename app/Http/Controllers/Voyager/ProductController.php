@@ -312,27 +312,11 @@ class ProductController extends VoyagerBaseController
             $dataTypeContent = DB::table($dataType->name)->where('id', $id)->first();
         }
 
-        foreach ($dataType->editRows as $key => $row) {
-            $dataType->editRows[$key]['col_width'] = isset($row->details->width) ? $row->details->width : 100;
-        }
-
         // If a column has a relationship associated with it, we do not want to show that field
         $this->removeRelationshipField($dataType, 'edit');
 
         // Check permission
         $this->authorize('edit', $dataTypeContent);
-
-        // Check if BREAD is Translatable
-        $isModelTranslatable = is_bread_translatable($dataTypeContent);
-
-        // Eagerload Relations
-        $this->eagerLoadRelations($dataTypeContent, $dataType, 'edit', $isModelTranslatable);
-
-        $view = 'voyager::bread.edit-add';
-
-        if (view()->exists("voyager::$slug.edit-add")) {
-            $view = "voyager::$slug.edit-add";
-        }
 
         $product = Product::find($id);
         $categoriesForProduct = $product->category()->get();
