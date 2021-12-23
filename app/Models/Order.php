@@ -56,7 +56,11 @@ class Order extends Model
     }
     static function createOrder($user_id, $request)
     {
-        $idOrderOld = Order::latest()->first()->id + 1;
+        $idOrderOld = 1;
+        if(isset(Order::latest()->first()->id)) {
+            $idOrderOld = Order::latest()->first()->id + 1;
+        }
+
         $order = new order;
         $delivery = Delivery::find($request->delivery)->price;
         $payment = Payment::find($request->payment)->price;
