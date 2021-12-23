@@ -318,6 +318,18 @@ class ProductController extends VoyagerBaseController
         // Check permission
         $this->authorize('edit', $dataTypeContent);
 
+        // Check if BREAD is Translatable
+        $isModelTranslatable = is_bread_translatable($dataTypeContent);
+
+        // Eagerload Relations
+        $this->eagerLoadRelations($dataTypeContent, $dataType, 'edit', $isModelTranslatable);
+
+        $view = 'voyager::bread.edit-add';
+
+        if (view()->exists("voyager::$slug.edit-add")) {
+            $view = "voyager::$slug.edit-add";
+        }
+
         $product = Product::find($id);
         $categoriesForProduct = $product->category()->get();
         $categories = Category::with('ancestors')->get()->toTree();
