@@ -16,10 +16,10 @@
             </select>
         </div>
         <div class="mb-5 col-2 credit-limit">
-            Kredito limitas: {{$user->limit}}
+            Kredito limitas: {{$user->limit}} EUR
         </div>
         <div class="mb-5 col-2 credit-limit">
-            Liko kredito: {{$user->limit}}
+            Liko kredito: {{$limitSum}} EUR
         </div>
         <!-- ko if: viewDate() === 'CUSTOM' --><!-- /ko -->
     </div>
@@ -124,13 +124,13 @@
                     <div class="col-12 col-md">
 
 
-                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">Neapmokėta</span>
+                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">@if(isset($order->document_b1->status->name)){{$order->document_b1->status->name}}@else neapmokėta @endif</span>
 
                     </div>
                     <div class="col-12 col-md">
 
 
-                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">{{$order->total}} EUR</span>
+                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">@if(isset($order->document_b1->price)){{$order->document_b1->price}} EUR @else {{$order->total}} EUR @endif </span>
 
                     </div>
 

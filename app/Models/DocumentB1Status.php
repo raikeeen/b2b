@@ -12,6 +12,6 @@ class DocumentB1Status extends Model
 
     public function document()
     {
-        return $this->belongsTo('App\Models\DocumentB1');
+        return $this->hasOne('App\Models\DocumentB1','status_id');
     }
 }

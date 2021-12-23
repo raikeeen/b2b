@@ -18,10 +18,26 @@ class DocumentController extends Controller
     {
         $user = Auth::user();
         $limit = $user->term;
+        $limitSum = $user->limit;
         $orders = Order::where('user_id',$user->id)->orderBy('created_at','DESC')->get();
+        $sum = 0;
+        foreach ($orders as $order) {
+
+            if(isset($order->document_b1->price))
+                $sum += $order->document_b1->price;
+            else {
+                $sum += $order->total;
+            }
+        }
+
+        if($limitSum >= $sum) {
+            $sumOrder = $limitSum - $sum;
+        } else {
+            $sumOrder = 0;
+        }
 
         $from = Carbon::createFromFormat('Y-m-d H:s:i', Carbon::now());
-        $limitDays = $orders->map(function ($order) use ($from, $limit) {
+        $limitDays = $orders->map(function ($order) use ($from, $limit, $user) {
 
             $to = Carbon::createFromFormat('Y-m-d H:s:i', $order->created_at);
             $days = $to->diffInDays($from);
@@ -33,10 +49,12 @@ class DocumentController extends Controller
             return $limit-$days;
         });
 
+
         return view('auth.user.documents', [
             'orders' => $orders,
             'user' => $user,
-            'limitDays' => $limitDays
+            'limitDays' => $limitDays,
+            'limitSum' => $sumOrder
 
         ]);
     }

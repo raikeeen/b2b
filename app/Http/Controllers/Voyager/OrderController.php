@@ -3,6 +3,8 @@ namespace App\Http\Controllers\Voyager;
 
 use App\Jobs\GetDocumentB1;
 use App\Models\B1Api;
+use App\Models\DocumentB1;
+use App\Models\DocumentB1Status;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderStatus;
@@ -338,8 +340,25 @@ class OrderController extends VoyagerBaseController
         $products = $order->orderitem;
         $statuses = OrderStatus::where('order_id', $id)->orderBy('created_at', 'DESC')->get();
         $allStatus = DB::table('status')->select(['id', 'name'])->get();
+        $docStatusB1 = DocumentB1Status::all();
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'order', 'products', 'statuses','allStatus'));
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'docStatusB1', 'order', 'products', 'statuses','allStatus'));
+    }
+
+    public function statusUpdateB1(Request $request, $id) {
+
+        $order = Order::Find($id);
+        $doc = DocumentB1::Find($order->document_b1_id);
+        if($request->b1_id == 1) {
+            return redirect()->back()->with('success_message', 'Statusas atnaujinta');
+        } elseif($request->b1_id == 2) {
+            $doc->status_id = $request->b1_id;
+            $doc->price = 0;
+            $doc->save();
+            return redirect()->back()->with('success_message', 'Statusas atnaujinta');
+        }
+
+        return redirect()->back()->with('success_message', 'Statusas atnaujinta');
     }
 
     public function statusUpdate(Request $request, $id)

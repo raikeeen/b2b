@@ -398,6 +398,44 @@
 
                 </div>
             </div>
+                @if(!empty($order->document_b1->name))
+                <div class="panel panel panel-bordered panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="icon wb-clipboard"></i> Faktūra statusas</h3>
+                        <div class="panel-actions">
+                            <a class="panel-action voyager-angle-down" data-toggle="panel-collapse" aria-hidden="true"></a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="u-text-color-darker">
+                                <div style="font-size: 18px;">
+                                    <span style="font-weight: 500">Fakūra:</span> <span style="font-size: 15px;">{{$order->document_b1->name}}</span>
+                                </div>
+                                <form action="{{route('statusB1.update', $order->id)}}" method="post" class="form-horizontal well hidden-print">
+                                    {{csrf_field()}}
+                                    <div class="row">
+                                        <div class="col-lg-7">
+                                            <select id="b1_id" class="chosen form-control" name="b1_id">
+                                                @foreach($docStatusB1 as $status)
+                                                    <option value="{{$status->id}}" @if($order->document_b1->status_id === $status->id) selected="selected"@endif>{{$status->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <button type="submit" name="submitState" id="submit_state" class="btn btn-primary">
+                                                Atnaujinti būseną
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                @endif
         </div>
         </div>
     </div>
