@@ -136,7 +136,7 @@
 
                 @if(isset($order->document_b1->name))
                     <div class="col-12 col-md">
-                        <a target="_blank" href="{{$order->getFactura()}}" title="Detalės">
+                        <a target="_blank" href="{{'/'.$order->getFactura()}}" title="Detalės">
                             <span>Sąskaitos faktūrą</span>
                         </a>
                     </div>
