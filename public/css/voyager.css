@@ -93,4 +93,33 @@
 }
 .dropzone .dz-preview .dz-progress {
     left: 50% !important;
+}row d-none d-md-flex pb-2 font-weight-bold
+
+ .font-weight-bold-voy {
+     font-weight: 700 !important;
+ }
+.pb-2-voy, .py-2-voy {
+    padding-bottom: 0.5rem !important;
 }
+.d-md-flex-voy {
+    display: flex !important;
+}
+
+.col-voy {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%
+}
+.m-0-voy {
+    margin: 0 !important;
+}
+.hr-voy {
+    border: none;
+    border-top: 1px solid #dee2e6;
+}
+.hr-voy {
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+}
+

@@ -95,6 +95,83 @@
 
 
                 </div>
+                @if(isset($orders))
+                <div class="panel panel-bordered">
+                    <div class="panel-title" style="font-weight: bold">
+                        Užsakymai paskutiniai
+                    </div>
+                    <div class="panel-body" style="font-weight: bold">
+                        <div data-bind="if: ordersLoaded(), attr: { hidden: false }">
+                            <div class="row d-none d-md-flex-voy pb-2-voy font-weight-bold-voy" style="margin-right: 0;margin-left: 0; color: #37474f; font-size: 14px">
+                                <div class="col-voy">
+                                    <span>Užsakymo Nr.</span>
+                                </div>
+                                <div class="col-voy text-center">
+                                    <span>Data</span>
+                                </div>
+                                <div class="col-voy text-center">
+                                    <span>Statusas</span>
+                                </div>
+                                <div class="col-voy text-right">
+                                    <span>be PVM</span>
+                                </div>
+                                <div class="col-voy text-right">
+                                    <span>su PVM</span>
+                                </div>
+                                <div class="col-voy text-right">
+                                    <span>Nustatymai</span>
+                                </div>
+                            </div>
+                            <!-- ko foreach: orders() -->
+                            @foreach($orders as $order)
+                                <hr class="m-0-voy hr-voy">
+                                <div class="row py-2-voy">
+                                    <div class="col col-md-2">
+
+
+                                        {{--<span class="d-inline-block d-md-none">
+                                          <span>Zamówienie</span>:
+                                        </span>--}}
+                                        <span data-bind="text: id">{{$order->reference}}</span>
+
+                                    </div>
+                                    <div class="col col-md-2">
+
+
+                                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">{{$order->created_at}}</span>
+
+                                    </div>
+                                    <div class="col col-md-2">
+
+
+                                        <span data-bind="text: status.name || ''">{{$order->status->last()->name}}</span>
+
+                                    </div>
+                                    <div class="col col-md-2  text-right">
+
+
+                                        <span data-bind="text: totalPrice ? totalPrice.displayNet() + ' ' + totalPrice.currencyCode : '---'">{{round($order->total/1.21,2)}} EUR</span>
+
+                                    </div>
+                                    <div class="col col-md-2  text-right">
+
+
+
+                                        <span data-bind="text: totalPrice ? totalPrice.displayGross() + ' ' + totalPrice.currencyCode : '---'">{{$order->total}} EUR</span>
+
+                                    </div>
+                                    <div class="col col-md-2 text-right">
+                                        <a href="{{route('voyager.order.edit', $order->id)}}" title="Detalės">
+                                            <span>Detalės</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
             <div class="col-md-4">
                 <div class="panel panel-bordered">

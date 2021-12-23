@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Margin;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductCat;
 use App\Models\Role;
@@ -339,8 +340,9 @@ class UserController extends VoyagerBaseController
         $roles = Role::all();
         $edit = true;
         $user = User::Find($id);
+        $orders = Order::where('user_id', $id)->orderBy('id', 'DESC')->simplePaginate(20);
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'cities', 'countries', 'edit', 'user', 'roles'));
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'cities', 'countries', 'edit', 'user', 'roles', 'orders'));
     }
 
     // POST BR(E)AD

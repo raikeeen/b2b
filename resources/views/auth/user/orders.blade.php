@@ -38,7 +38,7 @@
     </div>
     @else
         <div data-bind="if: ordersLoaded(), attr: { hidden: false }">
-            <div class="row d-none d-md-flex pb-2 font-weight-bold">
+            <div class="row d-none d-md-flex-voy pb-2-voy font-weight-bold-voy">
                 <div class="col-2">
                     <span>Užsakymo Nr.</span>
                 </div>

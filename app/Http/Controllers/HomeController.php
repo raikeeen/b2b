@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Venipack;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
@@ -57,6 +58,11 @@ class HomeController extends Controller
         $brands = Brand::all();
 
         $client = new Client();
+
+        //$api = new Venipack();
+        //$pickup = $api->getPickupPoints();
+
+        //dd($pickup);
         /*$writer = new XLSXWriter();
         $xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\klientu sarasas import.xlsx'));
 
