@@ -67,7 +67,8 @@ class Product extends Model
         if($this->discount->value === 0){
             return null;
         } else
-            return  round(($this->price + ($this->price * $this->discount->value) / 100) * 1.21,2);
+            return null;
+            //return  round(($this->price + ($this->price * $this->discount->value) / 100) * 1.21,2);
     }
     public function priceTax()
     {

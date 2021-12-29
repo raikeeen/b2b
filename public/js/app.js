@@ -2195,6 +2195,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "product-panel.vue",
   data: function data() {
@@ -40343,7 +40346,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "c-headline" }, [
-      _c("span", [_vm._v("Kraunama")])
+      _c("span", [_vm._v("Kraunama")]),
+      _vm._v(" "),
+      _c("span", [
+        _c("img", { attrs: { src: "/storage/images/loading.gif", alt: "" } })
+      ])
     ])
   },
   function() {

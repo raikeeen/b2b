@@ -71,6 +71,9 @@
         <div class="text-center my-5 py-5" v-else-if="responce">
             <span class="c-headline">
                 <span>Kraunama</span>
+                <span>
+                    <img src="/storage/images/loading.gif" alt="">
+                </span>
             </span>
         </div>
         <div class="text-center my-5 py-5" v-else>

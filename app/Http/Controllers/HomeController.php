@@ -12,6 +12,7 @@ use App\Models\Venipak;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Myrzan\TecDocClient\Client;
 use Myrzan\TecDocClient\Generated\GetAmBrands;
@@ -61,7 +62,6 @@ class HomeController extends Controller
         $brands = Brand::all();
 
         $client = new Client();
-
 
         /*$writer = new XLSXWriter();
         $xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\klientu sarasas import.xlsx'));
