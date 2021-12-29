@@ -9,11 +9,14 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderStatus;
 use App\Models\Tax;
+use App\Models\Venipak;
 use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use TCG\Voyager\Database\Schema\SchemaManager;
 use TCG\Voyager\Events\BreadDataAdded;
 use TCG\Voyager\Events\BreadDataDeleted;
@@ -344,17 +347,66 @@ class OrderController extends VoyagerBaseController
 
         return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'docStatusB1', 'order', 'products', 'statuses','allStatus'));
     }
+    public function getLabelVenipak(Request $request, $id)
+    {
+        $order = Order::Find($id);
+        $path = "users/".$order->user_id."/label/Label.pdf";
+        $venipak = new Venipak();
 
-    public function statusUpdateB1(Request $request, $id) {
+        Storage::disk('local')->put("/public/".$path, $venipak->getLabelsForOrders($order));
+        return Redirect::to('storage/'.$path);
+    }
+    public function getManifestVenipak(Request $request, $id)
+    {
+        $order = Order::Find($id);
+        $venipak = new Venipak();
 
+        $path = "users/".$order->user_id."/manifests/Manifest.pdf";
+
+        Storage::disk('local')->put("/public/".$path, $venipak->getManifestFile($order->venipak->manifest->name));
+
+        return Redirect::to('storage/'.$path);
+    }
+    public function pushVenipak(Request $request, $id)
+    {
+        $order = Order::Find($id);
+        $address = $order->user->address;
+        if(empty($address->post_code) || empty($address->street) || empty($address->phone)) {
+            return redirect()->back()->withErrors('Nėra pašto kodo ar tel nr ar address');
+        }
+
+        $venipak = new Venipak();
+        $data = $venipak->sendShipmentXML($request, $id);
+
+        if (isset($data['success']) && $data['success'] == 1) {
+
+            $orderStatus = new OrderStatus();
+            $orderStatus->order_id = $id;
+            $orderStatus->status_id = 9;
+            $orderStatus->save();
+
+            return redirect()->back()->with('success_message', 'success');
+        }
+        else
+            return redirect()->back()->withErrors($data);
+    }
+
+    public function statusUpdateB1(Request $request, $id)
+    {
         $order = Order::Find($id);
         $doc = DocumentB1::Find($order->document_b1_id);
         if($request->b1_id == 1) {
+
+            $doc->status_id = $request->b1_id;
+            $doc->save();
+
             return redirect()->back()->with('success_message', 'Statusas atnaujinta');
         } elseif($request->b1_id == 2) {
+
             $doc->status_id = $request->b1_id;
             $doc->price = 0;
             $doc->save();
+
             return redirect()->back()->with('success_message', 'Statusas atnaujinta');
         }
 

@@ -6,18 +6,16 @@
     <h1 class="c-headline c-headline--semi-light u-bd-secondary pl-2 py-1">Užsakymai</h1>
     <div class="row mt-3 mb-5">
         <div class="col-12 col-md-4 col-lg-3">
-            <select class="c-select w-100" data-bind="
-          value: viewDate,
-          event: { change: loadOrders.bind($root, $element.value) }">
-                <option value="CURRENT_DAY">šiandien</option>
-                <option value="CURRENT_MONTH" selected="">Šį mėnesį</option>
-                <option value="LAST_MONTH">Ankstesnis mėnuo</option>
-                <option value="CURRENT_YEAR">Šiemet</option>
-                <option value="LAST_YEAR">Ankstesni metai</option>
-                <option value="CUSTOM">Nestandartinis diapazonas</option>
+            <form action="{{route('orders.index')}}" method="get">
+            <select name="sort" id="sort" class="c-select w-100" onchange="this.form.submit()">
+                <option value="day">Šiandien</option>
+                <option value="week">Ankstesni savaitės</option>
+                <option value="month" selected="">Ankstesnis mėnuo</option>
+                <option value="year">Ankstesni metai</option>
             </select>
+            </form>
         </div>
-        <!-- ko if: viewDate() === 'CUSTOM' --><!-- /ko -->
+
     </div>
     @if(!isset($orders))
     <div>
@@ -38,7 +36,7 @@
     </div>
     @else
         <div data-bind="if: ordersLoaded(), attr: { hidden: false }">
-            <div class="row d-none d-md-flex-voy pb-2-voy font-weight-bold-voy">
+            <div class="row d-none d-md-flex pb-2 font-weight-bold">
                 <div class="col-2">
                     <span>Užsakymo Nr.</span>
                 </div>
@@ -80,7 +78,7 @@
                 <div class="col-12 col-md">
 
 
-                    <span data-bind="text: status.name || ''">{{$order->status->last()->name}}</span>
+                    <span data-bind="text: status.name || ''">{!! $order->status_latest !!}</span>
 
                 </div>
                 <div class="col-12 col-md text-right">
@@ -111,5 +109,19 @@
 
         </div>
     @endif
+<script>
+    let url_string = window.location.href;
+    let url = new URL(url_string);
+    let sort = url.searchParams.get("sort");
 
+    if(sort === 'week') {
+        $( "#sort" ).val('week').attr('selected','selected');
+    } else if(sort === 'year') {
+        $( "#sort" ).val('year').attr('selected','selected');
+    } else if(sort === 'day') {
+        $( "#sort" ).val('day').attr('selected','selected');
+    } else if(sort === 'month') {
+        $( "#sort" ).val('month').attr('selected','selected');
+    }
+</script>
 @endsection

@@ -457,13 +457,20 @@ class UserController extends VoyagerBaseController
         if ($request->put === 'put')
         {
             $user = User::find($request->user_id);
+
+            if($request->password !== null) {
+                $user->update([
+                    'password' => $request->password,
+                    'secret' => $request->password,
+                ]);
+            }
             $user->update([
                 'role_id' => $request->role,
                 'name' => $request->name,
                 'surname' => $request->surname,
                 'email'   => $request->email,
-                'password' => $request->password,
-                'discount' => $request->discount
+                'term' => $request->term,
+                'limit' => $request->limit
             ]);
             $user->address->update([
                 'company_name' => $request->company_name,
@@ -499,8 +506,11 @@ class UserController extends VoyagerBaseController
         $newUser->surname = $request->surname;
         $newUser->email = $request->email;
         $newUser->password = $request->password;
+        $newUser->secret = $request->password;
         $newUser->discount = $request->discount;
         $newUser->address_id = $newAddress->id;
+        $newUser->limit = $request->limit;
+        $newUser->term = $request->term;
         $newUser->avatar = 'users/default.png';
         $newUser->save();
 

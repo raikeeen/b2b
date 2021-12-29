@@ -18,6 +18,7 @@ class AddColumnToUser extends Migration
             $table->integer('limit')->default(1000)->after('surname');
             $table->integer('term')->default(7)->after('limit');
             $table->string('note')->nullable()->default(null)->after('term');
+            $table->string('secret')->nullable();
         });
     }
 

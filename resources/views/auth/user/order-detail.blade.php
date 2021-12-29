@@ -131,6 +131,11 @@
                 <div class="col-12 col-md">
                     <strong data-bind="text: order().orderDeliveryTransport.name">{{$order['delivery']['name']}}</strong>
                 </div>
+                @if($order['venipak'] !== null)
+                <div class="col-12 col-md">
+                    <a href="https://go.venipak.lt/ws/tracking.php?type=1&output=html&code={{$order['venipak']}}" style="color: #9339F2; font-weight: bold">{{$order['venipak']}}</a>
+                </div>
+                @endif
                 <div class="col-12 col-sm-2 col-md-1"></div>
                 <div class="col-12 col-md-2 text-right">
                     <span data-bind="text: order().orderDeliveryTransport.price.displayNet() + ' ' + order().orderDeliveryTransport.price.currencyCode">{{round($order['delivery']['price']/1.21,2)}} EUR</span>

@@ -40147,7 +40147,20 @@ var render = function() {
                             _c(
                               "div",
                               { staticClass: "col-8 u-bd-top-out py-2" },
-                              [_c("span", {}, [_vm._v(_vm._s(oe["code"]))])]
+                              [
+                                _c(
+                                  "a",
+                                  {
+                                    attrs: {
+                                      href:
+                                        "/products?search=" +
+                                        oe["code"] +
+                                        "&flag=1"
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(oe["code"]))]
+                                )
+                              ]
                             )
                           ]
                         )

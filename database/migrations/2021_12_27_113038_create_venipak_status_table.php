@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDocumentB1StatusTable extends Migration
+class CreateVenipakStatusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateDocumentB1StatusTable extends Migration
      */
     public function up()
     {
-        Schema::create('document_b1_status', function (Blueprint $table) {
+        Schema::create('venipak_status', function (Blueprint $table) {
             $table->increments('id');
+
             $table->string('name')->nullable(false);
-            $table->string('color')->nullable(true);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateDocumentB1StatusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('document_b1_status');
+        Schema::dropIfExists('venipak_status');
     }
 }

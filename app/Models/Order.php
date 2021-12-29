@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Doctrine\DBAL\Driver\SQLSrv\Exception\Error;
 use Illuminate\Database\Eloquent\Model;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Str;
@@ -11,14 +12,12 @@ class Order extends Model
 {
     protected $table = 'order';
 
-    public $increments = true;
-
     protected $fillable = [
         'name',
         'order_b1'
     ];
     protected $appends = ['company', 'status_latest'];
-    public $additional_attributes = ['company', 'status_latest'];
+    public $additional_attributes = ['company', 'status_latest', 'status_last'];
 
     public function getCompanyAttribute()
     {
@@ -36,6 +35,10 @@ class Order extends Model
         $html = '<span style="border-radius: 0.25em;color: #fff;display: inline;font-size: 90%;font-weight: 700;line-height: 1;padding: 0.15em 0.4em;text-align: center;vertical-align: baseline;
         white-space: nowrap;background-color:'. $color.'">'.$status->name.'</span>';
         return $html;
+    }
+    public function getStatusLastAttribute()
+    {
+        return $this->status->last()->name;
     }
 
     static function getNumbers()
@@ -57,16 +60,30 @@ class Order extends Model
     static function createOrder($user_id, $request)
     {
         $idOrderOld = 1;
+        $orderOld = null;
+
         if(isset(Order::latest()->first()->id)) {
-            $idOrderOld = Order::latest()->first()->id + 1;
+            $orderOld = Order::latest()->first();
+            $idOrderOld = $orderOld->id + 1;
         }
 
         $order = new order;
         $delivery = Delivery::find($request->delivery)->price;
         $payment = Payment::find($request->payment)->price;
+
         if(isset(session()->get('coupon')['id'])){
             $coupon = floatval(Coupons::find(session()->get('coupon')['id'])->value);
         } else $coupon = 0;
+
+        if(Order::checkDate($orderOld->created_at)) {
+            $order->increments = $orderOld->increments + 1;
+        }
+
+        if($orderOld == null) {
+            $order->reference = "B2B".date("ym").str_pad(1, 4, "0", STR_PAD_LEFT);
+        } else {
+            $order->reference = Order::generateReference($orderOld);
+        }
 
         $order->user_id = $user_id;
         $order->delivery_id = $request->delivery;
@@ -75,7 +92,6 @@ class Order extends Model
         $order->payment_price = $payment;
         $order->document_id = $request->document;
         $order->coupon_id = $coupon === 0 ? null : $coupon;
-        $order->reference = $idOrderOld.strtoupper(Str::random(4)).$user_id;
         $order->total = Tax::priceWithTax(Cart::subtotal(2,'.','')) + $delivery + $payment - $coupon;
         $order->save();
 
@@ -117,7 +133,8 @@ class Order extends Model
             'coupon' => '',
             'total' => $order->total,
             'tax' => Tax::first()->tax_count,
-            'created_at' => $order->creared_at
+            'created_at' => $order->creared_at,
+            'venipak' => isset($order->venipak->label) ? $order->venipak->label : null
         ];
         $coupon = $order->coupon;
         if(isset($coupon)) {
@@ -155,13 +172,26 @@ class Order extends Model
 
         return $orderdata;
     }
-    static function generateReference($id)
+    static function generateReference($order)
     {
-        //U000083/2021/000003
+        $orderDate = $order->created_at;
 
-        /*return "U".str_pad($id, 6, "0", STR_PAD_LEFT)
-            .'/'.date('Y',strtotime('now')).'/'
-            .str_pad($id, 6, "0", STR_PAD_LEFT);*/
+        if(!Order::checkDate($orderDate)) {
+
+            return "B2B".date("ym").str_pad(1, 4, "0", STR_PAD_LEFT);
+        }
+
+        return "B2B".date("ym").str_pad($order->increments + 1, 4, "0", STR_PAD_LEFT);
+    }
+    static function checkDate($orderDate)
+    {
+        $orderOldDateMount = substr($orderDate,5,2);
+
+        if(date("m") == $orderOldDateMount) {
+
+            return true;
+        }
+        return false;
     }
    /* public static function orderTotal($order)
     {
@@ -221,6 +251,10 @@ class Order extends Model
     public function document_b1()
     {
         return $this->belongsTo('App\Models\DocumentB1');
+    }
+    public function venipak()
+    {
+        return $this->hasOne('App\Models\Venipak', 'order_id');
     }
 
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\B1Api;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -31,6 +32,9 @@ Route::group(['prefix' => 'admin-kavateka'], function () {
     Voyager::routes();
     Route::post('order/{id}/update', [\App\Http\Controllers\Voyager\OrderController::class, 'statusUpdate'])->name('status.update');
     Route::post('order/{id}/update_b1', [\App\Http\Controllers\Voyager\OrderController::class, 'statusUpdateB1'])->name('statusB1.update');
+    Route::post('order/{id}/venipak_push', [\App\Http\Controllers\Voyager\OrderController::class, 'pushVenipak'])->name('venipak.push');
+    Route::post('order/{id}/venipak_get_label', [\App\Http\Controllers\Voyager\OrderController::class, 'getLabelVenipak'])->name('venipak.getLabel');
+    Route::post('order/{id}/venipak_get_manifest', [\App\Http\Controllers\Voyager\OrderController::class, 'getManifestVenipak'])->name('venipak.getManifest');
     Route::post('users/create', [\App\Http\Controllers\Voyager\UserController::class, 'createNew'])->name('voyager.users.createNew');
     Route::post('product/create', [\App\Http\Controllers\Voyager\ProductController::class, 'createNew'])->name('voyager.product.createNew');
     Route::post('add-image/{id}', [ProductController::class, 'addImage'])->name('add-image');
@@ -72,7 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/cartTest', function (){
         Cart::destroy();
     });
-    Route::get('/test1', function (){
+    Route::get('/test1', function () {
         //AjsApi::synchronizationStock();
     });
     Route::resource('/products',ProductController::class);

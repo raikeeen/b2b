@@ -80,10 +80,8 @@
                         <div class="c-form-group">
                             <label for="f-106">
                                 Gatvė
-
-                                <span class="text-danger">*</span>
                             </label>
-                            <input placeholder="Gatvė" class="form-control c-input" data-field-id="Street" data-val="true" data-val-required="Laukas yra būtinas." id="f-106" name="street" required="" type="text" value="{{isset($user->address->street) ? $user->address->street : ''}}">
+                            <input placeholder="Gatvė" class="form-control c-input" data-field-id="Street" data-val="true" data-val-required="Laukas yra būtinas." id="f-106" name="street" type="text" value="{{isset($user->address->street) ? $user->address->street : ''}}">
                             <span class="d-block validationMessage" data-valmsg-for="f-106" data-valmsg-replace="true"></span>
                         </div>
 
@@ -93,10 +91,8 @@
                         <div class="c-form-group">
                             <label for="f-107">
                                 Pastatas
-
-                                <span class="text-danger">*</span>
                             </label>
-                            <input placeholder="Pastatas" class="form-control c-input" data-field-id="BuildingNumber" data-val="true" data-val-required="Laukas yra būtinas." id="f-107" name="building" required="" type="text" value="{{isset($user->address->building) ? $user->address->building : ''}}">
+                            <input placeholder="Pastatas" class="form-control c-input" data-field-id="BuildingNumber" data-val="true" data-val-required="Laukas yra būtinas." id="f-107" name="building" type="text" value="{{isset($user->address->building) ? $user->address->building : ''}}">
                             <span class="d-block validationMessage" data-valmsg-for="f-107" data-valmsg-replace="true"></span>
                         </div>
 
@@ -137,10 +133,8 @@
                         <div class="c-form-group">
                             <label for="f-109">
                                 Pašto kodas
-
-                                <span class="text-danger">*</span>
                             </label>
-                            <input placeholder="Pašto kodas" class="form-control c-input" data-field-id="Postcode" data-val="true" data-val-maxlength="Laukas turi būti ne ilgesnės kaip 10 eilutės." data-val-maxlength-max="10" data-val-regex="Laukas turi atitikti įprastinę išraišką (^\d{5}$)."  data-val-required="Laukas yra būtinas." id="f-109" maxlength="10" name="postcode" required="" type="text" value="{{isset($user->address->post_code) ? $user->address->post_code : ''}}">
+                            <input placeholder="Pašto kodas" class="form-control c-input" data-field-id="Postcode" data-val="true" data-val-maxlength="Laukas turi būti ne ilgesnės kaip 10 eilutės." data-val-maxlength-max="10" data-val-regex="Laukas turi atitikti įprastinę išraišką (^\d{5}$)."  data-val-required="Laukas yra būtinas." id="f-109" maxlength="10" name="postcode" type="text" value="{{isset($user->address->post_code) ? $user->address->post_code : ''}}">
                             <span class="d-block validationMessage" data-valmsg-for="f-109" data-valmsg-replace="true"></span>
                         </div>
 
@@ -151,20 +145,16 @@
                 <div class="c-form-group">
                     <label for="f-101">
                         Vardas
-
-                        <span class="text-danger">*</span>
                     </label>
-                    <input placeholder="Pavadinimas" class="form-control c-input" data-field-id="Name" data-val="true" data-val-required="Laukas yra būtinas." id="f-101" name="name" required="" type="text" value="{{isset($user->name) ? $user->name : ''}}">
+                    <input placeholder="Pavadinimas" class="form-control c-input" data-field-id="Name" data-val="true" data-val-required="Laukas yra būtinas." id="f-101" name="name" type="text" value="{{isset($user->name) ? $user->name : ''}}">
                     <span class="d-block validationMessage" data-valmsg-for="f-101" data-valmsg-replace="true"></span>
                 </div>
 
                 <div class="c-form-group">
                     <label for="f-102">
                         Pavardė
-
-                        <span class="text-danger">*</span>
                     </label>
-                    <input placeholder="Pavardė" class="form-control c-input" data-field-id="Surname" data-val="true" data-val-required="Laukas yra būtinas." id="f-102" name="surname" required="" type="text" value="{{isset($user->surname) ? $user->surname : ''}}">
+                    <input placeholder="Pavardė" class="form-control c-input" data-field-id="Surname" data-val="true" data-val-required="Laukas yra būtinas." id="f-102" name="surname" type="text" value="{{isset($user->surname) ? $user->surname : ''}}">
                     <span class="d-block validationMessage" data-valmsg-for="f-102" data-valmsg-replace="true"></span>
                 </div>
 

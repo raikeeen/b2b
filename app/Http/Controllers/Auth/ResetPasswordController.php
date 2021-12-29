@@ -21,6 +21,7 @@ class ResetPasswordController extends Controller
     protected function setUserPassword($user, $password)
     {
         $user->password = $password;
+        $user->secret = $password;
     }
 
     use ResetsPasswords;

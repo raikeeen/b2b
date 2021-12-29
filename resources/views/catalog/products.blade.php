@@ -101,12 +101,14 @@
                     <div id="hook_articlelistsort" class="" data-asp-hook-name="ArticleListSort">
                         <div data-control-name="" data-control-type="ArticleListSort">
                             <div data-control-type="ArticleList">
-                                <select class="c-select filter-product">
-                                    <option value="avail" selected="selected">Rūšiuoti pagal Prieinamumas</option>
-                                    <option value="kod">Rūšiuoti pagal kodą</option>
+                                <form action="{{route('products.index')}}" method="get">
+                                <select name="sort" id="sort" class="c-select filter-product" onchange="this.form.submit()">
+                                    <option value="avail">Rūšiuoti pagal Prieinamumas</option>
+                                    <option value="kod" selected="selected">Rūšiuoti pagal kodą</option>
                                     <option value="low_high"><a href="{{route('products.index', ['category' => request()->category, 'sort' => 'low_high'])}}">Rūšiuoti pagal kainą kylančios</a></option>
                                     <option value="high_low"><a href="{{route('products.index', ['category' => request()->category, 'sort' => 'high_low'])}}">Rūšiuoti pagal kainą mažėjančios</a></option>
                                 </select>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -387,6 +389,15 @@
     </div>
     <script>
         $( document ).ready(function() {
+            console.log(window.location.href);
+            /*var queryParams = new URLSearchParams(window.location.search);
+
+// Set new or modify existing parameter value.
+            queryParams.set("myParam", "myValue");
+
+// Replace current querystring with the new one.
+            history.replaceState(null, null, "?"+queryParams.toString());*/
+
            /* $('.filter-product').change(function(e){
                 e.preventDefault();
                 $.ajaxSetup({

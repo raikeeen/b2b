@@ -32,6 +32,15 @@ class ProductController extends Controller
             $products = Product::orderBy('created_at','desc')->paginate(5);
         }
 
+        if(request()->search != '') {
+
+            $products = ApiProductController::search(request());
+            $getProduct = $products->map(function ($product){
+                return $product->reference;
+            })->toArray();
+
+            $products = Product::whereIn('reference', $getProduct)->paginate(20)->appends(request()->query());
+        }
         if(request()->sort === 'low_high') {
             $products->setCollection(
                 collect(
@@ -44,15 +53,6 @@ class ProductController extends Controller
                     collect($products->items())->sortByDesc('price')
                 )->values()
             );
-        }
-        if(request()->search != '') {
-
-            $products = ApiProductController::search(request());
-            $getProduct = $products->map(function ($product){
-                return $product->reference;
-            })->toArray();
-
-            $products = Product::whereIn('reference', $getProduct)->paginate(20)->appends(request()->query());
         }
 
         return view('catalog.products', [

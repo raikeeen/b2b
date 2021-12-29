@@ -143,180 +143,180 @@
                     </div>
                 </div>
                 <div class="panel panel-bordered">
-                <div class="panel-title">
-                    Prekės ({{count($products)}})
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table" id="orderProducts">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th><span class="title_box ">Prekė</span></th>
-                                <th>
-                                    <span class="title_box ">Kaina už vienetą</span>
-                                    <small class="text-muted">                          Su mokesčiais
-                                    </small>
-                                </th>
-                                <th class="text-center"><span class="title_box ">Vnt.</span></th>
-                                <th class="text-center"><span class="title_box ">Grąžinta</span></th>                                      <th class="text-center"><span class="title_box ">Gražinta prekių</span></th>
-                                <th>
-                                    <span class="title_box ">Viso</span>
-                                    <small class="text-muted">                          Su mokesčiais
-                                    </small>
-                                </th>
-                                <th style="display: none;" class="add_product_fields"></th>
-                                <th style="display: none;" class="edit_product_fields"></th>
-                                <th style="display: none;" class="standard_refund_fields">
-                                    <i class="icon-minus-sign"></i>
-                                    Prekių grąžinimai
-                                </th>
-                                <th style="display:none" class="partial_refund_fields">
-                                    <span class="title_box ">Dalinis grąžinimas</span>
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <div hidden>
-                                {{$all = 0}}
+                            <div class="panel-title">
+                                Prekės ({{count($products)}})
                             </div>
-                            @foreach($products as $product)
-                                @if($product->product_id === null)
-                                    <tr class="product-line-row">
-                                        <td><img src="/storage/images/no_photo_500.jpg" width="55" height="55" alt="" class="imgm img-thumbnail"></td>
-                                        <td>
-                                            <a href="{{route('voyager.product.index')}}">
-                                                <span class="productName">{{$product->name}}</span><br>
-                                            </a>
-                                            <div class="row-editing-warning" style="display:none;">
-                                                <div class="alert alert-warning">
-                                                    <strong>Paredagavus šią eilutę informacija apie bazinę kainą ir nuolaidą bus pašalinta.</strong>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="product_price_show">{{$product->priceTax()}}&nbsp;€</span>
-                                        </td>
-                                        <td class="productQuantity text-center">
-                                            <span class="product_quantity_show">{{$product->amount}}</span>
-                                            <span class="product_quantity_edit" style="display:none;">
-		</span>
-                                        </td>
-                                        <td class="productQuantity text-center">
-                                            <input type="hidden" value="1" class="partialRefundProductQuantity">
-                                            <input type="hidden" value="79.23" class="partialRefundProductAmount">
-                                        </td>
-                                        <td class="productQuantity text-center">
-                                            0
-                                        </td>
-                                        <td class="total_product">
-                                            {{$product->priceTax() * $product->amount}}&nbsp;€
-                                        </td>
-                                    </tr>
-                                    <input type="" hidden {{$all += $product->priceTax() * $product->amount}}>
-                                @else
-                                    <tr class="product-line-row">
-                                        <td><img src="/storage/images/no_photo_500.jpg" width="55" height="55" alt="" class="imgm img-thumbnail"></td>
-                                        <td>
-                                            <a href="{{route('voyager.product.edit', $product->product->id)}}">
-                                                <span class="productName">{{$product->product->name}}</span><br>
-                                                Kodas: {{$product->product->reference}}<br>			Tiekėjo kodas: {{$product->product->supplier_reference}}		</a>
-                                            <div class="row-editing-warning" style="display:none;">
-                                                <div class="alert alert-warning">
-                                                    <strong>Paredagavus šią eilutę informacija apie bazinę kainą ir nuolaidą bus pašalinta.</strong>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="product_price_show">{{$product->priceTax()}}&nbsp;€</span>
-                                        </td>
-                                        <td class="productQuantity text-center">
-                                            <span class="product_quantity_show">{{$product->amount}}</span>
-                                            <span class="product_quantity_edit" style="display:none;">
-		</span>
-                                        </td>
-                                        <td class="productQuantity text-center">
-                                            <input type="hidden" value="1" class="partialRefundProductQuantity">
-                                            <input type="hidden" value="79.23" class="partialRefundProductAmount">
-                                        </td>
-                                        <td class="productQuantity text-center">
-                                            0
-                                        </td>
-                                        <td class="total_product">
-                                            {{$product->priceTax() * $product->amount}}&nbsp;€
-                                        </td>
-                                    </tr>
-                                    <input type="" hidden {{$all += $product->priceTax() * $product->amount}}>
-                                @endif
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <div class="alert alert-warning">
-                                Šiai pirkėjų grupei kainos rodomos kaip: <strong>                          Su mokesčiais
-                                </strong>
-                            </div>
-                        </div>
-                        <div class="col-xs-6">
-                            <div class="panel panel-total">
+                            <div class="panel-body">
                                 <div class="table-responsive">
-                                    <table class="table" style="margin-top: -2px">
-                                        <tbody><tr id="total_products">
-                                            <td class="text-right">Prekės:</td>
-                                            <td class="amount text-right nowrap">
-                                                {{$all}}&nbsp;€
-                                            </td>
-                                            <td class="partial_refund_fields current-edit" style="display:none;"></td>
+                                    <table class="table" id="orderProducts">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th><span class="title_box ">Prekė</span></th>
+                                            <th>
+                                                <span class="title_box ">Kaina už vienetą</span>
+                                                <small class="text-muted">                          Su mokesčiais
+                                                </small>
+                                            </th>
+                                            <th class="text-center"><span class="title_box ">Vnt.</span></th>
+                                            <th class="text-center"><span class="title_box ">Grąžinta</span></th>                                      <th class="text-center"><span class="title_box ">Gražinta prekių</span></th>
+                                            <th>
+                                                <span class="title_box ">Viso</span>
+                                                <small class="text-muted">                          Su mokesčiais
+                                                </small>
+                                            </th>
+                                            <th style="display: none;" class="add_product_fields"></th>
+                                            <th style="display: none;" class="edit_product_fields"></th>
+                                            <th style="display: none;" class="standard_refund_fields">
+                                                <i class="icon-minus-sign"></i>
+                                                Prekių grąžinimai
+                                            </th>
+                                            <th style="display:none" class="partial_refund_fields">
+                                                <span class="title_box ">Dalinis grąžinimas</span>
+                                            </th>
                                         </tr>
-                                        <tr id="total_discounts" style="display: none;">
-                                            <td class="text-right">Nuolaidos</td>
-                                            <td class="amount text-right nowrap">
-                                                -0,00&nbsp;€
-                                            </td>
-                                            <td class="partial_refund_fields current-edit" style="display:none;"></td>
-                                        </tr>
-                                        <tr id="total_wrapping" style="display: none;">
-                                            <td class="text-right">Įpakavimas</td>
-                                            <td class="amount text-right nowrap">
-                                                0,00&nbsp;€
-                                            </td>
-                                            <td class="partial_refund_fields current-edit" style="display:none;"></td>
-                                        </tr>
-                                        <tr id="total_shipping">
-                                            <td class="text-right">Pristatymas</td>
-                                            <td class="amount text-right nowrap">
-                                                {{$order->delivery_price}}&nbsp;€
-                                            </td>
-                                            <td class="partial_refund_fields current-edit" style="display:none;">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        €
-                                                    </div>
-                                                    <input type="text" name="partialRefundShippingCost" value="0">
-                                                </div>
-                                                <p class="help-block"><i class="icon-warning-sign"></i> (Maks. 0,00&nbsp;€                           Su mokesčiais
-                                                    )
-                                                </p>
-                                            </td>
-                                        </tr>
-                                        <tr id="total_order">
-                                            <td class="text-right"><strong>Viso</strong></td>
-                                            <td class="amount text-right nowrap">
-                                                <strong>{{$order->total}}&nbsp;€</strong>
-                                            </td>
-                                            <td class="partial_refund_fields current-edit" style="display:none;"></td>
-                                        </tr>
-                                        </tbody></table>
+                                        </thead>
+                                        <tbody>
+                                        <div hidden>
+                                            {{$all = 0}}
+                                        </div>
+                                        @foreach($products as $product)
+                                            @if($product->product_id === null)
+                                                <tr class="product-line-row">
+                                                    <td><img src="/storage/images/no_photo_500.jpg" width="55" height="55" alt="" class="imgm img-thumbnail"></td>
+                                                    <td>
+                                                        <a href="{{route('voyager.product.index')}}">
+                                                            <span class="productName">{{$product->name}}</span><br>
+                                                        </a>
+                                                        <div class="row-editing-warning" style="display:none;">
+                                                            <div class="alert alert-warning">
+                                                                <strong>Paredagavus šią eilutę informacija apie bazinę kainą ir nuolaidą bus pašalinta.</strong>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="product_price_show">{{$product->priceTax()}}&nbsp;€</span>
+                                                    </td>
+                                                    <td class="productQuantity text-center">
+                                                        <span class="product_quantity_show">{{$product->amount}}</span>
+                                                        <span class="product_quantity_edit" style="display:none;">
+		</span>
+                                                    </td>
+                                                    <td class="productQuantity text-center">
+                                                        <input type="hidden" value="1" class="partialRefundProductQuantity">
+                                                        <input type="hidden" value="79.23" class="partialRefundProductAmount">
+                                                    </td>
+                                                    <td class="productQuantity text-center">
+                                                        0
+                                                    </td>
+                                                    <td class="total_product">
+                                                        {{$product->priceTax() * $product->amount}}&nbsp;€
+                                                    </td>
+                                                </tr>
+                                                <input type="" hidden {{$all += $product->priceTax() * $product->amount}}>
+                                            @else
+                                                <tr class="product-line-row">
+                                                    <td><img src="/storage/images/no_photo_500.jpg" width="55" height="55" alt="" class="imgm img-thumbnail"></td>
+                                                    <td>
+                                                        <a href="{{route('voyager.product.edit', $product->product->id)}}">
+                                                            <span class="productName">{{$product->product->name}}</span><br>
+                                                            Kodas: {{$product->product->reference}}<br>			Tiekėjo kodas: {{$product->product->supplier_reference}}		</a>
+                                                        <div class="row-editing-warning" style="display:none;">
+                                                            <div class="alert alert-warning">
+                                                                <strong>Paredagavus šią eilutę informacija apie bazinę kainą ir nuolaidą bus pašalinta.</strong>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="product_price_show">{{$product->priceTax()}}&nbsp;€</span>
+                                                    </td>
+                                                    <td class="productQuantity text-center">
+                                                        <span class="product_quantity_show">{{$product->amount}}</span>
+                                                        <span class="product_quantity_edit" style="display:none;">
+		</span>
+                                                    </td>
+                                                    <td class="productQuantity text-center">
+                                                        <input type="hidden" value="1" class="partialRefundProductQuantity">
+                                                        <input type="hidden" value="79.23" class="partialRefundProductAmount">
+                                                    </td>
+                                                    <td class="productQuantity text-center">
+                                                        0
+                                                    </td>
+                                                    <td class="total_product">
+                                                        {{$product->priceTax() * $product->amount}}&nbsp;€
+                                                    </td>
+                                                </tr>
+                                                <input type="" hidden {{$all += $product->priceTax() * $product->amount}}>
+                                            @endif
+                                        @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    @if(!empty($order->document_b1->name))
-                        <div style="text-align: center;position: relative;flex: auto;">
-                            <a target="_blank" href="{{'/'.$order->getFactura()}}" class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" style="display: inline-block;
+
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="alert alert-warning">
+                                            Šiai pirkėjų grupei kainos rodomos kaip: <strong>                          Su mokesčiais
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="panel panel-total">
+                                            <div class="table-responsive">
+                                                <table class="table" style="margin-top: -2px">
+                                                    <tbody><tr id="total_products">
+                                                        <td class="text-right">Prekės:</td>
+                                                        <td class="amount text-right nowrap">
+                                                            {{$all}}&nbsp;€
+                                                        </td>
+                                                        <td class="partial_refund_fields current-edit" style="display:none;"></td>
+                                                    </tr>
+                                                    <tr id="total_discounts" style="display: none;">
+                                                        <td class="text-right">Nuolaidos</td>
+                                                        <td class="amount text-right nowrap">
+                                                            -0,00&nbsp;€
+                                                        </td>
+                                                        <td class="partial_refund_fields current-edit" style="display:none;"></td>
+                                                    </tr>
+                                                    <tr id="total_wrapping" style="display: none;">
+                                                        <td class="text-right">Įpakavimas</td>
+                                                        <td class="amount text-right nowrap">
+                                                            0,00&nbsp;€
+                                                        </td>
+                                                        <td class="partial_refund_fields current-edit" style="display:none;"></td>
+                                                    </tr>
+                                                    <tr id="total_shipping">
+                                                        <td class="text-right">Pristatymas</td>
+                                                        <td class="amount text-right nowrap">
+                                                            {{$order->delivery_price}}&nbsp;€
+                                                        </td>
+                                                        <td class="partial_refund_fields current-edit" style="display:none;">
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon">
+                                                                    €
+                                                                </div>
+                                                                <input type="text" name="partialRefundShippingCost" value="0">
+                                                            </div>
+                                                            <p class="help-block"><i class="icon-warning-sign"></i> (Maks. 0,00&nbsp;€                           Su mokesčiais
+                                                                )
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="total_order">
+                                                        <td class="text-right"><strong>Viso</strong></td>
+                                                        <td class="amount text-right nowrap">
+                                                            <strong>{{$order->total}}&nbsp;€</strong>
+                                                        </td>
+                                                        <td class="partial_refund_fields current-edit" style="display:none;"></td>
+                                                    </tr>
+                                                    </tbody></table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if(!empty($order->document_b1->name))
+                                    <div style="text-align: center;position: relative;flex: auto;">
+                                        <a target="_blank" href="{{'/'.$order->getFactura()}}" class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" style="display: inline-block;
         padding: calc(0.5rem + 1px) 1rem;
         background: #ed3b3b;
         border: none;
@@ -325,12 +325,12 @@
         text-decoration: none;
         fill: #fff;
         cursor: pointer;" title="Žiūrėti fakturą">
-                                <span>Žiūrėti fakturą</span>
-                            </a>
+                                            <span>Žiūrėti fakturą</span>
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
-                    @endif
-                </div>
-            </div>
             </div>
             <div class="col-md-4">
             <div class="panel panel panel-bordered panel-warning">
@@ -436,6 +436,76 @@
                     </div>
                 </div>
                 @endif
+                @if(isset($order))
+                    @if($order->delivery_id == 2)
+                        <div class="panel panel-bordered">
+                            <div class="panel-title" style="font-weight: bold">
+                                Venipak Kurjeris
+                            </div>
+                            <div class="panel-body">
+                                <form action="{{route('venipak.push', $order->id)}}" method="post">
+                                    {{csrf_field()}}
+                                    <div class="form-group product-form">
+                                        <div class="col-4">
+                                            <label class="control-label" for="name">Pakuočių skaičius (vnt):</label>
+                                            <input required="" type="number" class="form-control" id="vnt" name="vnt" placeholder="vnt" value="1">
+                                        </div>
+                                        <div class="col-6">
+                                                <label class="control-label" for="name">COD:</label>
+                                                <input type="checkbox" name="is_cod" id="is_cod" style="padding-right: 30px">
+                                            <label class="control-label" for="name">Global?:</label>
+                                            <input type="checkbox" name="is_global" id="is_global">
+                                            <label class="control-label" for="name">Call?:</label>
+                                            <input type="checkbox" name="call" id="call">
+                                        </div>
+                                    </div>
+                                    <div class="form-group product-form">
+                                        <div class="col-4">
+                                            <label class="control-label" for="name">Svoris (Kg):</label>
+                                            <input required="" type="number" class="form-control" id="weight" name="weight" step="0.01" placeholder="kg" value="1.00">
+                                        </div>
+                                    </div>
+                                    <div class="form-group product-form">
+                                        <div id="cod_show" hidden>
+                                            <label class="control-label" for="name">C.O.D suma:</label>
+                                            <input required="" type="number" class="form-control" id="suma_cod" name="suma_cod" step="0.01" placeholder="suma" value="0.00">
+                                        </div>
+                                    </div>
+                                    <div class="form-group product-form">
+                                        <div class="row" id="global-show" hidden>
+                                            <div class="col-4" style="padding-left: 15px; max-width: 185px">
+                                                <select name="cod" id="cod" style="max-width: 185px">
+                                                    <option value="global" selected>Global – use global delivery with cheapest price</option>
+                                                    <option value="express">Express – TNT express service</option>
+                                                    <option value="economy_express">Economy_express – TNT economy express service</option>
+                                                    <option value="economy2">Economy2 – GLS service </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-4" style="padding-left: 15px; max-width: 220px">
+                                                <label class="control-label" for="name">Global order suma:</label>
+                                                <input required="" type="number" class="form-control" id="global_sum" name="global_sum" step="0.01" placeholder="suma" value="{{$order->total ?? 0}}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button @if(isset($order->venipak->send) && $order->venipak->send === 1) disabled="disabled" @endif type="submit" name="submitState" id="submit_state" class="btn btn-primary">
+                                        1. Išsaugoti
+                                    </button>
+                                </form>
+
+                                <form method="POST" action="{{route('venipak.getLabel', $order->id)}}" id="venipakOrderPrintLabelsForm" target="_blank">
+                                    {{csrf_field()}}
+                                    <button type="submit" name="venipak_printlabel" id="venipakOrderPrintLabels" disabled="disabled" class="btn btn-success">2. Spausdinti lipduką</button>
+                                </form>
+
+                                <form method="POST" action="{{route('venipak.getManifest', $order->id)}}" id="venipakOrderPrintLabelsForm" target="_blank">
+                                    {{csrf_field()}}
+                                    <button type="submit" name="venipak_printman" id="venipakOrderPrintManifest" disabled="disabled" class="btn btn-success">3. Spausdinti manifestą</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+                @endif
         </div>
         </div>
     </div>
@@ -444,6 +514,29 @@
 
 @section('javascript')
     <script>
+        $('#cod').select2({ width: 'resolve' });
+        $('#is_cod').click(function() {
+
+            if($(this).prop("checked") === true) {
+                $( "#cod_show" ).show();
+            } else if($(this).prop("checked") === false){
+                $( "#cod_show" ).hide();
+            }
+
+        })
+        $('#is_global').click(function() {
+
+            if($(this).prop("checked") === true) {
+                $( "#global-show" ).show();
+            } else if($(this).prop("checked") === false){
+                $( "#global-show" ).hide();
+            }
+
+        })
+        @if(isset($order->venipak->send) && $order->venipak->send === 1)
+        $('#venipakOrderPrintManifest').prop('disabled', false);
+        $('#venipakOrderPrintLabels').prop('disabled', false);
+        @endif
 
     </script>
 @stop

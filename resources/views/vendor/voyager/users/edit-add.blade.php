@@ -237,16 +237,25 @@
                 </div>
                 <div class="panel panel-bordered">
                     <div class="panel-title" style="font-weight: bold;">
-                        Nuolaida<span class="star-red">*</span>:
+                        Papildoma informacija<span class="star-red">*</span>:
                     </div>
                     <div class="panel-body"style="margin: 0 30px;">
                         <div class="form-group" >
                             <div class="row">
-                            <input required="" type="number" class="form-control" name="discount" placeholder="Nuolaida" value="{{$user->discount ?? 0}}">
-                            <a style="    position: absolute;
-    right: 5px;
-    bottom: 20px;
-    padding: 4px 25px;" class="c-btn">%</a>
+                                <label class="control-label" for="name">Nuolaida % <span class="star-red">*</span>:</label>
+                                <input required="" type="number" class="form-control" name="discount" placeholder="Nuolaida" value="{{$user->discount ?? 0}}">
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <div class="row">
+                                <label class="control-label" for="name">Terminas<span class="star-red">*</span>:</label>
+                                <input required="" type="number" class="form-control" name="term" placeholder="Dienos" value="{{$user->term ?? 7}}">
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <div class="row">
+                                <label class="control-label" for="name">Kredito limitas<span class="star-red">*</span>:</label>
+                                <input required="" type="number" class="form-control" name="limit" placeholder="Limitas" value="{{$user->limit ?? 1000}}">
                             </div>
                         </div>
                     </div>

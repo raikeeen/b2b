@@ -7,6 +7,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Status;
@@ -21,14 +22,24 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $id = Auth::user()->id;
-        $orders = Order::where('user_id',$id)->orderBy('created_at','DESC')->get();
-        $carts = [];
-        $cart = Order::find(1);
+        $user = Auth::user();
+        $orders = Order::where('user_id', $user->id)->whereDate('created_at', '>', Carbon::now()->subMonth())->orderBy('created_at','DESC')->get();
+
+        if(request()->sort == 'month') {
+            $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subMonth())->orderBy('created_at','DESC')->get();
+        }
+        if(request()->sort == 'week') {
+            $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subWeek())->orderBy('created_at','DESC')->get();
+        }
+        if(request()->sort == 'year') {
+            $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subYear())->orderBy('created_at','DESC')->get();
+        }
+        if(request()->sort == 'day') {
+            $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subDay())->orderBy('created_at','DESC')->get();
+        }
 
         return view('auth.user.orders', [
-            'orders' => $orders,
-            'carts'  => $carts
+            'orders' => $orders
         ]);
     }
 

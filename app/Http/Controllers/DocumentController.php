@@ -14,13 +14,27 @@ class DocumentController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         $limit = $user->term;
         $limitSum = $user->limit;
-        $orders = Order::where('user_id',$user->id)->orderBy('created_at','DESC')->get();
+        $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subMonth())->orderBy('created_at','DESC')->get();
         $sum = 0;
+
+        if(request()->sort == 'month') {
+            $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subMonth())->orderBy('created_at','DESC')->get();
+        }
+        if(request()->sort == 'week') {
+            $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subWeek())->orderBy('created_at','DESC')->get();
+        }
+        if(request()->sort == 'year') {
+            $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subYear())->orderBy('created_at','DESC')->get();
+        }
+        if(request()->sort == 'day') {
+            $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subDay())->orderBy('created_at','DESC')->get();
+        }
+
         foreach ($orders as $order) {
 
             if(isset($order->document_b1->price))
@@ -46,9 +60,13 @@ class DocumentController extends Controller
                 return 0;
             }
 
-            return $limit-$days;
-        });
+            $orderTime = Carbon::createFromFormat('Y-m-d H:s:i', $order->created_at);
 
+            return [
+                $limit - $days,
+                $orderTime->addDays($user->term)->format('Y-m-d')
+            ];
+        });
 
         return view('auth.user.documents', [
             'orders' => $orders,

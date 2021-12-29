@@ -35,7 +35,7 @@
                     {{oe['name']}}
                 </div>
                 <div class="col-8 u-bd-top-out py-2">
-                    <span class="">{{oe['code']}}</span>
+                    <a v-bind:href="'/products?search='+ oe['code'] + '&flag=1'">{{oe['code']}}</a>
                 </div>
             </div>
         </div>
