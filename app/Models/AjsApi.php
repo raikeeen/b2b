@@ -59,7 +59,8 @@ class AjsApi extends Model
                              ->where('supplier_reference', $requst[$i]['ArticleId'])
                              ->update([
                                  'stock_supplier' => $count,
-                                 'price' => $requst[$i]['PriceNet']
+                                 'price' => $requst[$i]['PriceNet'],
+                                 'updated_at' =>  date('Y-m-d H:i:s')
                              ]);
 
                      }

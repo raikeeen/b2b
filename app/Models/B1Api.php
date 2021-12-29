@@ -228,7 +228,10 @@ class B1Api extends Model
 
                         DB::table('product')
                             ->where('b1_product_id', '=', $itemB1['id'])
-                            ->update(array('stock_shop' => $stock->stock_shop + $itemB1['stock']));
+                            ->update(array(
+                                'stock_shop' => $stock->stock_shop + $itemB1['stock'],
+                                'updated_at' =>  date('Y-m-d H:i:s')
+                            ));
 
                     }
 
