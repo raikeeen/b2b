@@ -349,15 +349,22 @@
             $('input:checked').each(function () {
                 ps_tag.prepend('<span class="pstaggerTag">\n' +
                     '                <span class="font-weight-bold">' + $(this).data("name") + '</span>\n' +
-                    '            <a class="pstaggerClosingCross" href="JavaScript:void(0)" data-id=' + $(this).data("id") + '>x</a>\n' +
+                    '                <a class="pstaggerClosingCross" href="JavaScript:void(0)" data-id=' + $(this).data("id") + '>x</a>\n' +
                     '                </span>');
-
             });
-            $('.pstaggerClosingCross').click(function() {
+            $(document).on("click", ".pstaggerClosingCross", function(e) {
                 let id = $(this).data("id");
+                console.log($(this));
                 $(this).parent().remove();
                 $('[data-id='+ id +']').click();
-            })
+            });
+           /* $('.pstaggerClosingCross').on('click', function() {
+                let id = $(this).data("id");
+                console.log($(this));
+                $(this).parent().remove();
+                $('[data-id='+ id +']').click();
+            })*/
+
 
             $("input[type=checkbox]").click(function () {
                 console.log($(this).val());
