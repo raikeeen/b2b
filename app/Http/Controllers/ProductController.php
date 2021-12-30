@@ -40,7 +40,7 @@ class ProductController extends Controller
                 return $product->reference;
             })->toArray();
 
-            $products = Product::whereIn('reference', $getProduct)->paginate(20)->appends(request()->query());
+            $products = Product::whereIn('reference', $getProduct)->paginate(200)->appends(request()->query());
         }
         if(request()->analog != '') {
 
