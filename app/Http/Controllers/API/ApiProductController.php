@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Myrzan\TecDocClient\Client;
+use Myrzan\TecDocClient\Generated\GetArticleDirectSearchAllNumbersWithState;
+use Myrzan\TecDocClient\Generated\GetDirectArticlesByIds6;
 use PhpParser\Node\Stmt\Return_;
 use App\Http\Resources\Product as ProductResource;
 use App\Http\Controllers\Controller;
@@ -20,7 +24,7 @@ class ApiProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at','desc')->paginate(5);
+        $products = Product::orderBy('created_at','desc')->paginate(20);
         return ProductResource::collection($products);
 
         /*$products = Product::all();
@@ -130,6 +134,85 @@ class ApiProductController extends Controller
         $product = Product::where('reference', $reference)->first();
         //$product = Product::all('reference')->first();
         return view('catalog.product', ['product' => $product]);
+    }
+    static function analog(Request $request)
+    {
+        $tecDoc = new TecDocController();
+
+        $product = Product::where('reference', $request->analog)->first();
+
+        if(isset($request->analog) and isset($product->supplier_reference)) {
+            $client = new Client();
+            $oeCodes = [];
+
+            $getArticleDirectSearchAllNumbersWithState = (new getArticleDirectSearchAllNumbersWithState())
+                ->setArticleCountry('LT')
+                ->setLang('LT')
+                ->setArticleNumber($product->supplier_reference)
+                ->setNumberType(0);
+            $getArticleDirectSearchAllNumbersWithStateResponse = $client->getArticleDirectSearchAllNumbersWithState($getArticleDirectSearchAllNumbersWithState)->getData();
+
+            if(!empty($getArticleDirectSearchAllNumbersWithStateResponse)) {
+
+                $getArticleId = $getArticleDirectSearchAllNumbersWithStateResponse[0]->getArticleId();
+
+                $getDirectArticlesByIds6 = (new getDirectArticlesByIds6())
+                    ->setArticleCountry('LT')
+                    ->setLang('LT')
+                    ->setOeNumbers(true)
+                    ->setAttributs(true)
+                    ->setArticleId([$getArticleId]);
+
+                $getDirectArticlesByIds6Response = $client->getDirectArticlesByIds6($getDirectArticlesByIds6)->getData();
+
+                foreach ($getDirectArticlesByIds6Response[0]->getOenNumbers() as $getOe) {
+                    array_push($oeCodes, $getOe->getOeNumber());
+                }
+                $oeCodes = array_unique($oeCodes, SORT_REGULAR);
+            }
+        }
+        $searchDb = DB::table('oe_code')->select(['product_id'])->where(function ($query) use($oeCodes) {
+            foreach ($oeCodes as $key => $value) {
+                $query->orwhere('code', '=', $value);
+            }
+        })->distinct()->get();
+
+        $allCodes = [];
+        $allProduct = [];
+        foreach ($searchDb as $code) {
+
+            $codeFromDb = DB::table('oe_code')->select(['code'])->where('product_id', $code->product_id)->get();
+
+            foreach ($codeFromDb as $c) {
+                array_push($allCodes, str_replace('.','',$c->code));
+            }
+
+            $reference = DB::table('product')->where('id', $code->product_id)->select(['reference'])->first();
+            if($reference !== null) {
+                array_push($allProduct, $reference->reference);
+            }
+        }
+        $allCodes = array_unique($allCodes, SORT_REGULAR);
+
+        foreach ($allCodes as $code) {
+            foreach ($tecDoc->searchOe($code) as $article) {
+                $nr = $article->getArticleNo();
+
+                $product = DB::table('product')
+                    ->select(['reference'])
+                    ->where('supplier_reference',$nr)
+                    ->first();
+
+                if($product !== null) {
+
+                    array_push($allProduct, $product->reference);
+                }
+            }
+
+        }
+        $allProduct = array_unique($allProduct, SORT_REGULAR);
+
+        return $allProduct;
     }
 
     static function search(Request $request)

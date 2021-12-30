@@ -473,7 +473,10 @@ class TecDocController extends Controller
 
     public function search($string)
     {
-
+        $oemCode = $this->getArticleDirectSearchAllNumbersWithState($string, 10);
+        if(!is_null($oemCode)) {
+            return $oemCode;
+        }
         $oemArc = $this->getArticleDirectSearchAllNumbersWithState($string, 0);
         $oemCode = $this->getArticleDirectSearchAllNumbersWithState($string, 1);
         $tradeCode = $this->getArticleDirectSearchAllNumbersWithState($string, 2);
@@ -482,7 +485,15 @@ class TecDocController extends Controller
 
         if (!is_null($oemArc) && !is_null($oemCode) && !is_null($tradeCode) && !is_null($comparableCode) && !is_null($eanCode))
             return array_merge($oemArc, $oemCode,$comparableCode,$eanCode,$tradeCode);
-        return null;
+        return [];
+    }
+    public function searchOe($string)
+    {
+        $oemCode = $this->getArticleDirectSearchAllNumbersWithState($string, 1);
+        if(!is_null($oemCode)) {
+            return $oemCode;
+        }
+        return [];
     }
 
     public function getArticleDirectSearchAllNumbersWithState($string, $numberType)

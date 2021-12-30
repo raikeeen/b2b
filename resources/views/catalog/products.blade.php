@@ -182,9 +182,18 @@
                         </div>
                         <hr class="hr--vertical d-none d-sm-block">
                         <div class="col">
-                            <h3 class="c-product__title c-product__title--light d-flex justify-content-start border-bottom pb-2 mb-2">
-                                <a href="{{route('products.show',[$product->reference])}}">{{$product->name}}</a>
-                            </h3>
+                                <h3 class="c-product__title c-product__title--light d-flex justify-content-start border-bottom pb-2 mb-2">
+                                    <a href="{{route('products.show',[$product->reference])}}">{{$product->name}}</a>
+                                    <span style="padding-left: 15px">
+                                        <form action="{{'/products?analog='.$product->reference}}" method="get">
+                                            {{csrf_field()}}
+                                            <input name="id" hidden value="{{$product->id}}">
+                                            <input type="text" name="analog" hidden value="{{$product->reference}}">
+                                            <button class="btn btn-info" type="submit" style="padding: 0rem 0.75rem;">Nurasti analogai</button>
+                                        </form>
+                                    </span>
+                                </h3>
+
                             <div class="row">
                                 <div class="col d-flex flex-column align-items-start">
 
@@ -243,6 +252,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="row">

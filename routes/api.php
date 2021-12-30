@@ -22,7 +22,7 @@ use App\Http\Controllers\API\ApiProductController;
 /*Route::resource('/products', ApiProductController::class);*/
 Route::get('/products/search/{name}', [ApiProductController::class, 'search']);
 Route::post('/products/search', [ApiProductController::class, 'search']);
-
+Route::post('/products/analog', [ApiProductController::class, 'analog'])->name('analog');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

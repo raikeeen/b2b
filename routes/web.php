@@ -60,6 +60,7 @@ Route::post('ajax/getCarsAndOecodes', [TecDocController::class, 'getCarsAndOecod
 Route::post('ajax/getArticleManufacturer', [TecDocController::class, 'getArticleManufacturer'])->name('getArticleManufacturer');
 Route::get('vehicle-cat', [TecDocController::class, 'products']);
 
+
 Route::prefix('emails')->group(function () {
     Route::post('/register', [\App\Http\Controllers\MailController::class, 'sendMail'])->name('emails.register');
 

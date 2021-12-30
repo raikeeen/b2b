@@ -62,7 +62,17 @@ class HomeController extends Controller
         $brands = Brand::all();
 
         $client = new Client();
+       /* $a = Db::table('oe_code')->select(['id', 'code'])->orderBy('id', 'ASC')->get();
+        foreach ($a as $value) {
+            $b = $value->code;
+            $leng = strlen($b);
 
+            if (substr($b, $leng - 1) === '.') {
+
+                $code = substr($b, 0, $leng - 1);
+                Db::table('oe_code')->where('id', $value->id)->update(['code' => $code]);
+            }
+        }*/
         /*$writer = new XLSXWriter();
         $xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\klientu sarasas import.xlsx'));
 

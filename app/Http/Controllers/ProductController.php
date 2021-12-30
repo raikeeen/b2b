@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Img;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\API\ApiProductController;
 use App\Models\Product;
@@ -40,6 +41,12 @@ class ProductController extends Controller
             })->toArray();
 
             $products = Product::whereIn('reference', $getProduct)->paginate(20)->appends(request()->query());
+        }
+        if(request()->analog != '') {
+
+            $reference = ApiProductController::analog(request());
+
+            $products = Product::whereIn('reference', $reference)->paginate(20)->appends(request()->query());
         }
         if(request()->sort === 'low_high') {
             $products->setCollection(
