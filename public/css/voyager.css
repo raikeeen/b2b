@@ -122,4 +122,33 @@
     height: 0;
     overflow: visible;
 }
+.pstaggerTagsWrapper {
+    display: none;
+    position: relative;
+    padding: 6.4px;
+    padding: 0.4rem;
+    padding-bottom: 0;
+    border: 1px solid #bbcdd2;
+    background: #fff;
+    width: 100%;
+    min-height: 30px;
+}
+.bold {
+    font-weight: bold;
+}
+.pstaggerTag {
+    font-size: 12px;
+    font-size: .75rem;
+    display: inline-block;
+    padding: 3.2px 6.4px;
+    padding: 0.2rem 0.4rem;
+    margin: 0 6.4px 6.4px 0;
+    margin: 0 0.4rem 0.4rem 0;
+    color: #25b9d7;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    color: #fff;
+    background-color: #25b9d7;
 
+}

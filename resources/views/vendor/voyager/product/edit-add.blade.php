@@ -205,13 +205,17 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    <label class="form-control-label text-uppercase bold">Susietos kategorijos</label>
+                                    <div id="ps_categoryTags" class="pstaggerTagsWrapper" style="display: block;">
+
+                                    </div>
                                     <div class="form-group">
                                         <ul class="category-tree" style="margin-left: -20px;">
                                             @foreach($categories as $category)
                                                 <li class="less">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" id="category" name="category[]" value="{{$category->id}}"
+                                                            <input type="checkbox" id="category" data-id="{{$category->id}}" data-name="{{$category->name}}" name="category[]" value="{{$category->id}}"
                                                                    class="category" {{(isset($categoriesForProduct) ? $categoriesForProduct->contains($category) : '') ? 'checked': ''}}>
                                                             {{$category->name}}
                                                         </label>
@@ -222,7 +226,7 @@
                                                                 <li>
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" id="category" name="category[]" value="{{$child->id}}"
+                                                                            <input type="checkbox" id="category" data-id="{{$child->id}}" data-name="{{$child->name}}" name="category[]" value="{{$child->id}}"
                                                                                    class="category" {{(isset($categoriesForProduct) ? $categoriesForProduct->contains($child)  : '') ? 'checked': ''}}>
                                                                             {{$child->name}}
                                                                         </label>
@@ -293,52 +297,79 @@
 @section('javascript')
     @if($edit)
     <script>
-        $('#supplier').select2();
-        // Dropzone.options.Dropzone = {
-        //     // Configuration options go here
-        // };
-        var myDropzone = new Dropzone("div#dropzone", {
-            url: "{{route('add-image', $product->id)}}",
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            dictFileTooBig: 'Image is larger than 16MB',
-            paramName: 'file',
-            acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
-            addRemoveLinks: true,
-            maxFiles:8,
-            parallelUploads: 1,
-            maxFilesize: 16,
-            init: function () {
-                let myDropzone = this;
-                let callback = null; // Optional callback when it's done
-                let crossOrigin = null; // Added to the `img` tag for crossOrigin handling
-                let resizeThumbnail = false; // Tells Dropzone whether it should resize the image first
-                let existingFiles = {!! $img !!};
 
-                if(existingFiles.length > 0) {
-                    for (i = 0; i < existingFiles.length; i++) {
-                        myDropzone.displayExistingFile(existingFiles[i], window.location.origin + '/' + existingFiles[i].file, callback, crossOrigin, resizeThumbnail);
-                    }
-                }
-                this.on("removedfile", function (file) {
-                    $.post({
-                        url: '{{route('delete-image', $product->id)}}',
-                        data: {
-                            id: file.previewElement.querySelector("[data-dz-name]").textContent,
-                            _token: $('meta[name="csrf-token"]').attr('content'),
-                        },
-                        dataType: 'json',
-                        success: function (data) {
+            $('#supplier').select2();
+            // Dropzone.options.Dropzone = {
+            //     // Configuration options go here
+            // };
+            var myDropzone = new Dropzone("div#dropzone", {
+                url: "{{route('add-image', $product->id)}}",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                dictFileTooBig: 'Image is larger than 16MB',
+                paramName: 'file',
+                acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
+                addRemoveLinks: true,
+                maxFiles: 8,
+                parallelUploads: 1,
+                maxFilesize: 16,
+                init: function () {
+                    let myDropzone = this;
+                    let callback = null; // Optional callback when it's done
+                    let crossOrigin = null; // Added to the `img` tag for crossOrigin handling
+                    let resizeThumbnail = false; // Tells Dropzone whether it should resize the image first
+                    let existingFiles = {!! $img !!};
 
+                    if (existingFiles.length > 0) {
+                        for (i = 0; i < existingFiles.length; i++) {
+                            myDropzone.displayExistingFile(existingFiles[i], window.location.origin + '/' + existingFiles[i].file, callback, crossOrigin, resizeThumbnail);
                         }
+                    }
+                    this.on("removedfile", function (file) {
+                        $.post({
+                            url: '{{route('delete-image', $product->id)}}',
+                            data: {
+                                id: file.previewElement.querySelector("[data-dz-name]").textContent,
+                                _token: $('meta[name="csrf-token"]').attr('content'),
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+
+                            }
+                        });
                     });
-                });
-            },
-            success: function( file, response ) {
-                var fileuploded = file.previewElement.querySelector("[data-dz-name]");
-                fileuploded.innerHTML = response;
-            }
-        });
-        Dropzone.autoDiscover = false;
+                },
+                success: function (file, response) {
+                    var fileuploded = file.previewElement.querySelector("[data-dz-name]");
+                    fileuploded.innerHTML = response;
+                }
+            });
+            Dropzone.autoDiscover = false;
+
+            let ps_tag = $('#ps_categoryTags');
+            $('input:checked').each(function () {
+                ps_tag.prepend('<span class="pstaggerTag">\n' +
+                    '                <span class="font-weight-bold">' + $(this).data("name") + '</span>\n' +
+                    '            <a class="pstaggerClosingCross" href="JavaScript:void(0)" data-id=' + $(this).data("id") + '>x</a>\n' +
+                    '                </span>');
+
+            });
+            $('.pstaggerClosingCross').click(function() {
+                let id = $(this).data("id");
+                $(this).parent().remove();
+                $('[data-id='+ id +']').click();
+            })
+
+            $("input[type=checkbox]").click(function () {
+                console.log($(this).val());
+                if(this.checked) {
+                    ps_tag.prepend('<span class="pstaggerTag">\n' +
+                        '                <span class="font-weight-bold">' + $(this).data("name") + '</span>\n' +
+                        '            <a class="pstaggerClosingCross" href="JavaScript:void(0)" data-id=' + $(this).data("id") + '>x</a>\n' +
+                        '                </span>');
+                }else {
+                    $('a[data-id='+ $(this).data("id") +']').parent().remove();
+                }})
+
 
     </script>
     @else
@@ -370,6 +401,7 @@
             });
 
             Dropzone.autoDiscover = false;
+
 
         </script>
     @endif
