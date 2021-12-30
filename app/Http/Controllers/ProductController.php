@@ -27,10 +27,10 @@ class ProductController extends Controller
         if(request()->category) {
             $products = Product::with('category')->whereHas('category', function ($query) {
                 $query->where('slug', request()->category);
-            })->paginate(5);
+            })->paginate(20);
 
         } else {
-            $products = Product::orderBy('created_at','desc')->paginate(5);
+            $products = Product::orderBy('created_at','desc')->paginate(20);
         }
 
         if(request()->search != '') {
@@ -46,7 +46,7 @@ class ProductController extends Controller
 
             $reference =  array_reverse(ApiProductController::analog(request()));
 
-            $products = Product::whereIn('reference', $reference)->appends(request()->query());
+            $products = Product::whereIn('reference', $reference)->get()->appends(request()->query());
         }
         if(request()->sort === 'low_high') {
             $products->setCollection(
@@ -71,7 +71,7 @@ class ProductController extends Controller
     {
         $products = Product::where(
             'created_at', '>=', Carbon::now()->subMonth()->toDateTimeString()
-        )->paginate(5);
+        )->paginate(20);
 
         return view('catalog.products', [
             'products' => $products,

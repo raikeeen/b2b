@@ -62,6 +62,28 @@ class HomeController extends Controller
         $brands = Brand::all();
 
         $client = new Client();
+        // add cat
+        /*$xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\NOWY.xlsx'));
+
+
+        $rows = $xlsx->rows();
+        unset($rows[0]);
+        for ($i = 1; $i <= count($rows); $i++) {
+            $product = Db::table('product')->select(['id'])->where('supplier_reference', $rows[$i][0])->first();
+            $category = Db::table('category')->select(['id'])->where('code','=', $rows[$i][1])->first();
+
+            if(isset($product) && isset($category)) {
+                DB::table('product_cat')->insert([
+                        'category_id' => $category->id,
+                        'product_id' => $product->id,
+                        'created_at' =>  date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+
+            }
+
+        }*/
+
        /* $a = Db::table('oe_code')->select(['id', 'code'])->orderBy('id', 'ASC')->get();
         foreach ($a as $value) {
             $b = $value->code;
