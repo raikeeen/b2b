@@ -31,7 +31,7 @@
                             </div>
                         </div>
                     @else
-                    <search></search>
+                    <search :user={{Auth::id()}}></search>
                     @endguest
                 </div>
 

@@ -3070,6 +3070,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Search.vue",
+  props: ['user'],
   data: function data() {
     return {
       products: [],
@@ -3118,16 +3119,22 @@ __webpack_require__.r(__webpack_exports__);
             .catch(err => {
                 console.log(err);
             });*/
-        return axios.post(window.location.origin + '/api/products/search', {
-          search: this.search
-        }).then(function (response) {
-          console.log(response.data);
-          this.products = response.data;
-        }.bind(this));
+        if (this.user) {
+          axios.post(window.location.origin + '/api/products/history', {
+            search: this.search,
+            user: this.user
+          }).then(function (response) {});
+          return axios.post(window.location.origin + '/api/products/search', {
+            search: this.search
+          }).then(function (response) {
+            //console.log(response.data);
+            this.products = response.data;
+          }.bind(this));
+        }
       }
     },
     submit: function submit() {
-      if (this.search.length > 3) {
+      if (this.search.length > 3 && this.user) {
         window.location.href = window.location.origin + "/products?search=" + this.search + "&flag=1";
       }
     }
@@ -42259,6 +42266,7 @@ var render = function() {
             staticClass: "c-input c-input--quicksearch",
             attrs: {
               placeholder: "Ieškokite produkto pavadinimo ar kodo",
+              maxlength: "128",
               required: ""
             },
             domProps: { value: _vm.search },

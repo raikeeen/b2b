@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\History;
 use App\Models\Margin;
 use App\Models\Order;
 use App\Models\Product;
@@ -449,6 +450,58 @@ class UserController extends VoyagerBaseController
         $roles = Role::all();
 
         return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'cities', 'countries', 'roles'));
+    }
+    public function history(Request $request)
+    {
+        $slug = $this->getSlug($request);
+
+        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+        // Check permission
+        $this->authorize('add', app($dataType->model_name));
+
+        $dataTypeContent = (strlen($dataType->model_name) != 0)
+            ? new $dataType->model_name()
+            : false;
+
+        foreach ($dataType->addRows as $key => $row) {
+            $dataType->addRows[$key]['col_width'] = $row->details->width ?? 100;
+        }
+
+        // If a column has a relationship associated with it, we do not want to show that field
+        $this->removeRelationshipField($dataType, 'add');
+
+        // Check if BREAD is Translatable
+        $isModelTranslatable = is_bread_translatable($dataTypeContent);
+
+        // Eagerload Relations
+        $this->eagerLoadRelations($dataTypeContent, $dataType, 'add', $isModelTranslatable);
+
+        $view = 'voyager::bread.edit-add';
+
+        if (view()->exists("voyager::$slug.edit-add")) {
+            $view = "voyager::$slug.history";
+        }
+        $user = User::Find($request->id);
+        if(request()->sort_asc != '') {
+
+            $story = History::where('user_id', $request->id)->orderBy(request()->sort_asc, 'ASC')->paginate(50)->appends(request()->query());
+            $sort = ['asc', request()->sort_asc, 'sort_desc'];
+
+            return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'story', 'user', 'sort'));
+        }
+        if(request()->sort_desc != '') {
+
+            $story = History::where('user_id', $request->id)->orderBy(request()->sort_desc, 'DESC')->paginate(50)->appends(request()->query());
+            $sort = ['desc', request()->sort_desc, 'sort_asc'];
+
+            return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'story', 'user', 'sort'));
+        }
+
+        $story = History::where('user_id', $request->id)->paginate(50);
+        $sort = ['desc', 'id',  'sort_asc'];
+
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'story', 'user', 'sort'));
     }
 
     public function createNew(Request $request)

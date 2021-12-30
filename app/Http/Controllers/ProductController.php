@@ -44,9 +44,9 @@ class ProductController extends Controller
         }
         if(request()->analog != '') {
 
-            $reference = ApiProductController::analog(request());
+            $reference =  array_reverse(ApiProductController::analog(request()));
 
-            $products = Product::whereIn('reference', $reference)->paginate(20)->appends(request()->query());
+            $products = Product::whereIn('reference', $reference)->appends(request()->query());
         }
         if(request()->sort === 'low_high') {
             $products->setCollection(

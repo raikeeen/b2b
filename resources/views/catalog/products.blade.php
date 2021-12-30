@@ -387,7 +387,51 @@
                                 <a class="page-link" href="#" @click="fetchProducts(pagination.next_page_url)">Next</a>
                             </li>
                         </ul>--}}
+                        <div class="col d-sm-flex justify-content-xs-center justify-content-sm-end align-items-center">
 
+                            <div class="d-flex align-items-center justify-content-center c-pagination__top-custom mt-2 mt-sm-0" data-control-type="ArticleList">
+
+                                <div class="c-btn c-btn&#45;&#45;white-round">
+                                    <a class="" href="{{$products->previousPageUrl()}}">
+
+
+                                        <svg class="c-icon c-icon&#45;&#45;has-prev-pagination">
+                                            <use xlink:href="#arrow-left-slider">
+                                                <svg id="arrow-left-slider" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 13">
+                                                    <path d="M12,13V0L0,6.5Zm-1.35-2.28L2.86,6.5l7.79-4.22Z"></path>
+                                                </svg>
+                                            </use>
+                                        </svg>
+
+                                    </a>
+                                </div>
+                                <span class="mx-1">
+     <input class="c-input c-input&#45;&#45;top-pagination text-right p-2 mx-3" value="{{$products->currentPage()}}">
+   </span>
+                                <div class="c-btn c-btn&#45;&#45;white-round">
+                                    <a class="" href="{{$products->nextPageUrl()}}">
+
+
+                                        <svg class="c-icon c-icon&#45;&#45;has-next-pagination">
+                                            <use xlink:href="#arrow-right-slider">
+                                                <svg id="arrow-right-slider" data-name="Layer 1"
+                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 13">
+                                                    <path d="M0,0V13L12,6.5ZM1.35,2.28,9.14,6.5,1.35,10.72Z"></path>
+                                                </svg>
+                                            </use>
+                                        </svg>
+
+                                    </a>
+                                </div>
+
+                                <span class="c-pagination__top-custom__title ml-3">
+     <span>nuo</span>
+     <a class="" href="?page={{$products->lastPage()}}" title="{{$products->lastPage()}}">{{$products->lastPage()}}</a>
+   </span>
+                            </div>
+
+
+                        </div>
                     </div>
                 </div>
             </div>

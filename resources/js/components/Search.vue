@@ -3,7 +3,7 @@
             <div data-control-type="QuickSearch">
                 <div class="c-quick-search position-relative" @keyup.enter="submit()">
 
-                        <input class="c-input c-input--quicksearch" placeholder="Ieškokite produkto pavadinimo ar kodo"   required="" v-model="search">
+                        <input class="c-input c-input--quicksearch" placeholder="Ieškokite produkto pavadinimo ar kodo" maxlength="128" required="" v-model="search">
 
                             <div id="quick-search-autocomplete-dropdown" class="c-input-dropdown__quick-search c-input-dropdown" style="display: block; min-width: 450px;">
                                 <ul class="c-input-dropdown__items" v-if="products.length > 0">
@@ -33,6 +33,7 @@
 <script>
     export default {
         name: "Search.vue",
+        props: ['user'],
         data() {
             return {
                 products: [],
@@ -85,16 +86,23 @@
                         .catch(err => {
                             console.log(err);
                         });*/
-                    return axios.post(window.location.origin + '/api/products/search', {search: this.search})
-                        .then(function( response ){
-                            console.log(response.data);
-                            this.products = response.data;
-                        }.bind(this));
+                    if (this.user) {
+                        axios.post(window.location.origin + '/api/products/history', {
+                            search: this.search,
+                            user: this.user
+                        }).then(function (response) {
+
+                        });
+                        return axios.post(window.location.origin + '/api/products/search', {search: this.search})
+                            .then(function (response) {
+                                //console.log(response.data);
+                                this.products = response.data;
+                            }.bind(this));
+                    }
                 }
             },
             submit() {
-                if (this.search.length > 3) {
-
+                if (this.search.length > 3 && this.user) {
                     window.location.href = window.location.origin + "/products?search=" + this.search + "&flag=1";
 
                 }

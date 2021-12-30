@@ -39,6 +39,7 @@ Route::group(['prefix' => 'admin-kavateka'], function () {
     Route::post('product/create', [\App\Http\Controllers\Voyager\ProductController::class, 'createNew'])->name('voyager.product.createNew');
     Route::post('add-image/{id}', [ProductController::class, 'addImage'])->name('add-image');
     Route::post('delete-image/{id}', [ProductController::class, 'deleteImage'])->name('delete-image');
+    Route::get('users/{id}/history', [\App\Http\Controllers\Voyager\UserController::class, 'history'])->name('voyager.users.history');
 
 });
 

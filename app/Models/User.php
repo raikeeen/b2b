@@ -62,6 +62,10 @@ class User extends \TCG\Voyager\Models\User
     {
         return $this->belongsTo('App\Models\Address');
     }
+    public function history()
+    {
+        return $this->hasMany('App\Models\History', 'user_id');
+    }
     public function order()
     {
         return $this->hasMany('App\Models\Order', 'user_id');

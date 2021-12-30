@@ -12,11 +12,16 @@
 @section('page_title', __('voyager::generic.'.($edit ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular'))
 
 @section('page_header')
+
     <h1 class="page-title">
         <i class="{{ $dataType->icon }}"></i>
         {{ __('voyager::generic.'.($edit ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular') }}
+        @if($edit)
+            <a href="{{route('voyager.users.history', $user->id)}}" style="padding-left: 30px; color: #1f6fb2"> Paieškos istorija</a>
+        @endif
     </h1>
     @include('voyager::multilingual.language-selector')
+
 @stop
 
 @section('content')
@@ -242,7 +247,7 @@
                     <div class="panel-body"style="margin: 0 30px;">
                         <div class="form-group" >
                             <div class="row">
-                                <label class="control-label" for="name">Nuolaida % <span class="star-red">*</span>:</label>
+                                <label class="control-label" for="name">Nuolaida %<span class="star-red">*</span>:</label>
                                 <input required="" type="number" class="form-control" name="discount" placeholder="Nuolaida" value="{{$user->discount ?? 0}}">
                             </div>
                         </div>

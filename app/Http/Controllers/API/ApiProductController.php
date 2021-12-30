@@ -386,4 +386,15 @@ class ApiProductController extends Controller
         }
         return null;
     }
+    static function history(Request $request)
+    {
+        Db::table('search_history')->insert([
+            'search'  => $request->search,
+            'user_id' => $request->user,
+            "created_at" =>  date('Y-m-d H:i:s'),
+            "updated_at" => date('Y-m-d H:i:s'),
+        ]);
+
+        return response()->json();
+    }
 }
