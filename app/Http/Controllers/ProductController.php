@@ -40,13 +40,13 @@ class ProductController extends Controller
                 return $product->reference;
             })->toArray();
 
-            $products = Product::whereIn('reference', $getProduct)->paginate(200)->appends(request()->query());
+            $products = Product::whereIn('reference', $getProduct)->paginate(20)->appends(request()->query());
         }
         if(request()->analog != '') {
 
             $reference =  array_reverse(ApiProductController::analog(request()));
 
-            $products = Product::whereIn('reference', $reference)->get()->appends(request()->query());
+            $products = Product::whereIn('reference', $reference)->paginate(200)->appends(request()->query());
         }
         if(request()->sort === 'low_high') {
             $products->setCollection(
