@@ -189,6 +189,40 @@ class TecDocController extends Controller
             ->paginate(15)
             ->appends(request()->query());
 
+        if(request()->sort === 'low_high') {
+            $products->setCollection(
+                collect(
+                    collect($products->items())->sortBy('price')
+                )->values()
+            );
+        } elseif(request()->sort === 'high_low') {
+            $products->setCollection(
+                collect(
+                    collect($products->items())->sortByDesc('price')
+                )->values()
+            );
+        } elseif(request()->sort === 'avail') {
+
+            $productsSort = $products->transform(function($product) {
+                if($product->stock_shop + $product->stock_supplier > 0)
+                    return $product;
+            })->filter(function($value, $key) {
+                return !is_null($value);
+            });
+
+            $products = new LengthAwarePaginator($productsSort, $productsSort->count(), $products->perPage(), request()->page, [
+                'path'  => request()->url(),
+                'query' => request()->query(),
+            ]);
+
+        } elseif(request()->sort === 'kod') {
+            $products->setCollection(
+                collect(
+                    collect($products->items())->sortBy('reference')
+                )->values()
+            );
+        }
+
         return view('catalog.tecdoc.products', [
             'products' => $products,
         ]);
@@ -504,6 +538,8 @@ class TecDocController extends Controller
             ->setArticleCountry('LT')
             ->setLang('LT')
             ->setArticleNumber($string)
+            ->setSearchExact(true)
+            ->setSortType(2)
             ->setNumberType($numberType);
 
         $getArticleDirectSearchAllNumbersWithStateResponse = $client->getArticleDirectSearchAllNumbersWithState($getArticleDirectSearchAllNumbersWithState)->getData();

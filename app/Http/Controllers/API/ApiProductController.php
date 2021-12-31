@@ -14,7 +14,7 @@ use Myrzan\TecDocClient\Generated\GetDirectArticlesByIds6;
 use PhpParser\Node\Stmt\Return_;
 use App\Http\Resources\Product as ProductResource;
 use App\Http\Controllers\Controller;
-
+ini_set('max_execution_time', 60);
 class ApiProductController extends Controller
 {
     /**
@@ -160,7 +160,6 @@ class ApiProductController extends Controller
                     ->setArticleCountry('LT')
                     ->setLang('LT')
                     ->setOeNumbers(true)
-                    ->setAttributs(true)
                     ->setArticleId([$getArticleId]);
 
                 $getDirectArticlesByIds6Response = $client->getDirectArticlesByIds6($getDirectArticlesByIds6)->getData();
@@ -171,48 +170,71 @@ class ApiProductController extends Controller
                 $oeCodes = array_unique($oeCodes, SORT_REGULAR);
             }
         }
-        $searchDb = DB::table('oe_code')->select(['product_id'])->where(function ($query) use($oeCodes) {
-            foreach ($oeCodes as $key => $value) {
-                $query->orwhere('code', '=', $value);
-            }
-        })->distinct()->get();
+        $searchDb = [];
+        if(!empty($oeCodes)) {
 
-        $allCodes = [];
-        $allProduct = [];
-        foreach ($searchDb as $code) {
+            $searchDb = DB::table('oe_code')->select(['product_id'])->where(function ($query) use ($oeCodes) {
+                foreach ($oeCodes as $key => $value) {
+                    $query->orwhere('code', '=', $value);
+                }
+            })->distinct()->get();
 
-            $codeFromDb = DB::table('oe_code')->select(['code'])->where('product_id', $code->product_id)->get();
 
-            foreach ($codeFromDb as $c) {
-                array_push($allCodes, str_replace('.','',$c->code));
-            }
+            $allCodes = [];
+            $allProduct = [];
+            foreach ($searchDb as $code) {
 
-            $reference = DB::table('product')->where('id', $code->product_id)->select(['reference'])->first();
-            if($reference !== null) {
-                array_push($allProduct, $reference->reference);
-            }
-        }
-        $allCodes = array_unique($allCodes, SORT_REGULAR);
+                $codeFromDb = DB::table('oe_code')->select(['code'])->where('product_id', $code->product_id)->get();
 
-        foreach ($allCodes as $code) {
-            foreach ($tecDoc->searchOe($code) as $article) {
-                $nr = $article->getArticleNo();
+                foreach ($codeFromDb as $c) {
+                    array_push($allCodes, str_replace('.', '', $c->code));
+                }
 
-                $product = DB::table('product')
-                    ->select(['reference'])
-                    ->where('supplier_reference',$nr)
-                    ->first();
-
-                if($product !== null) {
-
-                    array_push($allProduct, $product->reference);
+                $reference = DB::table('product')->where('id', $code->product_id)->select(['reference'])->first();
+                if ($reference !== null) {
+                    array_push($allProduct, $reference->reference);
                 }
             }
+            $allCodes = array_unique($allCodes, SORT_REGULAR);
 
+            foreach ($allCodes as $code) {
+                foreach ($tecDoc->searchOe($code) as $article) {
+                    $nr = $article->getArticleNo();
+
+                    $product = DB::table('product')
+                        ->select(['reference'])
+                        ->where('supplier_reference', $nr)
+                        ->first();
+
+                    if ($product !== null) {
+
+                        array_push($allProduct, $product->reference);
+                    }
+                }
+
+            }
+            $allProduct = array_unique($allProduct, SORT_REGULAR);
+
+            return $allProduct;
+        } else {
+            $oecodes = DB::table('oe_code')->select(['code'])->where('product_id', $product->id)->get();
+            $arrayProducts = [];
+            foreach ($oecodes as $code) {
+                $product = DB::table('oe_code')->where('code', $code->code)
+                    ->leftJoin('product', function($join) {
+                        $join->on('oe_code.product_id', '=', 'product.id');
+                    })
+                    ->select(['supplier_reference'])->distinct()->get();
+                foreach ($product as $prod) {
+                    if (isset($prod->supplier_reference)) {
+                        array_push($arrayProducts, $prod->supplier_reference);
+                    }
+                }
+            }
+            $allProducts = array_unique($arrayProducts, SORT_REGULAR);
+
+            return $allProducts;
         }
-        $allProduct = array_unique($allProduct, SORT_REGULAR);
-
-        return $allProduct;
     }
 
     static function search(Request $request)

@@ -18,7 +18,7 @@
                     </svg>
                 </span>
             </div>
-            <div class="c-filter__wrapper d-none d-lg-block">
+            {{--<div class="c-filter__wrapper d-none d-lg-block">
                 <div id="hook_articlelistsidebar">
                     <div data-control-name="" data-control-type="ArticleListAvailability">
                         <div class="mb-4 pl-2">
@@ -88,7 +88,7 @@
 
                 </div>
 
-            </div>
+            </div>--}}
             <div class="">
                 <div id="hook_category" class="" data-asp-hook-name="Category"></div>
             </div>
@@ -101,15 +101,24 @@
                     <div id="hook_articlelistsort" class="" data-asp-hook-name="ArticleListSort">
                         <div data-control-name="" data-control-type="ArticleListSort">
                             <div data-control-type="ArticleList">
-                                <select class="c-select filter-product">
-                                    <option value="avail" selected="selected">Rūšiuoti pagal Prieinamumas</option>
-                                    <option value="kod">Rūšiuoti pagal kodą</option>
-                                    <option value="low_high"><a href="{{route('products.index', ['category' => request()->category, 'sort' => 'low_high'])}}">Rūšiuoti pagal kainą kylančios</a></option>
-                                    <option value="high_low"><a href="{{route('products.index', ['category' => request()->category, 'sort' => 'high_low'])}}">Rūšiuoti pagal kainą mažėjančios</a></option>
-                                </select>
+                                <form action="{{route('vehicle.catalog')}}" method="get">
+                                    @if(isset(request()->category))
+                                        <input hidden type="text" name="category" value="{{request()->category}}">
+                                    @endif
+                                    @if(isset(request()->carId))
+                                        <input hidden type="text" name="carId" value="{{request()->carId}}">
+                                    @endif
+                                    <select name="sort" id="sort" class="c-select filter-product" onchange="this.form.submit()">
+                                        <option value="avail" @if(request()->sort == 'avail') selected="selected" @endif>Rūšiuoti pagal Prieinamumas</option>
+                                        <option value="kod" @if(request()->sort == 'kod') selected="selected" @endif>Rūšiuoti pagal kodą</option>
+                                        <option value="low_high" @if(request()->sort == 'low_high') selected="selected" @endif>Rūšiuoti pagal kainą kylančios</option>
+                                        <option value="high_low" @if(request()->sort == 'high_low') selected="selected" @endif>Rūšiuoti pagal kainą mažėjančios</option>
+                                    </select>
+                                </form>
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="col d-sm-flex justify-content-xs-center justify-content-sm-end align-items-center">
 
@@ -182,6 +191,14 @@
                         <div class="col">
                             <h3 class="c-product__title c-product__title--light d-flex justify-content-start border-bottom pb-2 mb-2">
                                 <a href="{{route('products.show',[$product->reference])}}">{{$product->name}}</a>
+                                <span style="padding-left: 15px">
+                                        <form action="{{'/products?analog='.$product->reference}}" method="get">
+                                            {{csrf_field()}}
+                                            <input name="id" hidden value="{{$product->id}}">
+                                            <input type="text" name="analog" hidden value="{{$product->reference}}">
+                                            <button class="btn btn-info" type="submit" style="padding: 0rem 0.75rem;">Nurasti analogai</button>
+                                        </form>
+                                    </span>
                             </h3>
                             <div class="row">
                                 <div class="col d-flex flex-column align-items-start">

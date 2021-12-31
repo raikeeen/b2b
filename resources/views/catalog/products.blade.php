@@ -18,7 +18,7 @@
                     </svg>
                 </span>
             </div>
-            <div class="c-filter__wrapper d-none d-lg-block">
+            {{--<div class="c-filter__wrapper d-none d-lg-block">
                 <div id="hook_articlelistsidebar">
                     <div data-control-name="" data-control-type="ArticleListAvailability">
                         <div class="mb-4 pl-2">
@@ -88,7 +88,7 @@
 
                 </div>
 
-            </div>
+            </div>--}}
             <div class="">
                 <div id="hook_category" class="" data-asp-hook-name="Category"></div>
             </div>
@@ -102,11 +102,20 @@
                         <div data-control-name="" data-control-type="ArticleListSort">
                             <div data-control-type="ArticleList">
                                 <form action="{{route('products.index')}}" method="get">
+                                    @if(isset(request()->category))
+                                        <input hidden type="text" name="category" value="{{request()->category}}">
+                                    @endif
+                                    @if(isset(request()->search))
+                                        <input hidden type="text" name="search" value="{{request()->search}}">
+                                    @endif
+                                    @if(isset(request()->analog))
+                                        <input hidden type="text" name="analog" value="{{request()->analog}}">
+                                    @endif
                                 <select name="sort" id="sort" class="c-select filter-product" onchange="this.form.submit()">
-                                    <option value="avail">Rūšiuoti pagal Prieinamumas</option>
-                                    <option value="kod" selected="selected">Rūšiuoti pagal kodą</option>
-                                    <option value="low_high"><a href="{{route('products.index', ['category' => request()->category, 'sort' => 'low_high'])}}">Rūšiuoti pagal kainą kylančios</a></option>
-                                    <option value="high_low"><a href="{{route('products.index', ['category' => request()->category, 'sort' => 'high_low'])}}">Rūšiuoti pagal kainą mažėjančios</a></option>
+                                    <option value="avail" @if(request()->sort == 'avail') selected="selected" @endif>Rūšiuoti pagal Prieinamumas</option>
+                                    <option value="kod" @if(request()->sort == 'kod') selected="selected" @endif>Rūšiuoti pagal kodą</option>
+                                    <option value="low_high" @if(request()->sort == 'low_high') selected="selected" @endif>Rūšiuoti pagal kainą kylančios</option>
+                                    <option value="high_low" @if(request()->sort == 'high_low') selected="selected" @endif>Rūšiuoti pagal kainą mažėjančios</option>
                                 </select>
                                 </form>
                             </div>
@@ -443,7 +452,7 @@
     </div>
     <script>
         $( document ).ready(function() {
-            console.log(window.location.href);
+
             /*var queryParams = new URLSearchParams(window.location.search);
 
 // Set new or modify existing parameter value.

@@ -14,7 +14,8 @@ use Illuminate\Support\Str;
 use Myrzan\TecDocClient\Client;
 use Myrzan\TecDocClient\Generated\GetArticleDirectSearchAllNumbersWithState;
 use Myrzan\TecDocClient\Generated\GetArticleLinkedAllLinkingTarget3;
-
+ini_set('max_execution_time', 60);
+use Illuminate\Pagination\LengthAwarePaginator;
 class ProductController extends Controller
 {
     /**
@@ -27,10 +28,10 @@ class ProductController extends Controller
         if(request()->category) {
             $products = Product::with('category')->whereHas('category', function ($query) {
                 $query->where('slug', request()->category);
-            })->paginate(20);
+            })->paginate(20)->appends(request()->query());
 
         } else {
-            $products = Product::orderBy('created_at','desc')->paginate(20);
+            $products = Product::orderBy('created_at','desc')->paginate(20)->appends(request()->query());
         }
 
         if(request()->search != '') {
@@ -58,6 +59,26 @@ class ProductController extends Controller
             $products->setCollection(
                 collect(
                     collect($products->items())->sortByDesc('price')
+                )->values()
+            );
+        } elseif(request()->sort === 'avail') {
+
+            $productsSort = $products->transform(function($product) {
+                if($product->stock_shop + $product->stock_supplier > 0)
+                    return $product;
+            })->filter(function($value, $key) {
+                return !is_null($value);
+            });
+
+            $products = new LengthAwarePaginator($productsSort, $productsSort->count(), $products->perPage(), request()->page, [
+                'path'  => request()->url(),
+                'query' => request()->query(),
+            ]);
+
+        } elseif(request()->sort === 'kod') {
+            $products->setCollection(
+                collect(
+                    collect($products->items())->sortBy('reference')
                 )->values()
             );
         }
