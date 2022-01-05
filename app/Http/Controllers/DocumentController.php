@@ -21,18 +21,13 @@ class DocumentController extends Controller
         $limitSum = $user->limit;
         $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subMonth())->orderBy('created_at','DESC')->get();
         $sum = 0;
+        $data = [Carbon::now()->subMonth()->format('m-d-Y'), Carbon::now()->format('m-d-Y')];
 
-        if(request()->sort == 'month') {
-            $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subMonth())->orderBy('created_at','DESC')->get();
-        }
-        if(request()->sort == 'week') {
-            $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subWeek())->orderBy('created_at','DESC')->get();
-        }
-        if(request()->sort == 'year') {
-            $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subYear())->orderBy('created_at','DESC')->get();
-        }
-        if(request()->sort == 'day') {
-            $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subDay())->orderBy('created_at','DESC')->get();
+        if(request()->date) {
+
+            $date = explode(' ',request()->date);
+            $data =  [Carbon::parse($date[0])->format('m-d-Y'), Carbon::parse($date[1])->format('m-d-Y')];
+            $orders = Order::where('user_id',$user->id)->whereBetween('created_at', [$date[0], $date[1]])->orderBy('created_at','DESC')->get();
         }
 
         foreach ($orders as $order) {
@@ -74,7 +69,8 @@ class DocumentController extends Controller
             'orders' => $orders,
             'user' => $user,
             'limitDays' => $limitDays,
-            'limitSum' => $sumOrder
+            'limitSum' => $sumOrder,
+            'date' => $data
 
         ]);
     }

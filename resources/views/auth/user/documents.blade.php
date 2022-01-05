@@ -7,12 +7,7 @@
     <div class="row mt-3 mb-5">
         <form action="{{route('documents.index')}}" method="get">
             <div class="c-form-group" style="padding: 0 15px;">
-            <select name="sort" id="sort" class="c-select w-100" onchange="this.form.submit()">
-                <option value="day">Šiandien</option>
-                <option value="week">Ankstesni savaitės</option>
-                <option value="month" selected="">Ankstesnis mėnuo</option>
-                <option value="year">Ankstesni metai</option>
-            </select>
+                <input class="credit-limit" type="text" name="dates" value="{{$date[0]}} - {{$date[1]}}">
             </div>
         </form>
         <div class="mb-5 col-2 credit-limit">
@@ -155,18 +150,11 @@
         </div>
     @endif
     <script>
-        let url_string = window.location.href;
-        let url = new URL(url_string);
-        let sort = url.searchParams.get("sort");
-
-        if(sort === 'week') {
-            $( "#sort" ).val('week').attr('selected','selected');
-        } else if(sort === 'year') {
-            $( "#sort" ).val('year').attr('selected','selected');
-        } else if(sort === 'day') {
-            $( "#sort" ).val('day').attr('selected','selected');
-        } else if(sort === 'month') {
-            $( "#sort" ).val('month').attr('selected','selected');
-        }
+        $('input[name="dates"]').daterangepicker(
+        {
+            opens: 'left'
+        }, function(start, end, label) {
+                window.location.href = window.location.origin + window.location.pathname + "?date=" + start.format('YYYY-MM-DD') + ' ' + end.format('YYYY-MM-DD')
+        });
     </script>
 @endsection

@@ -6,14 +6,7 @@
     <h1 class="c-headline c-headline--semi-light u-bd-secondary pl-2 py-1">Užsakymai</h1>
     <div class="row mt-3 mb-5">
         <div class="col-12 col-md-4 col-lg-3">
-            <form action="{{route('orders.index')}}" method="get">
-            <select name="sort" id="sort" class="c-select w-100" onchange="this.form.submit()">
-                <option value="day">Šiandien</option>
-                <option value="week">Ankstesni savaitės</option>
-                <option value="month" selected="">Ankstesnis mėnuo</option>
-                <option value="year">Ankstesni metai</option>
-            </select>
-            </form>
+            <input class="credit-limit" type="text" name="dates" value="{{$date[0]}} - {{$date[1]}}">
         </div>
 
     </div>
@@ -110,18 +103,11 @@
         </div>
     @endif
 <script>
-    let url_string = window.location.href;
-    let url = new URL(url_string);
-    let sort = url.searchParams.get("sort");
-
-    if(sort === 'week') {
-        $( "#sort" ).val('week').attr('selected','selected');
-    } else if(sort === 'year') {
-        $( "#sort" ).val('year').attr('selected','selected');
-    } else if(sort === 'day') {
-        $( "#sort" ).val('day').attr('selected','selected');
-    } else if(sort === 'month') {
-        $( "#sort" ).val('month').attr('selected','selected');
-    }
+    $('input[name="dates"]').daterangepicker(
+        {
+            opens: 'left'
+        }, function(start, end, label) {
+            window.location.href = window.location.origin + window.location.pathname + "?date=" + start.format('YYYY-MM-DD') + ' ' + end.format('YYYY-MM-DD')
+        });
 </script>
 @endsection
