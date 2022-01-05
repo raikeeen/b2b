@@ -69,7 +69,7 @@ class TecDocController extends Controller
 
             ];
 
-       /* Log::info($input);*/
+        /* Log::info($input);*/
 
         return response()->json($models);
     }
@@ -354,7 +354,7 @@ class TecDocController extends Controller
                     'info' => $getAtributs,
                     'supplier_reference' => $product->supplier_reference
                 ]);
-             }
+            }
         }
         return null;
     }
@@ -401,9 +401,9 @@ class TecDocController extends Controller
                 $mod = $getVehicleByIds3Response[0]->getVehicleDetails();
                 //$manuArray[$key]['children'] += [$getCarInfo->getModelDesc() => []];
                 array_push($manuArray[$key]['children'], [
-                        'name' => $mod->getManuName().' '.$mod->getModelName().' '.$mod->getTypeName().', '.$this->data($mod).', '.
-                            $mod->getCylinderCapacityCcm().' ccm, '.$mod->getPowerHpTo().' AG, '.$mod->getPowerKwTo().' kW, '.$mod->getFuelType(),
-                        'carId' => '/vehicle/'.$mod->getCarId()
+                    'name' => $mod->getManuName().' '.$mod->getModelName().' '.$mod->getTypeName().', '.$this->data($mod).', '.
+                        $mod->getCylinderCapacityCcm().' ccm, '.$mod->getPowerHpTo().' AG, '.$mod->getPowerKwTo().' kW, '.$mod->getFuelType(),
+                    'carId' => '/vehicle/'.$mod->getCarId()
                 ]);
 
 
@@ -411,65 +411,59 @@ class TecDocController extends Controller
             //$manuArray[$key]['children'] = array_unique($manuArray[$key]['children']);
 
         }
-                //1
+        //1
 
-                /*$manuArray[$manu->getManuName()] = [];
-            //array_push($manuArray, [$manu->getManuName() => '']);
-
-            foreach ($getArticleLinkedAllLinkingTarget3Response as $carInfo) {
-
-                $getVehicleByIds3 = (new GetVehicleByIds3())
-                    ->setCountriesCarSelection('LT')
-                    ->setArticleCountry('LT')
-                    ->setLang('LT')
-                    ->setCountry('LT')
-                    ->setCarIds([$carInfo->getLinkingTargetId()]);
-
-                $getVehicleByIds3Response = $client->getVehicleByIds3($getVehicleByIds3)->getData();
-
-
-                $mod = $getVehicleByIds3Response[0]->getVehicleDetails();
-
-                $manuArray[$mod->getManuName()] += [$mod->getModelName() => []];
-                array_push($manuArray[$mod->getManuName()][$mod->getModelName()], [
-                    'cylinderCapacityLiter' => strlen($mod->getCylinderCapacityLiter() / 100) !== 1 ? $mod->getCylinderCapacityLiter() / 100 : ($mod->getCylinderCapacityLiter() / 100) . '.0',
-                    'manuName' => $mod->getManuName(),
-                    'modelName' => $mod->getModelName(),
-                    'carId' => $carInfo->getLinkingTargetId(),
-                    'cylinderCapacityCcm' => $mod->getCylinderCapacityCcm(),
-                    'constructionType' => $mod->getConstructionType(),
-                    'powerHpTo' => $mod->getPowerHpTo(),
-                    'powerKwTo' => $mod->getPowerKwTo(),
-                    'typeName' => $mod->getTypeName(),
-                    'fuelType' => $mod->getFuelType(),
-                    'years' => $this->data($mod)
-                ]);*/
+        /*$manuArray[$manu->getManuName()] = [];
+    //array_push($manuArray, [$manu->getManuName() => '']);
+    foreach ($getArticleLinkedAllLinkingTarget3Response as $carInfo) {
+        $getVehicleByIds3 = (new GetVehicleByIds3())
+            ->setCountriesCarSelection('LT')
+            ->setArticleCountry('LT')
+            ->setLang('LT')
+            ->setCountry('LT')
+            ->setCarIds([$carInfo->getLinkingTargetId()]);
+        $getVehicleByIds3Response = $client->getVehicleByIds3($getVehicleByIds3)->getData();
+        $mod = $getVehicleByIds3Response[0]->getVehicleDetails();
+        $manuArray[$mod->getManuName()] += [$mod->getModelName() => []];
+        array_push($manuArray[$mod->getManuName()][$mod->getModelName()], [
+            'cylinderCapacityLiter' => strlen($mod->getCylinderCapacityLiter() / 100) !== 1 ? $mod->getCylinderCapacityLiter() / 100 : ($mod->getCylinderCapacityLiter() / 100) . '.0',
+            'manuName' => $mod->getManuName(),
+            'modelName' => $mod->getModelName(),
+            'carId' => $carInfo->getLinkingTargetId(),
+            'cylinderCapacityCcm' => $mod->getCylinderCapacityCcm(),
+            'constructionType' => $mod->getConstructionType(),
+            'powerHpTo' => $mod->getPowerHpTo(),
+            'powerKwTo' => $mod->getPowerKwTo(),
+            'typeName' => $mod->getTypeName(),
+            'fuelType' => $mod->getFuelType(),
+            'years' => $this->data($mod)
+        ]);*/
 
 
-                //2
+        //2
 
-               /* $getArticleLinkedAllLinkingTargetsByIds3  = (new GetArticleLinkedAllLinkingTargetsByIds3())
-                    ->setLang('LT')
-                    ->setArticleCountry('LT')
-                    ->setArticleId($request->article)
-                    ->setLinkedArticlePairs(['linkingTargetId' => $carInfo->getLinkingTargetId()])
-                    ->setLinkingTargetType('P');
-                $getCarInfo = $client->getArticleLinkedAllLinkingTargetsByIds3($getArticleLinkedAllLinkingTargetsByIds3)->getData()[0]->getLinkedVehicles()[0];
-                $manuArray[$manu->getManuName()] += [$getCarInfo->getModelDesc() => []];
-                array_push($manuArray[$getCarInfo->getManuDesc()][$getCarInfo->getModelDesc()], [
-                    'manuDesc' => $getCarInfo->getManuDesc(),
-                    'modelDesc' => $getCarInfo->getModelDesc(),
-                    'carId' => $getCarInfo->getCarId(),
-                    'cylinderCapacity' => $getCarInfo->getCylinderCapacity(),
-                    'constructionType' => $getCarInfo->getConstructionType(),
-                    'powerHpTo' => $getCarInfo->getPowerHpTo(),
-                    'powerKwTo' => $getCarInfo->getPowerKwTo(),
-                    'carDesc' => $getCarInfo->getCarDesc(),
-                    'years' => ''.substr($getCarInfo->getYearOfConstructionFrom(),-2).'.'.
-                        substr($getCarInfo->getYearOfConstructionFrom(),0,4).' - '.
-                        substr($getCarInfo->getYearOfConstructionTo(),-2).'.'.
-                        substr($getCarInfo->getYearOfConstructionTo(),0,4).''
-                ]);*/
+        /* $getArticleLinkedAllLinkingTargetsByIds3  = (new GetArticleLinkedAllLinkingTargetsByIds3())
+             ->setLang('LT')
+             ->setArticleCountry('LT')
+             ->setArticleId($request->article)
+             ->setLinkedArticlePairs(['linkingTargetId' => $carInfo->getLinkingTargetId()])
+             ->setLinkingTargetType('P');
+         $getCarInfo = $client->getArticleLinkedAllLinkingTargetsByIds3($getArticleLinkedAllLinkingTargetsByIds3)->getData()[0]->getLinkedVehicles()[0];
+         $manuArray[$manu->getManuName()] += [$getCarInfo->getModelDesc() => []];
+         array_push($manuArray[$getCarInfo->getManuDesc()][$getCarInfo->getModelDesc()], [
+             'manuDesc' => $getCarInfo->getManuDesc(),
+             'modelDesc' => $getCarInfo->getModelDesc(),
+             'carId' => $getCarInfo->getCarId(),
+             'cylinderCapacity' => $getCarInfo->getCylinderCapacity(),
+             'constructionType' => $getCarInfo->getConstructionType(),
+             'powerHpTo' => $getCarInfo->getPowerHpTo(),
+             'powerKwTo' => $getCarInfo->getPowerKwTo(),
+             'carDesc' => $getCarInfo->getCarDesc(),
+             'years' => ''.substr($getCarInfo->getYearOfConstructionFrom(),-2).'.'.
+                 substr($getCarInfo->getYearOfConstructionFrom(),0,4).' - '.
+                 substr($getCarInfo->getYearOfConstructionTo(),-2).'.'.
+                 substr($getCarInfo->getYearOfConstructionTo(),0,4).''
+         ]);*/
 
 
         return response()->json($manuArray);

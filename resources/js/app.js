@@ -26,6 +26,8 @@ Vue.component('product', require('./components/Product.vue').default);
 Vue.component('products', require('./components/Products.vue').default);
 Vue.component('search', require('./components/Search.vue').default);
 Vue.component('product-panel', require('./components/Product-panel').default);
+Vue.component('catalog-tecdoc', require('./components/catalogTecDoc').default);
+Vue.component('tree-item-cat', require('./components/tree-item-cat').default);
 
 
 /**

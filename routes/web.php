@@ -45,31 +45,29 @@ Route::group(['prefix' => 'admin-kavateka'], function () {
 
 
 Auth::routes();
-Route::get('ajaxRequest', [TecDocController::class, 'ajaxRequest']);
-Route::post('ajaxRequest', [TecDocController::class, 'ajaxCartPost'])->name('ajax.cart');
-Route::post('ajax/getModels', [TecDocController::class, 'ajaxGetModelSeries2Post'])->name('ajax.getModels');
-Route::post('ajax/getVehicleIdsByCriteria', [TecDocController::class, 'ajaxGetVehicleIdsByCriteriaPost'])->name('ajax.getVehicleByCriteria');
-Route::get('vehicle/{modification}', [TecDocController::class, 'tecDocCatalog'])->name('tecDocCatalog');
-Route::post('vehicle', [TecDocController::class, 'tecDocCatalog'])->name('tecDocCatalog1');
-Route::post('ajax/getParentCategory', [TecDocController::class, 'getParentCategory'])->name('ajax.getParentCategory');
-Route::post('vehicleCat/products', [TecDocController::class, 'products'])->name('tecProducts');
-Route::get('vehicleСat/products', [TecDocController::class, 'products']);
-/*Route::get('vehicle/search', [TecDocController::class, 'search'])->name('tecSearch');*/
-Route::post('ajax/getCars', [TecDocController::class, 'getCars'])->name('getCars1');
-Route::get('ajax/getCars', [TecDocController::class, 'getCars'])->name('getCars');
-Route::post('ajax/getCarsAndOecodes', [TecDocController::class, 'getCarsAndOecodes'])->name('getCarsAndOecodes');
-Route::post('ajax/getArticleManufacturer', [TecDocController::class, 'getArticleManufacturer'])->name('getArticleManufacturer');
-Route::get('vehicle-cat', [TecDocController::class, 'products'])->name('vehicle.catalog');
-
 
 Route::prefix('emails')->group(function () {
     Route::post('/register', [\App\Http\Controllers\MailController::class, 'sendMail'])->name('emails.register');
 
 });
 
-
-
 Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('ajaxRequest', [TecDocController::class, 'ajaxRequest']);
+    Route::post('ajaxRequest', [TecDocController::class, 'ajaxCartPost'])->name('ajax.cart');
+    Route::post('ajax/getModels', [TecDocController::class, 'ajaxGetModelSeries2Post'])->name('ajax.getModels');
+    Route::post('ajax/getVehicleIdsByCriteria', [TecDocController::class, 'ajaxGetVehicleIdsByCriteriaPost'])->name('ajax.getVehicleByCriteria');
+    Route::get('vehicle/{modification}', [TecDocController::class, 'tecDocCatalog'])->name('tecDocCatalog');
+    Route::post('vehicle', [TecDocController::class, 'tecDocCatalog'])->name('tecDocCatalog1');
+    Route::post('ajax/getParentCategory', [TecDocController::class, 'getParentCategory'])->name('ajax.getParentCategory');
+    Route::post('vehicleCat/products', [TecDocController::class, 'products'])->name('tecProducts');
+    Route::get('vehicleСat/products', [TecDocController::class, 'products']);
+    /*Route::get('vehicle/search', [TecDocController::class, 'search'])->name('tecSearch');*/
+    Route::post('ajax/getCars', [TecDocController::class, 'getCars'])->name('getCars1');
+    Route::get('ajax/getCars', [TecDocController::class, 'getCars'])->name('getCars');
+    Route::post('ajax/getCarsAndOecodes', [TecDocController::class, 'getCarsAndOecodes'])->name('getCarsAndOecodes');
+    Route::post('ajax/getArticleManufacturer', [TecDocController::class, 'getArticleManufacturer'])->name('getArticleManufacturer');
+    Route::get('vehicle-cat', [TecDocController::class, 'products'])->name('vehicle.catalog');
 
     Route::resource('/categories',CategoryController::class);
 

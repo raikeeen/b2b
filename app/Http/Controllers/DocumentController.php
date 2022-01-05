@@ -55,12 +55,14 @@ class DocumentController extends Controller
 
             $to = Carbon::createFromFormat('Y-m-d H:s:i', $order->created_at);
             $days = $to->diffInDays($from);
+            $orderTime = Carbon::createFromFormat('Y-m-d H:s:i', $order->created_at);
 
             if($days > $limit) {
-                return 0;
+                return [
+                    0,
+                    $orderTime->addDays($user->term)->format('Y-m-d')
+                ];
             }
-
-            $orderTime = Carbon::createFromFormat('Y-m-d H:s:i', $order->created_at);
 
             return [
                 $limit - $days,
