@@ -34,9 +34,9 @@
                                 <span class="footer-bolid-text">Darbo laikas</span>
                                 <div class="footer-contact">
                                     <div class="mt-2">
-                                        <span class=""><span>Pr. - Pn.</span> 9:00 - 18:00</span>
+                                        <span class=""><span>Pr. - Pn.</span> 8:00 - 18:00</span>
                                     </div>
-                                    <span class=""><span>Št.</span> 10:00 - 15:00</span>
+                                    <span class="">Savaitgaliais nedirbame</span>
                                 </div>
                             </div>
                         </div>

@@ -141,12 +141,12 @@
                 @if(isset($order->document_b1->name))
                     <div class="col-12 col-md">
                         <a target="_blank" href="{{'/'.$order->getFactura()}}" title="Detalės">
-                            <span>Sąskaitos faktūrą</span>
+                            <span>Sąskaita-faktūra</span>
                         </a>
                     </div>
                     @else
                         <div class="col-12 col-md">
-                            nera
+                            Nėra
                         </div>
                         @endif
                 </div>

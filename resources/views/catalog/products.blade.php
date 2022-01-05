@@ -198,7 +198,7 @@
                                             {{csrf_field()}}
                                             <input name="id" hidden value="{{$product->id}}">
                                             <input type="text" name="analog" hidden value="{{$product->reference}}">
-                                            <button class="btn btn-info" type="submit" style="padding: 0rem 0.75rem;">Nurasti analogai</button>
+                                            <button class="btn btn-info" type="submit" style="padding: 0rem 0.75rem;">Ieškoti analogų</button>
                                         </form>
                                     </span>
                                 </h3>
