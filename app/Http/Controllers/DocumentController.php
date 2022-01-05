@@ -19,7 +19,7 @@ class DocumentController extends Controller
         $user = Auth::user();
         $limit = $user->term;
         $limitSum = $user->limit;
-        $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>', Carbon::now()->subMonth())->orderBy('created_at','DESC')->get();
+        $orders = Order::where('user_id',$user->id)->whereDate('created_at', '>=', Carbon::now()->subMonth())->orderBy('created_at','DESC')->get();
         $sum = 0;
         $data = [Carbon::now()->subMonth()->format('m-d-Y'), Carbon::now()->format('m-d-Y')];
 

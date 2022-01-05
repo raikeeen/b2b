@@ -152,6 +152,7 @@
     <script>
         $('input[name="dates"]').daterangepicker(
         {
+            "autoApply": true,
             opens: 'left'
         }, function(start, end, label) {
                 window.location.href = window.location.origin + window.location.pathname + "?date=" + start.format('YYYY-MM-DD') + ' ' + end.format('YYYY-MM-DD')

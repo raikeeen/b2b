@@ -23,7 +23,7 @@ class OrderController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $orders = Order::where('user_id', $user->id)->whereDate('created_at', '>', Carbon::now()->subMonth())->orderBy('created_at','DESC')->get();
+        $orders = Order::where('user_id', $user->id)->whereDate('created_at', '>=', Carbon::now()->subMonth())->orderBy('created_at','DESC')->get();
         $data = [Carbon::now()->subMonth()->format('m-d-Y'), Carbon::now()->format('m-d-Y')];
 
         if(request()->date) {

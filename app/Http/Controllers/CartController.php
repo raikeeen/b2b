@@ -67,7 +67,7 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('success_message', 'Item already in your cart!');
         }
 
-        $product = \DB::table('product')->where('id', $request->id)->select(['stock_shop', 'stock_supplier', 'price', 'name'])->first();
+        $product = Product::where('id', $request->id)->first();
 
         if($product->stock_shop + $product->stock_supplier < (int)$request->amount) {
 
