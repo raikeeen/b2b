@@ -94,7 +94,7 @@ class HomeController extends Controller
 
 
         // add cat
-        $xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\import cat.xlsx'));
+       /* $xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\import cat.xlsx'));
 
         $nam = '';
         $rows = $xlsx->rows();
@@ -122,7 +122,7 @@ class HomeController extends Controller
             }
 
         }
-dd($nam);
+dd($nam);*/
        /* $a = Db::table('oe_code')->select(['id', 'code'])->orderBy('id', 'ASC')->get();
         foreach ($a as $value) {
             $b = $value->code;
