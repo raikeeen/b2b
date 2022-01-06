@@ -182,13 +182,8 @@
                             @if(isset($category->children))
                                 <ul class="c-category-menu__children dropdown-menu px-3" x-placement="right-start" style="position: absolute; transform: translate3d(111px, 0px, 0px); top: 0px; left: 0px; will-change: transform;"
                                     id="category-drop">
-                                @foreach($category->children as $child)
-
-                                        <li class="c-category-menu__children__item py-2 text-left">
-                                            <a class="c-category-menu__children__link" id="category-item" href="{{route('products.index', ['category' => $child->slug])}}"
-                                               title="{{$child->name}}">{{$child->name}}</a>
-                                        </li>
-
+                                @foreach($category->children as $category)
+                                        @include('partials.minicategory', $category)
                                 @endforeach
                                 </ul>
                             @endif
@@ -601,7 +596,7 @@
                 <!-- TabSlider -->
                 <!-- Recent Posts -->
 
-                <div data-control-hook-id="118" data-control-id="60" data-control-order="2"
+               {{-- <div data-control-hook-id="118" data-control-id="60" data-control-order="2"
                      data-control-name="Recent Posts" data-control-type="ContentWithTerm">
 
                     <div class="container mb-1">
@@ -621,7 +616,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div>--}}
 
                 <div data-control-hook-id="119" data-control-id="16" data-control-order="3"
                      data-control-name="Slider Producenci" data-control-type="SliderSlick">

@@ -222,16 +222,8 @@
                                                     </div>
                                                     @if(isset($category->children))
                                                         <ul>
-                                                            @foreach($category->children as $child)
-                                                                <li>
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" id="category" data-id="{{$child->id}}" data-name="{{$child->name}}" name="category[]" value="{{$child->id}}"
-                                                                                   class="category" {{(isset($categoriesForProduct) ? $categoriesForProduct->contains($child)  : '') ? 'checked': ''}}>
-                                                                            {{$child->name}}
-                                                                        </label>
-                                                                    </div>
-                                                                </li>
+                                                            @foreach($category->children as $category)
+                                                                @include('partials.minicategoryadmin', ['category' => $category, 'categoriesForProduct' => $categoriesForProduct])
                                                             @endforeach
                                                         </ul>
                                                     @endif

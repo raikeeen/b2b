@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderStatus;
+use App\Models\ProductCat;
 use App\Models\User;
 use App\Models\Venipak;
 use Illuminate\Http\Request;
@@ -62,28 +63,66 @@ class HomeController extends Controller
         $brands = Brand::all();
 
         $client = new Client();
-        // add cat
-        /*$xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\NOWY.xlsx'));
+        /*$xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\kat.xlsx'));
 
 
         $rows = $xlsx->rows();
         unset($rows[0]);
-        for ($i = 1; $i <= count($rows); $i++) {
-            $product = Db::table('product')->select(['id'])->where('supplier_reference', $rows[$i][0])->first();
-            $category = Db::table('category')->select(['id'])->where('code','=', $rows[$i][1])->first();
+        for($i = 1; $i <= count($rows); $i++) {
 
-            if(isset($product) && isset($category)) {
-                DB::table('product_cat')->insert([
-                        'category_id' => $category->id,
-                        'product_id' => $product->id,
-                        'created_at' =>  date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s'),
-                    ]);
+           $category = new Category();
+            $category->id = $rows[$i][0];
+            $category->name = $rows[$i][2];
+            $category->slug = $rows[$i][3];
+            $category->save();
+
+            if($rows[$i][1] !== '') {
+
+                if(empty(Category::find($rows[$i][1]))) {
+                    dump(Category::find($rows[$i][1]));
+                    dump($category);
+                    dd($rows[$i][1]);
+                }
+
+                $node = Category::find($rows[$i][1]);
+
+                $node->appendNode($category);
 
             }
 
         }*/
 
+
+        // add cat
+        $xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\import cat.xlsx'));
+
+        $nam = '';
+        $rows = $xlsx->rows();
+        unset($rows[0]);
+        for ($i = 1; $i <= count($rows); $i++) {
+            //$cat = ProductCat::where('product_id', $rows[$i][2])->delete();
+
+
+            $cat = explode(', ',$rows[$i][1]);
+
+            foreach ($cat as $category_elem) {
+                $product = $rows[$i][2];
+                $category = Db::table('category')->select(['id'])->where('name', '=', $category_elem)->first();
+
+                if (isset($product) && isset($category)) {
+                    DB::table('product_cat')->insert([
+                        'category_id' => $category->id,
+                        'product_id' => $product,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+
+                } else
+                    $nam .= '      :'.$category_elem;
+            }
+
+        }
+dd($nam);
        /* $a = Db::table('oe_code')->select(['id', 'code'])->orderBy('id', 'ASC')->get();
         foreach ($a as $value) {
             $b = $value->code;
