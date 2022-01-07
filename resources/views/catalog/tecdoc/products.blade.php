@@ -178,10 +178,10 @@
                                     <div class="c-product-image__slide">
                                         <a class="c-product-image__link"
                                            href="{{route('products.show', $product->reference)}}"
-                                           data-toggle="lightbox" data-gallery="/slopintuvas-spyruokl-s--a73001b">
+                                           data-toggle="lightbox">
                                             <img class="c-product-image__image"
                                                 @if($product->img->first() !== null) src="{{$product->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif
-                                                 alt="SLOPINTUVAS SPYRUOKLĖS">
+                                                 alt="{{$product->name}}">
                                         </a>
                                     </div>
                                 </div>
@@ -236,6 +236,7 @@
                                                             <span class="ml-1">vnt</span>
                                                         </span>
                                                     @endif
+                                                    <span class="c-product-stock__name mr-2 ml-2">Pristatymas: <span class="c-product-stock__availability" style="color: #212529;">{{$product->supplier->delivery_time}} d.d.</span>@if($product->supplier->name === 'AJS') užsakant iki 12:00 @endif</span>
                                                 </div>
                                                 <div class="c-product-stock-container d-flex justify-content-center align-items-center pl-0">
 
@@ -259,7 +260,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-4">
                                     <div class="row">
                                         <div
                                             class="col col-sm-12 order-2 order-sm-1 d-flex flex-column align-items-end">
@@ -279,6 +280,9 @@
                                                 / {{$product->price}}
                                                 €
                                                 <span>be PVM</span>
+                                            </div>
+                                            <div class="c-product-stock__name text-muted">
+                                                Rekomenduojama maž. kaina: {{$product->price_recommend}} €
                                             </div>
                                         </div>
                                     </div>

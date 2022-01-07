@@ -138,6 +138,8 @@
                                                         </span>
                                                 @endif
                                         </span>
+                                                <span class="c-product-stock__name mr-2 ml-2">Pristatymas: <span class="c-product-stock__availability" style="color: #212529;">{{$product->supplier->delivery_time}} d.d.</span>@if($product->supplier->name === 'AJS') užsakant iki 12:00 @endif</span>
+
                                         </div>
                                     </div>
                                 </div>
@@ -156,6 +158,9 @@
                                     / {{$product->price}}
                                     €
                                     <span>be PVM</span>
+                                </div>
+                                <div class="c-product-stock__name text-muted">
+                                    Rekomenduojama maž. kaina: {{$product->price_recommend}} €
                                 </div>
                             </div>
                             <div class="col-sm-6 mt-1 d-flex justify-content-end align-items-end">

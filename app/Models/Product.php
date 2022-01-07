@@ -38,7 +38,7 @@ class Product extends Model
         'discount_global',
         'price_add'
     ];
-    protected $appends = ['price_stock', 'price_base'];
+    protected $appends = ['price_stock', 'price_base', 'price_recommend'];
     public $increments = true;
     public $additional_attributes = ['price_base'];
 
@@ -61,7 +61,10 @@ class Product extends Model
                     (isset($this->supplier->margin) ? $this->supplier->margin : 0 ))/ 100) -
             ( $value * ( isset($user->discount) ? $user->discount + $this->discount->value : 0 + $this->discount->value ) / 100) + $this->price_add,2);
     }
-
+    public function getPriceRecommendAttribute()
+    {
+      return  round($this->getPriceBaseAttribute() * 2.07 + 2.5,2);
+    }
     public function getPriceStockAttribute()
     {
         if($this->discount->value === 0){
