@@ -18,6 +18,7 @@
                     </svg>
                 </span>
             </div>
+
             {{--<div class="c-filter__wrapper d-none d-lg-block">
                 <div id="hook_articlelistsidebar">
                     <div data-control-name="" data-control-type="ArticleListAvailability">
@@ -94,7 +95,9 @@
             </div>
         </div>
         <div class="col-12 col-lg-9">
+            @if(isset(request()->search))<h2 class="c-product__title--light c-product__title--light" style="font-size: 24px; margin-top: -30px;">Paieškos rezultatai: {{request()->search}}</h2>@endif
             <div class="row my-4">
+
                 <div class="col-12"></div>
                 <div class="col-12 col-sm">
 

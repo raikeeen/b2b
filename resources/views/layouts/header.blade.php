@@ -183,7 +183,7 @@
                                                         </svg>
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="https://www.rm-autodalys.eu/zaloguj-sie?returnUrl=%2Fvariklio-dangcio-amortizatorius-kapoto-dujin-spyruokl--a89040e&amp;hw-lang=en-GB" title="ENGLISH">
+                               {{--                         <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="https://www.rm-autodalys.eu/zaloguj-sie?returnUrl=%2Fvariklio-dangcio-amortizatorius-kapoto-dujin-spyruokl--a89040e&amp;hw-lang=en-GB" title="ENGLISH">
                                                             <div>ENGLISH</div>
                                                             <div class="ml-2">
 
@@ -193,8 +193,8 @@
                                                                 </svg>
 
                                                             </div>
-                                                        </a>
-                                                        <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="https://www.rm-autodalys.eu/zaloguj-sie?returnUrl=%2Fvariklio-dangcio-amortizatorius-kapoto-dujin-spyruokl--a89040e&amp;hw-lang=lt-LT" title="LITHUANIAN">
+                                                        </a>--}}
+                                                        <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="#" title="LITHUANIAN">
                                                             <div>LITHUANIAN</div>
                                                             <div class="ml-2">
 
@@ -208,7 +208,7 @@
 
                                                             </div>
                                                         </a>
-                                                        <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="https://www.rm-autodalys.eu/zaloguj-sie?returnUrl=%2Fvariklio-dangcio-amortizatorius-kapoto-dujin-spyruokl--a89040e&amp;hw-lang=pl-PL" title="POLSKI">
+ {{--                                                       <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="https://www.rm-autodalys.eu/zaloguj-sie?returnUrl=%2Fvariklio-dangcio-amortizatorius-kapoto-dujin-spyruokl--a89040e&amp;hw-lang=pl-PL" title="POLSKI">
                                                             <div>POLSKI</div>
                                                             <div class="ml-2">
 
@@ -229,7 +229,7 @@
                                                                 </svg>
 
                                                             </div>
-                                                        </a>
+                                                        </a>--}}
                                                     </div>
                                                 </div>
                                             </div>

@@ -210,7 +210,16 @@
                 </div>
             </div>
         </div>
-
+<script>
+    $( document ).ready(function() {
+        new Splide( '#test_splide', {
+            perPage: 4,
+            arrows: false,
+            pagination: false,
+            gap: 5
+        } ).mount();
+    });
+</script>
             <div id="app-panel">
                 <product-panel></product-panel>
             </div>

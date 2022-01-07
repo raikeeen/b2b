@@ -54,6 +54,66 @@ $( document ).ready(function() {
         lazyLoad: true
 
     });
+    $("#owl-specProd").owlCarousel({
+
+        autoplay: true, //Set AutoPlay to 3 seconds
+        autoplayTimeout: 5000,
+        margin: 20,
+        stagePadding: 10,
+        items : 3,
+        /*itemsDesktop : [1199,3],
+        itemsDesktopSmall : [979,3],*/
+
+        nav : true,
+        /*navigationText : true,*/
+
+        responsive: {'0': {'items': 1}, '576': {'items': 2}, '992': {'items': 3}, '1280': {'items': 3}},
+
+        loop: true,
+        autoplayHoverPause: true,
+        lazyLoad: true
+
+    });
+    var owlspecProd = $("#owl-specProd");
+    owlspecProd.owlCarousel();
+
+    $('.owl-next-custom').click(function() {
+        owlspecProd.trigger('prev.owl.carousel');
+    })
+
+    $('.owl-prev-custom').click(function() {
+        owlspecProd.trigger('prev.owl.carousel');
+    })
+    $("#owl-grupProd").owlCarousel({
+
+        autoplay: true, //Set AutoPlay to 3 seconds
+        autoplayTimeout: 5000,
+        margin: 20,
+        stagePadding: 10,
+        items : 3,
+        /*itemsDesktop : [1199,3],
+        itemsDesktopSmall : [979,3],*/
+
+        nav : true,
+        /*navigationText : true,*/
+
+        responsive: {'0': {'items': 1}, '576': {'items': 2}, '992': {'items': 3}, '1280': {'items': 3}},
+
+        loop: true,
+        autoplayHoverPause: true,
+        lazyLoad: true
+
+    });
+    var owlgrupProd = $("#owl-grupProd");
+    owlgrupProd.owlCarousel();
+
+    $('.owl-next-custom').click(function() {
+        owlgrupProd.trigger('prev.owl.carousel');
+    })
+
+    $('.owl-prev-custom').click(function() {
+        owlgrupProd.trigger('prev.owl.carousel');
+    })
 
     var owlMewProduct = $("#owl-newProduct");
     owlMewProduct.owlCarousel();
@@ -104,10 +164,4 @@ $( document ).ready(function() {
         owlNewProduct.trigger('prev.owl.carousel', [300]);
     })
 
-    new Splide( '#test_splide', {
-        perPage: 4,
-        arrows: false,
-        pagination: false,
-        gap: 5
-    } ).mount();
 });
