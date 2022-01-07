@@ -114,7 +114,7 @@
                                 <select name="sort" id="sort" class="c-select filter-product" onchange="this.form.submit()">
                                     <option value="avail" @if(request()->sort == 'avail') selected="selected" @endif>Rūšiuoti pagal Prieinamumas</option>
                                     <option value="kod" @if(request()->sort == 'kod') selected="selected" @endif>Rūšiuoti pagal kodą</option>
-                                    <option value="low_high" @if(request()->sort == 'low_high') selected="selected" @endif>Rūšiuoti pagal kainą kylančios</option>
+                                    <option value="low_high" @if(request()->sort == 'low_high' || empty(request()->sort)) selected="selected" @endif>Rūšiuoti pagal kainą kylančios</option>
                                     <option value="high_low" @if(request()->sort == 'high_low') selected="selected" @endif>Rūšiuoti pagal kainą mažėjančios</option>
                                 </select>
                                 </form>
