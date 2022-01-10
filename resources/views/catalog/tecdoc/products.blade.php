@@ -231,6 +231,10 @@
                                                         <span class="c-product-stock__availability c-product-stock__availability--less">{{$product->stock_shop}}
                                                             <span class="ml-1">vnt</span>
                                                         </span>
+                                                    @elseif($product->stock_shop > 5 )
+                                                        <span class="c-product-stock__availability c-product-stock__availability--more">>5
+                                                            <span class="ml-1">vnt</span>
+                                                        </span>
                                                     @else
                                                         <span class="c-product-stock__availability c-product-stock__availability--more">{{$product->stock_shop}}
                                                             <span class="ml-1">vnt</span>
