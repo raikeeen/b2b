@@ -54,11 +54,18 @@ class Product extends Model
     {
         $user = Auth::user();
 
+        if($user->role->name === 'parduotuve'){
+            $margin_sup = $this->supplier->margin_pard;
+        } else {
+            $margin_sup = $this->supplier->margin;
+        }
+
+
         return  round($value + ( $value * (
                     (isset($this->margin->value) ? $this->margin->value : 0) +
                     (isset($this->category[0]) ? $this->category[0]->trade_margin : 0) +
                     $this->trade_margin  +
-                    (isset($this->supplier->margin) ? $this->supplier->margin : 0 ))/ 100) -
+                    (isset($margin_sup) ? $margin_sup : 0 ))/ 100) -
             ( $value * ( isset($user->discount) ? $user->discount + $this->discount->value : 0 + $this->discount->value ) / 100) + $this->price_add,2);
     }
     public function getPriceRecommendAttribute()

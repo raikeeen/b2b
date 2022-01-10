@@ -204,9 +204,9 @@ class B1Api extends Model
                         'groupOp' => 'AND',
                         'rules' => [
                             [
-                                'field' => 'id',
-                                'op' => 'ge',
-                                'data' => 0
+                                'field' => 'warehouseId',
+                                'op' => 'eq',
+                                'data' => 11
                             ]
                         ],
                     ],
