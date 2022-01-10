@@ -293,9 +293,9 @@
                 <!-- Slider g&#x142;&#xF3;wny -->
             </div>
 
-            <div class="row pb-4 p-sm-4">
+{{--            <div class="row pb-4 p-sm-4">
 
-              {{--  <div class="c-info__item col-12 col-sm-4 d-flex justify-content-center align-items-center">
+                <div class="c-info__item col-12 col-sm-4 d-flex justify-content-center align-items-center">
 
 
                     <svg class="c-icon c-info__item--icon">
@@ -342,8 +342,8 @@
                     <span class="c-info__item--title">
       <span>Greitas pristatymas</span>
     </span>
-                </div>--}}
-            </div>
+                </div>
+            </div>--}}
 
 
             <div id="hook_frontmodules" class="" data-asp-hook="78" data-asp-hook-name="frontModules">
@@ -620,14 +620,14 @@
 
 
                                             <div id="owl-grupProd" class="owl-carousel" style="width: 100%;overflow: hidden;">
-                                                @foreach($newProducts as $newProduct)
+                                                @foreach($group as $key => $value)
                                                     <div class="item c-product-slider p-3">
 
                                                         <div class="c-product-slider__container">
 
                                                             <div class="c-product-order-slider__container d-flex justify-content-center mb-2">
                                                                 <div class="d-flex">
-                                                                    <a class="c-btn c-btn--slider-eye u-rounded-circle text-center ml-3 d-flex justify-content-center align-items-center" href="{{route('products.show', $newProduct->reference)}}">
+                                                                    <a class="c-btn c-btn--slider-eye u-rounded-circle text-center ml-3 d-flex justify-content-center align-items-center" href="/products?category={{$key}}">
                                                                         <svg class="c-icon c-icon--hover">
                                                                             <use xlink:href="#look">
                                                                                 <symbol id="look" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 16">
@@ -644,8 +644,8 @@
                                                         <div class="c-product-image">
                                                             <div class="c-product-image__slides">
                                                                 <div class="c-product-image__slide">
-                                                                    <a class="c-product-image__link" href="{{route('products.show', $newProduct->reference)}}">
-                                                                        <img class="c-product-image__image owl-lazy" @if($newProduct->img->first() !== null) src="{{$newProduct->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif alt="" style="opacity: 1;">
+                                                                    <a class="c-product-image__link" href="/products?category={{$key}}">
+                                                                        <img class="c-product-image__image owl-lazy" src="/storage/group/{{$value}}.jpg" alt="" style="opacity: 1;">
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -749,14 +749,14 @@
 
 
                                             <div id="owl-specProd" class="owl-carousel" style="width: 100%;overflow: hidden;">
-                                                @foreach($newProducts as $newProduct)
+                                                @foreach($specProducts as $specProduct)
                                                     <div class="item c-product-slider p-3">
 
                                                         <div class="c-product-slider__container">
 
                                                             <div class="c-product-order-slider__container d-flex justify-content-center mb-2">
                                                                 <div class="d-flex">
-                                                                    @if($newProduct->stock_shop + $newProduct->stock_supplier != 0 && $newProduct->price > 0)
+                                                                    @if($specProduct->stock_shop + $specProduct->stock_supplier != 0 && $specProduct->price > 0)
                                                                         <div type="ADD_TO_CART" data-control-type="Order">
                                                                             <form action="{{route('cart.store')}}" method="post">
                                                                                 {{csrf_field()}}
@@ -772,7 +772,7 @@
                                                                                             </svg>
                                                                                         </span>
                                                                                     </button>
-                                                                                    <input type="hidden" name="id" value="{{$newProduct->id}}">
+                                                                                    <input type="hidden" name="id" value="{{$specProduct->id}}">
                                                                                     <input hidden class="c-input c-input--quantity c-input--no-border" autocomplete="off" data-bind="" min="1" name="amount" step="1" type="number" value="1">                                                                            </div>
                                                                             </form>
                                                                         </div>
@@ -794,21 +794,21 @@
                                                         <div class="c-product-image">
                                                             <div class="c-product-image__slides">
                                                                 <div class="c-product-image__slide">
-                                                                    <a class="c-product-image__link" href="{{route('products.show', $newProduct->reference)}}">
-                                                                        <img class="c-product-image__image owl-lazy" @if($newProduct->img->first() !== null) src="{{$newProduct->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif alt="" style="opacity: 1;">
+                                                                    <a class="c-product-image__link" href="{{route('products.show', $specProduct->reference)}}">
+                                                                        <img class="c-product-image__image owl-lazy" @if($specProduct->img->first() !== null) src="{{$specProduct->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif alt="" style="opacity: 1;">
                                                                     </a>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <a href="{{route('products.show', $newProduct->reference)}}" title="APSAUGA AMORTIZATORIAUS">
-                                                            <h3 class="c-product__title c-product__title--light c-product__title--bilinear my-2" title="APSAUGA AMORTIZATORIAUS">{{$newProduct->name}}</h3>
+                                                        <a href="{{route('products.show', $specProduct->reference)}}" title="{{$specProduct->name}}">
+                                                            <h3 class="c-product__title c-product__title--light c-product__title--bilinear my-2" title="{{$specProduct->name}}">{{$specProduct->name}}</h3>
                                                         </a>
                                                         <div class="c-product__price-gross c-product__price-gross--sm c-product__price-gross--secondary">
-                                                            {{$newProduct->priceTax()}} €
+                                                            {{$specProduct->priceTax()}} €
                                                         </div>
-                                                        @if(isset($newProduct->price_stock))
+                                                        @if(isset($specProduct->price_stock))
                                                             <div class="c-product__price-retail c-product__price-retail--sm">
-                                                                {{$newProduct->price_stock}} €
+                                                                {{$specProduct->price_stock}} €
                                                             </div>
                                                         @endif
                                                     </div>

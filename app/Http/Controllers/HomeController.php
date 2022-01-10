@@ -57,9 +57,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $newProducts = Product::latest()->take(10)->get();
-        $soldProducts = Product::where('stock_shop', 0)->orWhere('stock_shop', null)->take(10)->get();
+        $newProducts = Product::orderBy('id', 'desc')->take(20)->get();
+        $soldProducts = Product::where('stock_shop', 0)->where('stock_shop', 0)->take(15)->get();
+        $specProducts = Product::where('name', 'like', '%'.'VARIKLIO BALKIS'.'%')->take(15)->get();
         $categories = Category::with('ancestors')->get()->toTree();
+        $group = ['sankabos-ir-smagracio-komplektai' => 'sankobos','pusasiai' => 'pusasis','vairo-juostos' => 'juosta'
+            ,'vairo-koloneles' => 'kolonele','vairo-stiprintuvo-siurbliai' => ' siurblys'];
         $brands = Brand::all();
 
         $client = new Client();
@@ -279,6 +282,8 @@ dd($nam);*/
             'manufacturers' => $manufacturers,
             'newProducts' => $newProducts,
             'soldProducts' => $soldProducts,
+            'specProducts' => $specProducts,
+            'group' => $group,
             'categories' => $categories,
             'brands' => $brands
         ]);

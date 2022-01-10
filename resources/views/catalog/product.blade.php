@@ -1,6 +1,6 @@
 @extends('welcome')
 
-@section('title','Prekė')
+@section('title',$product->reference." - ".$product->name)
 @section('content')
 {{ Breadcrumbs::render('product', $product->name, $product->reference) }}
       {{--  <product></product>--}}
