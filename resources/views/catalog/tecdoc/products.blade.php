@@ -110,7 +110,7 @@
                                     @endif
                                     <select name="sort" id="sort" class="c-select filter-product" onchange="this.form.submit()">
                                         <option value="avail" @if(request()->sort == 'avail') selected="selected" @endif>Rūšiuoti pagal Prieinamumas</option>
-                                        <option value="kod" @if(request()->sort == 'kod') selected="selected" @endif>Rūšiuoti pagal kodą</option>
+                                        <option value="kod" @if(request()->sort == 'kod' || empty(request()->sort)) selected="selected" @endif>Rūšiuoti pagal kodą</option>
                                         <option value="low_high" @if(request()->sort == 'low_high') selected="selected" @endif>Rūšiuoti pagal kainą kylančios</option>
                                         <option value="high_low" @if(request()->sort == 'high_low') selected="selected" @endif>Rūšiuoti pagal kainą mažėjančios</option>
                                     </select>
@@ -236,7 +236,7 @@
                                                             <span class="ml-1">vnt</span>
                                                         </span>
                                                     @endif
-                                                    <span class="c-product-stock__name mr-2 ml-2">Pristatymas: <span class="c-product-stock__availability" style="color: #212529;">{{$product->supplier->delivery_time}} d.d.</span>@if($product->supplier->name === 'AJS') užsakant iki 12:00 @endif</span>
+
                                                 </div>
                                                 <div class="c-product-stock-container d-flex justify-content-center align-items-center pl-0">
 
@@ -255,6 +255,7 @@
                                                             <span class="ml-1">vnt</span>
                                                         </span>
                                                     @endif
+                                                    <span class="c-product-stock__name mr-2 ml-2">Pristatymas: <span class="c-product-stock__availability" style="color: #212529;">{{$product->supplier->delivery_time}} d.d.</span>@if($product->supplier->name === 'AJS') užsakant iki 12:00 @endif</span>
                                                 </div>
                                             </div>
                                         </div>

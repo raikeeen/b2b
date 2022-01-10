@@ -25,13 +25,13 @@ class ProductController extends Controller
      */
     public function index()
     {
+
         if(request()->category) {
             $products = Product::with('category')->whereHas('category', function ($query) {
                 $query->where('slug', request()->category);
-            })->paginate(20)->appends(request()->query());
-
+            });
         } else {
-            $products = Product::orderBy('created_at','desc')->paginate(20)->appends(request()->query());
+            $products = Product::orderBy('created_at','desc');
         }
 
         if(request()->search != '') {
@@ -41,50 +41,36 @@ class ProductController extends Controller
                 return $product->reference;
             })->toArray();
 
-            $products = Product::whereIn('reference', $getProduct)->orderBy('price', 'asc')->paginate(20)->appends(request()->query());
+            $products = Product::whereIn('reference', $getProduct);//->paginate(20)->appends(request()->query());
         }
         if(request()->analog != '') {
 
             $reference =  array_reverse(ApiProductController::analog(request()));
 
-            $products = Product::whereIn('reference', $reference)->orderBy('price', 'asc')->paginate(200)->appends(request()->query());
+            $products = Product::whereIn('reference', $reference)->orderBy('price', 'asc');//->paginate(200)->appends(request()->query());
         }
         if(request()->sort === 'low_high') {
-            $products->setCollection(
-                collect(
-                    collect($products->items())->sortBy('price')
-                )->values()
-            );
-        } elseif(request()->sort === 'high_low') {
-            $products->setCollection(
-                collect(
-                    collect($products->items())->sortByDesc('price')
-                )->values()
-            );
-        } elseif(request()->sort === 'avail') {
 
-            $productsSort = $products->transform(function($product) {
-                if($product->stock_shop + $product->stock_supplier > 0)
-                    return $product;
-            })->filter(function($value, $key) {
-                return !is_null($value);
+            $products = $products->orderBy('price', 'asc');
+
+        } elseif(request()->sort === 'high_low') {
+
+            $products = $products->orderBy('price', 'desc');
+
+        } elseif(request()->sort === 'avail') {
+            $products = $products->where(function($query) {
+                $query->where('stock_shop', '>', 0)
+                    ->Orwhere('stock_supplier', '>', 0);
             });
 
-            $products = new LengthAwarePaginator($productsSort, $productsSort->count(), $products->perPage(), request()->page, [
-                'path'  => request()->url(),
-                'query' => request()->query(),
-            ]);
-
         } elseif(request()->sort === 'kod') {
-            $products->setCollection(
-                collect(
-                    collect($products->items())->sortBy('reference')
-                )->values()
-            );
+
+            $products = $products->orderBy('reference', 'asc');
+
         }
 
         return view('catalog.products', [
-            'products' => $products,
+            'products' => $products->paginate(20)->appends(request()->query()),
         ]);
     }
 
