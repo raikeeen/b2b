@@ -54,16 +54,22 @@ class Product extends Model
     {
         $user = Auth::user();
 
-        if($user->role_id === 5){
+        if($user->role_id === 5) {
             $margin_sup = $this->supplier->margin_pard;
+            if(isset($this->category[0])) {
+                $margin_cat = $this->category[0]->trade_margin_pard;
+            }
         } else {
             $margin_sup = $this->supplier->margin;
+            if(isset($this->category[0])) {
+                $margin_cat = $this->category[0]->trade_margin;
+            }
         }
 
 
         return  round($value + ( $value * (
                     (isset($this->margin->value) ? $this->margin->value : 0) +
-                    (isset($this->category[0]) ? $this->category[0]->trade_margin : 0) +
+                    (isset($margin_cat) ? $margin_cat : 0) +
                     $this->trade_margin  +
                     (isset($margin_sup) ? $margin_sup : 0 ))/ 100) -
             ( $value * ( isset($user->discount) ? $user->discount + $this->discount->value : 0 + $this->discount->value ) / 100) + $this->price_add,2);
