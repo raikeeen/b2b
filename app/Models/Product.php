@@ -54,7 +54,7 @@ class Product extends Model
     {
         $user = Auth::user();
 
-        if($user->role->name === 'parduotuve'){
+        if($user->role_id === 5){
             $margin_sup = $this->supplier->margin_pard;
         } else {
             $margin_sup = $this->supplier->margin;
