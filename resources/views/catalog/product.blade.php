@@ -84,8 +84,19 @@
             <div class="col">
                 <div class="row">
                     <div class="col-12">
-
-                        <h1 class="product-name pl-lg-3 py-1">{{$product->name}}</h1>
+                        <h1 class="product-name pl-lg-3 py-1">
+                            <div class="row">
+                                <span>{{$product->name}}</span>
+                                <span style="padding-left: 15px">
+                                    <form action="{{'/products?analog='.$product->reference}}" method="get">
+                                        {{csrf_field()}}
+                                        <input name="id" hidden value="{{$product->id}}">
+                                        <input type="text" name="analog" hidden value="{{$product->reference}}">
+                                        <button class="btn btn-info" type="submit" style="padding: 0rem 0.75rem;">Ieškoti analogų</button>
+                                    </form>
+                                </span>
+                            </div>
+                        </h1>
 
                         <div class="pl-3 mb-0 mt-3 mb-3">
                             <span>Prekės kodas:</span>
