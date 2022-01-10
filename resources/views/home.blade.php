@@ -365,7 +365,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="c-tab-content tab-content py-3 px-0 py-lg-4 px-xl-5 mt-3" id="myTabContent">
+                    <div class="c-tab-content tab-content px-0 px-xl-5 mt-3" id="myTabContent">
                         <div class="tab-pane show active px-0 px-xl-5" id="new">
 
 
@@ -593,7 +593,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="c-tab-content tab-content py-3 px-0 py-lg-4 px-xl-5 mt-3" id="myTabContent">
+                    <div class="c-tab-content tab-content px-0 px-xl-5 mt-3" id="myTabContent">
                         <div class="tab-pane show active px-0 px-xl-5" id="grupp">
 
 
@@ -722,7 +722,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="c-tab-content tab-content py-3 px-0 py-lg-4 px-xl-5 mt-3" id="myTabContent">
+                    <div class="c-tab-content tab-content px-0 px-xl-5 mt-3" id="myTabContent">
                         <div class="tab-pane show active px-0 px-xl-5" id="spec">
 
 

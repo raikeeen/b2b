@@ -62,7 +62,7 @@ class HomeController extends Controller
         $specProducts = Product::where('name', 'like', '%'.'VARIKLIO BALKIS'.'%')->take(15)->get();
         $categories = Category::with('ancestors')->get()->toTree();
         $group = ['sankabos-ir-smagracio-komplektai' => 'sankobos','pusasiai' => 'pusasis','vairo-juostos' => 'juosta'
-            ,'vairo-koloneles' => 'kolonele','vairo-stiprintuvo-siurbliai' => ' siurblys'];
+            ,'vairo-koloneles' => 'kolonele','vairo-stiprintuvo-siurbliai' => 'siurblys'];
         $brands = Brand::all();
 
         $client = new Client();
