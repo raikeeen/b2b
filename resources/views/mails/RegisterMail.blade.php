@@ -1,9 +1,9 @@
 @component('mail::message')
-    # Introduction
+    # Prieiga prie B2B sistemos
 
-    <h3>email: {{ $details['email'] }}</h3>
-    <h3>phone: {{ $details['phone'] }}</h3>
-    <h3>message: {{ isset($details['message']) }}</h3>
+    El. paštas: {{ $details['email'] }}
+    Numeris: {{ $details['phone'] }}
+    Laiška: {{ isset($details['message']) }}
 
     Thanks,<br>
     {{ config('app.name') }}

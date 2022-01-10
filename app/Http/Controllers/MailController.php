@@ -11,12 +11,13 @@ class MailController extends Controller
     public function sendMail(Request $request)
     {
         $details = [
+            'name' => 'Prieiga prie B2B sistemos',
             'email' => $request->replyEmail,
             'phone' => $request->phone,
             'message' => $request->message,
         ];
-        Mail::to('nikita.skrobov.dev@gmail.com')->send(new RegisterMail($details));
+        Mail::to('info@rm-autodalys.lt')->send(new RegisterMail($details));
 
-        return redirect()->route('register')->with('success_message', 'we got your email.');
+        return redirect()->route('register')->with('success_message', 'Ačiū!');
     }
 }

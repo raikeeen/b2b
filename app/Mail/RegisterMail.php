@@ -31,6 +31,6 @@ class RegisterMail extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->details['name'])->view('mails.RegisterMail');
+        return $this->subject($this->details['name'])->markdown('mails.RegisterMail');
     }
 }
