@@ -34,7 +34,7 @@
     @include('layouts.header')
 
     <main class="main-container" style="padding-bottom: 2.5rem; padding-top: 8rem;">
-        <div class="container">
+        <div class="container container-width-m">
             @include('layouts.errors')
             {{--<div id="app">--}}
             @yield('content')

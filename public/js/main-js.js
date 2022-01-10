@@ -28,7 +28,8 @@ $( document ).ready(function() {
 
         autoplay: true, //Set AutoPlay to 3 seconds
         autoplayTimeout: 3000,
-        items : 8,
+        responsive: {'0': {'items': 3}, '576': {'items': 4}, '992': {'items': 6}, '1280': {'items': 8}},
+
         /*itemsDesktop : [1199,3],
         itemsDesktopSmall : [979,3]*/
 

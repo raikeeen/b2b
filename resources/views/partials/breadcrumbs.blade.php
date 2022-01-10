@@ -1,5 +1,6 @@
 @unless ($breadcrumbs->isEmpty())
     <ol itemscope="" itemtype="http://schema.org/BreadcrumbList" class="c-breadcrumb d-flex flex-column flex-sm-row align-items-start align-items-sm-center px-0">
+        <div class="row breadcrumb-pad-m">
         <li class="c-breadcrumb__item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
             <a class="c-breadcrumb__link d-flex algin-items-center" itemprop="item" href="{{route('home')}}" title="Pagrindinis">
                 <span class="d-none">Pagrindinis</span>
@@ -31,6 +32,7 @@
             @endif
 
         @endforeach
+        </div>
     </ol>
 @endunless
 

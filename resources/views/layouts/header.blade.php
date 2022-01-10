@@ -10,7 +10,7 @@
 
     <div class="col-12 col-xl-9">
         <div class="row c-page-header__inner py-2 d-flex flex-column flex-xl-row justify-content-between align-items-center no-gutters">
-            <div class="col-12 col-xl-8 d-flex justify-content-center align-items-center my-2 my-xl-0 order-1 order-sm-2 order-xl-1">
+            <div class="col-12 col-xl-8 col-sm-12 d-flex justify-content-center align-items-center my-2 my-xl-0 order-1 order-sm-2 order-xl-1">
 
                 <div id="app">
                     @guest
@@ -171,7 +171,7 @@
                                         <div id="hook_languageselector" class="  " data-asp-hook="69" data-asp-hook-name="languageSelector">
 
 
-                                            <div data-control-hook-id="91" data-control-id="62" data-control-order="0" data-control-name="Wybór języka" data-control-type="LanguageSelector">
+                                            <div data-control-type="LanguageSelector">
 
 
                                                 <div class="c-lang-selector dropdown">
