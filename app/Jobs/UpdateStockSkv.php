@@ -52,7 +52,7 @@ class UpdateStockSkv implements ShouldQueue
                         ['supplier_id', 7],
                         ['supplier_reference', $line[0]]
                     ])->update([
-                        'stock_supplier' => stripos($line[1], 'Out of Stock') ? 0 : 3
+                        'stock_supplier' => stripos($line[1], 'Out of Stock') ? 0 : 5
                     ]);
             }
             fclose($file);
