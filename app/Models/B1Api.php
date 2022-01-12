@@ -194,7 +194,7 @@ class B1Api extends Model
                     ->update(['stock_shop' => $count]);*/
             //}*/
 
-            for ($i = 1; $i <= 20; $i++) {
+            for ($i = 1; $i <= 4; $i++) {
 
                 $data = [
                     'warehouseId' => 1,

@@ -108,6 +108,22 @@
 
                         </div>
                         <div class="col-md-3" style="padding-right: 0">
+                            @if($edit)
+                            <div class="panel panel-bordered panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="icon wb-search"></i> Kaina kliento</h3>
+                                    <div class="panel-actions">
+                                        <a class="panel-action voyager-angle-down" data-toggle="panel-collapse" aria-hidden="true"></a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="app">
+                                        <admin-product-price></admin-product-price>
+                                    </div>
+                                    <script src="{{asset('js/app.js')}}" crossorigin="anonymous"></script>
+                                </div>
+                            </div>
+                            @endif
                             <div class="panel panel panel-bordered panel-warning panel-primary">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><i class="icon wb-clipboard"></i> Margin</h3>

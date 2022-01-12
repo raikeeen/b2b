@@ -29,7 +29,7 @@ Vue.component('product-panel', require('./components/Product-panel').default);
 Vue.component('catalog-tecdoc', require('./components/catalogTecDoc').default);
 Vue.component('tree-item-cat', require('./components/tree-item-cat').default);
 Vue.component('user-spec-price', require('./components/user-spec-price').default);
-
+Vue.component('admin-product-price', require('./components/admin-product-price').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

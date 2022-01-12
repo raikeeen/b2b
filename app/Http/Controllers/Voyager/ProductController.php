@@ -9,6 +9,7 @@ use App\Models\Margin;
 use App\Models\Product;
 use App\Models\ProductCat;
 use App\Models\Supplier;
+use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;

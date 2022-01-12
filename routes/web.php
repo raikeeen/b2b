@@ -17,7 +17,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\TecDocController;
 use App\Models\AjsApi;
-
+ini_set('max_execution_time', 120);
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,6 +82,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/cartTest', function (){
         Cart::destroy();
+    });
+    Route::get('/updateB1', function (){
+        B1Api::synchronizationStock();
     });
     Route::get('/zaloguj-sie', function (){
         return redirect()->route('home');
