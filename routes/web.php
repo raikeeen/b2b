@@ -83,6 +83,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/cartTest', function (){
         Cart::destroy();
     });
+    Route::get('/zaloguj-sie', function (){
+        return redirect()->route('home');
+    });
     Route::get('/updateTest', function (){
         $array = [
             'EAS-VW-009'	=>	-2.11,
