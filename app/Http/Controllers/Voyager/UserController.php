@@ -11,11 +11,14 @@ use App\Models\Margin;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductCat;
+use App\Models\ProductCatUserMargin;
+use App\Models\ProductUserMargin;
 use App\Models\Role;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Database\Schema\SchemaManager;
@@ -503,7 +506,110 @@ class UserController extends VoyagerBaseController
 
         return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'story', 'user', 'sort'));
     }
+    public function margin(Request $request)
+    {
+        $slug = $this->getSlug($request);
 
+        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+        // Check permission
+        $this->authorize('add', app($dataType->model_name));
+
+        $dataTypeContent = (strlen($dataType->model_name) != 0)
+            ? new $dataType->model_name()
+            : false;
+
+        foreach ($dataType->addRows as $key => $row) {
+            $dataType->addRows[$key]['col_width'] = $row->details->width ?? 100;
+        }
+
+        // If a column has a relationship associated with it, we do not want to show that field
+        $this->removeRelationshipField($dataType, 'add');
+
+        // Check if BREAD is Translatable
+        $isModelTranslatable = is_bread_translatable($dataTypeContent);
+
+        // Eagerload Relations
+        $this->eagerLoadRelations($dataTypeContent, $dataType, 'add', $isModelTranslatable);
+
+        $view = 'voyager::bread.edit-add';
+
+        if (view()->exists("voyager::$slug.edit-add")) {
+            $view = "voyager::$slug.margin";
+        }
+        $user = User::Find($request->id);
+        $categories = DB::table('category')->select(['id','name'])->get();
+        $productMargin = ProductUserMargin::where('user_id', $request->id)->get();
+        $catMargin = ProductCatUserMargin::where('user_id', $request->id)->get();
+
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'user', 'categories', 'catMargin', 'productMargin'));
+    }
+    public function addSpecProduct(Request $request)
+    {
+        if(empty($request->margin) || empty($request->product)) {
+            return back()->withErrors( 'nera product ar margin');
+        }
+        $product = Product::where('reference', $request->product)->Orwhere('supplier_reference', $request->product)->first();
+
+        if (empty($product)) {
+            return back()->withErrors('nerasta producta');
+        }
+
+        $is_mar = ProductUserMargin::where('user_id', $request->id)->where('product_id', $product->id)->first();
+        if (!empty($is_mar)) {
+            return back()->withErrors('exist product');
+        }
+
+        $margin = new ProductUserMargin();
+        $margin->product_id = $product->id;
+        $margin->user_id = $request->id;
+        $margin->margin = $request->margin;
+        $margin->created_at = Carbon::now();
+        $margin->updated_at = Carbon::now();
+        $margin->save();
+
+        return back()->with('success_message', 'add');
+    }
+    public function deleteSpecProduct(Request $request)
+    {
+        $product = Product::where('reference', $request->product)->Orwhere('supplier_reference', $request->product)->first();
+
+        $margin = ProductUserMargin::where('user_id', $request->id)->where('product_id', $product->id)->delete();
+
+        return back()->with('success_message', 'delete');
+    }
+    public function deleteSpecCat(Request $request)
+    {
+        ProductCatUserMargin::where('user_id', $request->id)->where('category_id', $request->category)->delete();
+
+        return back()->with('success_message', 'delete');
+    }
+    public function addSpecCat(Request $request)
+    {
+        if(empty($request->margin) || empty($request->category)) {
+            return back()->withErrors( 'nera category ar margin');
+        }
+        $category = Category::where('id', $request->category)->first();
+
+        if (empty($category)) {
+            return back()->withErrors('nerasta category');
+        }
+
+        $is_mar = ProductCatUserMargin::where('user_id', $request->id)->where('category_id', $category->id)->first();
+        if (!empty($is_mar)) {
+            return back()->withErrors('exist category');
+        }
+
+        $margin = new ProductCatUserMargin();
+        $margin->category_id = $category->id;
+        $margin->user_id = $request->id;
+        $margin->margin = $request->margin;
+        $margin->created_at = Carbon::now();
+        $margin->updated_at = Carbon::now();
+        $margin->save();
+
+        return back()->with('success_message', 'add');
+    }
     public function createNew(Request $request)
     {
 

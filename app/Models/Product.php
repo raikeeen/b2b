@@ -52,6 +52,10 @@ class Product extends Model
     }
     public function getPriceAttribute($value)
     {
+        if(isset($this->global_price->price)) {
+            return $this->global_price->price;
+        }
+
         $user = Auth::user();
 
         if($user->role_id === 5) {
@@ -65,12 +69,23 @@ class Product extends Model
                 $margin_cat = $this->category[0]->trade_margin;
             }
         }
+        if(!empty($user->product_user_margin($this->id))) {
+            $spec_user_product = $user->product_user_margin($this->id)->margin;
+        } else {
+            $spec_user_product = 0;
+        }
+        if(isset($this->category[0]->id) && !empty($user->product_cat_user_margin($this->category[0]->id)->first())) {
+            $spec_user_category = $user->product_cat_user_margin($this->category[0]->id)->first()->margin;
+        } else {
+            $spec_user_category = 0;
+        }
 
-
-        return  round($value + ( $value * (
+        return round($value + ( $value * (
                     (isset($this->margin->value) ? $this->margin->value : 0) +
                     (isset($margin_cat) ? $margin_cat : 0) +
                     $this->trade_margin  +
+                    $spec_user_product +
+                    $spec_user_category +
                     (isset($margin_sup) ? $margin_sup : 0 ))/ 100) -
             ( $value * ( isset($user->discount) ? $user->discount + $this->discount->value : 0 + $this->discount->value ) / 100) + $this->price_add,2);
     }
@@ -133,4 +148,16 @@ class Product extends Model
         return $this->belongsTo('App\Models\Supplier');
     }
 
+    public function global_price()
+    {
+        return $this->hasOne('App\Models\ProductGlobalPrice');
+    }
+    public function product_user_margin()
+    {
+        return $this->hasOne('App\Models\ProductUserMargin');
+    }
+    public function product_cat_user_margin()
+    {
+        return $this->hasOne('App\Models\ProductCatUserMargin');
+    }
 }

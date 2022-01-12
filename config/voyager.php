@@ -196,7 +196,7 @@ return [
     ],
 
     'additional_js' => [
-        'js/dropzone-min.js'
+        'js/dropzone-min.js',
         //'js/custom.js',
     ],
 

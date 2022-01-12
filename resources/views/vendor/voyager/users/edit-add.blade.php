@@ -18,6 +18,7 @@
         {{ __('voyager::generic.'.($edit ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular') }}
         @if($edit)
             <a href="{{route('voyager.users.history', $user->id)}}" style="padding-left: 30px; color: #1f6fb2"> Paieškos istorija</a>
+            <a href="{{route('voyager.users.margin', $user->id)}}" style="padding-left: 30px; color: #1f6fb2"> Spec prices</a>
         @endif
     </h1>
     @include('voyager::multilingual.language-selector')

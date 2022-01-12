@@ -223,7 +223,7 @@
                                                     @if(isset($category->children))
                                                         <ul>
                                                             @foreach($category->children as $category)
-                                                                @include('partials.minicategoryadmin', ['category' => $category, 'categoriesForProduct' => $categoriesForProduct])
+                                                                @include('partials.minicategoryadmin', ['category' => $category, 'categoriesForProduct' => isset($categoriesForProduct) ? $categoriesForProduct : []])
                                                             @endforeach
                                                         </ul>
                                                     @endif

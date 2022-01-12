@@ -2,7 +2,7 @@
     <div class="checkbox">
         <label>
             <input type="checkbox" id="category" data-id="{{$category->id}}" data-name="{{$category->name}}" name="category[]" value="{{$category->id}}"
-                   class="category" {{(isset($categoriesForProduct) ? $categoriesForProduct->contains($category)  : '') ? 'checked': ''}}>
+                   class="category" {{($categoriesForProduct !== [] ? $categoriesForProduct->contains($category)  : '') ? 'checked': ''}}>
             {{$category->name}}
         </label>
     </div>

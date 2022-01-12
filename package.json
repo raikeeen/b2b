@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "lightbox2": "^2.11.3",
-        "vue-router": "^3.5.2"
+        "vue-router": "^3.5.2",
+        "vue-select2": "^0.2.6"
     }
 }

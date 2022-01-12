@@ -83,4 +83,12 @@ class User extends \TCG\Voyager\Models\User
     {
         $this->attributes['password'] = bcrypt($password);
     }
+    public function product_user_margin($id)
+    {
+        return $this->hasMany('App\Models\ProductUserMargin', 'user_id')->where('product_id', $id)->first();
+    }
+    public function product_cat_user_margin($id)
+    {
+        return $this->hasMany('App\Models\ProductCatUserMargin', 'user_id')->where('category_id', $id)->latest();
+    }
 }
