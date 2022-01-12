@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class OeCodes extends Model
 {
     use HasFactory;
-    protected $table = 'oe_codes';
+    protected $table = 'oe_code';
 }
