@@ -629,7 +629,8 @@ class UserController extends VoyagerBaseController
                 'surname' => $request->surname,
                 'email'   => $request->email,
                 'term' => $request->term,
-                'limit' => $request->limit
+                'limit' => $request->limit,
+                'discount' =>$request->discount
             ]);
             $user->address->update([
                 'company_name' => $request->company_name,
