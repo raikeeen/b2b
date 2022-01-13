@@ -235,30 +235,40 @@ class B1Api extends Model
 
                         //bad codes
                         $code = $itemB1['code'];
-                        if($code == 'ZRZ-PL-004' || $code == 'ZRZ-PL-000') {
-                            DB::table('product')
-                                ->where('supplier_reference', '=', 'ZRZ-PL-004')
-                                ->update(array(
-                                    'stock_shop' => $stock->stock_shop + $itemB1['stock'],
-                                    'updated_at' =>  date('Y-m-d H:i:s')
-                                ));
+                        if($code == 'ZRZ-PL-004') {
+                            $stock_shop = DB::table('product')
+                                ->where('supplier_reference', '=', 'ZRZ-PL-000')->first()->stock_shop;
                             DB::table('product')
                                 ->where('supplier_reference', '=', 'ZRZ-PL-000')
                                 ->update(array(
-                                    'stock_shop' => $stock->stock_shop + $itemB1['stock'],
+                                    'stock_shop' => $stock_shop + $itemB1['stock'],
                                     'updated_at' =>  date('Y-m-d H:i:s')
                                 ));
-                        } elseif ($code == 'ZRZ-CH-003' || $code == 'ZRZ-CH-004') {
+                        } elseif ($code == 'ZRZ-PL-000') {
+                            $stock_shop = DB::table('product')
+                                ->where('supplier_reference', '=', 'ZRZ-PL-004')->first()->stock_shop;
                             DB::table('product')
-                                ->where('supplier_reference', '=', 'ZRZ-CH-003')
+                                ->where('supplier_reference', '=', 'ZRZ-PL-004')
                                 ->update(array(
-                                    'stock_shop' => $stock->stock_shop + $itemB1['stock'],
+                                    'stock_shop' => $stock_shop + $itemB1['stock'],
                                     'updated_at' =>  date('Y-m-d H:i:s')
                                 ));
+                        } elseif ($code == 'ZRZ-CH-003') {
+                            $stock_shop = DB::table('product')
+                                ->where('supplier_reference', '=', 'ZRZ-CH-004')->first()->stock_shop;
                             DB::table('product')
                                 ->where('supplier_reference', '=', 'ZRZ-CH-004')
                                 ->update(array(
-                                    'stock_shop' => $stock->stock_shop + $itemB1['stock'],
+                                    'stock_shop' => $stock_shop + $itemB1['stock'],
+                                    'updated_at' =>  date('Y-m-d H:i:s')
+                                ));
+                        } elseif ($code == 'ZRZ-CH-004') {
+                            $stock_shop = DB::table('product')
+                                ->where('supplier_reference', '=', 'ZRZ-CH-003')->first()->stock_shop;
+                            DB::table('product')
+                                ->where('supplier_reference', '=', 'ZRZ-CH-003')
+                                ->update(array(
+                                    'stock_shop' => $stock_shop + $itemB1['stock'],
                                     'updated_at' =>  date('Y-m-d H:i:s')
                                 ));
                         }
