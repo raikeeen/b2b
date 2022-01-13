@@ -36,7 +36,8 @@ class Product extends Model
         'price',
         'discount_product',
         'discount_global',
-        'price_add'
+        'price_add',
+        'b1_product_id'
     ];
     protected $appends = ['price_stock', 'price_base', 'price_recommend'];
     public $increments = true;
