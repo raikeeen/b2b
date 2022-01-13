@@ -60,11 +60,13 @@ class Product extends Model
 
         if($user->role_id === 5) {
             $margin_sup = $this->supplier->margin_pard;
+            $trade_margin = $this->trade_margin_pard;
             if(isset($this->category[0])) {
                 $margin_cat = $this->category[0]->trade_margin_pard;
             }
         } else {
             $margin_sup = $this->supplier->margin;
+            $trade_margin = $this->trade_margin;
             if(isset($this->category[0])) {
                 $margin_cat = $this->category[0]->trade_margin;
             }
@@ -83,7 +85,7 @@ class Product extends Model
         return round($value + ( $value * (
                     (isset($this->margin->value) ? $this->margin->value : 0) +
                     (isset($margin_cat) ? $margin_cat : 0) +
-                    $this->trade_margin  +
+                    $trade_margin  +
                     $spec_user_product +
                     $spec_user_category +
                     (isset($margin_sup) ? $margin_sup : 0 ))/ 100) -
