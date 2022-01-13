@@ -17,7 +17,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\TecDocController;
 use App\Models\AjsApi;
-ini_set('max_execution_time', 120);
+ini_set('max_execution_time', 300);
 /*
 |--------------------------------------------------------------------------
 | Web Routes
