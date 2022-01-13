@@ -123,7 +123,7 @@ class Venipak extends Model
     }
     public function checkStatus($label)
     {
-        $result = $this->makeCurlCall(null, 'https://go.venipak.lt/ws/tracking?code=V09189E0001441&type=5');
+        $result = $this->makeCurlCall(null, 'https://go.venipak.lt/ws/tracking?code='.$label.'&type=5');
 
         return $result;
     }
