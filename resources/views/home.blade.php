@@ -24,22 +24,52 @@
                             </select>
                         </div>
                         <div class="col-md-10 col-sm-12 select-tec-doc">
-                            <select class="c-select2" name="models" id="models" style="min-width: 100%">
+                            <select disabled class="c-select2" name="models" id="models" style="min-width: 100%">
                                 <option selected="selected" value="0">Pasirinkti modelį</option>
                             </select>
                         </div>
                         <div class="col-md-10 col-sm-12 select-tec-doc">
-                            <select class="c-select2" name="modification" id="modification" style="min-width: 100%">
+                            <select disabled class="c-select2" name="modification" id="modification" style="min-width: 100%">
                                 <option selected="selected" value="0">Išsirinkite modifikaciją</option>
                             </select>
                         </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-center">
-                        <button class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" type="submit" style="color: #212529;">Paieška</button>
+                        <button id="button" disabled class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" type="submit" style="color: #212529;">Paieška</button>
                     </div>
                 </form>
                 <script>
                     $(document).ready(function ($) {
+                        $('#manufacturers').on('change', function() {
+
+                            if(this.value  == 0) {
+                                $("#models").prop('disabled', true);
+                                $("#modification").prop('disabled', true);
+                                $("#button").prop('disabled', true);
+                            } else {
+                                $("#models").prop('disabled', false);
+                            }
+                        });
+                        $('#models').on('change', function() {
+
+                            if(this.value == 0) {
+                                $("#modification").prop('disabled', true).val(0);
+                                $("#button").prop('disabled', true);
+
+                            } else {
+                                $("#modification").prop('disabled', false);
+                            }
+                        });
+
+                        $('#modification').on('change', function() {
+
+                            if(this.value == 0) {
+                                $("#button").prop('disabled', true);
+                            } else {
+                                $("#button").prop('disabled', false);
+                            }
+                        });
+
                         $('#manufacturers').select2();
                         $('#models').select2();
                         $('#modification').select2();
@@ -64,6 +94,9 @@
                                     dataType: 'json',
                                     success: function (data) {
                                         $('#models')
+                                            .empty()
+                                            .append('<option selected="selected" value="0">Pasirinkti modelį</option>');
+                                        $('#modification')
                                             .empty()
                                             .append('<option selected="selected" value="0">Pasirinkti modelį</option>');
 
@@ -107,7 +140,6 @@
                                     data: formData,
                                     dataType: 'json',
                                     success: function (data) {
-                                        console.log(data)
                                         $('#modification')
                                             .empty()
                                             .append('<option selected="selected" value="0">Išsirinkite modifikaciją</option>');
@@ -115,7 +147,6 @@
                                         let options = $("#modification");
 
                                         $.each(data.fuels, function (index, item){
-                                            console.log(item);
                                             let a = "<optgroup label="+ item + " for=" + item + "></optgroup>";
                                             options.append(a);
                                         });
