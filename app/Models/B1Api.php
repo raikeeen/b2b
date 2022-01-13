@@ -233,6 +233,36 @@ class B1Api extends Model
                                 'updated_at' =>  date('Y-m-d H:i:s')
                             ));
 
+                        //bad codes
+                        $code = $itemB1['code'];
+                        if($code == 'ZRZ-PL-004' || $code == 'ZRZ-PL-000') {
+                            DB::table('product')
+                                ->where('supplier_reference', '=', 'ZRZ-PL-004')
+                                ->update(array(
+                                    'stock_shop' => $stock->stock_shop + $itemB1['stock'],
+                                    'updated_at' =>  date('Y-m-d H:i:s')
+                                ));
+                            DB::table('product')
+                                ->where('supplier_reference', '=', 'ZRZ-PL-000')
+                                ->update(array(
+                                    'stock_shop' => $stock->stock_shop + $itemB1['stock'],
+                                    'updated_at' =>  date('Y-m-d H:i:s')
+                                ));
+                        } elseif ($code == 'ZRZ-CH-003' || $code == 'ZRZ-CH-004') {
+                            DB::table('product')
+                                ->where('supplier_reference', '=', 'ZRZ-CH-003')
+                                ->update(array(
+                                    'stock_shop' => $stock->stock_shop + $itemB1['stock'],
+                                    'updated_at' =>  date('Y-m-d H:i:s')
+                                ));
+                            DB::table('product')
+                                ->where('supplier_reference', '=', 'ZRZ-CH-004')
+                                ->update(array(
+                                    'stock_shop' => $stock->stock_shop + $itemB1['stock'],
+                                    'updated_at' =>  date('Y-m-d H:i:s')
+                                ));
+                        }
+
                     }
 
                 }
