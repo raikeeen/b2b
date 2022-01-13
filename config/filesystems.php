@@ -52,6 +52,19 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'ftp-maxgear' => [
+            'driver' => 'ftp',
+            'host' => 'ftp.autopartner.dev',
+            'username' => '3130836',
+            'password' => '18SfEx2',
+
+            // Optional FTP Settings...
+            // 'port' => 21,
+            // 'root' => '',
+            // 'passive' => true,
+            // 'ssl' => true,
+            // 'timeout' => 30,
+        ],
     ],
 
     /*

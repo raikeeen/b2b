@@ -67,6 +67,7 @@ class HomeController extends Controller
         $brands = Brand::all();
 
         $client = new Client();
+
         //$users = User::where('role_id', 5)->get();
        /* $product = Product::where('supplier_reference', 'eas-ch-000a')->first();
 
