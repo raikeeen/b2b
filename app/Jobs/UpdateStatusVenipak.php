@@ -16,7 +16,7 @@ class UpdateStatusVenipak implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $failOnTimeout = true;
-    public $timeout = 100;
+    public $timeout = 300;
     public $tries = 1;
     /**
      * Create a new job instance.

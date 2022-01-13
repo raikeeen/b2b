@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new UpdateStatusVenipak(), 'default')->everyTwoHours();
         $schedule->job(new UpdateStockB1(), 'update_stock')->dailyAt('04:00');
         $schedule->job(new UpdateStockAjs(), 'update_stock')->dailyAt('04:00');
-        //$schedule->job(new UpdateStockMaxgear(), 'update_stock')->dailyAt('15:23');
+        $schedule->job(new UpdateStockMaxgear(), 'update_stock')->dailyAt('17:32');
     }
 
     /**
