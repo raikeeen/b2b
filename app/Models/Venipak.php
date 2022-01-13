@@ -222,7 +222,7 @@ class Venipak extends Model
             $consignee->addChild('company_code', $address->vat); //assume that DNI is for company code
             $consignee->addChild('country', $this->getCountryNameByISO($address->country->name));
             $consignee->addChild('city', $address->city->name);
-            $consignee->addChild('address', $address->street . " " . $address->biulding . " " . $address->apartment);
+            $consignee->addChild('address', $address->street . " " . $address->building . " " . $address->apartment);
             $consignee->addChild('post_code', preg_replace('/[^0-9.]+/', '', $address->post_code));
             $consignee->addChild('contact_person', $name);
             $consignee->addChild('contact_tel', $address->phone);
