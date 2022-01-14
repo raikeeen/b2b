@@ -884,9 +884,7 @@ Route::group(['middleware' => 'auth'], function () {
         }
     });
     Route::get('/test1', function () {
-        $file = Storage::disk('ftp-maxgear')->get('STANY.csv');
-        Storage::disk('local')->put('/public/download/maxgear_stock.csv', $file);
-        $start = microtime(true);
+
         $filename = public_path().'/storage/download/maxgear_stock.csv';
         $file = fopen($filename, "r");
         \DB::table('product')->where('supplier_id', 3)->update(array('stock_supplier' => 0));
