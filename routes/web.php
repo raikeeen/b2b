@@ -889,8 +889,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/test1', function () {
 
         $order = Order::Find(82);
-        dump($order);
-        dd($order->document_b1);
+
         B1Api::getInvoice($order);
     });
     Route::resource('/products',ProductController::class);
