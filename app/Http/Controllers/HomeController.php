@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendMail;
 use App\Models\Address;
 use App\Models\Brand;
 use App\Models\Category;
