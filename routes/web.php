@@ -2,7 +2,10 @@
 
 use App\Jobs\SendMail;
 use App\Models\B1Api;
+use App\Models\DocumentB1;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\Tax;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -884,7 +887,34 @@ Route::group(['middleware' => 'auth'], function () {
         }
     });
     Route::get('/test1', function () {
-        $order = \App\Models\Order::find(80);
+
+        $order = Order::Find(80);
+
+        $itemB1 = [];
+        foreach ($order->orderitem as $item) {
+
+            array_push($itemB1, [
+                'id' => $item->product->b1_product_id,
+                'name' => $item->name,
+                'quantity' => $item->amount*100,
+                'vatRate' => config('cart.tax'),
+                'price' => Tax::priceWithTax($item->price)*100,
+                'sum' => Tax::priceWithTax($item->price*$item->qty)*100,
+            ]);
+        }
+
+        $referenceOrderB1 = B1Api::pushOrder($order,$itemB1);
+
+        $order->order_b1 = $referenceOrderB1['data']['orderId'];
+
+        $newDocumentB1 = new DocumentB1();
+        $newDocumentB1->name = $referenceOrderB1['data']['invoiceDocument'];
+        $newDocumentB1->price = $order->total;
+        $newDocumentB1->save();
+
+        $order->document_b1_id = $newDocumentB1->id;
+        $order->save();
+
         B1Api::getInvoice($order);
     });
     Route::resource('/products',ProductController::class);
