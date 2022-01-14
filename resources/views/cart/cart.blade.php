@@ -357,84 +357,121 @@
 <script type="text/javascript">
     $( document ).ready(function() {
 
-        $('#delivery_select').change(function () {
-            let delivery = $('#delivery_select').find(":selected").val();
-            let payment = $('#payment_select').find(":selected").val();
-
-            if (delivery === '2') {
-                $('#transport_price').text('3.84')
-                let total = $('#total-cart')
-                total.text(({{Cart::total(2,'.','')}} + 3.84).toFixed(2))
-                let totalSub = $('#subtotal-cart')
-                totalSub.text(({{Cart::subtotal(2,'.','')}} + 3.17).toFixed(2))
-                if(payment === '1') {
-                    total.text((parseFloat(total.text()) + 1.50).toFixed(2))
-                    totalSub.text((parseFloat(totalSub.text()) + 1.24).toFixed(2))
-                    $('#payment_price').text('1.50');
-                } else {
-                    $('#payment_price').text('0.00');
-                }
-
-
-            } else {
-                $('#transport_price').text('0.00')
-                let total = $('#total-cart')
-                total.text({{Cart::total(2,'.','')}})
-                let totalSub = $('#subtotal-cart')
-                totalSub.text({{Cart::subtotal(2,'.','')}})
-
-                if(payment === '1') {
-                    total.text((parseFloat(total.text()) + 1.50).toFixed(2))
-                    totalSub.text((parseFloat(totalSub.text()) + 1.24).toFixed(2))
-                    $('#payment_price').text('0.00')
-                }
-                if(delivery === '1') {
-                    total.text({{Cart::total(2,'.','')}})
-                    totalSub.text({{Cart::subtotal(2,'.','')}})
-                }
-            }
-
-            $('input[id=delivery]').val(delivery);
-
-            if ($('#delivery_select').val() === "") {
-                $('#payment_select').attr("disabled", true);
-            } else {
-                $('#payment_select').attr("disabled", false);
-            }
-        })
-
-        $('#document_select').change(function () {
-            let document = $('#document_select').find(":selected").val();
-            $('input[id=document]').val(document);
-
-            if(document === '1') {
-                $('#doc').text('Faktūra');
-            } else {
-                $('#doc').text('Važtaraštis');
-            }
-        })
-        $('#payment_select').change(function () {
-            let payment = $('#payment_select').find(":selected").val();
-            let method = $('#payment_method').val();
-            //payment_method payment_price
-            if(payment === '1') {
-                $('#payment_method').text('Apmokėjimas pristatymo metu');
-                $('#payment_price').text('1.50');
-                let total = $('#total-cart')
-                total.text((parseFloat(total.text()) + 1.50).toFixed(2))
-                let totalSub = $('#subtotal-cart')
-                totalSub.text((parseFloat(totalSub.text()) + 1.24).toFixed(2))
-            } else {
-                $('#payment_method').text('Pervedimas į banką');
-                $('#payment_price').text('0.00');
+        if({{Cart::total(2,'.','')}} > 150){
+            $('#delivery_select').change(function () {
                 let delivery = $('#delivery_select').find(":selected").val();
+                let payment = $('#payment_select').find(":selected").val();
+
+                if (delivery === '2') {
+                    let total = $('#total-cart')
+                    let totalSub = $('#subtotal-cart')
+                    if (payment === '1') {
+                        total.text((parseFloat(total.text()) + 1.50).toFixed(2))
+                        totalSub.text((parseFloat(totalSub.text()) + 1.24).toFixed(2))
+                        $('#payment_price').text('1.50');
+                    } else {
+                        $('#payment_price').text('0.00');
+                    }
+
+
+                } else {
+                    let total = $('#total-cart')
+                    total.text({{Cart::total(2,'.','')}})
+                    let totalSub = $('#subtotal-cart')
+                    totalSub.text({{Cart::subtotal(2,'.','')}})
+
+                    if (payment === '1') {
+                        total.text((parseFloat(total.text()) + 1.50).toFixed(2))
+                        totalSub.text((parseFloat(totalSub.text()) + 1.24).toFixed(2))
+                        $('#payment_price').text('0.00')
+                    }
+                    if (delivery === '1') {
+                        total.text({{Cart::total(2,'.','')}})
+                        totalSub.text({{Cart::subtotal(2,'.','')}})
+                    }
+                }
+
+                $('input[id=delivery]').val(delivery);
+
+                if ($('#delivery_select').val() === "") {
+                    $('#payment_select').attr("disabled", true);
+                } else {
+                    $('#payment_select').attr("disabled", false);
+                }
+            })
+
+            $('#document_select').change(function () {
+                let document = $('#document_select').find(":selected").val();
+                $('input[id=document]').val(document);
+
+                if (document === '1') {
+                    $('#doc').text('Faktūra');
+                } else {
+                    $('#doc').text('Važtaraštis');
+                }
+            })
+            $('#payment_select').change(function () {
+                let payment = $('#payment_select').find(":selected").val();
+                let method = $('#payment_method').val();
+                //payment_method payment_price
+                if (payment === '1') {
+                    $('#payment_method').text('Apmokėjimas pristatymo metu');
+                    $('#payment_price').text('1.50');
+                    let total = $('#total-cart')
+                    total.text((parseFloat(total.text()) + 1.50).toFixed(2))
+                    let totalSub = $('#subtotal-cart')
+                    totalSub.text((parseFloat(totalSub.text()) + 1.24).toFixed(2))
+                    let delivery = $('#delivery_select').find(":selected").val();
+
+                    if (delivery === '1') {
+                        $('#payment_price').text('0.00');
+                        let total = $('#total-cart')
+                        total.text({{Cart::total(2,'.','')}})
+                        let totalSub = $('#subtotal-cart')
+                        totalSub.text({{Cart::subtotal(2,'.','')}})
+                    }
+
+                } else {
+                    $('#payment_method').text('Pervedimas į banką');
+                    $('#payment_price').text('0.00');
+                    let delivery = $('#delivery_select').find(":selected").val();
+
+                    if (delivery === '2') {
+
+                        let total = $('#total-cart')
+                        total.text(({{Cart::total(2,'.','')}}).toFixed(2))
+                        let totalSub = $('#subtotal-cart')
+                        totalSub.text(({{Cart::subtotal(2,'.','')}}).toFixed(2))
+
+                    } else {
+                        $('#transport_price').text('0.00')
+                        let total = $('#total-cart')
+                        total.text({{Cart::total(2,'.','')}})
+                        let totalSub = $('#subtotal-cart')
+                        totalSub.text({{Cart::subtotal(2,'.','')}})
+                    }
+                }
+            })
+        } else {
+
+            $('#delivery_select').change(function () {
+                let delivery = $('#delivery_select').find(":selected").val();
+                let payment = $('#payment_select').find(":selected").val();
 
                 if (delivery === '2') {
                     $('#transport_price').text('3.84')
                     let total = $('#total-cart')
-                    total.text(({{Cart::total(2,'.','')}} + 3.84).toFixed(2))
+                    total.text(({{Cart::total(2,'.','')}} +3.84).toFixed(2))
                     let totalSub = $('#subtotal-cart')
-                    totalSub.text(({{Cart::subtotal(2,'.','')}} + 3.17).toFixed(2))
+                    totalSub.text(({{Cart::subtotal(2,'.','')}} +3.17).toFixed(2))
+                    if (payment === '1') {
+                        total.text((parseFloat(total.text()) + 1.50).toFixed(2))
+                        totalSub.text((parseFloat(totalSub.text()) + 1.24).toFixed(2))
+                        $('#payment_price').text('1.50');
+                    } else {
+                        $('#payment_price').text('0.00');
+                    }
+
 
                 } else {
                     $('#transport_price').text('0.00')
@@ -442,9 +479,80 @@
                     total.text({{Cart::total(2,'.','')}})
                     let totalSub = $('#subtotal-cart')
                     totalSub.text({{Cart::subtotal(2,'.','')}})
+
+                    if (payment === '1') {
+                        total.text((parseFloat(total.text()) + 1.50).toFixed(2))
+                        totalSub.text((parseFloat(totalSub.text()) + 1.24).toFixed(2))
+                        $('#payment_price').text('0.00')
+                    }
+                    if (delivery === '1') {
+                        total.text({{Cart::total(2,'.','')}})
+                        totalSub.text({{Cart::subtotal(2,'.','')}})
+                    }
                 }
-            }
-        })
+
+                $('input[id=delivery]').val(delivery);
+
+                if ($('#delivery_select').val() === "") {
+                    $('#payment_select').attr("disabled", true);
+                } else {
+                    $('#payment_select').attr("disabled", false);
+                }
+            })
+
+            $('#document_select').change(function () {
+                let document = $('#document_select').find(":selected").val();
+                $('input[id=document]').val(document);
+
+                if (document === '1') {
+                    $('#doc').text('Faktūra');
+                } else {
+                    $('#doc').text('Važtaraštis');
+                }
+            })
+            $('#payment_select').change(function () {
+                let payment = $('#payment_select').find(":selected").val();
+                let method = $('#payment_method').val();
+                //payment_method payment_price
+                if (payment === '1') {
+                    $('#payment_method').text('Apmokėjimas pristatymo metu');
+                    $('#payment_price').text('1.50');
+                    let total = $('#total-cart')
+                    total.text((parseFloat(total.text()) + 1.50).toFixed(2))
+                    let totalSub = $('#subtotal-cart')
+                    totalSub.text((parseFloat(totalSub.text()) + 1.24).toFixed(2))
+                    let delivery = $('#delivery_select').find(":selected").val();
+
+                    if (delivery === '1') {
+                        $('#payment_price').text('0.00');
+                        let total = $('#total-cart')
+                        total.text({{Cart::total(2,'.','')}})
+                        let totalSub = $('#subtotal-cart')
+                        totalSub.text({{Cart::subtotal(2,'.','')}})
+                    }
+
+                } else {
+                    $('#payment_method').text('Pervedimas į banką');
+                    $('#payment_price').text('0.00');
+                    let delivery = $('#delivery_select').find(":selected").val();
+
+                    if (delivery === '2') {
+                        $('#transport_price').text('3.84')
+                        let total = $('#total-cart')
+                        total.text(({{Cart::total(2,'.','')}} +3.84).toFixed(2))
+                        let totalSub = $('#subtotal-cart')
+                        totalSub.text(({{Cart::subtotal(2,'.','')}} +3.17).toFixed(2))
+
+                    } else {
+                        $('#transport_price').text('0.00')
+                        let total = $('#total-cart')
+                        total.text({{Cart::total(2,'.','')}})
+                        let totalSub = $('#subtotal-cart')
+                        totalSub.text({{Cart::subtotal(2,'.','')}})
+                    }
+                }
+            })
+        }
     });
 </script>
 {{--<script type="text/javascript">
