@@ -302,6 +302,23 @@
                                                             </p>
                                                         </td>
                                                     </tr>
+                                                    <tr id="total_shipping">
+                                                        <td class="text-right">Apmokėjimas</td>
+                                                        <td class="amount text-right nowrap">
+                                                            {{$order->payment_price}}&nbsp;€
+                                                        </td>
+                                                        <td class="partial_refund_fields current-edit" style="display:none;">
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon">
+                                                                    €
+                                                                </div>
+                                                                <input type="text" name="partialRefundShippingCost" value="0">
+                                                            </div>
+                                                            <p class="help-block"><i class="icon-warning-sign"></i> (Maks. 0,00&nbsp;€                           Su mokesčiais
+                                                                )
+                                                            </p>
+                                                        </td>
+                                                    </tr>
                                                     <tr id="total_order">
                                                         <td class="text-right"><strong>Viso</strong></td>
                                                         <td class="amount text-right nowrap">

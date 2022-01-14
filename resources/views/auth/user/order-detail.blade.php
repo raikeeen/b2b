@@ -151,10 +151,10 @@
                 </div>
                 <div class="col-12 col-sm-2 col-md-1"></div>
                 <div class="col-12 col-md-2 text-right">
-                    <span data-bind="text: order().orderDeliveryPayment.price.displayNet() + ' ' + order().orderDeliveryPayment.price.currencyCode">0.00 EUR</span>
+                    <span data-bind="text: order().orderDeliveryPayment.price.displayNet() + ' ' + order().orderDeliveryPayment.price.currencyCode">{{round($order['payment']['price']/1.21,2)}} EUR</span>
                 </div>
                 <div class="col-12 col-md-2 text-right font-weight-bold">
-                    <span data-bind="text: order().orderDeliveryPayment.price.displayGross() + ' ' + order().orderDeliveryPayment.price.currencyCode">{{\App\Models\Tax::priceWithTax($order['payment']['price'])}} EUR</span>
+                    <span data-bind="text: order().orderDeliveryPayment.price.displayGross() + ' ' + order().orderDeliveryPayment.price.currencyCode">{{$order['payment']['price']}} EUR</span>
                 </div>
             </div>
 

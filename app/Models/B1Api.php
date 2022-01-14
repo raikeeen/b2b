@@ -72,7 +72,7 @@ class B1Api extends Model
                         'code' => $order->user->address->vat,
                         'countryCode' => 'LT',
                     ],
-                    'shippingAmount' => $order->delivery_price*100,
+                    'shippingAmount' => ($order->delivery_price + $order->payment_price) * 100,
                     'items' => $itemsB1
                 ];
                 /*$data = [
