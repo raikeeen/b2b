@@ -36,7 +36,7 @@ class UpdateStockMaxgear implements ShouldQueue
     {
         $file = Storage::disk('ftp-maxgear')->get('STANY.csv');
         Storage::disk('local')->put('/public/download/maxgear_stock.csv', $file);
-        $start = microtime(true);
+        //$start = microtime(true);
         $filename = public_path().'/storage/download/maxgear_stock.csv';
         $file = fopen($filename, "r");
         \DB::table('product')->where('supplier_id', 3)->update(array('stock_supplier' => 0));
@@ -44,24 +44,25 @@ class UpdateStockMaxgear implements ShouldQueue
         if ($file) {
             while (($line = fgets($file)) !== false) {
                 $line = explode(';', $line);
+                $code = str_replace('/','.', $line[0]);
 
                 $product = DB::table('product')
                     ->select(['supplier_reference','stock_supplier'])
-                    ->where('supplier_reference', $line[0])
-                    ->orWhere('reference', $line[0])
+                    ->where('supplier_reference', $code)
+                    ->orWhere('reference', $code)
                     ->first();
                 if(isset($product)) {
-                    DB::table('product')
+                    $query = DB::table('product')
                         ->select(['supplier_reference', 'stock_supplier'])
-                        ->where('supplier_reference', $line[0])
-                        ->orWhere('reference', $line[0])
+                        ->where('supplier_reference', $code)
+                        ->orWhere('reference', $code)
                         ->update([
                             'stock_supplier' => $product->stock_supplier + $line[1]
                         ]);
                 }
             }
             fclose($file);
-            SendMail::dispatch(['name' => 'Maxgear stocks success', 'time' => 'Время выполнения скрипта: '.round(microtime(true) - $start, 4).' сек.'])->onQueue('mail');
+            SendMail::dispatch(['name' => 'Maxgear stocks success', 'time' => 'Время выполнения скрипта: '.' сек.'])->onQueue('mail');
         } else {
             // error opening the file.
         }
