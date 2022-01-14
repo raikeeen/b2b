@@ -16,7 +16,7 @@ class AddColumnToOrder extends Migration
         Schema::table('order', function (Blueprint $table) {
             $table->dropColumn('invoice');
             $table->integer('document_b1_id')->unsigned()->nullable()->after('order_b1');
-            $table->foreign('document_b1_id')->references('id')->on('country')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('document_b1_id')->references('id')->on('document_b1')->onUpdate('cascade')->onDelete('set null');
         });
     }
 
