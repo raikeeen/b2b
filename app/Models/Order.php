@@ -5,6 +5,7 @@ namespace App\Models;
 use Doctrine\DBAL\Driver\SQLSrv\Exception\Error;
 use Illuminate\Database\Eloquent\Model;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 
@@ -106,6 +107,11 @@ class Order extends Model
         Cart::destroy();
         session()->forget('coupon');
 
+        $mail = ['name' => 'Užsakymas '.$order->reference, 'order' => Order::detailOrder($order)];
+
+        Mail::to($order->user->email)->send(new \App\Mail\NewOrderMail($mail));
+        Mail::to('info@rm-autodalys.eu')->send(new \App\Mail\NewOrderMail($mail));
+
         return $order;
     }
     static function detailOrder($order)
@@ -133,7 +139,7 @@ class Order extends Model
             'coupon' => '',
             'total' => $order->total,
             'tax' => Tax::first()->tax_count,
-            'created_at' => $order->creared_at,
+            'created_at' => $order->created_at,
             'venipak' => isset($order->venipak->label) ? $order->venipak->label : null
         ];
         $coupon = $order->coupon;
@@ -155,7 +161,7 @@ class Order extends Model
                     'reference' => $product->product->reference,
                     'name' => $product->product->name,
                     'amount' => $product->amount,
-                    'price' => $product->product->price
+                    'price' => $product->price
                 ]);
 
             } else {
