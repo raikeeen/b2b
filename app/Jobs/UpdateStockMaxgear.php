@@ -50,11 +50,23 @@ class UpdateStockMaxgear implements ShouldQueue
                     ->where([
                         ['supplier_id', 3],
                         ['supplier_reference', $line[0]]
-                    ])->first();
+                    ])
+                    ->Orwhere([
+                        ['supplier_id', 3],
+                        ['reference', $line[0]]
+                    ])
+                    ->first();
                 if(isset($product)) {
                     DB::table('product')
                         ->select(['supplier_reference', 'stock_supplier'])
-                        ->where('supplier_reference', $line[0])
+                        ->where([
+                            ['supplier_id', 3],
+                            ['supplier_reference', $line[0]]
+                        ])
+                        ->Orwhere([
+                            ['supplier_id', 3],
+                            ['reference', $line[0]]
+                        ])
                         ->update([
                             'stock_supplier' => $product->stock_supplier + $line[1]
                         ]);
