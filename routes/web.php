@@ -885,7 +885,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
     Route::get('/test1', function () {
 
-        $filename = public_path().'/storage/download/maxgear_stock.csv';
+        $filename = '/var/www/rm-autodalys.eu/public_html/storage/app/public/download/maxgear_stock.csv';
         $file = fopen($filename, "r");
         \DB::table('product')->where('supplier_id', 3)->update(array('stock_supplier' => 0));
 
