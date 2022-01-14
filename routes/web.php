@@ -884,7 +884,8 @@ Route::group(['middleware' => 'auth'], function () {
         }
     });
     Route::get('/test1', function () {
-
+        $order = \App\Models\Order::find(80);
+        B1Api::getInvoice($order);
     });
     Route::resource('/products',ProductController::class);
     Route::get('/new-products',[ProductController::class, 'newProduct'])->name('product.new');
