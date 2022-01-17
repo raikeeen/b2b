@@ -175,10 +175,23 @@ class ProductController extends Controller
 
     public function deleteImage(Request $request, $id)
     {
-        $path = public_path('storage/products/common_images/').$request->id;
-        File::delete($path);
+        $product = Product::Find($request->product)->img;
 
-        $imageDb = Img::where('name', 'storage/products/common_images/'.$request->id)->delete();
-        return response()->json(['success' => $request->id]);
+        if(!empty($product)) {
+            foreach ($product as $prod) {
+
+                $explode = explode('/',$prod->name);
+
+                if(end($explode) == $request->id) {
+
+                    File::delete($prod->name);
+                    $prod->delete();
+
+                    return response()->json(['success' => true]);
+                }
+            }
+        }
+
+        return response()->json(['success' => false]);
     }
 }

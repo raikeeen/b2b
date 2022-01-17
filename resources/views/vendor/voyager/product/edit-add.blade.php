@@ -337,6 +337,7 @@
                             url: '{{route('delete-image', $product->id)}}',
                             data: {
                                 id: file.previewElement.querySelector("[data-dz-name]").textContent,
+                                product: {{$product->id}},
                                 _token: $('meta[name="csrf-token"]').attr('content'),
                             },
                             dataType: 'json',
