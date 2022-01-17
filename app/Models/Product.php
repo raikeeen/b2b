@@ -98,9 +98,7 @@ class Product extends Model
     }
     public function getPriceStockAttribute()
     {
-        if($this->discount->value === 0){
-            return null;
-        } else
+
             return null;
             //return  round(($this->price + ($this->price * $this->discount->value) / 100) * 1.21,2);
     }
