@@ -139,30 +139,64 @@
                                             <span class="input-group-text product-symbol"> €</span>
                                         </div>
                                     </div>
+                                    <div class="row padding-left">
+                                        <span class="product-label big-text">Servisas</span>
+                                        <span class="product-label big-text float-right">Parduotuve</span>
+                                    </div>
                                     <hr class="hr-grey">
-                                    <div class="form-group product-form">
-                                        <label class="product-label" for="slug">Supplier margin:</label>
-                                            <input disabled type="number" step="0.01" id="supplier_margin" class="product-price" name="supplier_margin" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{$product->supplier->margin ?? '0.00'}}">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text product-symbol"> %</span>
+                                    <label class="product-label" for="slug">Tiekejo maržos:</label>
+                                        <div class="row padding-left">
+                                            <div class="float-left">
+                                                <input disabled type="number" step="0.01" id="supplier_margin" class="product-price" name="supplier_margin" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{$product->supplier->margin ?? '0.00'}}">
+                                                <div class="input-group-append float-right margin-top">
+                                                    <span class="input-group-text product-symbol display-inline"> %</span>
+                                                </div>
                                             </div>
-                                    </div>
-                                    <div class="form-group product-form">
-                                        <label class="product-label" for="slug">Category margin:</label>
-                                        <input disabled type="number" step="0.01" class="product-price" id="category_margin" name="category_margin" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product->category[0]) ? $product->category[0]->trade_margin : '0.00'}}">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text product-symbol"> %</span>
+                                            <div class="float-right">
+                                                <input disabled type="number" step="0.01" id="supplier_margin" class="product-price" name="supplier_margin_pard" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{$product->supplier->margin_pard ?? '0.00'}}">
+                                                <div class="input-group-append float-right margin-top">
+                                                    <span class="input-group-text product-symbol display-inline"> %</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <label class="product-label" for="slug">Kategorijos:</label>
+
+                                    <div class="row padding-left">
+                                        <div class="float-left">
+                                            <input disabled type="number" step="0.01" class="product-price" id="category_margin" name="category_margin" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product->category[0]) ? $product->category[0]->trade_margin : '0.00'}}">
+
+                                            <div class="input-group-append float-right margin-top">
+                                                <span class="input-group-text product-symbol display-inline"> %</span>
+                                            </div>
+                                        </div>
+                                        <div class="float-right">
+                                            <input disabled type="number" step="0.01" class="product-price" id="category_margin" name="category_margin_pard" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product->category[0]) ? $product->category[0]->trade_margin_pard : '0.00'}}">
+                                            <div class="input-group-append float-right margin-top">
+                                                <span class="input-group-text product-symbol display-inline"> %</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group product-form">
-                                        <label class="product-label" for="slug">Product margin:</label>
-                                        <input required="" type="number" step="0.01" class="product-price" id="product_margin" name="product_margin" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{$product->trade_margin ?? '0.00'}}">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text product-symbol"> %</span>
+
+                                    <label class="product-label" for="slug">Prėke:</label>
+
+                                    <div class="row padding-left">
+                                        <div class="float-left">
+                                            <input required="" type="number" step="0.01" class="product-price" id="product_margin" name="product_margin" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{$product->trade_margin ?? '0.00'}}">
+
+                                            <div class="input-group-append float-right margin-top">
+                                                <span class="input-group-text product-symbol display-inline"> %</span>
+                                            </div>
+                                        </div>
+                                        <div class="float-right">
+                                            <input required="" type="number" step="0.01" class="product-price" id="product_margin_pard" name="product_margin_pard" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{$product->trade_margin_pard ?? '0.00'}}">
+                                            <div class="input-group-append float-right margin-top">
+                                                <span class="input-group-text product-symbol display-inline"> %</span>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <label class="product-label" for="slug">Globalus:</label>
                                     <div class="form-group product-form">
-                                        <label class="product-label" for="slug">Global margin:</label>
                                         <select required="" class="product-price" name="margin" id="margin">
                                             @foreach($margin as $mar)
                                                 <option value="{{$mar->id}}" @if($mar->id == ($product->margin_id ?? '')) selected="selected" @endif>{{$mar->value}}</option>
@@ -172,34 +206,65 @@
                                             <span class="input-group-text product-symbol"> %</span>
                                         </div>
                                     </div>
-                                    <div class="form-group product-form">
-                                        <label class="product-label big-text" for="slug">Sum:</label>
-                                        <input disabled type="number" step="0.01" class="product-price" name="all" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product) ? $product->commonsMargin() : '0.00'}}">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text product-symbol"> %</span>
+
+                                    <div class="row padding-left">
+                                        <label class="product-label big-text float-left" for="slug">Sum:</label>
+                                        <label class="product-label big-text float-right" style="padding-right: 0" for="slug">Pard nuolaida -15%:</label>
+                                    </div>
+                                    <div class="row padding-left">
+                                        <div class="float-left">
+                                            <input disabled type="number" step="0.01" class="product-price" name="all" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product) ? $product->commonsMargin() : '0.00'}}">
+                                            <div class="input-group-append float-right margin-top">
+                                                <span class="input-group-text product-symbol display-inline"> %</span>
+                                            </div>
                                         </div>
-                                        <label class="product-label big-text" for="slug" style="padding-left: 10px">Add price:</label>
+                                        <div class="float-right">
+                                            <input disabled type="number" step="0.01" class="product-price" name="all" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product) ? $product->commonsMarginPard() : '0.00'}}">
+                                            <div class="input-group-append float-right margin-top">
+                                                <span class="input-group-text product-symbol display-inline"> %</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <label class="product-label big-text" for="slug">Add price:</label>
+                                    <div class="form-group product-form">
                                         <input required type="number" step="0.01" class="product-price" name="price_add" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product) ? $product->price_add : '0.00'}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text product-symbol"> €</span>
                                         </div>
                                     </div>
                                     <hr class="hr-grey">
-                                    <div class="form-group product-form">
-                                        <label class="product-label" for="slug">Kaina be pvm:</label>
-                                        <input required type="number" step="0.01" class="product-price" id="price_estimate" name="price_estimate" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{$product->price ?? '0.00'}}">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text product-symbol"> €</span>
+                                    <label class="product-label" for="slug">Kaina be pvm:</label>
+                                    <div class="row padding-left">
+                                        <div class="float-left">
+                                            <input required type="number" step="0.01" class="product-price" id="price_estimate" name="price_estimate" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{$product->price ?? '0.00'}}">
+                                            <div class="input-group-append float-right margin-top">
+                                                <span class="input-group-text product-symbol display-inline"> €</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group product-form">
-                                        <label class="product-label" for="slug">Kaina su pvm:</label>
-                                        <input disabled type="number" step="0.01" class="product-price" id="show-price-with-vat" name="show-price-with-vat" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product) ? App\Models\Tax::priceWithTax($product->price) : '0.00'}}">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text product-symbol"> €</span>
+                                        <div class="float-right">
+                                            <input required type="number" step="0.01" class="product-price" id="price_estimate" name="price_estimate_pard" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" @if(isset($product)) value="{{$product->PricePard()  ?? '0.00'}}" @else value="0.00" @endif>
+                                            <div class="input-group-append float-right margin-top">
+                                                <span class="input-group-text product-symbol display-inline"> €</span>
+                                            </div>
                                         </div>
                                     </div>
 
+                                    <label class="product-label" for="slug">Kaina su pvm:</label>
+                                    <div class="row padding-left">
+                                        <div class="float-left">
+                                            <input disabled type="number" step="0.01" class="product-price" id="show-price-with-vat" name="show-price-with-vat" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product) ? App\Models\Tax::priceWithTax($product->price) : '0.00'}}">
+                                            <div class="input-group-append float-right margin-top">
+                                                <span class="input-group-text product-symbol display-inline"> €</span>
+                                            </div>
+                                        </div>
+                                        <div class="float-right">
+                                            <input disabled type="number" step="0.01" class="product-price" id="show-price-with-vat" name="show-price-with-vat-pard" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product) ? App\Models\Tax::priceWithTax($product->PricePard()) : '0.00'}}">
+                                            <div class="input-group-append float-right margin-top">
+                                                <span class="input-group-text product-symbol display-inline"> €</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="panel panel-bordered panel-info">

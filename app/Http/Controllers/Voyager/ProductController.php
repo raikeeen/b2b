@@ -373,7 +373,16 @@ class ProductController extends VoyagerBaseController
                 $product->update(['price' =>  $request->price]);
             }
 
-            if($request->price_estimate != $price){
+            if($request->price_estimate_pard != (float)$product->PricePard()) {
+                $price_pard = ($request->price_estimate_pard / $product->price_base * 100 - 100 + 15) -
+                    (isset($product->margin->value) ? $product->margin->value : 0) -
+                    (isset($product->category[0]) ? $product->category[0]->trade_margin_pard : 0) -
+                    (isset($product->supplier->margin_pard) ? $product->supplier->margin_pard : 0);
+            } else {
+                $price_pard = $request->product_margin_pard;
+            }
+
+            if($request->price_estimate != $price) {
 
 
                 $priceEsti = $request->price_estimate;
@@ -383,6 +392,8 @@ class ProductController extends VoyagerBaseController
                     (isset($product->category[0]) ? $product->category[0]->trade_margin : 0) -
                     (isset($product->supplier->margin) ? $product->supplier->margin : 0 );
 
+
+
                 $product->update([
                     'name' => $request->name,
                     'margin_id' => $request->margin,
@@ -391,6 +402,7 @@ class ProductController extends VoyagerBaseController
                     'stock_shop' => $request->stock_shop,
                     'stock_supplier' => $request->stock_supplier,
                     'trade_margin' => $price,
+                    'trade_margin_pard' => $price_pard,
                     'b1_product_id' => $request->b1_id,
                     'supplier_id' => $request->supplier,
                     'short_description' => $request->description,
@@ -409,6 +421,7 @@ class ProductController extends VoyagerBaseController
                 'stock_shop' => $request->stock_shop,
                 'stock_supplier' => $request->stock_supplier,
                 'trade_margin' => $request->product_margin,
+                'trade_margin_pard' => $price_pard,
                 'supplier_id' => $request->supplier,
                 'short_description' => $request->description,
                 'b1_product_id' => $request->b1_id,
@@ -426,6 +439,7 @@ class ProductController extends VoyagerBaseController
             $product->reference = $request->reference;
             $product->stock_shop = $request->stock_shop;
             $product->stock_supplier = $request->stock_supplier;
+            $product->trade_margin_pard = $request->product_margin_pard;
             $product->trade_margin = $request->product_margin;
             $product->b1_product_id = $request->b1_id;
             $product->supplier_id = $request->supplier;
@@ -434,8 +448,8 @@ class ProductController extends VoyagerBaseController
             $product->price_add = $request->price_add;
             $product->save();
 
+            $priceEsti = $request->price_estimate ?? 0;
             if($request->price_estimate > 0) {
-                $priceEsti = $request->price_estimate;
 
                 if($product->price == 0) {
                     $product->update(['price' =>  rand(1, $priceEsti)]);
@@ -448,6 +462,21 @@ class ProductController extends VoyagerBaseController
 
                 $product->update(['trade_margin' => $price]);
             }
+
+
+            if($request->price_estimate_pard > 0) {
+                $priceEsti = $request->price_estimate_pard ?? 0;
+
+                $price_pard = ($priceEsti / $product->price_base * 100 - 100 + 15) -
+                    (isset($product->margin->value) ? $product->margin->value : 0) -
+                    (isset($product->category[0]) ? $product->category[0]->trade_margin_pard : 0) -
+                    (isset($product->supplier->margin_pard) ? $product->supplier->margin_pard : 0);
+
+            } else {
+                $price_pard = $request->product_margin_pard;
+            }
+
+            $product->update(['trade_margin_pard' => $price_pard]);
 
         } catch(\Exception $e){
 

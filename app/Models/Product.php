@@ -27,7 +27,7 @@ class Product extends Model
         'supplier_reference',
         'stock_shop',
         'stock_supplier',
-        'discount_id',
+        'trade_margin_pard',
         'supplier_id',
         'margin_id',
         'trade_margin',
@@ -92,6 +92,17 @@ class Product extends Model
                     (isset($margin_sup) ? $margin_sup : 0 ))/ 100) -
             ( $value * ( isset($user->discount) ? $user->discount : 0) / 100) + $this->price_add,2);
     }
+    public function PricePard()
+    {
+        $value = $this->getPriceBaseAttribute();
+        return round($value + ( $value * (
+                    (isset($this->margin->value) ? $this->margin->value : 0) +
+                    (isset($this->category[0]) ? $this->category[0]->trade_margin_pard : 0) +
+                    $this->trade_margin_pard -
+                    15 +
+                    $this->supplier->margin_pard)/ 100) +
+                    $this->price_add,2);
+    }
     public function getPriceRecommendAttribute()
     {
       return  round($this->getPriceBaseAttribute() * 2.07 + 2.5,2);
@@ -113,6 +124,16 @@ class Product extends Model
             (isset($this->category[0]) ? $this->category[0]->trade_margin : 0) +
             (isset($this->trade_margin) ? $this->trade_margin : 0) +
             (isset($this->supplier->margin) ? $this->supplier->margin : 0);
+
+
+    }
+    public function commonsMarginPard()
+    {
+        return (isset($this->margin->value) ? $this->margin->value : 0) +
+            (isset($this->category[0]) ? $this->category[0]->trade_margin_pard : 0) -
+            15 +
+            (isset($this->trade_margin_pard) ? $this->trade_margin_pard : 0) +
+            (isset($this->supplier->margin_pard) ? $this->supplier->margin_pard : 0);
 
 
     }
