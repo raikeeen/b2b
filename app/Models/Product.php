@@ -112,7 +112,7 @@ class Product extends Model
         return (isset($this->margin->value) ? $this->margin->value : 0) +
             (isset($this->category[0]) ? $this->category[0]->trade_margin : 0) +
             (isset($this->trade_margin) ? $this->trade_margin : 0) +
-            (isset($this->supplier->margin) ? $this->supplier->margin : 0) - $this->discount->value;
+            (isset($this->supplier->margin) ? $this->supplier->margin : 0);
 
 
     }
