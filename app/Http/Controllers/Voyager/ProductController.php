@@ -367,11 +367,12 @@ class ProductController extends VoyagerBaseController
 
             $product = Product::find($request->product_id);
 
+            $price = $product->price;
+
             if($product->price_base !== $request->price) {
                 $product->update(['price' =>  $request->price]);
             }
 
-            $price = $product->price;
             if($request->price_estimate != $price){
 
 
@@ -380,8 +381,7 @@ class ProductController extends VoyagerBaseController
                 $price = ($priceEsti / $product->price_base * 100 - 100) -
                     (isset($product->margin->value) ? $product->margin->value : 0) -
                     (isset($product->category[0]) ? $product->category[0]->trade_margin : 0) -
-                    (isset($product->supplier->margin) ? $product->supplier->margin : 0 ) +
-                    (isset($product->discount->value) ? $product->discount->value : 0);
+                    (isset($product->supplier->margin) ? $product->supplier->margin : 0 );
 
                 $product->update([
                     'name' => $request->name,
@@ -391,7 +391,6 @@ class ProductController extends VoyagerBaseController
                     'stock_shop' => $request->stock_shop,
                     'stock_supplier' => $request->stock_supplier,
                     'trade_margin' => $price,
-                    'discount_id' => $request->discount,
                     'b1_product_id' => $request->b1_id,
                     'supplier_id' => $request->supplier,
                     'short_description' => $request->description,
@@ -410,7 +409,6 @@ class ProductController extends VoyagerBaseController
                 'stock_shop' => $request->stock_shop,
                 'stock_supplier' => $request->stock_supplier,
                 'trade_margin' => $request->product_margin,
-                'discount_id' => $request->discount,
                 'supplier_id' => $request->supplier,
                 'short_description' => $request->description,
                 'b1_product_id' => $request->b1_id,
@@ -429,7 +427,6 @@ class ProductController extends VoyagerBaseController
             $product->stock_shop = $request->stock_shop;
             $product->stock_supplier = $request->stock_supplier;
             $product->trade_margin = $request->product_margin;
-            $product->discount_id = $request->discount;
             $product->b1_product_id = $request->b1_id;
             $product->supplier_id = $request->supplier;
             $product->description = $request->description;
@@ -447,8 +444,7 @@ class ProductController extends VoyagerBaseController
                 $price = ($priceEsti / $product->price_base * 100 - 100) -
                     (isset($product->margin->value) ? $product->margin->value : 0) -
                     (isset($product->category[0]) ? $product->category[0]->trade_margin : 0) -
-                    (isset($product->supplier->margin) ? $product->supplier->margin : 0) +
-                    (isset($product->discount->value) ? $product->discount->value : 0);
+                    (isset($product->supplier->margin) ? $product->supplier->margin : 0);
 
                 $product->update(['trade_margin' => $price]);
             }

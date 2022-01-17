@@ -173,17 +173,6 @@
                                         </div>
                                     </div>
                                     <div class="form-group product-form">
-                                        <label class="product-label" for="slug">Global discount:</label>
-                                        <select required="" class="product-price" name="discount" id="discount">
-                                            @foreach($discount as $dis)
-                                                <option value="{{$dis->id}}" @if($dis->id == ($product->discount_id ?? '')) selected="selected" @endif>{{$dis->value}}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text product-symbol"> %</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group product-form">
                                         <label class="product-label big-text" for="slug">Sum:</label>
                                         <input disabled type="number" step="0.01" class="product-price" name="all" placeholder="0.00" data-slug-origin="title" data-slug-forceupdate="true" value="{{isset($product) ? $product->commonsMargin() : '0.00'}}">
                                         <div class="input-group-append">

@@ -26,9 +26,6 @@ class CreateProductTable extends Migration
             $table->longText('short_description')->nullable();
             $table->decimal('price',8,2)->default(0);
 
-            $table->integer('discount_id')->unsigned()->default(1);
-            $table->foreign('discount_id')->references('id')->on('discount')->onUpdate('cascade')->onDelete('cascade');
-
             $table->integer('supplier_id')->unsigned()->nullable();
             $table->foreign('supplier_id')->references('id')->on('supplier')->onUpdate('cascade')->onDelete('cascade');
 

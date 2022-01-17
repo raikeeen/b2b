@@ -90,7 +90,7 @@ class Product extends Model
                     $spec_user_product +
                     $spec_user_category +
                     (isset($margin_sup) ? $margin_sup : 0 ))/ 100) -
-            ( $value * ( isset($user->discount) ? $user->discount + $this->discount->value : 0 + $this->discount->value ) / 100) + $this->price_add,2);
+            ( $value * ( isset($user->discount) ? $user->discount : 0) / 100) + $this->price_add,2);
     }
     public function getPriceRecommendAttribute()
     {
