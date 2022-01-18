@@ -907,7 +907,7 @@ Route::group(['middleware' => 'auth'], function () {
         }
 
         $referenceOrderB1 = B1Api::pushOrder($order,$itemB1);
-
+dd($referenceOrderB1);
         $order->order_b1 = $referenceOrderB1['data']['orderId'];
 
         $newDocumentB1 = new DocumentB1();
