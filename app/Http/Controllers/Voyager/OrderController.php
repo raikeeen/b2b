@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Voyager;
 
+use App\Models\Product;
 use App\Jobs\GetDocumentB1;
 use App\Models\B1Api;
 use App\Models\DocumentB1;
@@ -362,6 +363,44 @@ class OrderController extends VoyagerBaseController
             'payment_price' => $request->payment,
         ]);
         return back()->with('success_message', 'Order has been updated!');
+    }
+    public function itemDelete(Request $request, $id)
+    {
+        OrderItem::Find($request->item)->delete();
+
+        return response()->json('success');
+    }
+    public function itemAdd(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'reference' => 'required',
+            'price' => 'required',
+            'amount' => 'required',
+        ]);
+        $order = Order::Find($id);
+        $product = Product::where('reference', $request->reference)->first();
+        $item = OrderItem::where('order_id', $id)->where('product_id', $product->id)->first();
+
+        if(!empty($item)) {
+            return back()->withErrors('Already exist');
+        }
+
+        if(isset($product)) {
+
+            $orderItem = new OrderItem;
+
+            $orderItem->name = $product->name;
+            $orderItem->price = $request->price;
+            $orderItem->product_id = $product->id;
+            $orderItem->order_id = $id;
+            $orderItem->user_id = $order->user->id;
+            $orderItem->amount = $request->amount;
+
+            $orderItem->save();
+
+            return back()->with('success_message', 'Item has been added!');
+        }
+        return back()->withErrors('Nerando producto');
     }
     public function itemUpdate(Request $request, $id)
     {

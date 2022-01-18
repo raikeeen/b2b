@@ -147,9 +147,7 @@
                                 <div class="row">
                                     <div class="float-left padding-left">Prekės ({{count($products)}})</div>
 
-                                    <div class="float-right">
-                                        <button type="submit" class="btn btn-success add-row"><i class="voyager-check"></i></button>
-                                    </div>
+
                                 </div>
                             </div>
 
@@ -172,6 +170,9 @@
                                                 <small class="text-muted">                          Su mokesčiais
                                                 </small>
                                             </th>
+                                            <th class="partial_refund_fields">
+                                                <span class="title_box ">Ištriniti</span>
+                                            </th>
                                             <th style="display: none;" class="add_product_fields"></th>
                                             <th style="display: none;" class="edit_product_fields"></th>
                                             <th style="display: none;" class="standard_refund_fields">
@@ -181,12 +182,14 @@
                                             <th style="display:none" class="partial_refund_fields">
                                                 <span class="title_box ">Dalinis grąžinimas</span>
                                             </th>
+
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <div hidden>
                                             {{$all = 0}}
                                         </div>
+                                        @if(isset($products))
                                         @foreach($products as $product)
                                             <form action="{{route('order.item.update', ['id' => $order->id])}}" method="post">
                                                 @csrf
@@ -228,6 +231,12 @@
                                                     <td class="total_product">
                                                         {{$product->priceTax() * $product->amount}}&nbsp;€
                                                     </td>
+                                                    <td class="total_product1">
+                                                        <div class="form-delete">
+                                                            <input id="delete_item" hidden type="text" name="item" value="{{$product->id}}">
+                                                            <div type="submit" class="btn btn-danger delete-row"><i class="voyager-trash"></i></div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                                 <input step="any" type="" hidden {{$all += $product->priceTax() * $product->amount}}>
                                             @else
@@ -265,14 +274,46 @@
                                                     <td class="total_product">
                                                         {{$product->priceTax() * $product->amount}}&nbsp;€
                                                     </td>
+                                                    <td class="total_product1">
+                                                        <div class="form-delete">
+                                                            <input id="delete_item" hidden type="text" name="item" value="{{$product->id}}">
+                                                            <div type="submit" class="btn btn-danger delete-row"><i class="voyager-trash"></i></div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                                 <input step="any" type="" hidden {{$all += $product->priceTax() * $product->amount}}>
                                             @endif
                                             </form>
                                         @endforeach
+                                        @endif
                                         </tbody>
                                     </table>
                                 </div>
+
+
+                                    <form class="float-right" action="{{route('order.item.add', ['id' => $order])}}" method="post">
+                                        @csrf
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <td style="padding-right:15px">
+                                                    <input type="text" value="" name="reference" step="0.01" class="form-control" placeholder="reference">
+                                                </td>
+                                                <td style="padding-right:15px">
+                                                    <input type="number" value="" name="amount" step="1" class="form-control" placeholder="amount">
+                                                </td>
+                                                <td style="padding-right:15px">
+                                                    <input type="number" value="" name="price" step="0.01" class="form-control" placeholder="price">
+                                                </td>
+                                                <td>
+                                                    <button type="submit" class="btn btn-success add-row float-right"><i class="voyager-check"></i></button>
+                                                </td>
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+
 
                                 <div class="row">
                                     <div class="col-xs-6">
@@ -291,7 +332,7 @@
                                                     <tbody><tr id="total_products">
                                                         <td class="text-right">Prekės:</td>
                                                         <td class="amount text-right nowrap">
-                                                            <input step="any" class="input-none" type="number" name="product_all" value="{{$all}}">&nbsp;€
+                                                            <input disabled step="any" class="input-none" type="number" name="product_all" value="{{$all}}">&nbsp;€
                                                         </td>
                                                         <td class="partial_refund_fields current-edit" style="display:none;"></td>
                                                     </tr>
@@ -592,5 +633,32 @@
                 $('.info').submit();
             }
         })*/
+        $('.form-delete').on('click', function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            console.log($('#delete_item').val())
+            var formData = {
+                item: $('#delete_item').val(),
+            };
+            var type = "POST";
+            var ajaxurl = '{{route('order.item.delete', ['id' => $order->id])}}';
+            $.ajax({
+                type: type,
+                url: ajaxurl,
+                data: formData,
+                dataType: 'json',
+                success: function (data) {
+                    location.reload();
+
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        })
+
     </script>
 @stop
