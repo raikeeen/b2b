@@ -39,6 +39,8 @@ ini_set('max_execution_time', 300);
 
 Route::group(['prefix' => 'admin-kavateka'], function () {
     Voyager::routes();
+    Route::post('order/{id}/update_order_info', [\App\Http\Controllers\Voyager\OrderController::class, 'orderInfo'])->name('order.info.update');
+    Route::post('order/{id}/update_order_item', [\App\Http\Controllers\Voyager\OrderController::class, 'itemUpdate'])->name('order.item.update');
     Route::post('order/{id}/update', [\App\Http\Controllers\Voyager\OrderController::class, 'statusUpdate'])->name('status.update');
     Route::post('order/{id}/update_b1', [\App\Http\Controllers\Voyager\OrderController::class, 'statusUpdateB1'])->name('statusB1.update');
     Route::post('order/{id}/venipak_push', [\App\Http\Controllers\Voyager\OrderController::class, 'pushVenipak'])->name('venipak.push');

@@ -162,3 +162,15 @@
 .margin-top {
     margin-top: 5px;
 }
+.input-none {
+    Border: none; outline: none;
+    max-width: 50px;
+}
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

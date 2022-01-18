@@ -144,8 +144,15 @@
                 </div>
                 <div class="panel panel-bordered">
                             <div class="panel-title">
-                                Prekės ({{count($products)}})
+                                <div class="row">
+                                    <div class="float-left padding-left">Prekės ({{count($products)}})</div>
+
+                                    <div class="float-right">
+                                        <button type="submit" class="btn btn-success add-row"><i class="voyager-check"></i></button>
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="panel-body">
                                 <div class="table-responsive">
                                     <table class="table" id="orderProducts">
@@ -181,6 +188,10 @@
                                             {{$all = 0}}
                                         </div>
                                         @foreach($products as $product)
+                                            <form action="{{route('order.item.update', ['id' => $order->id])}}" method="post">
+                                                @csrf
+                                                <button style="display: none" hidden type="submit" class="btn btn-success add-row"><i hidden class="voyager-check"></i></button>
+                                                <input step="any" hidden type="number" name="id_item" value="{{$product->id}}">
                                             @if($product->product_id === null)
                                                 <tr class="product-line-row">
                                                     <td><img src="/storage/images/no_photo_500.jpg" width="55" height="55" alt="" class="imgm img-thumbnail"></td>
@@ -195,10 +206,15 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <span class="product_price_show">{{$product->priceTax()}}&nbsp;€</span>
+                                                        <span class="product_price_show">
+
+                                                            <input step="any" required class="input-none" type="number" name="price" value="{{$product->priceTax()}}">&nbsp;€
+                                                        </span>
                                                     </td>
                                                     <td class="productQuantity text-center">
-                                                        <span class="product_quantity_show">{{$product->amount}}</span>
+                                                        <span class="product_quantity_show">
+                                                            <input step="any" required class="input-none" type="number" name="amount" value="{{$product->amount}}">
+                                                        </span>
                                                         <span class="product_quantity_edit" style="display:none;">
 		</span>
                                                     </td>
@@ -213,7 +229,7 @@
                                                         {{$product->priceTax() * $product->amount}}&nbsp;€
                                                     </td>
                                                 </tr>
-                                                <input type="" hidden {{$all += $product->priceTax() * $product->amount}}>
+                                                <input step="any" type="" hidden {{$all += $product->priceTax() * $product->amount}}>
                                             @else
                                                 <tr class="product-line-row">
                                                     <td><img src="/storage/images/no_photo_500.jpg" width="55" height="55" alt="" class="imgm img-thumbnail"></td>
@@ -228,10 +244,14 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <span class="product_price_show">{{$product->priceTax()}}&nbsp;€</span>
+                                                        <span class="product_price_show">
+                                                            <input step="any" required class="input-none" type="number" name="price" value="{{$product->priceTax()}}">&nbsp;€
+                                                        </span>
                                                     </td>
                                                     <td class="productQuantity text-center">
-                                                        <span class="product_quantity_show">{{$product->amount}}</span>
+                                                        <span class="product_quantity_show">
+                                                            <input step="any" required class="input-none" type="number" name="amount" value="{{$product->amount}}">
+                                                        </span>
                                                         <span class="product_quantity_edit" style="display:none;">
 		</span>
                                                     </td>
@@ -246,8 +266,9 @@
                                                         {{$product->priceTax() * $product->amount}}&nbsp;€
                                                     </td>
                                                 </tr>
-                                                <input type="" hidden {{$all += $product->priceTax() * $product->amount}}>
+                                                <input step="any" type="" hidden {{$all += $product->priceTax() * $product->amount}}>
                                             @endif
+                                            </form>
                                         @endforeach
                                         </tbody>
                                     </table>
@@ -263,11 +284,14 @@
                                     <div class="col-xs-6">
                                         <div class="panel panel-total">
                                             <div class="table-responsive">
+                                                <form class="info" action="{{route('order.info.update', ['id' => $order->id])}}" method="post">
+                                                    <button style="display: none" hidden type="submit" class="btn btn-success add-row"><i hidden class="voyager-check"></i></button>
+                                                    {{csrf_field()}}
                                                 <table class="table" style="margin-top: -2px">
                                                     <tbody><tr id="total_products">
                                                         <td class="text-right">Prekės:</td>
                                                         <td class="amount text-right nowrap">
-                                                            {{$all}}&nbsp;€
+                                                            <input step="any" class="input-none" type="number" name="product_all" value="{{$all}}">&nbsp;€
                                                         </td>
                                                         <td class="partial_refund_fields current-edit" style="display:none;"></td>
                                                     </tr>
@@ -288,7 +312,7 @@
                                                     <tr id="total_shipping">
                                                         <td class="text-right">Pristatymas</td>
                                                         <td class="amount text-right nowrap">
-                                                            {{$order->delivery_price}}&nbsp;€
+                                                            <input step="any" required class="input-none" type="number" name="delivery" value="{{$order->delivery_price}}">&nbsp;€
                                                         </td>
                                                         <td class="partial_refund_fields current-edit" style="display:none;">
                                                             <div class="input-group">
@@ -305,7 +329,7 @@
                                                     <tr id="total_shipping">
                                                         <td class="text-right">Apmokėjimas</td>
                                                         <td class="amount text-right nowrap">
-                                                            {{$order->payment_price}}&nbsp;€
+                                                            <input step="any" required class="input-none" type="number" name="payment" value="{{$order->payment_price}}">&nbsp;€
                                                         </td>
                                                         <td class="partial_refund_fields current-edit" style="display:none;">
                                                             <div class="input-group">
@@ -322,11 +346,15 @@
                                                     <tr id="total_order">
                                                         <td class="text-right"><strong>Viso</strong></td>
                                                         <td class="amount text-right nowrap">
-                                                            <strong>{{$order->total}}&nbsp;€</strong>
+                                                            <strong>
+                                                                <input step="any" required class="input-none" type="number" name="total" value="{{$order->total}}">&nbsp;€
+                                                            </strong>
                                                         </td>
                                                         <td class="partial_refund_fields current-edit" style="display:none;"></td>
                                                     </tr>
-                                                    </tbody></table>
+                                                    </tbody>
+                                                </table>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -554,6 +582,15 @@
         $('#venipakOrderPrintManifest').prop('disabled', false);
         $('#venipakOrderPrintLabels').prop('disabled', false);
         @endif
-
+        /*$(document).ready(() => {
+            $('.info').on('submit', () => {
+                return false;
+            });
+        });
+        $('.info').keypress((e) => {
+            if (e.which === 13) {
+                $('.info').submit();
+            }
+        })*/
     </script>
 @stop

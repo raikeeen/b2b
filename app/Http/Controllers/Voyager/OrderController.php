@@ -347,6 +347,36 @@ class OrderController extends VoyagerBaseController
 
         return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'docStatusB1', 'order', 'products', 'statuses','allStatus'));
     }
+    public function orderInfo(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'total' => 'required',
+            'delivery' => 'required',
+            'payment' => 'required',
+        ]);
+
+        $order = Order::Find($id);
+        $order->update([
+            'total' => $request->total,
+            'delivery_price' => $request->delivery,
+            'payment_price' => $request->payment,
+        ]);
+        return back()->with('success_message', 'Order has been updated!');
+    }
+    public function itemUpdate(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'price' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $orderItem = OrderItem::find($request->id_item);
+        $orderItem->update([
+            'price' => $request->price/1.21,
+            'amount' => $request->amount,
+        ]);
+        return back()->with('success_message', 'Item has been updated!');
+    }
     public function getLabelVenipak(Request $request, $id)
     {
         $order = Order::Find($id);

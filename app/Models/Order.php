@@ -15,7 +15,10 @@ class Order extends Model
 
     protected $fillable = [
         'name',
-        'order_b1'
+        'order_b1',
+        'total',
+        'payment_price',
+        'delivery_price'
     ];
     protected $appends = ['company', 'status_latest'];
     public $additional_attributes = ['company', 'status_latest', 'status_last'];

@@ -1,10 +1,12 @@
 @component('mail::message')
-    # Prieiga prie B2B sistemos
+# Prieiga prie B2B sistemos
 
-    El. paštas: {{ $details['email'] }}
-    Numeris: {{ $details['phone'] }}
-    Laiška: {{ isset($details['message']) }}
+El. paštas: {{ $details['email'] }}
+Numeris: {{ $details['phone'] }}
+Laiška: @if(isset($details['message'])) {{$details['message']}} @endif
 
-    Thanks,<br>
-    {{ config('app.name') }}
+
+
+Thanks,
+{{ config('app.name') }}
 @endcomponent
