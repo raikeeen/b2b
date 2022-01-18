@@ -612,9 +612,7 @@ class UserController extends VoyagerBaseController
     }
     public function createNew(Request $request)
     {
-        if(isset(User::where('email', $request->email)->first()->email)) {
-            return back()->withErrors('Šis paštas jau registruotas');
-        }
+
         if ($request->put === 'put')
         {
             $user = User::find($request->user_id);
@@ -647,6 +645,10 @@ class UserController extends VoyagerBaseController
                 'phone' => $request->phone,
             ]);
             return redirect()->route('voyager.users.index');
+        }
+
+        if(isset(User::where('email', $request->email)->first()->email)) {
+            return back()->withErrors('Šis paštas jau registruotas');
         }
 
         $newAddress = new Address();
