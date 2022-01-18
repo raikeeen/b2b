@@ -222,7 +222,7 @@ class B1Api extends Model
                 foreach ($filter as $itemB1) {
 
                     $stock = DB::table('product')
-                        ->where('b1_product_id', '=', $itemB1['id'])
+                        ->where('b1_product_id', $itemB1['id'])
                         ->select(['stock_shop'])
                         ->first();
                     if ($itemB1['code'] === '0206-05-5023006P') {
@@ -246,7 +246,7 @@ class B1Api extends Model
                     if(!empty($stock)) {
 
                         DB::table('product')
-                            ->where('b1_product_id', '=', $itemB1['id'])
+                            ->where('b1_product_id', $itemB1['id'])
                             ->update(array(
                                 'stock_shop' => $stock->stock_shop + $itemB1['stock'],
                                 'updated_at' =>  date('Y-m-d H:i:s')
