@@ -194,7 +194,9 @@ class B1Api extends Model
                     ->update(['stock_shop' => $count]);*/
             //}*/
 
-            for ($i = 1; $i <= 4; $i++) {
+            $totalPages = 1;
+            $i = 1;
+            while($i <= $totalPages) {
 
                 $data = [
                     'warehouseId' => 1,
@@ -212,10 +214,10 @@ class B1Api extends Model
                     ],
 
                 ];
-
+                $i++;
                 $result = $keys->b1->request('warehouse/stock/list', $data);
                 $filter = $result->getContent()['data'];
-
+                $totalPages = $result->getContent()['pages'];
 
                 foreach ($filter as $itemB1) {
 

@@ -891,7 +891,7 @@ Route::group(['middleware' => 'auth'], function () {
         }
     });
     Route::get('/test1', function () {
-        $order = Order::Find(94);
+        $order = Order::Find(96);
 
         $itemB1 = [];
         foreach ($order->orderitem as $item) {
@@ -907,7 +907,7 @@ Route::group(['middleware' => 'auth'], function () {
         }
 
         $referenceOrderB1 = B1Api::pushOrder($order,$itemB1);
-
+dump($referenceOrderB1);
         $order->order_b1 = $referenceOrderB1['data']['orderId'];
 
         $newDocumentB1 = new DocumentB1();
