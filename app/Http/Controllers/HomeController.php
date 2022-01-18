@@ -65,6 +65,16 @@ class HomeController extends Controller
         $categories = Category::with('ancestors')->get()->toTree();
         $group = ['sankabos-ir-smagracio-komplektai' => 'sankobos','pusasiai' => 'pusasis','vairo-juostos' => 'juosta'
             ,'vairo-koloneles' => 'kolonele','vairo-stiprintuvo-siurbliai' => 'siurblys'];
+        $fav = ['170408H800','bpz-bm-024','esw-au-010','eas-ns-001', 'ezc-vw-115', 'nwn-me-006', 'spk-ty-007' ,'esd-ns-000',
+            'ewb-au-001', 'bkw-vw-003'];
+        $favProducts = collect();
+        foreach ($fav as $value) {
+            $product = Product::where('supplier_reference', $value)->first();
+            if($product != null) {
+                $favProducts = $favProducts->push($product);
+            }
+        }
+
         $brands = Brand::all();
 
         $client = new Client();
@@ -1103,7 +1113,8 @@ dd($nam);*/
             'specProducts' => $specProducts,
             'group' => $group,
             'categories' => $categories,
-            'brands' => $brands
+            'brands' => $brands,
+            'favProducts' => $favProducts
         ]);
     }
 }

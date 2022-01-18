@@ -165,4 +165,36 @@ $( document ).ready(function() {
         owlNewProduct.trigger('prev.owl.carousel', [300]);
     })
 
+
+
+    $("#owl-favProd").owlCarousel({
+
+        autoplay: true, //Set AutoPlay to 3 seconds
+        autoplayTimeout: 5000,
+        margin: 20,
+        stagePadding: 10,
+        items : 3,
+        /*itemsDesktop : [1199,3],
+        itemsDesktopSmall : [979,3],*/
+
+        nav : true,
+        /*navigationText : true,*/
+
+        responsive: {'0': {'items': 1}, '576': {'items': 2}, '992': {'items': 3}, '1280': {'items': 3}},
+
+        loop: true,
+        autoplayHoverPause: true,
+        lazyLoad: true
+
+    });
+    var owlfavProd = $("#owl-favProd");
+    owlfavProd.owlCarousel();
+
+    $('.owl-next-custom').click(function() {
+        owlfavProd.trigger('prev.owl.carousel');
+    })
+
+    $('.owl-prev-custom').click(function() {
+        owlfavProd.trigger('prev.owl.carousel');
+    })
 });

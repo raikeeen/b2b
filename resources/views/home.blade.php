@@ -323,7 +323,72 @@
                 </div>
                 <!-- Slider g&#x142;&#xF3;wny -->
             </div>
+            <div id="owl-favProd" class="owl-carousel" style="width: 100%;overflow: hidden;">
+                @foreach($favProducts as $favProduct)
+                    <div class="item c-product-slider p-3">
 
+                        <div class="c-product-slider__container">
+
+                            <div class="c-product-order-slider__container d-flex justify-content-center mb-2">
+                                <div class="d-flex">
+                                    @if($favProduct->stock_shop + $favProduct->stock_supplier != 0 && $favProduct->price > 0)
+                                        <div type="ADD_TO_CART" data-control-type="Order">
+                                            <form action="{{route('cart.store')}}" method="post">
+                                                {{csrf_field()}}
+                                                <div class="d-flex">
+                                                    <button class="c-btn c-btn--slider-cart u-rounded-circle w-100" type="submit" data-bind="css: { 'c-btn--loading': submitted() }" data-loading="">
+                                                                                        <span class="d-flex justify-content-center align-items-center">
+                                                                                            <svg class="c-icon c-icon--hover">
+                                                                                              <use xlink:href="#add-to-cart">
+                                                                                                  <symbol id="add-to-cart" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 22">
+                                                                                                    <path d="M27,4,23.36,14.11A1.39,1.39,0,0,1,22,15H10l.5,1.37H22.32a.51.51,0,0,1,.51.5.5.5,0,0,1-.51.5H9.79L3.84,1H.51A.5.5,0,0,1,0,.5.5.5,0,0,1,.51,0H4.57l1,2.74h0l.36,1h0L9.65,14H22a.39.39,0,0,0,.36-.25l3.54-10h-.05l.37-1a1,1,0,0,1,.57.36A.91.91,0,0,1,27,4ZM22.11,20a2.09,2.09,0,1,1-2.09-2A2.06,2.06,0,0,1,22.11,20Zm-1,0A1.06,1.06,0,0,0,19,20a1.06,1.06,0,0,0,2.11,0Zm-6.8,0a2.08,2.08,0,1,1-2.08-2A2.06,2.06,0,0,1,14.28,20Zm-1,0a1.06,1.06,0,1,0-1.06,1A1.06,1.06,0,0,0,13.26,20ZM16.44,9V1h-1V9L12.57,6.19l-.72.71,4.08,4L20,6.9l-.72-.71Z"></path>
+                                                                                                  </symbol>
+                                                                                              </use>
+                                                                                            </svg>
+                                                                                        </span>
+                                                    </button>
+                                                    <input type="hidden" name="id" value="{{$favProduct->id}}">
+                                                    <input hidden class="c-input c-input--quantity c-input--no-border" autocomplete="off" data-bind="" min="1" name="amount" step="1" type="number" value="1">                                                                            </div>
+                                            </form>
+                                        </div>
+                                    @endif
+                                    <a class="c-btn c-btn--slider-eye u-rounded-circle text-center ml-3 d-flex justify-content-center align-items-center" href="{{route('products.show', $favProduct->reference)}}">
+                                        <svg class="c-icon c-icon--hover">
+                                            <use xlink:href="#look">
+                                                <symbol id="look" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 16">
+                                                    <path d="M11.5,16A12.43,12.43,0,0,0,22.92,8.19L23,8l-.08-.19A12.43,12.43,0,0,0,11.5,0,12.43,12.43,0,0,0,.08,7.81L0,8l.08.19A12.43,12.43,0,0,0,11.5,16Zm0-15A11.41,11.41,0,0,1,21.9,8a11.41,11.41,0,0,1-10.4,7A11.41,11.41,0,0,1,1.1,8,11.41,11.41,0,0,1,11.5,1Zm0,12a5,5,0,0,0,5.11-5A5,5,0,0,0,11.5,3,5,5,0,0,0,6.39,8,5,5,0,0,0,11.5,13Zm0-9a4,4,0,0,1,4.09,4A4.09,4.09,0,0,1,7.41,8,4,4,0,0,1,11.5,4Z"></path>
+                                                </symbol>
+                                            </use>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="c-product-image">
+                            <div class="c-product-image__slides">
+                                <div class="c-product-image__slide">
+                                    <a class="c-product-image__link" href="{{route('products.show', $favProduct->reference)}}">
+                                        <img class="c-product-image__image owl-lazy" @if($favProduct->img->first() !== null) src="{{$favProduct->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif alt="" style="opacity: 1;">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{route('products.show', $favProduct->reference)}}" title="{{$favProduct->name}}">
+                            <h3 class="c-product__title c-product__title--light c-product__title--bilinear my-2" title="{{$favProduct->name}}">{{$favProduct->name}}</h3>
+                        </a>
+                        <div class="c-product__price-gross c-product__price-gross--sm c-product__price-gross--secondary">
+                            {{$favProduct->priceTax()}} €
+                        </div>
+                        @if(isset($favProduct->price_stock))
+                            <div class="c-product__price-retail c-product__price-retail--sm">
+                                {{$favProduct->price_stock}} €
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
 {{--            <div class="row pb-4 p-sm-4">
 
                 <div class="c-info__item col-12 col-sm-4 d-flex justify-content-center align-items-center">
