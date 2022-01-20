@@ -97,6 +97,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/updateB1', function (){
         B1Api::synchronizationStock();
     });
+    Route::get('/updateMax', function (){
+        \App\Jobs\UpdateStockMaxgear::dispatch()->onQueue('update_stock');
+    });
     Route::get('/zaloguj-sie', function (){
         return redirect()->route('home');
     });
