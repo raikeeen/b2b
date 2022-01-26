@@ -95,7 +95,10 @@ Route::group(['middleware' => 'auth'], function () {
         Cart::destroy();
     });
     Route::get('/updateB1', function (){
-        B1Api::synchronizationStock();
+        \App\Jobs\UpdateStockB1::dispatch()->onQueue('update_stock');
+    });
+    Route::get('/updateAJS', function (){
+        \App\Jobs\UpdateStockAjs::dispatch()->onQueue('update_stock');
     });
     Route::get('/updateMax', function (){
         \App\Jobs\UpdateStockMaxgear::dispatch()->onQueue('update_stock');
