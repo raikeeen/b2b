@@ -34,6 +34,8 @@ class UpdateStockSkv implements ShouldQueue
      */
     public function handle()
     {
+        \DB::table('product')->where('supplier_id', 7)->update(array('stock_supplier' => 0));
+
         $client1 = new \GuzzleHttp\Client();
         $resource = fopen(public_path().'/storage/download/skv_stock.csv', 'w');
         $client1->request('GET', 'http://www.esen.pl/stock/skv_stock.csv', ['sink' => $resource]);
