@@ -100,6 +100,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/updateAJS', function (){
         \App\Jobs\UpdateStockAjs::dispatch()->onQueue('update_stock');
     });
+    Route::get('/updateAJS_test', function (){
+        AjsApi::synchronizationStock();
+    });
     Route::get('/updateMax', function (){
         \App\Jobs\UpdateStockMaxgear::dispatch()->onQueue('update_stock');
     });
