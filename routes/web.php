@@ -97,6 +97,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/updateB1', function (){
         \App\Jobs\UpdateStockB1::dispatch()->onQueue('update_stock');
     });
+    Route::get('/updateB1_test', function (){
+        B1Api::synchronizationStock();
+    });
     Route::get('/updateAJS', function (){
         \App\Jobs\UpdateStockAjs::dispatch()->onQueue('update_stock');
     });
@@ -105,6 +108,9 @@ Route::group(['middleware' => 'auth'], function () {
     });
     Route::get('/updateMax', function (){
         \App\Jobs\UpdateStockMaxgear::dispatch()->onQueue('update_stock');
+    });
+    Route::get('/updateSKV_test', function (){
+      \App\Jobs\UpdateStockSkv::dispatch()->onQueue('update_stock');
     });
     Route::get('/zaloguj-sie', function (){
         return redirect()->route('home');
