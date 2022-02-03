@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\SendMailOrder;
 use Doctrine\DBAL\Driver\SQLSrv\Exception\Error;
 use Illuminate\Database\Eloquent\Model;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -118,8 +119,7 @@ class Order extends Model
 
         $mail = ['name' => 'Užsakymas '.$order->reference, 'order' => Order::detailOrder($order)];
 
-        Mail::to($order->user->email)->send(new \App\Mail\NewOrderMail($mail));
-        Mail::to('info@rm-autodalys.eu')->send(new \App\Mail\NewOrderMail($mail));
+        SendMailOrder::dispatch($mail, $order)->onQueue('mail');
 
         return $order;
     }
