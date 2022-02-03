@@ -250,16 +250,21 @@ class ApiProductController extends Controller
 
         if(strlen($name) > 3) {
 
-            $product = \DB::table('product')->where('reference', 'like', $name . '%')->select(['supplier_reference'])->first();
+            $product = \DB::table('product')->where('reference', 'like', $name . '%')->select(['supplier_reference'])->get();
 
-            if(!empty($product->supplier_reference)) {
-                array_push($allCodes, $product->supplier_reference);
+            if(isset($product)) {
+                foreach ($product as $item) {
+                    array_push($allCodes, $item->supplier_reference);
+                }
+
             }
 
-            $product = \DB::table('product')->where('supplier_reference', 'like', $name . '%')->select(['supplier_reference'])->first();
+            $product = \DB::table('product')->where('supplier_reference', 'like', $name . '%')->select(['supplier_reference'])->get();
 
-            if(!empty($product->supplier_reference)) {
-                array_push($allCodes, $product->supplier_reference);
+            if(isset($product)) {
+                foreach ($product as $item) {
+                    array_push($allCodes, $item->supplier_reference);
+                }
             }
             $searchTecDoc = (new TecDocController)->search($name);
 
