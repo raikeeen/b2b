@@ -120,7 +120,90 @@ Route::group(['middleware' => 'auth'], function () {
 
         foreach ($img as $item) {
             $arr = explode('/',$item->name);
+            $supplier = $arr[2];
 
+            if($supplier == 'nty') {
+                $arr[2] = 1;
+                $string = '';
+                foreach ($arr as $value) {
+                    $string .= $value . '/';
+
+                }
+                $string = substr($string, 0, -1);
+                $item->update(['name' => $string]);
+                continue;
+            }
+            if($supplier == 'kardanline') {
+                $arr[2] = 11;
+                $string = '';
+                foreach ($arr as $value) {
+                    $string .= $value . '/';
+
+                }
+                $string = substr($string, 0, -1);
+                $item->update(['name' => $string]);
+                continue;
+            }
+            if($supplier == 'borsehung') {
+                $arr[2] = 6;
+                $string = '';
+                foreach ($arr as $value) {
+                    $string .= $value . '/';
+                }
+                $string = substr($string, 0, -1);
+                $item->update(['name' => $string]);
+                continue;
+            }
+            if($supplier == 'brv') {
+                $arr[2] = 9;
+                $string = '';
+                foreach ($arr as $value) {
+                    $string .= $value . '/';
+                }
+                $string = substr($string, 0, -1);
+                $item->update(['name' => $string]);
+                continue;
+            }
+            if($supplier == 'maxgear') {
+                $arr[2] = 3;
+                $string = '';
+                foreach ($arr as $value) {
+                    $string .= $value . '/';
+                }
+                $string = substr($string, 0, -1);
+                $item->update(['name' => $string]);
+                continue;
+            }
+            if($supplier == 'motorhertz') {
+                $arr[2] = 8;
+                $string = '';
+                foreach ($arr as $value) {
+                    $string .= $value . '/';
+                }
+                $string = substr($string, 0, -1);
+                $item->update(['name' => $string]);
+                continue;
+            }
+            if($supplier == 'skv') {
+                $arr[2] = 7;
+                $string = '';
+                foreach ($arr as $value) {
+                    $string .= $value . '/';
+                }
+                $string = substr($string, 0, -1);
+                $item->update(['name' => $string]);
+                continue;
+            }
+            if($supplier == 'vika_dpa') {
+                $arr[2] = '4-5';
+                $string = '';
+                foreach ($arr as $value) {
+                    $string .= $value . '/';
+                }
+                $string = substr($string, 0, -1);
+                $item->update(['name' => $string]);
+                continue;
+            }
         }
     });
     Route::get('/test1', function () {
