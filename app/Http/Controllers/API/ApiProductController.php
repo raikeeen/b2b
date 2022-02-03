@@ -242,6 +242,7 @@ class ApiProductController extends Controller
 
         $name = $request->search;
         $limit = null;
+        $allCodes = [];
 
         if(!isset($request->flag)) {
             $limit = 20;
@@ -249,26 +250,20 @@ class ApiProductController extends Controller
 
         if(strlen($name) > 3) {
 
-            $product = \DB::table('product')->where('reference', 'like', $name . '%')->select(['name','reference'])->get();
+            $product = \DB::table('product')->where('reference', 'like', $name . '%')->select(['supplier_reference'])->first();
 
-            if(!$product->isEmpty()) {
-
-                return $product;
-
+            if(!empty($product->supplier_reference)) {
+                array_push($allCodes, $product->supplier_reference);
             }
 
-            $product = \DB::table('product')->where('supplier_reference', 'like', $name . '%')->select(['name','reference'])->get();
+            $product = \DB::table('product')->where('supplier_reference', 'like', $name . '%')->select(['supplier_reference'])->first();
 
-            if(!$product->isEmpty()) {
-
-                return $product;
-
+            if(!empty($product->supplier_reference)) {
+                array_push($allCodes, $product->supplier_reference);
             }
-
             $searchTecDoc = (new TecDocController)->search($name);
 
             if(!empty($searchTecDoc)) {
-                $allCodes = [];
 
                 foreach ($searchTecDoc as $item) {
 
@@ -313,54 +308,16 @@ class ApiProductController extends Controller
                     return $product;
             }
 
-            if($product->isEmpty()) {
-                $allCodes = [];
-                $productIdFirst = \DB::table('oe_code')
-                    ->where('code', 'like', $name . '%')
-                    ->leftJoin('product', function($join) {
-                        $join->on('oe_code.product_id', '=', 'product.id');
-                    })
-                    ->select(['supplier_reference'])
-                    ->limit($limit)
-                    ->get()->toArray();
-
-                $productIdSecond = \DB::table('oe_code')
-                    ->where('code', 'like', trim($name) . '%')
-                    ->leftJoin('product', function($join) {
-                        $join->on('oe_code.product_id', '=', 'product.id');
-                    })
-                    ->select(['supplier_reference'])
-                    ->limit($limit)
-                    ->get()->toArray();
-
-                if(count($productIdFirst) >0 || count($productIdSecond) >0) {
-
-
-
-                if (count($productIdFirst) > 1)
-                foreach ($productIdFirst as $item) {
-                    array_push($allCodes, $item->supplier_reference);
-                } elseif(isset($productIdFirst[0]->supplier_reference)) {
-                    array_push($allCodes,$productIdFirst[0]->supplier_reference);
-                }
-
-                if (count($productIdSecond) > 1)
-                foreach ($productIdSecond as $item) {
-                    array_push($allCodes, $item->supplier_reference);
-                }  elseif(isset($productIdSecond[0]->supplier_reference)) {
-                    array_push($allCodes,$productIdSecond[0]->supplier_reference);
-                }
-
-                //array_unique($allCodes, SORT_STRING);
-
-                $allCodes = array_unique($allCodes, SORT_REGULAR);
-
-                //return \DB::table('product')->whereIn('id', [$productIdFirst, $productIdSecond])->select(['name','reference'])->get();
+            if(!empty($allCodes)) {
 
                 $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get();
                 return $product;
+            }
 
-                }
+            $product = self::searchOeTable($name, $limit);
+
+            if(!empty($product)) {
+                return $product;
             }
 
             $explodeName = explode(' ',$name);
@@ -418,5 +375,53 @@ class ApiProductController extends Controller
         ]);
 
         return response()->json();
+    }
+
+    static function searchOeTable($name, $limit)
+    {
+        $allCodes = [];
+        $productIdFirst = \DB::table('oe_code')
+            ->where('code', 'like', $name . '%')
+            ->leftJoin('product', function($join) {
+                $join->on('oe_code.product_id', '=', 'product.id');
+            })
+            ->select(['supplier_reference'])
+            ->limit($limit)
+            ->get()->toArray();
+
+        $productIdSecond = \DB::table('oe_code')
+            ->where('code', 'like', trim($name) . '%')
+            ->leftJoin('product', function($join) {
+                $join->on('oe_code.product_id', '=', 'product.id');
+            })
+            ->select(['supplier_reference'])
+            ->limit($limit)
+            ->get()->toArray();
+
+        if(count($productIdFirst) >0 || count($productIdSecond) >0) {
+
+
+
+            if (count($productIdFirst) > 1)
+                foreach ($productIdFirst as $item) {
+                    array_push($allCodes, $item->supplier_reference);
+                } elseif(isset($productIdFirst[0]->supplier_reference)) {
+                array_push($allCodes,$productIdFirst[0]->supplier_reference);
+            }
+
+            if (count($productIdSecond) > 1)
+                foreach ($productIdSecond as $item) {
+                    array_push($allCodes, $item->supplier_reference);
+                }  elseif(isset($productIdSecond[0]->supplier_reference)) {
+                array_push($allCodes,$productIdSecond[0]->supplier_reference);
+            }
+
+            $allCodes = array_unique($allCodes, SORT_REGULAR);
+
+            $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get();
+            return $product;
+
+        }
+        return null;
     }
 }
