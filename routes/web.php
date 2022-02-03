@@ -121,13 +121,22 @@ Route::group(['middleware' => 'auth'], function () {
         foreach ($img as $item) {
             $product = $item->product;
             $arr = explode('/', $item->name);
+
             if($arr[2] == 1) {
                 $exArr = explode('_', $arr[3]);
-                if(isset($exArr[0]) && isset($exArr[1]))
-                DB::table('product')
-                    ->select(['reference,supplier_reference'])
-                    ->where('supplier_reference', $exArr[0])
-                    ->update(['name' => 'storage/products/1/' . $exArr[0] . '_' . $exArr[1]]);
+
+                if(isset($exArr[0]) && isset($exArr[1])) {
+                    $supp = DB::table('product')
+                        ->select(['reference', 'supplier_reference'])
+                        ->where('supplier_reference', 'like', strtoupper($exArr[0]))
+                        ->first();
+
+                    if(!empty($supp)) {
+
+                        $string = 'storage/products/1/' . $supp->reference . '_' . $exArr[1];
+                        $item->update(['name' => $string]);
+                    }
+                }
             }
         }
        /* foreach ($img as $item) {
