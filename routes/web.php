@@ -116,7 +116,7 @@ Route::group(['middleware' => 'auth'], function () {
         return redirect()->route('home');
     });
     Route::get('/updateTest', function (){
-        $img = \App\Models\Img::all();
+        $img = \App\Models\Img::where('id', '>', 130000)->get();
 
         foreach ($img as $item) {
             $product = $item->product;
