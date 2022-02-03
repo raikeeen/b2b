@@ -116,9 +116,21 @@ Route::group(['middleware' => 'auth'], function () {
         return redirect()->route('home');
     });
     Route::get('/updateTest', function (){
-        $img = \App\Models\Img::where('id', '>', 211039)->get();
+        $img = \App\Models\Img::where('id', '>', 213321)->get();
 
         foreach ($img as $item) {
+            $product = $item->product;
+            $arr = explode('/', $item->name);
+            if($arr[2] == 1) {
+                $exArr = explode('_', $arr[3]);
+                if(isset($exArr[0]) && isset($exArr[1]))
+                DB::table('product')
+                    ->select(['reference,supplier_reference'])
+                    ->where('supplier_reference', $exArr[0])
+                    ->update(['name' => 'storage/products/1/' . $exArr[0] . '_' . $exArr[1]]);
+            }
+        }
+       /* foreach ($img as $item) {
             $product = $item->product;
             if($product->supplier->id == 1) {
                 $arr = explode('/', $item->name);
@@ -139,7 +151,7 @@ Route::group(['middleware' => 'auth'], function () {
             }
 
 
-        }
+        }*/
     });
     Route::get('/test1', function () {
         $order = Order::Find(96);
