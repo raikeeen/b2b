@@ -24,7 +24,7 @@ use App\Http\Controllers\TecDocController;
 use App\Models\AjsApi;
 use Illuminate\Support\Facades\Storage;
 
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 1000);
 /*
 |--------------------------------------------------------------------------
 | Web Routes
