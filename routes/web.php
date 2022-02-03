@@ -116,7 +116,7 @@ Route::group(['middleware' => 'auth'], function () {
         return redirect()->route('home');
     });
     Route::get('/updateTest', function (){
-        $img = \App\Models\Img::where('id', '>', 130000)->get();
+        $img = \App\Models\Img::where('id', '>', 211039)->get();
 
         foreach ($img as $item) {
             $product = $item->product;
@@ -234,31 +234,31 @@ dump($referenceOrderB1);
     });
 });
 
-Route::get('/storage/products/nty/{filename}', function($filename) {
+Route::get('/storage/products/1/{filename}', function($filename) {
 
     return response( file_get_contents('./storage/products/no_photo_500.jpg') )
         ->header('Content-Type','image/png');
 
 });
-Route::get('/storage/products/skv/{filename}', function($filename) {
+Route::get('/storage/products/7/{filename}', function($filename) {
 
     return response( file_get_contents('./storage/products/no_photo_500.jpg') )
         ->header('Content-Type','image/png');
 
 });
-Route::get('/storage/products/vika_dpa/{filename}', function($filename) {
+Route::get('/storage/products/4-5/{filename}', function($filename) {
 
     return response( file_get_contents('./storage/products/no_photo_500.jpg') )
         ->header('Content-Type','image/png');
 
 });
-Route::get('/storage/products/borsehung/{filename}', function($filename) {
+Route::get('/storage/products/6/{filename}', function($filename) {
 
     return response( file_get_contents('./storage/products/no_photo_500.jpg') )
         ->header('Content-Type','image/png');
 
 });
-Route::get('/storage/products/maxgear/{filename}', function($filename) {
+Route::get('/storage/products/3/{filename}', function($filename) {
 
     return response( file_get_contents('./storage/products/no_photo_500.jpg') )
         ->header('Content-Type','image/png');
