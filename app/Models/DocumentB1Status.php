@@ -20,6 +20,6 @@ class DocumentB1Status extends Model
 
     public function document()
     {
-        return $this->hasOne('App\Models\DocumentB1','status_id');
+        return $this->hasMany('App\Models\DocumentB1','status_id');
     }
 }

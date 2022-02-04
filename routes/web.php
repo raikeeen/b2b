@@ -115,6 +115,37 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/zaloguj-sie', function (){
         return redirect()->route('home');
     });
+    Route::get('updatecat', function (){
+        $xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\import cat.xlsx'));
+
+        $nam = '';
+        $rows = $xlsx->rows();
+        unset($rows[0]);
+        for ($i = 1; $i <= count($rows); $i++) {
+            //$cat = ProductCat::where('product_id', $rows[$i][2])->delete();
+
+
+            $cat = explode(', ',$rows[$i][1]);
+
+            foreach ($cat as $category_elem) {
+                $product = $rows[$i][2];
+                $category = Db::table('category')->select(['id'])->where('name', '=', $category_elem)->first();
+
+                if (isset($product) && isset($category)) {
+                    DB::table('product_cat')->insert([
+                        'category_id' => $category->id,
+                        'product_id' => $product,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+
+                } else
+                    $nam .= '      :'.$category_elem;
+            }
+
+        }
+dd($nam);
+    });
     Route::get('/updateTest', function (){
         $img = \App\Models\Img::where('id', '>', 213321)->get();
 

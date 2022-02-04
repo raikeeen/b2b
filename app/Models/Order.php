@@ -22,7 +22,7 @@ class Order extends Model
         'delivery_price'
     ];
     protected $appends = ['company', 'status_latest'];
-    public $additional_attributes = ['company', 'status_latest', 'status_last'];
+    public $additional_attributes = ['company', 'status_latest', 'status_last', 'status_factura'];
 
     public function getCompanyAttribute()
     {
@@ -40,6 +40,33 @@ class Order extends Model
         $html = '<span style="border-radius: 0.25em;color: #fff;display: inline;font-size: 90%;font-weight: 700;line-height: 1;padding: 0.15em 0.4em;text-align: center;vertical-align: baseline;
         white-space: nowrap;background-color:'. $color.'">'.$status->name.'</span>';
         return $html;
+    }
+
+    public function getStatusFacturaAttribute()
+    {
+        $status = $this->document_b1;
+
+        if(isset($status->status)) {
+            //dump($status->status);
+
+            $status = $status->status->name;
+
+
+            if (isset($status->status->color)){
+                dd($status);
+            }
+            $color = $status->status->color;
+
+            if (!isset($color)) {
+                $color = 'lightblue';
+            }
+
+            $html = '<span style="border-radius: 0.25em;color: #fff;display: inline;font-size: 90%;font-weight: 700;line-height: 1;padding: 0.15em 0.4em;text-align: center;vertical-align: baseline;
+white-space: nowrap;background-color:' . $color . '">' . $status->name . '</span>';
+            return $html;
+        } else
+            return '<span style="border-radius: 0.25em;color: #fff;display: inline;font-size: 90%;font-weight: 700;line-height: 1;padding: 0.15em 0.4em;text-align: center;vertical-align: baseline;
+    white-space: nowrap;background-color:">' . 'nėra' . '</span>';
     }
     public function getStatusLastAttribute()
     {
