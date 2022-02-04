@@ -23,7 +23,7 @@ use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\TecDocController;
 use App\Models\AjsApi;
 use Illuminate\Support\Facades\Storage;
-include "../app/Http/Controllers/SimpleXLSX.php";
+
 
 ini_set('max_execution_time', 1000);
 /*
