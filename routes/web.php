@@ -117,7 +117,7 @@ Route::group(['middleware' => 'auth'], function () {
         return redirect()->route('home');
     });
     Route::get('updatecat', function (){
-        $xlsx = @(new SimpleXLSX('C:\Users\User\PhpstormProjects\b2b\app\Http\Controllers\import cat.xlsx'));
+        $xlsx = @(new SimpleXLSX('/var/www/rm-autodalys.eu/public_html/app/Http/Controllers/import cat.xlsx'));
 
         $nam = '';
         $rows = $xlsx->rows();
