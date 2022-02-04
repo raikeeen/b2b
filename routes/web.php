@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\GetDocumentB1;
 use App\Jobs\SendMail;
 use App\Models\B1Api;
 use App\Models\DocumentB1;
@@ -117,7 +118,7 @@ Route::group(['middleware' => 'auth'], function () {
         return redirect()->route('home');
     });
     Route::get('updatecat', function (){
-        $xlsx = @(new SimpleXLSX('/var/www/rm-autodalys.eu/public_html/app/Http/Controllers/import cat.xlsx'));
+       /* $xlsx = @(new SimpleXLSX('/var/www/rm-autodalys.eu/public_html/app/Http/Controllers/import cat.xlsx'));
 
         $nam = '';
         $rows = $xlsx->rows();
@@ -145,7 +146,10 @@ Route::group(['middleware' => 'auth'], function () {
             }
 
         }
-dd($nam);
+dd($nam);*/
+    });
+    Route::get('facturos/{id}', function (\Illuminate\Http\Request $request){
+        GetDocumentB1::dispatch($request->id)->onQueue('high');
     });
     Route::get('/updateTest', function (){
         $img = \App\Models\Img::where('id', '>', 213321)->get();
