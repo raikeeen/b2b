@@ -32,7 +32,7 @@ class DocumentController extends Controller
 
         foreach ($orders as $order) {
 
-            if($order->status_last !== 'padengimas') {
+            if($order->status_last !== 'Atšauktas') {
                 if(isset($order->document_b1->price))
                     $sum += $order->document_b1->price;
                 else {
