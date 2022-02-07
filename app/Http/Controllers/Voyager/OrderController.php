@@ -477,9 +477,16 @@ class OrderController extends VoyagerBaseController
             $doc->save();
 
             return redirect()->back()->with('success_message', 'Statusas atnaujinta');
+        } elseif($request->b1_id == 3) {
+
+            $doc->status_id = $request->b1_id;
+            $doc->price = 0;
+            $doc->save();
+
+            return redirect()->back()->with('success_message', 'Statusas atnaujinta');
         }
 
-        return redirect()->back()->with('success_message', 'Statusas atnaujinta');
+        return redirect()->back()->with('success_message', 'Statusas neatnaujinta');
     }
 
     public function statusUpdate(Request $request, $id)
@@ -495,6 +502,15 @@ class OrderController extends VoyagerBaseController
             GetDocumentB1::dispatch($id)->onQueue('high');
 
             return redirect()->back()->with('success_message', 'Atnaujinta būsena фактура будет готова через 30 сек');
+        } elseif ($request->status_id === '5') {
+            $order = Order::Find($id);
+
+            if(isset($order->document_b1)) {
+                $doc = $order->document_b1;
+                $doc->price = 0;
+                $doc->status_id = 3;
+                $doc->save();
+            }
         }
 
         return redirect()->back()->with('success_message', 'Atnaujinta būsena');

@@ -126,6 +126,8 @@
                                                 @elseif($row->type == 'relationship')
                                                     @if($row->display_name == 'Būsena')
                                                         {!! app($row->details->model)::where($row->details->key, $data->{$row->details->column})->first()->status_latest !!}
+                                                    @elseif($row->display_name == 'Status mokejimo')
+                                                        {!! app($row->details->model)::where($row->details->key, $data->{$row->details->column})->first()->status_factura !!}
                                                     @else
                                                         @include('voyager::formfields.relationship', ['view' => 'browse','options' => $row->details])
                                                     @endif

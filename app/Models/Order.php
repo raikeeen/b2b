@@ -47,26 +47,11 @@ class Order extends Model
         $status = $this->document_b1;
 
         if(isset($status->status)) {
-            //dump($status->status);
+            return $status->status->status_latest;
 
-            $status = $status->status->name;
-
-
-            if (isset($status->status->color)){
-                dd($status);
-            }
-            $color = $status->status->color;
-
-            if (!isset($color)) {
-                $color = 'lightblue';
-            }
-
-            $html = '<span style="border-radius: 0.25em;color: #fff;display: inline;font-size: 90%;font-weight: 700;line-height: 1;padding: 0.15em 0.4em;text-align: center;vertical-align: baseline;
-white-space: nowrap;background-color:' . $color . '">' . $status->name . '</span>';
-            return $html;
         } else
             return '<span style="border-radius: 0.25em;color: #fff;display: inline;font-size: 90%;font-weight: 700;line-height: 1;padding: 0.15em 0.4em;text-align: center;vertical-align: baseline;
-    white-space: nowrap;background-color:">' . 'nėra' . '</span>';
+    white-space: nowrap;background-color: #76838f">' . 'nėra' . '</span>';
     }
     public function getStatusLastAttribute()
     {
@@ -298,6 +283,4 @@ white-space: nowrap;background-color:' . $color . '">' . $status->name . '</span
     {
         return $this->hasOne('App\Models\Venipak', 'order_id');
     }
-
-
 }
