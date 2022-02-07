@@ -115,7 +115,6 @@ class Order extends Model
         $total = $total + $delivery + $payment - $coupon;
 
         $newDocumentB1 = new DocumentB1();
-        $newDocumentB1->name = 'Nėra';
         $newDocumentB1->price = $total;
         $newDocumentB1->save();
 
@@ -150,7 +149,7 @@ class Order extends Model
     static function detailOrder($order)
     {
         $invoice = null;
-        if(isset($order->document_b1->name) && $order->document_b1->name !== 'Nėra') {
+        if(isset($order->document_b1->name)) {
             $invoice = $order->getFactura();
         }
         $orderdata = [

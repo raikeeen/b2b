@@ -15,7 +15,7 @@ class CreateDocumentB1Table extends Migration
     {
         Schema::create('document_b1', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->nullable(false);
+            $table->string('name')->nullable(true);
             $table->decimal('price',8,2)->default(0.00);
 
             $table->integer('status_id')->unsigned()->default(1);

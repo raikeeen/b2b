@@ -400,7 +400,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if(!empty($order->document_b1->name) && $order->document_b1->name !== 'Nėra')
+                                @if(!empty($order->document_b1->name))
                                     <div style="text-align: center;position: relative;flex: auto;">
                                         <a target="_blank" href="{{'/'.$order->getFactura()}}" class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" style="display: inline-block;
         padding: calc(0.5rem + 1px) 1rem;
@@ -484,7 +484,7 @@
 
                 </div>
             </div>
-                @if(!empty($order->document_b1->name))
+
                 <div class="panel panel panel-bordered panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title"><i class="icon wb-clipboard"></i> Faktūra statusas</h3>
@@ -521,7 +521,7 @@
 
                     </div>
                 </div>
-                @endif
+
                 @if(isset($order))
                     @if($order->delivery_id == 2)
                         <div class="panel panel-bordered">
