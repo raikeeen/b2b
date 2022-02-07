@@ -150,7 +150,7 @@ class Order extends Model
     static function detailOrder($order)
     {
         $invoice = null;
-        if(isset($order->document_b1->name)) {
+        if(isset($order->document_b1->name) && $order->document_b1->name !== 'Nėra') {
             $invoice = $order->getFactura();
         }
         $orderdata = [

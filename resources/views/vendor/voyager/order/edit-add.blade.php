@@ -400,7 +400,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if(!empty($order->document_b1->name))
+                                @if(!empty($order->document_b1->name) && $order->document_b1->name !== 'Nėra')
                                     <div style="text-align: center;position: relative;flex: auto;">
                                         <a target="_blank" href="{{'/'.$order->getFactura()}}" class="c-btn c-btn--red text-uppercase px-sm-5 mt-3" style="display: inline-block;
         padding: calc(0.5rem + 1px) 1rem;
