@@ -119,9 +119,13 @@
                     <div class="col-12 col-md text-center">
 
 
-                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">@if(isset($order->document_b1->status->name))
+                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">
+                            @if(isset($order->document_b1->status->name))
                                 <span style="border-radius: 0.25em;color: #fff;display: inline;font-size: 90%;font-weight: 700;line-height: 1;padding: 0.15em 0.4em;text-align: center;vertical-align: baseline;
         white-space: nowrap;background-color:   {{$order->document_b1->status->color}};">{{$order->document_b1->status->name}}</span>
+                            @elseif($order->status_last == 'padengimas')
+                                <span style="border-radius: 0.25em;color: #fff;display: inline;font-size: 90%;font-weight: 700;line-height: 1;padding: 0.15em 0.4em;text-align: center;vertical-align: baseline;
+        white-space: nowrap;background-color: #76838f;"> padengimas </span>
                             @else  <span style="border-radius: 0.25em;color: #fff;display: inline;font-size: 90%;font-weight: 700;line-height: 1;padding: 0.15em 0.4em;text-align: center;vertical-align: baseline;
         white-space: nowrap;background-color: #DC143C;"> neapmokėta </span> @endif</span>
 
@@ -129,7 +133,7 @@
                     <div class="col-12 col-md">
 
 
-                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">@if(isset($order->document_b1->price)){{$order->document_b1->price}} EUR @else {{$order->total}} EUR @endif </span>
+                        <span data-bind="text: date.format('D MMMM YYYY, HH:mm')">@if(isset($order->document_b1->price)){{$order->document_b1->price}} EUR @elseif($order->status_last == 'padengimas') 0.00 @else {{$order->total}} EUR @endif </span>
 
                     </div>
 
