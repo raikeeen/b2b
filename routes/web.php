@@ -45,6 +45,7 @@ Route::group(['prefix' => 'admin-kavateka'], function () {
     Route::post('order/{id}/update_order_item', [\App\Http\Controllers\Voyager\OrderController::class, 'itemUpdate'])->name('order.item.update');
     Route::post('order/{id}/update_order_item_delete', [\App\Http\Controllers\Voyager\OrderController::class, 'itemDelete'])->name('order.item.delete');
     Route::post('order/{id}/update_order_item_add', [\App\Http\Controllers\Voyager\OrderController::class, 'itemAdd'])->name('order.item.add');
+    Route::post('order/{id}/update_order_name_fac', [\App\Http\Controllers\Voyager\OrderController::class, 'updateNameFac'])->name('order.fac.update');
     Route::post('order/{id}/update', [\App\Http\Controllers\Voyager\OrderController::class, 'statusUpdate'])->name('status.update');
     Route::post('order/{id}/update_b1', [\App\Http\Controllers\Voyager\OrderController::class, 'statusUpdateB1'])->name('statusB1.update');
     Route::post('order/{id}/venipak_push', [\App\Http\Controllers\Voyager\OrderController::class, 'pushVenipak'])->name('venipak.push');

@@ -485,7 +485,7 @@
 
                 </div>
             </div>
-                @if(isset($order->document_b1->name))
+
                 <div class="panel panel panel-bordered panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title"><i class="icon wb-clipboard"></i> Faktūra statusas</h3>
@@ -497,7 +497,14 @@
                         <div class="form-group">
                             <div class="u-text-color-darker">
                                 <div style="font-size: 18px;">
-                                    <span style="font-weight: 500">Fakūra:</span> <span style="font-size: 15px;">{{$order->document_b1->name}}</span>
+                                    <span style="font-weight: 500">Fakūra:</span> <span style="font-size: 15px;">
+                                        <form class="info" action="{{route('order.fac.update', ['id' => $order->id])}}" method="post" style="display: inline;">
+                                            {{csrf_field()}}
+                                            <input required class="input-none" type="text" name="factura" value="@if(isset($order->document_b1->name)){{$order->document_b1->name}}@endif" style="max-width: 150px;">
+                                        <button style="display: none" hidden type="submit" class="btn btn-success add-row"><i hidden class="voyager-check"></i></button>
+
+                                        </form>
+                                    </span>
                                 </div>
                                 <form action="{{route('statusB1.update', $order->id)}}" method="post" class="form-horizontal well hidden-print">
                                     {{csrf_field()}}
@@ -505,7 +512,7 @@
                                         <div class="col-lg-7">
                                             <select id="b1_id" class="chosen form-control" name="b1_id">
                                                 @foreach($docStatusB1 as $status)
-                                                    <option value="{{$status->id}}" @if($order->document_b1->status_id === $status->id) selected="selected"@endif>{{$status->name}}</option>
+                                                    <option value="{{$status->id}}" @if(isset($order->document_b1->status_id) && $order->document_b1->status_id === $status->id) selected="selected"@endif>{{$status->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -522,7 +529,7 @@
 
                     </div>
                 </div>
-                @endif
+
                 @if(isset($order))
                     @if($order->delivery_id == 2)
                         <div class="panel panel-bordered">

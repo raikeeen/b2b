@@ -416,6 +416,24 @@ class OrderController extends VoyagerBaseController
         ]);
         return back()->with('success_message', 'Item has been updated!');
     }
+    public function updateNameFac(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'factura' => 'required',
+        ]);
+
+        $order = Order::Find($id);
+
+        if(isset($order->document_b1)) {
+
+            $doc = $order->document_b1;
+            $doc->name = $request->factura;
+            $doc->save();
+
+            return back()->with('success_message', 'Name fact has been updated!');
+        }
+        return back()->with('success_message', 'Error!');
+    }
     public function getLabelVenipak(Request $request, $id)
     {
         $order = Order::Find($id);
