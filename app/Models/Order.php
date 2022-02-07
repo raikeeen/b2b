@@ -105,12 +105,20 @@ class Order extends Model
             $order->reference = Order::generateReference($orderOld);
         }
         $total = Tax::priceWithTax(Cart::subtotal(2,'.',''));
+
         if($total > 150) {
             $delivery = 0.00;
         }
         if($request->delivery == 1) {
             $payment = 0.00;
         }
+        $total = $total + $delivery + $payment - $coupon;
+
+        $newDocumentB1 = new DocumentB1();
+        $newDocumentB1->name = 'Nėra';
+        $newDocumentB1->price = $total;
+        $newDocumentB1->save();
+
         $order->user_id = $user_id;
         $order->delivery_id = $request->delivery;
         $order->delivery_price = $delivery;
@@ -118,7 +126,8 @@ class Order extends Model
         $order->payment_price = $payment;
         $order->document_id = $request->document;
         $order->coupon_id = $coupon === 0 ? null : $coupon;
-        $order->total = $total + $delivery + $payment - $coupon;
+        $order->total = $total;
+        $order->document_b1_id = $newDocumentB1->id;
         $order->save();
 
         $order->status()->attach(1);

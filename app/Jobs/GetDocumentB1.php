@@ -51,17 +51,21 @@ class GetDocumentB1 implements ShouldQueue
         }
 
         $referenceOrderB1 = B1Api::pushOrder($order,$itemB1);
-
         $order->order_b1 = $referenceOrderB1['data']['orderId'];
 
-        $newDocumentB1 = new DocumentB1();
-        $newDocumentB1->name = $referenceOrderB1['data']['invoiceDocument'];
-        $newDocumentB1->price = $order->total;
-        $newDocumentB1->save();
+        if(isset($order->document_b1)) {
+            $doc = $order->document_b1;
+            $doc->name = $referenceOrderB1['data']['invoiceDocument'];
+            $doc->save();
+        } else {
+            $newDocumentB1 = new DocumentB1();
+            $newDocumentB1->name = $referenceOrderB1['data']['invoiceDocument'];
+            $newDocumentB1->price = $order->total;
+            $newDocumentB1->save();
 
-        $order->document_b1_id = $newDocumentB1->id;
+            $order->document_b1_id = $newDocumentB1->id;
+        }
         $order->save();
-
         B1Api::getInvoice($order);
 
         dispatch(new SendMailFactura($order))->onQueue('mail');
