@@ -45,7 +45,10 @@ class Order extends Model
     public function getStatusFacturaAttribute()
     {
         $status = $this->document_b1;
-
+        if($this->status_last == 'Atšauktas') {
+            return '<span style="border-radius: 0.25em;color: #fff;display: inline;font-size: 90%;font-weight: 700;line-height: 1;padding: 0.15em 0.4em;text-align: center;vertical-align: baseline;
+    white-space: nowrap;background-color: #76838f">' . 'padengimas' . '</span>';
+        }
         if(isset($status->status)) {
             return $status->status->status_latest;
 
