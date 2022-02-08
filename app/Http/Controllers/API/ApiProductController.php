@@ -276,7 +276,7 @@ class ApiProductController extends Controller
                 }
 
                 $productIdFirst = \DB::table('oe_code')
-                    ->where('code', 'like', $name . '%')
+                    ->where('code', 'like', '%' . $name . '%')
                     ->leftJoin('product', function($join) {
                         $join->on('oe_code.product_id', '=', 'product.id');
                     })
@@ -287,10 +287,8 @@ class ApiProductController extends Controller
                     array_push($allCodes, $item->supplier_reference);
                 }
 
-
-
                 $productIdSecond = \DB::table('oe_code')
-                    ->where('code', 'like', trim($name) . '%')
+                    ->where('code', 'like', '%' . trim($name) . '%')
                     ->leftJoin('product', function($join) {
                         $join->on('oe_code.product_id', '=', 'product.id');
                     })
@@ -386,7 +384,7 @@ class ApiProductController extends Controller
     {
         $allCodes = [];
         $productIdFirst = \DB::table('oe_code')
-            ->where('code', 'like', $name . '%')
+            ->where('code', 'like', '%' . $name . '%')
             ->leftJoin('product', function($join) {
                 $join->on('oe_code.product_id', '=', 'product.id');
             })
@@ -395,7 +393,7 @@ class ApiProductController extends Controller
             ->get()->toArray();
 
         $productIdSecond = \DB::table('oe_code')
-            ->where('code', 'like', trim($name) . '%')
+            ->where('code', 'like', '%' . trim($name) . '%')
             ->leftJoin('product', function($join) {
                 $join->on('oe_code.product_id', '=', 'product.id');
             })
