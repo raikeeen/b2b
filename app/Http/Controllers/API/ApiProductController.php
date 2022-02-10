@@ -149,7 +149,7 @@ class ApiProductController extends Controller
                 ->setArticleCountry('LT')
                 ->setLang('LT')
                 ->setArticleNumber($product->supplier_reference)
-                ->setNumberType(0);
+                ->setNumberType(10);
             $getArticleDirectSearchAllNumbersWithStateResponse = $client->getArticleDirectSearchAllNumbersWithState($getArticleDirectSearchAllNumbersWithState)->getData();
 
             if(!empty($getArticleDirectSearchAllNumbersWithStateResponse)) {
@@ -190,9 +190,9 @@ class ApiProductController extends Controller
                     array_push($allCodes, str_replace('.', '', $c->code));
                 }
 
-                $reference = DB::table('product')->where('id', $code->product_id)->select(['reference'])->first();
+                $reference = DB::table('product')->where('id', $code->product_id)->select(['supplier_reference'])->first();
                 if ($reference !== null) {
-                    array_push($allProduct, $reference->reference);
+                    array_push($allProduct, $reference->supplier_reference);
                 }
             }
             $allCodes = array_unique($allCodes, SORT_REGULAR);
@@ -202,19 +202,26 @@ class ApiProductController extends Controller
                     $nr = $article->getArticleNo();
 
                     $product = DB::table('product')
-                        ->select(['reference'])
+                        ->select(['supplier_reference'])
                         ->where('supplier_reference', $nr)
                         ->first();
 
                     if ($product !== null) {
 
-                        array_push($allProduct, $product->reference);
+                        array_push($allProduct, $product->supplier_reference);
                     }
                 }
 
             }
             $allProduct = array_unique($allProduct, SORT_REGULAR);
 
+            if(empty($allProduct)) {
+                array_push($allProduct, DB::table('product')
+                    ->where('reference', $request->analog)
+                    ->select(['supplier_reference'])
+                    ->first()->supplier_reference
+                );
+            }
             return $allProduct;
         } else {
             $oecodes = DB::table('oe_code')->select(['code'])->where('product_id', $product->id)->get();
@@ -232,6 +239,16 @@ class ApiProductController extends Controller
                 }
             }
             $allProducts = array_unique($arrayProducts, SORT_REGULAR);
+
+            if(empty($allProducts)) {
+
+
+                array_push($allProducts, $analog = DB::table('product')
+                    ->where('reference', $request->analog)
+                    ->select(['supplier_reference'])
+                    ->first()->supplier_reference
+                );
+            }
 
             return $allProducts;
         }

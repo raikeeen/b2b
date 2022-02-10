@@ -442,7 +442,7 @@
             </div>--}}
 
 
-            <div id="hook_frontmodules" class="" data-asp-hook="78" data-asp-hook-name="frontModules">
+           {{-- <div id="hook_frontmodules" class="" data-asp-hook="78" data-asp-hook-name="frontModules">
                 <!-- TabSlider -->
 
                 <div data-control-hook-id="117" data-control-id="65" data-control-order="1"
@@ -575,7 +575,7 @@
 
                         </div>
                         <div class="tab-pane px-0 px-xl-5" id="sell-off">
-                            {{-- Распродан --}}
+                            --}}{{-- Распродан --}}{{--
                             <div class="container mb-5">
                                 <div class="owl-carousel-custom__wrapper">
 
@@ -671,7 +671,7 @@
                     </div>
                 </div>
 
-            </div>
+            </div>--}}
             <div id="hook_frontmodules" class="" data-asp-hook="78" data-asp-hook-name="frontModules">
                 <!-- TabSlider -->
 
@@ -873,7 +873,7 @@
                                                                             </form>
                                                                         </div>
                                                                     @endif
-                                                                    <a class="c-btn c-btn--slider-eye u-rounded-circle text-center ml-3 d-flex justify-content-center align-items-center" href="{{route('products.show', $newProduct->reference)}}">
+                                                                    <a class="c-btn c-btn--slider-eye u-rounded-circle text-center ml-3 d-flex justify-content-center align-items-center" href="{{route('products.show', $specProduct->reference)}}">
                                                                         <svg class="c-icon c-icon--hover">
                                                                             <use xlink:href="#look">
                                                                                 <symbol id="look" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 16">
