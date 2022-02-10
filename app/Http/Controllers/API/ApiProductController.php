@@ -239,134 +239,120 @@ class ApiProductController extends Controller
 
     static function search(Request $request)
     {
+        $string = self::search_find(trim($request->search));
+        $stringWSymbols = self::search_find(str_replace(['-',' ','.', ',','#','$','%','&','*'], '', $request->search));
 
-        $name = $request->search;
+        return array_unique(array_merge($string, $stringWSymbols), SORT_REGULAR);
+    }
+    static function search_find($string) {
+
         $limit = null;
-        $allCodes = [];
 
         if(!isset($request->flag)) {
             $limit = 20;
         }
 
-        if(strlen($name) > 3) {
+        $allCodes = [];
+        $product = \DB::table('product')->where('reference', 'like', $string . '%')->select(['supplier_reference'])->get();
 
-            $product = \DB::table('product')->where('reference', 'like', $name . '%')->select(['supplier_reference'])->get();
-
-            if(isset($product)) {
-                foreach ($product as $item) {
-                    array_push($allCodes, $item->supplier_reference);
-                }
-
+        if(isset($product)) {
+            foreach ($product as $item) {
+                array_push($allCodes, $item->supplier_reference);
             }
 
-            $product = \DB::table('product')->where('supplier_reference', 'like', $name . '%')->select(['supplier_reference'])->get();
-
-            if(isset($product)) {
-                foreach ($product as $item) {
-                    array_push($allCodes, $item->supplier_reference);
-                }
-            }
-            $searchTecDoc = (new TecDocController)->search($name);
-
-            if(!empty($searchTecDoc)) {
-
-                foreach ($searchTecDoc as $item) {
-
-                    array_push($allCodes, $item->getArticleNo());
-                }
-
-                $productIdFirst = \DB::table('oe_code')
-                    ->where('code', 'like', '%' . $name . '%')
-                    ->leftJoin('product', function($join) {
-                        $join->on('oe_code.product_id', '=', 'product.id');
-                    })
-                    ->select(['supplier_reference'])
-                    ->limit($limit)
-                    ->get()->toArray();
-                foreach ($productIdFirst as $item) {
-                    array_push($allCodes, $item->supplier_reference);
-                }
-
-                $productIdSecond = \DB::table('oe_code')
-                    ->where('code', 'like', '%' . trim($name) . '%')
-                    ->leftJoin('product', function($join) {
-                        $join->on('oe_code.product_id', '=', 'product.id');
-                    })
-                    ->select(['supplier_reference'])
-                    ->limit($limit)
-                    ->get()->toArray();
-                foreach ($productIdSecond as $item) {
-                    array_push($allCodes, $item->supplier_reference);
-                }
-
-                //array_unique($allCodes, SORT_STRING);
-
-                $allCodes = array_unique($allCodes, SORT_REGULAR);
-
-                //return \DB::table('product')->whereIn('id', [$productIdFirst, $productIdSecond])->select(['name','reference'])->get();
-
-                $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get();
-
-                if (!empty($product))
-                    return $product;
-            }
-
-            if(!empty($allCodes)) {
-
-                $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get();
-                return $product;
-            }
-
-            $product = self::searchOeTable($name, $limit);
-
-            if(!empty($product)) {
-                return $product;
-            }
-
-            $explodeName = explode(' ',$name);
-
-            if(count($explodeName) < 4) {
-                switch (count($explodeName)) {
-                    case 1:
-                        $product = \DB::table('product')
-                            ->where('name', 'like', '%' . $name . '%')
-                            ->select(['name', 'reference'])
-                            ->limit($limit)
-                            ->get();
-                        break;
-                    case 2:
-                        $product = \DB::table('product')
-                            ->where('name', 'like', '%' . $name . '%')
-                            ->orWhere('name', 'like', '%' . $explodeName[0] . '%' . $explodeName[1] . '%')
-                            ->orWhere('name', 'like', '%' . $explodeName[1] . '%' . $explodeName[0] . '%')
-                            ->select(['name', 'reference'])
-                            ->limit($limit)
-                            ->get();
-                        break;
-                    case 3:
-                        $product = \DB::table('product')
-                            ->where('name', 'like', '%' . $name . '%')
-                            ->orWhere('name', 'like', '%' . $explodeName[0] . '%' . $explodeName[1] . '%')
-                            ->orWhere('name', 'like', '%' . $explodeName[1] . '%' . $explodeName[0] . '%')
-                            ->orWhere('name', 'like', '%' . $explodeName[0] . '%' . $explodeName[2] . '%')
-                            ->orWhere('name', 'like', '%' . $explodeName[1] . '%' . $explodeName[2] . '%')
-                            ->orWhere('name', 'like', '%' . $explodeName[2] . '%' . $explodeName[1] . '%')
-                            ->orWhere('name', 'like', '%' . $explodeName[2] . '%' . $explodeName[0] . '%')
-                            ->select(['name', 'reference'])
-                            ->limit($limit)
-                            ->get();
-                        break;
-                }
-
-                return $product;
-            }
-            return \DB::table('product')
-                ->where('name', 'like', '%' . $name . '%')
-                ->select(['name', 'reference'])
-                ->limit($limit)
-                ->get();
         }
-        return null;
+
+        $product = \DB::table('product')->where('supplier_reference', 'like', $string . '%')->select(['supplier_reference'])->get();
+
+        if(isset($product)) {
+            foreach ($product as $item) {
+                array_push($allCodes, $item->supplier_reference);
+            }
+        }
+        $searchTecDoc = (new TecDocController)->search($string);
+
+        if(!empty($searchTecDoc)) {
+
+            foreach ($searchTecDoc as $item) {
+
+                array_push($allCodes, $item->getArticleNo());
+            }
+
+            $productIdFirst = \DB::table('oe_code')
+                ->where('code', 'like', '%' . $string . '%')
+                ->leftJoin('product', function($join) {
+                    $join->on('oe_code.product_id', '=', 'product.id');
+                })
+                ->select(['product.supplier_reference'])
+                ->limit($limit)
+                ->get()->toArray();
+
+            foreach ($productIdFirst as $item) {
+                array_push($allCodes, $item->supplier_reference);
+            }
+
+            $allCodes = array_unique($allCodes, SORT_REGULAR);
+
+            $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name', 'reference'])->limit($limit)->get()->toArray();
+// $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get();
+            if (!empty($product))
+                return $product;
+        }
+
+        if(!empty($allCodes)) {
+
+            $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get()->toArray();
+            return $product;
+        }
+
+        $product = self::searchOeTable($string, $limit);
+
+        if(!empty($product)) {
+            return $product;
+        }
+
+        $explodeName = explode(' ',$string);
+
+        if(count($explodeName) < 4) {
+            switch (count($explodeName)) {
+                case 1:
+                    $product = \DB::table('product')
+                        ->where('name', 'like', '%' . $string . '%')
+                        ->select(['name', 'reference'])
+                        ->limit($limit)
+                        ->get()->toArray();
+                    break;
+                case 2:
+                    $product = \DB::table('product')
+                        ->where('name', 'like', '%' . $string . '%')
+                        ->orWhere('name', 'like', '%' . $explodeName[0] . '%' . $explodeName[1] . '%')
+                        ->orWhere('name', 'like', '%' . $explodeName[1] . '%' . $explodeName[0] . '%')
+                        ->select(['name', 'reference'])
+                        ->limit($limit)
+                        ->get()->toArray();
+                    break;
+                case 3:
+                    $product = \DB::table('product')
+                        ->where('name', 'like', '%' . $string . '%')
+                        ->orWhere('name', 'like', '%' . $explodeName[0] . '%' . $explodeName[1] . '%')
+                        ->orWhere('name', 'like', '%' . $explodeName[1] . '%' . $explodeName[0] . '%')
+                        ->orWhere('name', 'like', '%' . $explodeName[0] . '%' . $explodeName[2] . '%')
+                        ->orWhere('name', 'like', '%' . $explodeName[1] . '%' . $explodeName[2] . '%')
+                        ->orWhere('name', 'like', '%' . $explodeName[2] . '%' . $explodeName[1] . '%')
+                        ->orWhere('name', 'like', '%' . $explodeName[2] . '%' . $explodeName[0] . '%')
+                        ->select(['name', 'reference'])
+                        ->limit($limit)
+                        ->get()->toArray();
+                    break;
+            }
+
+            return $product;
+        }
+        return \DB::table('product')
+            ->where('name', 'like', '%' . $string . '%')
+            ->select(['name', 'reference'])
+            ->limit($limit)
+            ->get()->toArray();
     }
     static function history(Request $request)
     {
@@ -382,49 +368,13 @@ class ApiProductController extends Controller
 
     static function searchOeTable($name, $limit)
     {
-        $allCodes = [];
-        $productIdFirst = \DB::table('oe_code')
+         return \DB::table('oe_code')
             ->where('code', 'like', '%' . $name . '%')
             ->leftJoin('product', function($join) {
                 $join->on('oe_code.product_id', '=', 'product.id');
             })
-            ->select(['supplier_reference'])
+            ->select(['product.name','product.reference'])
             ->limit($limit)
             ->get()->toArray();
-
-        $productIdSecond = \DB::table('oe_code')
-            ->where('code', 'like', '%' . trim($name) . '%')
-            ->leftJoin('product', function($join) {
-                $join->on('oe_code.product_id', '=', 'product.id');
-            })
-            ->select(['supplier_reference'])
-            ->limit($limit)
-            ->get()->toArray();
-
-        if(count($productIdFirst) >0 || count($productIdSecond) >0) {
-
-
-
-            if (count($productIdFirst) > 1)
-                foreach ($productIdFirst as $item) {
-                    array_push($allCodes, $item->supplier_reference);
-                } elseif(isset($productIdFirst[0]->supplier_reference)) {
-                array_push($allCodes,$productIdFirst[0]->supplier_reference);
-            }
-
-            if (count($productIdSecond) > 1)
-                foreach ($productIdSecond as $item) {
-                    array_push($allCodes, $item->supplier_reference);
-                }  elseif(isset($productIdSecond[0]->supplier_reference)) {
-                array_push($allCodes,$productIdSecond[0]->supplier_reference);
-            }
-
-            $allCodes = array_unique($allCodes, SORT_REGULAR);
-
-            $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get();
-            return $product;
-
-        }
-        return null;
     }
 }

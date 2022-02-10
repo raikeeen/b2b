@@ -37,11 +37,12 @@ class ProductController extends Controller
         if(request()->search != '') {
 
             $products = ApiProductController::search(request());
-            $getProduct = $products->map(function ($product){
-                return $product->reference;
-            })->toArray();
+            $codes = [];
+            foreach ($products as $product) {
+                array_push($codes, $product->reference);
+            }
 
-            $products = Product::whereIn('reference', $getProduct);//->paginate(20)->appends(request()->query());
+            $products = Product::whereIn('reference', $codes);//->paginate(20)->appends(request()->query());
         }
         if(request()->analog != '') {
 
