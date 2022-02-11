@@ -256,12 +256,12 @@ class ApiProductController extends Controller
 
     static function search(Request $request)
     {
-        $string = self::search_find(trim($request->search));
-        $stringWSymbols = self::search_find(str_replace(['-',' ','.', ',','#','$','%','&','*'], '', $request->search));
+        $string = self::search_find($request, trim($request->search));
+        $stringWSymbols = self::search_find($request, str_replace(['-',' ','.', ',','#','$','%','&','*'], '', $request->search));
 
         return array_unique(array_merge($string, $stringWSymbols), SORT_REGULAR);
     }
-    static function search_find($string) {
+    static function search_find(Request $request, $string) {
 
         $limit = null;
 
