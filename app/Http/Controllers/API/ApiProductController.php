@@ -239,18 +239,17 @@ class ApiProductController extends Controller
 
     static function search(Request $request)
     {
-        $string = self::search_find(trim($request->search));
-        $stringWSymbols = self::search_find(str_replace(['-',' ','.', ',','#','$','%','&','*'], '', $request->search));
-
-        return array_unique(array_merge($string, $stringWSymbols), SORT_REGULAR);
-    }
-    static function search_find($string) {
-
         $limit = null;
 
         if(!isset($request->flag)) {
             $limit = 20;
         }
+        $string = self::search_find(trim($request->search), $limit);
+        $stringWSymbols = self::search_find(str_replace(['-',' ','.', ',','#','$','%','&','*'], '', $request->search), $limit);
+
+        return array_unique(array_merge($string, $stringWSymbols), SORT_REGULAR);
+    }
+    static function search_find($string, $limit) {
 
         $allCodes = [];
         $product = \DB::table('product')->where('reference', 'like', $string . '%')->select(['supplier_reference'])->get();
@@ -374,7 +373,7 @@ class ApiProductController extends Controller
                 $join->on('oe_code.product_id', '=', 'product.id');
             })
             ->select(['product.name','product.reference'])
-            ->limit($limit)
+            ->distinct()
             ->get()->toArray();
     }
 }

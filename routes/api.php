@@ -21,7 +21,7 @@ use App\Http\Controllers\API\ApiProductController;
 });*/
 //Route::get('/products/{id}', [ProductController::class,'show']);
 /*Route::resource('/products', ApiProductController::class);*/
-Route::get('/products/search/{name}', [ApiProductController::class, 'search']);
+Route::get('/products/search/{search}', [ApiProductController::class, 'search']);
 Route::post('/products/search', [ApiProductController::class, 'search']);
 Route::post('/products/analog', [ApiProductController::class, 'analog'])->name('analog');
 Route::post('/products/history', [ApiProductController::class, 'history'])->name('history');
