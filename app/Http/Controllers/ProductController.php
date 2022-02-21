@@ -48,7 +48,7 @@ class ProductController extends Controller
 
             $reference =  array_reverse(ApiProductController::analog(request()));
 
-            $products = Product::whereIn('supplier_reference', $reference)->orderBy('price', 'asc');//->paginate(200)->appends(request()->query());
+            $products = Product::whereIn('reference', $reference)->orderBy('price', 'asc');//->paginate(200)->appends(request()->query());
         }
         if(request()->sort === 'low_high') {
 
