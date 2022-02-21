@@ -68,6 +68,8 @@ class ProductController extends Controller
 
             $products = $products->orderBy('reference', 'asc');
 
+        } else {
+            $products = $products->orderBy('supplier_id', 'asc');
         }
 
         return view('catalog.products', [

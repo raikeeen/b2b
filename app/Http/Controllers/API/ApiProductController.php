@@ -283,6 +283,7 @@ class ApiProductController extends Controller
                     $join->on('oe_code.product_id', '=', 'product.id');
                 })
                 ->select(['product.supplier_reference'])
+                ->orderBy('supplier_id', 'asc')
                 ->limit($limit)
                 ->get()->toArray();
 
@@ -292,7 +293,7 @@ class ApiProductController extends Controller
 
             $allCodes = array_unique($allCodes, SORT_REGULAR);
 
-            $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name', 'reference'])->limit($limit)->get()->toArray();
+            $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name', 'reference'])->orderBy('supplier_id', 'asc')->limit($limit)->get()->toArray();
 // $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get();
             if (!empty($product))
                 return $product;
@@ -300,7 +301,7 @@ class ApiProductController extends Controller
 
         if(!empty($allCodes)) {
 
-            $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->limit($limit)->get()->toArray();
+            $product = \DB::table('product')->whereIn('supplier_reference', $allCodes)->select(['name','reference'])->orderBy('supplier_id', 'asc')->limit($limit)->get()->toArray();
             return $product;
         }
 
@@ -318,6 +319,7 @@ class ApiProductController extends Controller
                     $product = \DB::table('product')
                         ->where('name', 'like', '%' . $string . '%')
                         ->select(['name', 'reference'])
+                        ->orderBy('supplier_id', 'asc')
                         ->limit($limit)
                         ->get()->toArray();
                     break;
@@ -327,6 +329,7 @@ class ApiProductController extends Controller
                         ->orWhere('name', 'like', '%' . $explodeName[0] . '%' . $explodeName[1] . '%')
                         ->orWhere('name', 'like', '%' . $explodeName[1] . '%' . $explodeName[0] . '%')
                         ->select(['name', 'reference'])
+                        ->orderBy('supplier_id', 'asc')
                         ->limit($limit)
                         ->get()->toArray();
                     break;
@@ -340,6 +343,7 @@ class ApiProductController extends Controller
                         ->orWhere('name', 'like', '%' . $explodeName[2] . '%' . $explodeName[1] . '%')
                         ->orWhere('name', 'like', '%' . $explodeName[2] . '%' . $explodeName[0] . '%')
                         ->select(['name', 'reference'])
+                        ->orderBy('supplier_id', 'asc')
                         ->limit($limit)
                         ->get()->toArray();
                     break;
@@ -372,7 +376,8 @@ class ApiProductController extends Controller
             ->leftJoin('product', function($join) {
                 $join->on('oe_code.product_id', '=', 'product.id');
             })
-            ->select(['product.name','product.reference'])
+            ->select(['product.name','product.reference', 'product.supplier_id'])
+            ->orderBy('product.supplier_id', 'asc')
             ->distinct()
             ->get()->toArray();
     }
