@@ -48,7 +48,7 @@ class ProductController extends Controller
 
             $reference =  array_reverse(ApiProductController::analog(request()));
 
-            $products = Product::whereIn('reference', $reference)->orderBy('price', 'asc');//->paginate(200)->appends(request()->query());
+            $products = Product::whereIn('supplier_reference', $reference)->orderBy('price', 'asc');//->paginate(200)->appends(request()->query());
         }
         if(request()->sort === 'low_high') {
 
@@ -77,9 +77,10 @@ class ProductController extends Controller
 
     public function newProduct()
     {
-        $products = Product::where(
+        /*$products = Product::where(
             'created_at', '>=', Carbon::now()->subMonth()->toDateTimeString()
-        )->paginate(20);
+        )->paginate(20);*/
+        $products = Product::where('id', '>', 250000)->orderBy('id', 'desc')->take(500)->paginate(20);
 
         return view('catalog.products', [
             'products' => $products,
