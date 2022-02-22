@@ -246,8 +246,14 @@ class ApiProductController extends Controller
         }
         $string = self::search_find(trim($request->search), $limit);
         $stringWSymbols = self::search_find(str_replace(['-',' ','.', ',','#','$','%','&','*'], '', $request->search), $limit);
+        $merge = array_merge($string, $stringWSymbols);
+        $uniq = array_unique($merge, SORT_REGULAR);
 
-        return array_unique(array_merge($string, $stringWSymbols), SORT_REGULAR);
+        $search = [];
+        foreach ($uniq as $item) {
+            array_push($search, $item);
+        }
+        return $search;
     }
     static function search_find($string, $limit) {
 
