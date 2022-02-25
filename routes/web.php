@@ -115,6 +115,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/updateSKV_test', function (){
       \App\Jobs\UpdateStockSkv::dispatch()->onQueue('update_stock');
     });
+    Route::get('/updatePolcar', function (){
+        \App\Jobs\UpdateStockPolcar::dispatch()->onQueue('update_stock');
+    });
     Route::get('/zaloguj-sie', function (){
         return redirect()->route('home');
     });

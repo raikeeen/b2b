@@ -34,6 +34,7 @@ use Myrzan\TecDocClient\Generated\GetShortCuts2;
 use Myrzan\TecDocClient\Generated\GetVehicleByIds3;
 use Myrzan\TecDocClient\Generated\GetVehicleIdsByCriteria;
 use SimpleXLSX;
+use SoapClient;
 use XLSXWriter;
 
 include "SimpleXLSX.php";
