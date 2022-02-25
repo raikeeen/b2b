@@ -153,7 +153,8 @@
                                                         </span>
                                                 @endif
                                         </span>
-                                                <span class="c-product-stock__name mr-2 ml-2">Pristatymas: <span class="c-product-stock__availability" style="color: #212529;">{{$product->supplier->delivery_time}} d.d.</span>@if($product->supplier->name === 'AJS') @if($product->stock_shop == 0) užsakant iki 12:00 @else užsakant iki 18:00 @endif @endif</span>
+                                                <span class="c-product-stock__name mr-2 ml-2">Pristatymas: <span class="c-product-stock__availability" style="color: #212529;">{{$product->supplier->delivery_time}}</span>
+                                                    @if($product->supplier->name === 'AJS') @if($product->stock_shop == 0) užsakant iki 12:00 @else užsakant iki 18:00 @endif @endif</span>
 
                                         </div>
                                     </div>
