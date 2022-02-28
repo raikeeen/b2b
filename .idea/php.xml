@@ -141,6 +141,7 @@
       <path value="$PROJECT_DIR$/vendor/myrzan/tecdoc-php-client" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-responsecache" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-package-tools" />
+      <path value="$PROJECT_DIR$/vendor/zanysoft/laravel-zip" />
     </include_path>
   </component>
   <component name="PhpUnit">

@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Jobs\UpdateStatusVenipak;
 use App\Jobs\UpdateStockAjs;
 use App\Jobs\UpdateStockB1;
+use App\Jobs\UpdateStockHart;
 use App\Jobs\UpdateStockMaxgear;
 use App\Jobs\UpdateStockPolcar;
 use App\Jobs\UpdateStockSkv;
@@ -40,6 +41,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new UpdateStockAjs(), 'update_stock')->dailyAt('04:00');
         $schedule->job(new UpdateStockMaxgear(), 'update_stock')->dailyAt('05:00');
         $schedule->job(new UpdateStockPolcar(), 'update_stock')->dailyAt('06:00');
+        $schedule->job(new UpdateStockHart(), 'update_stock')->dailyAt('06:30');
     }
 
     /**

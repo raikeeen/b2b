@@ -57,7 +57,6 @@ return [
             'host' => 'ftp.autopartner.dev',
             'username' => '3130836',
             'password' => '18SfEx2',
-
             // Optional FTP Settings...
             // 'port' => 21,
             // 'root' => '',
@@ -65,6 +64,15 @@ return [
             // 'ssl' => true,
             // 'timeout' => 30,
         ],
+        'ftp-rm-lt' => [
+            'driver' => 'ftp',
+            'host' => '80.209.229.232',
+            'username' => 'ftp_admin',
+            'password' => 'sDFK456sdfk34svdf$',
+            'port' => 21,
+            'passive' => true,
+            'ssl' => true,
+            ]
     ],
 
     /*
