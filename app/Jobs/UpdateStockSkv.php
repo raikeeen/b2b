@@ -58,6 +58,7 @@ class UpdateStockSkv implements ShouldQueue
                     ]);
             }
             fclose($file);
+            SendMail::dispatch(['name' => 'SKV stocks success', 'time' => 'Время выполнения скрипта: '.' сек.'])->onQueue('mail');
         } else {
             // error opening the file.
         }

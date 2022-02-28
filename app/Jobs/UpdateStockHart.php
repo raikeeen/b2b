@@ -90,6 +90,6 @@ class UpdateStockHart implements ShouldQueue
             }
             fclose($price);
         }
-
+        SendMail::dispatch(['name' => 'Hart stocks success', 'time' => 'Время выполнения скрипта: '.' сек.'])->onQueue('mail');
     }
 }
