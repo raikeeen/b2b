@@ -33,8 +33,10 @@ class UpdateStockHart implements ShouldQueue
      */
     public function handle()
     {
-        $file = Storage::disk('ftp-rm-lt')->get('supplier_imports/hart/hart.zip');
+        $ftp = Storage::disk('ftp-rm-lt');
+        $file = $ftp->get('supplier_imports/hart/hart.zip');
         Storage::disk('local')->put('/public/download/hart.zip', $file);
+        $ftp->getDriver()->getAdapter()->disconnect();
 
         $filename = public_path()  .'/storage/download/';
 
