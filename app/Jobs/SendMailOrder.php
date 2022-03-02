@@ -33,7 +33,8 @@ class SendMailOrder implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->order->user->email)->send(new \App\Mail\NewOrderMail($this->details));
         Mail::to('info@rm-autodalys.eu')->send(new \App\Mail\NewOrderMail($this->details));
+        sleep(1);
+        Mail::to($this->order->user->email)->send(new \App\Mail\NewOrderMail($this->details));
     }
 }
