@@ -75,7 +75,7 @@ class UpdateStockMaxgear implements ShouldQueue
                             ->where('supplier_reference', $code)
                             ->orWhere('reference', $code)
                             ->update([
-                                'stock_supplier' => $product->stock_supplier2 + $line[1]
+                                'stock_supplier2' => $product->stock_supplier2 + $line[1]
                             ]);
                     }
                 }
