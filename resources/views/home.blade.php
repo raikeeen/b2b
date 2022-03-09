@@ -331,7 +331,7 @@
 
                             <div class="c-product-order-slider__container d-flex justify-content-center mb-2">
                                 <div class="d-flex">
-                                    @if($favProduct->stock_shop + $favProduct->stock_supplier != 0 && $favProduct->price > 0)
+                                    @if($favProduct->stock_shop + $favProduct->stock_supplier + $favProduct->stock_supplier2 != 0 && $favProduct->price > 0)
                                         <div type="ADD_TO_CART" data-control-type="Order">
                                             <form action="{{route('cart.store')}}" method="post">
                                                 {{csrf_field()}}
@@ -852,7 +852,7 @@
 
                                                             <div class="c-product-order-slider__container d-flex justify-content-center mb-2">
                                                                 <div class="d-flex">
-                                                                    @if($specProduct->stock_shop + $specProduct->stock_supplier != 0 && $specProduct->price > 0)
+                                                                    @if($specProduct->stock_shop + $specProduct->stock_supplier + $specProduct->stock_supplier2 != 0 && $specProduct->price > 0)
                                                                         <div type="ADD_TO_CART" data-control-type="Order">
                                                                             <form action="{{route('cart.store')}}" method="post">
                                                                                 {{csrf_field()}}

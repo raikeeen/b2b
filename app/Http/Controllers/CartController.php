@@ -69,7 +69,7 @@ class CartController extends Controller
 
         $product = Product::where('id', $request->id)->first();
 
-        if($product->stock_shop + $product->stock_supplier < (int)$request->amount) {
+        if($product->stock_shop + $product->stock_supplier + $product->stock_supplier2 < (int)$request->amount) {
 
             return back()->withErrors('Nėra reikiamo kiekio sandėlyje.');
         }
@@ -106,7 +106,7 @@ class CartController extends Controller
     {
         $product = \DB::table('product')->where('id', Cart::get($rowId)->id)->select(['stock_shop', 'stock_supplier'])->first();
 
-        if($product->stock_shop + $product->stock_supplier >= (int)$request->amount) {
+        if($product->stock_shop + $product->stock_supplier + $product->stock_supplier >= (int)$request->amount) {
 
             Cart::update($rowId, $request->amount);
 

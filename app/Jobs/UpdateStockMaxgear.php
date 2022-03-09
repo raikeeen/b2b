@@ -39,26 +39,45 @@ class UpdateStockMaxgear implements ShouldQueue
         //$start = microtime(true);
         $filename = public_path().'/storage/download/maxgear_stock.csv';
         $file = fopen($filename, "r");
-        \DB::table('product')->where('supplier_id', 3)->update(array('stock_supplier' => 0));
+        \DB::table('product')->where('supplier_id', 3)->update(array('stock_supplier' => 0, 'stock_supplier2' => 0));
 
         if ($file) {
             while (($line = fgets($file)) !== false) {
                 $line = explode(';', $line);
                 $code = str_replace('/','.', $line[0]);
 
-                $product = DB::table('product')
-                    ->select(['supplier_reference','stock_supplier'])
-                    ->where('supplier_reference', $code)
-                    ->orWhere('reference', $code)
-                    ->first();
-                if(isset($product)) {
-                    $query = DB::table('product')
+                if($line[2] == '01') {
+                    $product = DB::table('product')
                         ->select(['supplier_reference', 'stock_supplier'])
                         ->where('supplier_reference', $code)
                         ->orWhere('reference', $code)
-                        ->update([
-                            'stock_supplier' => $product->stock_supplier + $line[1]
-                        ]);
+                        ->first();
+
+                    if (isset($product)) {
+                        $query = DB::table('product')
+                            ->select(['supplier_reference', 'stock_supplier'])
+                            ->where('supplier_reference', $code)
+                            ->orWhere('reference', $code)
+                            ->update([
+                                'stock_supplier' => $product->stock_supplier + $line[1]
+                            ]);
+                    }
+                } else {
+                    $product = DB::table('product')
+                        ->select(['supplier_reference', 'stock_supplier2'])
+                        ->where('supplier_reference', $code)
+                        ->orWhere('reference', $code)
+                        ->first();
+
+                    if (isset($product)) {
+                        $query = DB::table('product')
+                            ->select(['supplier_reference', 'stock_supplier2'])
+                            ->where('supplier_reference', $code)
+                            ->orWhere('reference', $code)
+                            ->update([
+                                'stock_supplier' => $product->stock_supplier2 + $line[1]
+                            ]);
+                    }
                 }
             }
             fclose($file);

@@ -42,12 +42,30 @@ class OrderItem extends Model
         if($amount > 0) {
 
             $product->stock_shop = $amount;
+            $amount = 0;
 
-        } else {
+        }
 
-            $product->stock_shop = 0;
-            $product->stock_supplier = $product->stock_supplier - abs($amount);
+        if($amount < 0) {
+            $amount = $product->stock_supplier - abs($amount);
 
+            if($amount > 0) {
+
+                $product->stock_shop = 0;
+                $product->stock_supplier = $amount;
+                $amount = 0;
+            } else {
+                $amount = $product->stock_supplier2 - abs($amount);
+                if($amount > 0) {
+                    $product->stock_shop = 0;
+                    $product->stock_supplier = 0;
+                    $product->stock_supplier2 = $amount;
+                } else {
+                    $product->stock_shop = 0;
+                    $product->stock_supplier = 0;
+                    $product->stock_supplier2 = 0;
+                }
+            }
         }
 
         $product->save();

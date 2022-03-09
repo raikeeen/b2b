@@ -261,6 +261,24 @@
                                                     @endif
                                                     <span class="c-product-stock__name mr-2 ml-2">Pristatymas: <span class="c-product-stock__availability" style="color: #212529;">{{$product->supplier->delivery_time}}</span>
                                                         @if($product->supplier->name === 'AJS') @if($product->stock_shop == 0) užsakant iki 12:00 @else užsakant iki 18:00 @endif @endif</span>
+                                                    @if($product->supplier->name === 'Maxgear')
+
+                                                        @if($product->stock_supplier2 === 0)
+                                                            <span class="c-product-stock__availability">{{$product->stock_supplier2}}
+                                                        <span class="ml-1">vnt</span>
+                                                    </span>
+                                                        @elseif($product->stock_supplier2 < 3 )
+                                                            <span class="c-product-stock__availability c-product-stock__availability--less">{{$product->stock_supplier2}}
+                                                            <span class="ml-1">vnt</span>
+                                                        </span>
+                                                        @else
+
+                                                            <span class="c-product-stock__availability c-product-stock__availability--more">@if($product->stock_supplier2 > 4)&gt;5 @else {{$product->stock_supplier2}}@endif
+                                                            <span class="ml-1">vnt</span>
+                                                        </span>
+                                                        @endif
+                                                        <span class="c-product-stock__name mr-2 ml-2">1-2 d.d. užsakant iki 17:00</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -293,7 +311,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-4 d-flex justify-content-end align-items-end">
-                                        @if($product->stock_shop + $product->stock_supplier > 0 && $product->price > 0)
+                                        @if($product->stock_shop + $product->stock_supplier + $product->stock_supplier2 > 0 && $product->price > 0)
                                         <div type="ADD_TO_CART" data-control-type="Order">
                                             <form action="{{route('cart.store')}}" method="post">
                                                 <div class="d-flex">
