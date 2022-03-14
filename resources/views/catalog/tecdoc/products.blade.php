@@ -265,7 +265,7 @@
                                             </div>
                                             @if($product->supplier->name === 'Maxgear')
                                                 <span id="stock" class="c-product-stock__name">
-                                                <span class="c-product-stock__availability--more" style="margin-right: 0.5rem !important;">Kiti sandelį</span>
+                                                <span class="c-product-stock__availability--more" style="margin-right: 0.5rem !important;">Kiti sandėliai</span>
                                                  <span id="stock_show">
                                                          @if($product->stock_supplier2 === 0)
                                                          <span class="c-product-stock__availability">{{$product->stock_supplier2}}
