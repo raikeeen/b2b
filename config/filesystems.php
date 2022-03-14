@@ -70,8 +70,8 @@ return [
             'username' => 'ftp_admin',
             'password' => 'sDFK456sdfk34svdf$',
             'port' => 21,
-            'passive' => true,
-            'ssl' => true,
+            /*'passive' => true,
+            'ssl' => true,*/
             ]
     ],
 
