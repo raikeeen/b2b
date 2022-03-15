@@ -71,7 +71,7 @@ return [
             'password' => 'sDFK456sdfk34svdf$',
             //'port' => 21,
             //'passive' => true,
-            //'ssl' => true,
+            'ssl' => true,
             ]
     ],
 
