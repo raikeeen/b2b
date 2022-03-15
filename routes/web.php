@@ -121,6 +121,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/updateHart', function (){
         \App\Jobs\UpdateStockHart::dispatch()->onQueue('update_stock');
     });
+    Route::get('/updateTomala', function (){
+        \App\Jobs\UpdateStockTomala::dispatch()->onQueue('update_stock');
+    });
     Route::get('/zaloguj-sie', function (){
         return redirect()->route('home');
     });
