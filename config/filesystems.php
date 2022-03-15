@@ -69,9 +69,9 @@ return [
             'host' => '80.209.229.232',
             'username' => 'ftp_admin',
             'password' => 'sDFK456sdfk34svdf$',
-            'port' => 21,
-            'passive' => true,
-            'ssl' => true,
+            //'port' => 21,
+            //'passive' => true,
+            //'ssl' => true,
             ]
     ],
 
