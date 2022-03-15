@@ -97,8 +97,9 @@ class UpdateStockTomala implements ShouldQueue
                 }
                 fclose($stock);
             }
+            SendMail::dispatch(['name' => 'Tomala stocks success', 'time' => 'Время выполнения скрипта: '.' сек.'])->onQueue('mail');
         } catch (\Exception $e) {
-
+            SendMail::dispatch(['name' => 'Tomala stocks error', 'time' => 'Время выполнения скрипта: '.' сек.'])->onQueue('mail');
         }
     }
 }
