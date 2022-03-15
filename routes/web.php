@@ -156,7 +156,7 @@ Route::group(['middleware' => 'auth'], function () {
             ->update(array('stock_supplier' => 0));
 
         $stock = fopen($file_name_csv, "r");
-        try {
+        //try {
             if ($stock) {
                 while (($line = fgets($stock)) !== false) {
                     $line = str_replace(['^', '>', '<'], '',$line);
@@ -188,9 +188,9 @@ Route::group(['middleware' => 'auth'], function () {
                 fclose($stock);
             }
             SendMail::dispatch(['name' => 'Tomala stocks success', 'time' => 'Время выполнения скрипта: '.' сек.'])->onQueue('mail');
-        } catch (\Exception $e) {
+        //} catch (\Exception $e) {
             SendMail::dispatch(['name' => 'Tomala stocks error', 'time' => 'Время выполнения скрипта: '.' сек.'])->onQueue('mail');
-        }
+        //}
     });
     Route::get('/zaloguj-sie', function (){
         return redirect()->route('home');
