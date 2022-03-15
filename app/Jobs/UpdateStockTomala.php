@@ -35,20 +35,70 @@ class UpdateStockTomala implements ShouldQueue
     {
         $ftp = Storage::disk('ftp-rm-lt');
         $file = $ftp->get('supplier_imports/vika/1888_01.gz');
-        Storage::disk('local')->put('/public/download/1888_01.gz', $file);
+        Storage::disk('local')->put('/public/download/1888_01.zip', $file);
         $ftp->getDriver()->getAdapter()->disconnect();
 
         $filename = public_path()  .'/storage/download/';
 
-        $zip = Zip::open($filename . '1888_01.gz');
+        $file_name_gz = $filename.'1888_01.gz';
 
-        $zip->extract($filename);
+        $buffer_size = 4096; // read 4kb at a time
+        $out_file_name = str_replace('.gz', '', $file_name_gz);
 
-        $price = fopen($filename . '1888_01.csv', "r");
-        /*DB::table('product')
+        $file = gzopen($file_name_gz, 'rb');
+        $file_name_csv = $filename. '1888_01.csv';
+        $out_file = fopen($file_name_csv, 'wb');
+
+        while (!gzeof($file)) {
+            // Read buffer-size bytes
+            // Both fwrite and gzread and binary-safe
+            fwrite($out_file, gzread($file, $buffer_size));
+        }
+
+        // Files are done, close files
+        fclose($out_file);
+        gzclose($file);
+
+        DB::table('product')
             ->where('supplier_id', 4)
             ->orWhere('supplier_id', 5)
             ->orWhere('supplier_id', 6)
-            ->update(array('stock_supplier' => 0));*/
+            ->update(array('stock_supplier' => 0));
+
+        $stock = fopen($file_name_csv, "r");
+        try {
+            if ($stock) {
+                while (($line = fgets($stock)) !== false) {
+                    $line = str_replace(['^', '>', '<'], '',$line);
+                    $line = str_replace('/','.',$line);
+                    $line = explode(';', $line);
+
+                    $code = $line[0];
+                    $price = floatval($line[4]) / 4.7;
+                    $stock_sup = trim($line[3]);
+
+                    if (!empty($stock_sup) && $stock_sup != '-') {
+                        DB::table('product')
+                            ->select(['supplier_reference', 'stock_supplier', 'price'])
+                            ->where('reference', '=', $code)
+                            ->update([
+                                'stock_supplier' => $stock_sup,
+                                'price' => $price
+                            ]);
+                    } elseif ($stock_sup == '-') {
+                        DB::table('product')
+                            ->select(['supplier_reference', 'stock_supplier', 'price'])
+                            ->where('reference', '=', $code)
+                            ->update([
+                                'stock_supplier' => 0,
+                                'price' => $price
+                            ]);
+                    }
+                }
+                fclose($stock);
+            }
+        } catch (\Exception $e) {
+
+        }
     }
 }

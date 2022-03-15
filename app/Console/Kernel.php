@@ -9,6 +9,7 @@ use App\Jobs\UpdateStockHart;
 use App\Jobs\UpdateStockMaxgear;
 use App\Jobs\UpdateStockPolcar;
 use App\Jobs\UpdateStockSkv;
+use App\Jobs\UpdateStockTomala;
 use App\Models\AjsApi;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -39,6 +40,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new UpdateStatusVenipak(), 'default')->everyTwoHours();
         $schedule->job(new UpdateStockB1(), 'update_stock')->dailyAt('04:00');
         $schedule->job(new UpdateStockAjs(), 'update_stock')->dailyAt('04:00');
+        $schedule->job(new UpdateStockTomala(), 'update_stock')->dailyAt('04:30');
         $schedule->job(new UpdateStockMaxgear(), 'update_stock')->dailyAt('05:00');
         $schedule->job(new UpdateStockPolcar(), 'update_stock')->dailyAt('06:00');
         $schedule->job(new UpdateStockHart(), 'update_stock')->dailyAt('06:30');
