@@ -35,7 +35,7 @@ class UpdateStockTomala implements ShouldQueue
     {
         $ftp = Storage::disk('ftp-rm-lt');
         $file = $ftp->get('supplier_imports/vika/1888_01.gz');
-        Storage::disk('local')->put('/public/download/1888_01.zip', $file);
+        Storage::disk('local')->put('/public/download/1888_01.gz', $file);
         $ftp->getDriver()->getAdapter()->disconnect();
 
         $filename = public_path()  .'/storage/download/';
