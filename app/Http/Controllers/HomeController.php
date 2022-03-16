@@ -59,7 +59,48 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
+    {$apiMTRLoginLDZ = 'AUTODALYS';
+        $apiMTRPassLDZ = 'Dcmn4%1lkdfS21';
+        $apiMTRUrl="https://dedal.polcar.com/Dystrybutorzy/Customers.asmx?wsdl";
+        $options = [
+            'cache_wsdl'     => WSDL_CACHE_NONE,
+            'trace'          => 1,
+            'stream_context' => stream_context_create(
+                [
+                    'ssl' => [
+                        'verify_peer'       => false,
+                        'verify_peer_name'  => false,
+                        'allow_self_signed' => true
+                    ]
+                ]
+            )
+        ];
+        $client = new SoapClient($apiMTRUrl, $options);
+        $inputQuery = array(
+            'PartList' => 'xml',
+            'DistributorCode' => 'GRB',
+            'CustomerNumber' => 115,
+            'Login' => $apiMTRLoginLDZ,
+            'Password' => $apiMTRPassLDZ,
+        );
+
+        $requst = $client->GetCustomerPricesForList($inputQuery);
+        dd($requst);
+        $requst = json_decode(json_encode($requst), true);
+        $xml = simplexml_load_string($requst['GetDistributorPriceListResult']['any']);
+        /*$client = new SoapClient($apiMTRUrl, $options);
+        $inputQuery = array(
+            'DistributorCode' => 'GRB',
+            'PriceListName' => 'Garbus_KLNT',
+            'Login' => $apiMTRLoginLDZ,
+            'Password' => $apiMTRPassLDZ,
+        );
+
+        $requst = $client->GetDistributorPriceList($inputQuery);
+        dd($requst);
+        $requst = json_decode(json_encode($requst), true);
+        $xml = simplexml_load_string($requst['GetDistributorPriceListResult']['any']);
+dd($xml);*/
         $newProducts = Product::orderBy('id', 'desc')->take(20)->get();
         $soldProducts = Product::where('stock_shop', 0)->where('stock_shop', 0)->take(15)->get();
         $specProducts = Product::where('name', 'like', '%'.'VARIKLIO BALKIS'.'%')->take(15)->get();
