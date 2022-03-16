@@ -59,7 +59,7 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {$apiMTRLoginLDZ = 'AUTODALYS';
+    {/*$apiMTRLoginLDZ = 'AUTODALYS';
         $apiMTRPassLDZ = 'Dcmn4%1lkdfS21';
         $apiMTRUrl="https://dedal.polcar.com/Dystrybutorzy/Customers.asmx?wsdl";
         $options = [
@@ -87,7 +87,7 @@ class HomeController extends Controller
         $requst = $client->GetCustomerPricesForList($inputQuery);
         dd($requst);
         $requst = json_decode(json_encode($requst), true);
-        $xml = simplexml_load_string($requst['GetDistributorPriceListResult']['any']);
+        $xml = simplexml_load_string($requst['GetDistributorPriceListResult']['any']);*/
         /*$client = new SoapClient($apiMTRUrl, $options);
         $inputQuery = array(
             'DistributorCode' => 'GRB',
