@@ -162,12 +162,26 @@ Route::group(['middleware' => 'auth'], function () {
                     $line = str_replace(['^', '>', '<'], '',$line);
                     $line = str_replace('/','.',$line);
                     $line = explode(';', $line);
-
+                    $count = count($line);
                     $code = $line[0];
-                    $price = floatval($line[4]) / 4.7;
-                    $stock_sup = trim($line[3]);
 
-                    if (!empty($stock_sup) && $stock_sup != '-') {
+                    if($count < 8) {
+                        $price = floatval($line[4]) / 4.7;
+                        $stock_sup = trim($line[3]);
+                    }
+                    elseif($count == 8) {
+                        $price = floatval($line[5]) / 4.7;
+                        $stock_sup = trim($line[4]);
+                    } elseif ($count == 9) {
+                        $price = floatval($line[6]) / 4.7;
+                        $stock_sup = trim($line[5]);
+                    } elseif ($count == 10) {
+                        $price = floatval($line[7]) / 4.7;
+                        $stock_sup = trim($line[6]);
+                    }
+
+
+                    if (!empty($stock_sup) && $stock_sup != '-' && isset($price)) {
                         DB::table('product')
                             ->select(['supplier_reference', 'stock_supplier', 'price'])
                             ->where('reference', '=', $code)
@@ -175,7 +189,7 @@ Route::group(['middleware' => 'auth'], function () {
                                 'stock_supplier' => $stock_sup,
                                 'price' => $price
                             ]);
-                    } elseif ($stock_sup == '-') {
+                    } elseif ($stock_sup == '-' && isset($price)) {
                         DB::table('product')
                             ->select(['supplier_reference', 'stock_supplier', 'price'])
                             ->where('reference', '=', $code)
