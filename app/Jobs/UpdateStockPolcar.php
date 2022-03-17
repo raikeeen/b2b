@@ -32,7 +32,7 @@ class UpdateStockPolcar implements ShouldQueue
      */
     public function handle()
     {
-        try {
+        /*try {
             $apiMTRLoginLDZ = 'AUTODALYS';
             $apiMTRPassLDZ = 'Dcmn4%1lkdfS21';
             $apiMTRUrl="https://dedal.polcar.com/Dystrybutorzy/Products.asmx?wsdl";
@@ -77,6 +77,57 @@ class UpdateStockPolcar implements ShouldQueue
             SendMail::dispatch(['name' => 'Polcar stocks success', 'time' => 'Время выполнения скрипта: '.' сек.'])->onQueue('mail');
         } catch (SoapFault $fault) {
 
+            SendMail::dispatch(['name' => 'ERROR Synchronization Polcar stocks'])->onQueue('mail');
+        }*/
+        try {
+            $apiMTRLoginLDZ = 'AUTODALYS';
+            $apiMTRPassLDZ = 'Dcmn4%1lkdfS21';
+            $apiMTRUrl="https://dedal.polcar.com/Dystrybutorzy/Customers.asmx?wsdl";
+            $options = [
+                'cache_wsdl'     => WSDL_CACHE_NONE,
+                'trace'          => 1,
+                'stream_context' => stream_context_create(
+                    [
+                        'ssl' => [
+                            'verify_peer'       => false,
+                            'verify_peer_name'  => false,
+                            'allow_self_signed' => true
+                        ]
+                    ]
+                )
+            ];
+            $client = new SoapClient($apiMTRUrl, $options);
+            $inputQuery = array(
+                'DistributorCode' => 'GRB',
+                'PriceListName' => 'Garbus_KLNT',
+                'Login' => $apiMTRLoginLDZ,
+                'Password' => $apiMTRPassLDZ,
+            );
+
+            $requst = $client->GetDistributorPriceList($inputQuery);
+            $requst = json_decode(json_encode($requst), true);
+            $xml = simplexml_load_string($requst['GetDistributorPriceListResult']['any']);
+
+            DB::table('product')
+                ->where('supplier_id', 10)
+                ->update(array('stock_supplier' => 0));
+
+            foreach ($xml as $item) {
+                $stock = DB::table('product')
+                    ->select(['supplier_reference', 'stock_supplier'])
+                    ->where('supplier_reference', (string)$item['Number'])
+                    ->first();
+                if(!empty($stock)) {
+                    DB::table('product')
+                        ->where('supplier_reference', '=', (string)$item['Number'])
+                        ->update(array(
+                            'stock_supplier' => (int)$item['Quantity'],
+                            'price' => (int)$item['Price'] / 1.34
+                        ));
+                }
+            }
+            SendMail::dispatch(['name' => 'Polcar stocks success', 'time' => 'Время выполнения скрипта: '.' сек.'])->onQueue('mail');
+        } catch (SoapFault $fault) {
             SendMail::dispatch(['name' => 'ERROR Synchronization Polcar stocks'])->onQueue('mail');
         }
     }
