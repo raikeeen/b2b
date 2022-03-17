@@ -35,7 +35,7 @@ class UpdateStatusVenipak implements ShouldQueue
      */
     public function handle()
     {
-        $orders = Order::all();
+        $orders = Order::where('delivery_id', 2)->get();
         $venipak = new Venipak();
         foreach ($orders as $order) {
             if($order->status_last == 'Išrašyta sąskaita-faktūra' && isset($order->venipak->send)) {
