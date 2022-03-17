@@ -118,6 +118,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/updatePolcar', function (){
         \App\Jobs\UpdateStockPolcar::dispatch()->onQueue('update_stock');
     });
+    Route::get('/updateVenipack', function (){
+        \App\Jobs\UpdateStatusVenipak::dispatch()->onQueue('high');
+    });
     Route::get('/updateHart', function (){
         \App\Jobs\UpdateStockHart::dispatch()->onQueue('update_stock');
     });
