@@ -122,7 +122,7 @@ class UpdateStockPolcar implements ShouldQueue
                         ->where('supplier_reference', '=', (string)$item['Number'])
                         ->update(array(
                             'stock_supplier' => (int)$item['Quantity'],
-                            'price' => (int)$item['Price'] / 1.34
+                            'price' => (int)$item['Price'] * 0.66
                         ));
                 }
             }
