@@ -1,7 +1,9 @@
 <?php
 
-namespace Illuminate\Foundation\Auth;
+namespace App\Http\Controllers\Auth;
 
+use Illuminate\Foundation\Auth\RedirectsUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -165,13 +167,21 @@ trait AuthenticatesUsers
      */
     public function logout(Request $request)
     {
+        $cart = collect($request->session()->get('cart'));
+
         $this->guard()->logout();
 
-        if (config('cart.destroy_on_logout')) {
+        //if (config('cart.destroy_on_logout')) {
             $request->session()->invalidate();
-        }
+        //}
 
         $request->session()->regenerateToken();
+
+        if (!config('cart.destroy_on_logout')) {
+            $cart->each(function($rows, $identifier) use ($request) {
+                $request->session()->put('cart.' . $identifier, $rows);
+            });
+        }
 
         if ($response = $this->loggedOut($request)) {
             return $response;
