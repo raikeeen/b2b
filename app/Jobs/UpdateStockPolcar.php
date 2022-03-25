@@ -110,7 +110,10 @@ class UpdateStockPolcar implements ShouldQueue
 
             DB::table('product')
                 ->where('supplier_id', 10)
-                ->update(array('stock_supplier' => 0));
+                ->update(array(
+                    'stock_supplier' => 0,
+                    'stock_supplier2' => 0
+                ));
 
             foreach ($xml as $item) {
                 $stock = DB::table('product')
