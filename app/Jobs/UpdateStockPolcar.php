@@ -119,7 +119,7 @@ class UpdateStockPolcar implements ShouldQueue
                     ->first();
                 if(!empty($stock)) {
                     DB::table('product')
-                        ->where('supplier_reference', '=', (string)$item['Number'])
+                        ->where('supplier_reference', '=', (string)$item['Number']." Polcar")
                         ->update(array(
                             'stock_supplier' => (int)$item['Quantity'],
                             'price' => (float)$item['Price'] * 0.67 / 1.21

@@ -1104,9 +1104,7 @@ dd($nam);*/
             ->setLinkingTargetType('P')
             ->setFavouredList(1);
         $response = $client->getManufacturers2($params);
-
         $manufacturers = $response->getData();
-
         return view('home', [
             'manufacturers' => $manufacturers,
             'newProducts' => $newProducts,
@@ -1117,5 +1115,13 @@ dd($nam);*/
             'brands' => $brands,
             'favProducts' => $favProducts
         ]);
+    }
+    public function data($model)
+    {
+        return  '('.substr($model->getYearOfConstrFrom(),-2).'.'.
+            substr($model->getYearOfConstrFrom(),0,4).' - '.
+            substr($model->getYearOfConstrTo(),-2).'.'.
+            substr($model->getYearOfConstrTo(),0,4).')';
+
     }
 }
