@@ -118,12 +118,11 @@ class UpdateStockPolcar implements ShouldQueue
             foreach ($xml as $item) {
                 $stock = DB::table('product')
                     ->select(['supplier_reference', 'stock_supplier'])
-                    ->where('supplier_reference', (string)$item['Number'])
+                    ->where('supplier_reference', (string)$item['Number'].' Polcar')
                     ->first();
                 if(!empty($stock)) {
                     DB::table('product')
-                        ->where('supplier_id', 10)
-                        ->where('supplier_reference', (string)$item['Number'].'%')
+                        ->where('supplier_reference', (string)$item['Number'].' Polcar')
                         ->update(array(
                             'stock_supplier' => (int)$item['Quantity'],
                             'price' => (float)$item['Price'] * 0.67 / 1.21
