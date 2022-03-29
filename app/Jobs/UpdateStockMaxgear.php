@@ -49,6 +49,7 @@ class UpdateStockMaxgear implements ShouldQueue
                 if($line[2] == '01') {
                     $product = DB::table('product')
                         ->select(['supplier_reference', 'stock_supplier'])
+                        ->where('supplier_id', 3)
                         ->where('supplier_reference', $code)
                         ->orWhere('reference', $code)
                         ->first();
@@ -56,6 +57,7 @@ class UpdateStockMaxgear implements ShouldQueue
                     if (isset($product)) {
                         $query = DB::table('product')
                             ->select(['supplier_reference', 'stock_supplier'])
+                            ->where('supplier_id', 3)
                             ->where('supplier_reference', $code)
                             ->orWhere('reference', $code)
                             ->update([
@@ -65,6 +67,7 @@ class UpdateStockMaxgear implements ShouldQueue
                 } else {
                     $product = DB::table('product')
                         ->select(['supplier_reference', 'stock_supplier2'])
+                        ->where('supplier_id', 3)
                         ->where('supplier_reference', $code)
                         ->orWhere('reference', $code)
                         ->first();
@@ -72,6 +75,7 @@ class UpdateStockMaxgear implements ShouldQueue
                     if (isset($product)) {
                         $query = DB::table('product')
                             ->select(['supplier_reference', 'stock_supplier2'])
+                            ->where('supplier_id', 3)
                             ->where('supplier_reference', $code)
                             ->orWhere('reference', $code)
                             ->update([
