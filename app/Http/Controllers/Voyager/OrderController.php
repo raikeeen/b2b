@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Voyager;
 
+use App\Jobs\SendMailCancelOrder;
 use App\Models\Product;
 use App\Jobs\GetDocumentB1;
 use App\Models\B1Api;
@@ -529,6 +530,11 @@ class OrderController extends VoyagerBaseController
                 $doc->status_id = 3;
                 $doc->save();
             }
+            $mail = ['name' => 'Užsakymas atšauktas '.$order->reference, 'order' => Order::detailOrder($order)];
+
+            //SendMailOrder::dispatch($mail, $order)->onQueue('mail');
+
+            dispatch(new SendMailCancelOrder($mail, $order))->onQueue('mail');
         }
 
         return redirect()->back()->with('success_message', 'Atnaujinta būsena');
