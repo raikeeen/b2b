@@ -3,6 +3,15 @@
 @section('page_title', __('voyager::generic.viewing').' '.$dataType->getTranslatedAttribute('display_name_plural'))
 
 @section('page_header')
+    @if(count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="container-fluid">
         <h1 class="page-title">
             <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
@@ -32,6 +41,25 @@
                 @include('voyager::bread.partials.actions', ['action' => $action, 'data' => null])
             @endif
         @endforeach
+        <form method="post" action="{{route("all.status.change")}}" style="display:inline; padding-left: 15px">
+            @csrf
+            <select name="status_id" id="status">
+                <option value="">Pasirinkti</option>
+                <optgroup label="Užsakymo būsenos">
+                    @foreach($orderStatus as $status)
+                        <option value="{{$status->id}}">{{$status->name}}</option>
+                    @endforeach
+                </optgroup>
+                <optgroup label="Apmokejimo būsenos">
+                    @foreach($paymentStatus as $status)
+                        <option value="{{$status->name}}">{{$status->name}}</option>
+                    @endforeach
+                </optgroup>
+            </select>
+            <button type="submit" class="btn btn-sm" style="background-color: #00dfe3"><i class="voyager-check"></i>  Pakeisti Statusą</button>
+            <input type="hidden" name="action" value="">
+            <input type="hidden" name="ids" value="" class="selected_ids">
+        </form>
         @include('voyager::multilingual.language-selector')
     </div>
 @stop
@@ -395,5 +423,6 @@
             });
             $('.selected_ids').val(ids);
         });
+        $('#status').select2();
     </script>
 @stop

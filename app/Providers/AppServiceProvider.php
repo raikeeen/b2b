@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Actions\ChangeStatusAction;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Resources\Json\JsonResource;
 use TCG\Voyager\Actions\ViewAction;
@@ -26,7 +27,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Voyager::replaceAction(ViewAction::class, \App\Actions\ViewAction::class);
+        //Voyager::addAction(ChangeStatusAction::class, \App\Actions\ChangeStatusAction::class);
+        //Voyager::replaceAction(ViewAction::class, \App\Actions\ViewAction::class);
         JsonResource::withoutWrapping();
     }
 }

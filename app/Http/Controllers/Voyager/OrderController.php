@@ -10,6 +10,7 @@ use App\Models\DocumentB1Status;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderStatus;
+use App\Models\Status;
 use App\Models\Tax;
 use App\Models\Venipak;
 use Exception;
@@ -197,6 +198,9 @@ class OrderController extends VoyagerBaseController
             $view = "voyager::$slug.browse";
         }
 
+        $orderStatus = Status::all();
+        $paymentStatus = DocumentB1Status::all();
+
         return Voyager::view($view, compact(
             'actions',
             'dataType',
@@ -212,7 +216,9 @@ class OrderController extends VoyagerBaseController
             'defaultSearchKey',
             'usesSoftDeletes',
             'showSoftDeleted',
-            'showCheckboxColumn'
+            'showCheckboxColumn',
+            'orderStatus',
+            'paymentStatus'
         ));
     }
 
@@ -1067,6 +1073,66 @@ class OrderController extends VoyagerBaseController
             $i->$column = ($key + 1);
             $i->save();
         }
+    }
+    public function allStatusChange(Request $request)
+    {
+        if(empty($request->ids) || empty($request->status_id)) {
+            return redirect()->back()->withErrors('Pasirinkite Būseną arba Ids');
+        }
+        $ids = explode(',', $request->ids);
+        $statusB1 = DocumentB1Status::where('name', $request->status_id)->first();
+
+        if(!empty($statusB1)) {
+            foreach ($ids as $id) {
+                $order = Order::Find($id);
+                $doc = DocumentB1::Find($order->document_b1_id);
+                if($statusB1->id == 1) {
+
+                    $doc->status_id = $statusB1->id;
+                    $doc->save();
+
+                } elseif($statusB1->id == 2) {
+
+                    $doc->status_id = $statusB1->id;
+                    $doc->price = 0;
+                    $doc->save();
+
+                } elseif($statusB1->id == 3) {
+
+                    $doc->status_id = $statusB1->id;
+                    $doc->price = 0;
+                    $doc->save();
+
+                }
+            }
+            return redirect()->back()->with('success_message', 'Būsena atnaujinta');
+        }
+        foreach ($ids as $id) {
+
+            $orderStatus = new OrderStatus();
+            $orderStatus->order_id = $id;
+            $orderStatus->status_id = $request->status_id;
+            $orderStatus->save();
+
+            if ($request->status_id === '10') {
+
+                GetDocumentB1::dispatch($id)->onQueue('high');
+
+            } elseif ($request->status_id === '5') {
+                $order = Order::Find($id);
+
+                if (isset($order->document_b1)) {
+                    $doc = $order->document_b1;
+                    $doc->price = 0;
+                    $doc->status_id = 3;
+                    $doc->save();
+                }
+                $mail = ['name' => 'Užsakymas atšauktas ' . $order->reference, 'order' => Order::detailOrder($order)];
+
+                dispatch(new SendMailCancelOrder($mail, $order))->onQueue('mail');
+            }
+        }
+        return redirect()->back()->with('success_message', 'Būsena atnaujinta');
     }
 
     public function action(Request $request)

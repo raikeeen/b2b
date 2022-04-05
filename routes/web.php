@@ -61,7 +61,7 @@ Route::group(['prefix' => 'admin-kavateka'], function () {
     Route::post('users/{id}/margin/delete', [\App\Http\Controllers\Voyager\UserController::class, 'deleteSpecProduct'])->name('voyager.users.deleteMargin');
     Route::post('users/{id}/margin/add-cat', [\App\Http\Controllers\Voyager\UserController::class, 'addSpecCat'])->name('voyager.users.addCat');
     Route::post('users/{id}/margin/delete-cat', [\App\Http\Controllers\Voyager\UserController::class, 'deleteSpecCat'])->name('voyager.users.deleteCat');
-
+    Route::post('orders-status-change', [\App\Http\Controllers\Voyager\OrderController::class, 'allStatusChange'])->name('all.status.change');
 });
 
 
