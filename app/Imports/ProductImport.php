@@ -26,8 +26,14 @@ class ProductImport implements ToModel
             'stock_shop' => $row['stock_shop'],
             'stock_supplier' => $row['stock_supplier'],
             'trade_margin' => $row['trade_margin'],
+            'trade_margin_pard' => $row['trade_margin_pard'],
             'description' => $row['description'],
             'short_description' => $row['short_description'],
+            'price' => $row['price'],
+            'price_add' => $row['price_add'],
+            'supplier_id' => $row['supplier_id'],
+            'margin_id' => $row['margin_id'],
+            'b1_product_id' => $row['b1_product_id'],
         ]);
     }
 }
