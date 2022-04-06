@@ -16,4 +16,8 @@ class Img extends Model
     {
         return $this->belongsTo('App\Models\Product');
     }
+    public function orderitem()
+    {
+        return $this->belongsTo('App\Models\OrderItem');
+    }
 }

@@ -18,6 +18,10 @@ class OrderItem extends Model
     {
         return $this->belongsTo('App\Models\Order');
     }
+    public function img()
+    {
+        return $this->hasMany('App\Models\Img','product_id');
+    }
     public function product()
     {
         return $this->belongsTo('App\Models\Product');
