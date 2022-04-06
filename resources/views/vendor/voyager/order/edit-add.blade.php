@@ -197,8 +197,8 @@
                                                 <input step="any" hidden type="number" name="id_item" value="{{$product->id}}">
                                             @if($product->product_id === null)
                                                 <tr class="product-line-row">
-                                                    <td><img @if(!empty($product->img) && $product->img->first() !== null) src="{{$product->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif
-                                                        alt="{{$product->name}}" width="55" height="55" class="imgm img-thumbnail"></td>
+                                                    <td><img @if(!empty($product->img) && $product->img->first() !== null) src="https://rm-autodalys.eu/{{$product->img->first()->name}}" @else src="https://rm-autodalys.eu/storage/images/no_photo_500.jpg" @endif
+                                                        alt="{{$product->name}}" width="84" height="84" class="imgm img-thumbnail"></td>
                                                     <td>
                                                         <a href="{{route('voyager.product.index')}}">
                                                             <span class="productName">{{$product->name}}</span><br>
@@ -242,8 +242,8 @@
                                                 <input step="any" type="" hidden {{$all += $product->priceTax() * $product->amount}}>
                                             @else
                                                 <tr class="product-line-row">
-                                                    <td><img @if(!empty($product->img) && $product->img->first() !== null) src="{{$product->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif
-                                                        alt="{{$product->name}}" width="55" height="55" class="imgm img-thumbnail"></td>
+                                                    <td><img @if(!empty($product->img) && $product->img->first() !== null) src="https://rm-autodalys.eu/{{$product->img->first()->name}}" @else src="https://rm-autodalys.eu/storage/images/no_photo_500.jpg" @endif
+                                                        alt="{{$product->name}}" width="84" height="84" class="imgm img-thumbnail"></td>
                                                     <td>
                                                         <a href="{{route('voyager.product.edit', $product->product->id)}}">
                                                             <span class="productName">{{$product->product->name}}</span><br>
