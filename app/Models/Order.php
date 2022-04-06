@@ -21,14 +21,22 @@ class Order extends Model
         'payment_price',
         'delivery_price'
     ];
-    protected $appends = ['company', 'status_latest'];
-    public $additional_attributes = ['company', 'status_latest', 'status_last', 'status_factura'];
+    protected $appends = ['company', 'status_latest', 'invoice'];
+    public $additional_attributes = ['company', 'status_latest', 'status_last', 'status_factura', 'invoice'];
 
     public function getCompanyAttribute()
     {
         return $this->user->address->company_name;
     }
-
+    public function getInvoiceAttribute()
+    {
+        if(isset($this->document_b1->name)) {
+            $invoice = $this->document_b1->name;
+        } else {
+            $invoice = '';
+        }
+        return $invoice;
+    }
     public function getStatusLatestAttribute()
     {
         $status = $this->status->last();
