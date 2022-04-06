@@ -197,7 +197,7 @@
                                                 <input step="any" hidden type="number" name="id_item" value="{{$product->id}}">
                                             @if($product->product_id === null)
                                                 <tr class="product-line-row">
-                                                    <td><img @if($product->img->first() !== null) src="{{$product->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif
+                                                    <td><img @if(!empty($product->img) && $product->img->first() !== null) src="{{$product->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif
                                                         alt="{{$product->name}}" width="55" height="55" class="imgm img-thumbnail"></td>
                                                     <td>
                                                         <a href="{{route('voyager.product.index')}}">
@@ -242,7 +242,7 @@
                                                 <input step="any" type="" hidden {{$all += $product->priceTax() * $product->amount}}>
                                             @else
                                                 <tr class="product-line-row">
-                                                    <td><img @if($product->img->first() !== null) src="{{$product->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif
+                                                    <td><img @if(!empty($product->img) && $product->img->first() !== null) src="{{$product->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif
                                                         alt="{{$product->name}}" width="55" height="55" class="imgm img-thumbnail"></td>
                                                     <td>
                                                         <a href="{{route('voyager.product.edit', $product->product->id)}}">
