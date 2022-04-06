@@ -197,7 +197,8 @@
                                                 <input step="any" hidden type="number" name="id_item" value="{{$product->id}}">
                                             @if($product->product_id === null)
                                                 <tr class="product-line-row">
-                                                    <td><img src="/storage/images/no_photo_500.jpg" width="55" height="55" alt="" class="imgm img-thumbnail"></td>
+                                                    <td><img @if($product->img->first() !== null) src="{{$product->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif
+                                                        alt="{{$product->name}}" width="55" height="55" class="imgm img-thumbnail"></td>
                                                     <td>
                                                         <a href="{{route('voyager.product.index')}}">
                                                             <span class="productName">{{$product->name}}</span><br>
@@ -241,7 +242,8 @@
                                                 <input step="any" type="" hidden {{$all += $product->priceTax() * $product->amount}}>
                                             @else
                                                 <tr class="product-line-row">
-                                                    <td><img src="/storage/images/no_photo_500.jpg" width="55" height="55" alt="" class="imgm img-thumbnail"></td>
+                                                    <td><img @if($product->img->first() !== null) src="{{$product->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif
+                                                        alt="{{$product->name}}" width="55" height="55" class="imgm img-thumbnail"></td>
                                                     <td>
                                                         <a href="{{route('voyager.product.edit', $product->product->id)}}">
                                                             <span class="productName">{{$product->product->name}}</span><br>

@@ -189,7 +189,7 @@
                                            data-toggle="lightbox">
                                             <img class="c-product-image__image"
                                                 @if($product->img->first() !== null) src="{{$product->img->first()->name}}" @else src="/storage/images/no_photo_500.jpg" @endif
-                                                 alt="{{$product->name}}">
+                                            alt="{{$product->name}}">
                                         </a>
                                     </div>
                                 </div>
