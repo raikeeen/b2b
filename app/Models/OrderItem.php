@@ -20,7 +20,7 @@ class OrderItem extends Model
     }
     public function img()
     {
-        return $this->hasMany('App\Models\Img','product_id');
+        return $this->hasMany('App\Models\Img','product_id', 'product_id');
     }
     public function product()
     {
