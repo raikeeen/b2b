@@ -299,13 +299,13 @@
                                             <tbody>
                                             <tr>
                                                 <td style="padding-right:15px">
-                                                    <input type="text" value="" name="reference" step="0.01" class="form-control" placeholder="reference">
+                                                    <input type="text" value="" name="reference" step="0.01" class="form-control" placeholder="Kodas">
                                                 </td>
                                                 <td style="padding-right:15px">
-                                                    <input type="number" value="" name="amount" step="1" class="form-control" placeholder="amount">
+                                                    <input type="number" value="" name="amount" step="1" class="form-control" placeholder="Vnt">
                                                 </td>
                                                 <td style="padding-right:15px">
-                                                    <input type="number" value="" name="price" step="0.01" class="form-control" placeholder="price">
+                                                    <input type="number" value="" name="price" step="0.01" class="form-control" placeholder="Kaina su PVM">
                                                 </td>
                                                 <td>
                                                     <button type="submit" class="btn btn-success add-row float-right"><i class="voyager-check"></i></button>
@@ -390,7 +390,7 @@
                                                         <td class="text-right"><strong>Viso</strong></td>
                                                         <td class="amount text-right nowrap">
                                                             <strong>
-                                                                <input step="any" required class="input-none" type="number" name="total" value="{{$order->total}}">&nbsp;€
+                                                                <input step="any" required class="input-none" type="number" name="total" disabled value="{{$order->total}}">&nbsp;€
                                                             </strong>
                                                         </td>
                                                         <td class="partial_refund_fields current-edit" style="display:none;"></td>

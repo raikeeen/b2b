@@ -358,22 +358,27 @@ class OrderController extends VoyagerBaseController
     public function orderInfo(Request $request, $id)
     {
         $validated = $request->validate([
-            'total' => 'required',
             'delivery' => 'required',
             'payment' => 'required',
         ]);
 
         $order = Order::Find($id);
+
         $order->update([
-            'total' => $request->total,
+            'total' => $order->total - $order->delivery_price - $order->payment_price + $request->delivery + $request->payment,
             'delivery_price' => $request->delivery,
             'payment_price' => $request->payment,
         ]);
+
         return back()->with('success_message', 'Order has been updated!');
     }
     public function itemDelete(Request $request, $id)
     {
-        OrderItem::Find($request->item)->delete();
+
+        $item = OrderItem::Find($request->item);
+        $price = $item->amount * $item->price * 1.21;
+        $item->order->update(['total' => $item->order->total - $price]);
+        $item->delete();
 
         return response()->json('success');
     }
@@ -397,13 +402,15 @@ class OrderController extends VoyagerBaseController
             $orderItem = new OrderItem;
 
             $orderItem->name = $product->name;
-            $orderItem->price = $request->price;
+            $orderItem->price = $request->price / 1.21;
             $orderItem->product_id = $product->id;
             $orderItem->order_id = $id;
             $orderItem->user_id = $order->user->id;
             $orderItem->amount = $request->amount;
 
             $orderItem->save();
+
+            Order::Find($id)->update(['total' => $order->total + $request->price]);
 
             return back()->with('success_message', 'Item has been added!');
         }
@@ -417,10 +424,17 @@ class OrderController extends VoyagerBaseController
         ]);
 
         $orderItem = OrderItem::find($request->id_item);
+        $oldP = $orderItem->price * 1.21;
+        $oldA = $orderItem->amount;
         $orderItem->update([
             'price' => $request->price/1.21,
             'amount' => $request->amount,
         ]);
+
+        $sum = $orderItem->price * 1.21 * $orderItem->amount - $oldP * $oldA;
+        $order = Order::Find($id);
+        $order->update(['total' => $order->total + $sum]);
+
         return back()->with('success_message', 'Item has been updated!');
     }
     public function updateNameFac(Request $request, $id)
