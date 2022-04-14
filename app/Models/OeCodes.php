@@ -9,4 +9,9 @@ class OeCodes extends Model
 {
     use HasFactory;
     protected $table = 'oe_code';
+    protected $fillable = [
+        'name',
+        'product_id',
+        'code'
+    ];
 }
