@@ -6,22 +6,6 @@
     <div class="my-2">
         <h1 class="c-headline my-4">Katalogas</h1>
     </div>
-{{--    <form action="{{route('catalog.store')}}" method="post">
-    @csrf
-    <input name="name" id="name" type="text">
-
-
-        <select id="parent" name="parent" id="">
-            <option value="none">no any op</option>
-            @foreach($categories as $category)
-            <option value="{{$category->id}}">
-                {{$category->name}}
-            </option>
-            @endforeach
-        </select>
-        <button>add</button>
-    </form>--}}
-
     @foreach($categories as $category)
 
     <div class="c-category c-category--width">

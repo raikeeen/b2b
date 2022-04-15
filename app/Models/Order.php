@@ -239,28 +239,6 @@ class Order extends Model
         }
         return false;
     }
-   /* public static function orderTotal($order)
-    {
-        $orderdata = [
-            'products',
-            'total' => 0
-        ];
-        $products = [];
-
-        foreach ($order->orderitem as $product) {
-            $productFind = Product::find($product->product_id);
-            array_push($products, [
-                'reference' => $productFind->reference,
-                'name' => $productFind->name,
-                'amount' => $product->amount,
-                'price' => $product->price
-            ]);
-            $orderdata['total'] += $product->price * $product->amount;
-        }
-        $orderdata['products'] = $products;
-
-        return $orderdata;
-    }*/
     public function getFactura()
     {
         return 'storage/users/'.$this->user_id.'/invoice/'.$this->document_b1->name.".pdf";

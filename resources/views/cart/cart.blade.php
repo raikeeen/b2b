@@ -2,39 +2,10 @@
 
 @section('title','Krepšelis')
 @section('content')
-<!--    <script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "LocalBusiness",
-  "image": [
-    "logo.jpg"
-  ],
-  "@id": "https://www.rm-autodalys.eu/",
-  "name": "MB Kavateka",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Panerių g. 39",
-    "addressCountry": "PL",
-    "addressLocality": "Vilnius",
-    "addressRegion": "",
-    "postalCode": "03202"
-  },
-
-      "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 25.236373,
-          "longitude": 54.665539
-      },
-      "url": "https://www.rm-autodalys.eu/",
-  "telephone": "+370 691 31237"
-}
-</script>-->
     {{ Breadcrumbs::render('cart') }}
 
     @if(Cart::count() > 0)
-    <div data-bind="if: isDataLoaded(), attr: { hidden: false }">
-        <!-- ko if: !data.items().length --><!-- /ko -->
-        <!-- ko if: data.items().length -->
+    <div>
         <div class="c-panel c-panel--no-shadow list py-3">
             <div class="c-panel--no-shadow px-3">
                 <div class="c-panel--no-shadow">
@@ -107,14 +78,10 @@
                                     <span data-bind="text: metadata.article.quantityInformation.unit">vnt</span>
                                 </div>
                                 @endif
-                                <!-- ko if: metadata.article.prices.displayPrices.retail.gross() > price.gross() --><!-- /ko -->
-                                <!-- ko if: !metadata.article.prices.additionalCosts -->
                                 <span data-bind="text: price.displayGross">{{$item->model->priceTax()}}</span>
                                 <span data-bind="text: price.currencyCode">EUR</span>
                                 <span>/</span>
                                 <span data-bind="text: metadata.article.quantityInformation.unit">vnt</span>
-                                <!-- /ko -->
-                                <!-- ko if: metadata.article.prices.additionalCosts --><!-- /ko -->
                             </div>
                         </div>
 
@@ -136,7 +103,6 @@
             </div>
         @endforeach
 
-            <!-- /ko -->
         </div>
 
         <div class="c-panel c-panel--no-shadow p-3 mt-4">
@@ -176,7 +142,6 @@
                             </select>
                         </div>
                     </div>
-                    <!-- ko if: selectedTransport() && selectedTransport().comment --><!-- /ko -->
                 </div>
 
                 <div class="col-12 col-lg-4 mb-3 mb-md-0">
@@ -186,8 +151,6 @@
                         </label>
 
                         <div class="c-select__wrapper w-100">
-                            <!-- ko if: selectedTransport() --><!-- /ko -->
-                            <!-- ko if: !selectedTransport() -->
                             <select id="payment_select" name="payment_select" class="c-select c-select--block" disabled required>
                                 <option value="">
                                     Pirmiausia pasirinkite transportavimo būdą
@@ -196,7 +159,6 @@
                                     <option value="{{$payment->id}}">{{$payment->name}}</option>
                                 @endforeach
                             </select>
-                            <!-- /ko -->
                         </div>
                     </div>
                 </div>
@@ -555,29 +517,4 @@
         }
     });
 </script>
-{{--<script type="text/javascript">
-
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    $('#delivery_select').change(function(e){
-
-        e.preventDefault();
-
-        let delivery = $('#delivery_select').find(":selected").val();
-
-        $.ajax({
-            type:'POST',
-            url:"{{ route('ajax.cart') }}",
-            data:{delivery:delivery},
-            success:function(data){
-                alert(data.success);
-            }
-        });
-
-    });
-</script>--}}
 @endsection

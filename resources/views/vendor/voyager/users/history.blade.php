@@ -41,15 +41,6 @@
                         <div class="panel-body">
                             @if(isset($story))
                                 {{ $story->render("vendor.pagination.default") }}
-                                {{--<a class="" href="{{$story->previousPageUrl()}}">
-                                    <
-                                </a>
-                                <span class="mx-1">
-                                    <input class="c-input c-input&#45;&#45;top-pagination text-right p-2 mx-3" value="{{$story->currentPage()}}">
-                               </span>
-                                <a class="" href="{{$story->nextPageUrl()}}">
-                                    >
-                                </a>--}}
                                 <div>
                                     <div class="row d-none d-md-flex-voy pb-2-voy font-weight-bold-voy" style="margin-right: 0;margin-left: 0; font-weight: bold; color: #37474f; font-size: 16px">
                                         <div class="col-voy">
@@ -83,10 +74,6 @@
                                         <div class="row py-2-voy" style="padding-top: 10px">
                                             <div class="col-md-4">
 
-
-                                                {{--<span class="d-inline-block d-md-none">
-                                                  <span>Zamówienie</span>:
-                                                </span>--}}
                                                 <span data-bind="text: id">{{$st->id}}</span>
 
                                             </div>

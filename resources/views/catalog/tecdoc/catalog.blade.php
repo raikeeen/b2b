@@ -45,52 +45,6 @@
         <div class="col-md-9 col-sm-12">
             <div class="categoriestree__categories js-vehiclepage-categories-tree-categories row">
                 <div class="categoriestree__column col-md-6 col-6 col-sm-12">
-                    {{--<div class="categoriestree__category js-vehiclepage-categories-tree-category" data-code="6100000" data-track-ga-event-action="ExpandFO" data-track-ga-event-label="AUDI, A3 Sportback (8VA, 8VF), Filters">
-                        <div class="categoriestree__categoryimage js-vehiclepage-categories-tree-category-toggle"></div>
-                        <div class="categoriestree__categoryname js-vehiclepage-categories-tree-category-toggle js-vehiclepage-categories-tree-keyboardable js-onboarding-vehicle-category">
-                            Filters (84)
-                            <div class="categoriestree__categorytoggle js-vehiclepage-categories-tree-category-toggle is-open"></div>
-                        </div>
-                        <hr class="categoriestree__separator">
-                        <div class="categoriestree__subcategories js-vehiclepage-categories-tree-subcategories is-open was-opened"><div class="categoriestree__loading"></div><div class="categoriestree__subcategory js-vehiclepage-categories-tree-subcategory" data-code="6111000">
-                                <div class="categoriestree__subcategorytoggle js-vehiclepage-categories-tree-subcategory-toggle"></div>
-                                <div class="categoriestree__subcategoryname">
-                                    <a class="categoriestree__subcategoryanchor js-vehiclepage-categories-tree-keyboardable js-vehiclepage-categories-tree-focusable" href="/en/Full-offer/Filters/Oil-filter-casing-gasket/c/tecdoc-6100000-6111000?q=%3Adefault%3Avehicle%3ACAR_132930">
-                                        Oil filter/casing/gasket<span class="categoriestree__subcategorycount">22</span><span class="categoriestree__subcategorylink"></span>
-                                    </a>
-                                </div>
-                                <div class="categoriestree__subcategories js-vehiclepage-categories-tree-subcategories"></div>
-                            </div>
-                            <div class="categoriestree__subcategory js-vehiclepage-categories-tree-subcategory" data-code="6113000">
-                                <div class="categoriestree__subcategorytoggle js-vehiclepage-categories-tree-subcategory-toggle"></div>
-                                <div class="categoriestree__subcategoryname">
-                                    <a class="categoriestree__subcategoryanchor js-vehiclepage-categories-tree-keyboardable js-vehiclepage-categories-tree-focusable" href="/en/Full-offer/Filters/Air-filter-casing-gasket/c/tecdoc-6100000-6113000?q=%3Adefault%3Avehicle%3ACAR_132930">
-                                        Air filter/casing/gasket<span class="categoriestree__subcategorycount">14</span><span class="categoriestree__subcategorylink"></span>
-                                    </a>
-                                </div>
-                                <div class="categoriestree__subcategories js-vehiclepage-categories-tree-subcategories"></div>
-                            </div>
-                            <div class="categoriestree__subcategory js-vehiclepage-categories-tree-subcategory" data-code="6114000">
-                                <div class="categoriestree__subcategorytoggle js-vehiclepage-categories-tree-subcategory-toggle"></div>
-                                <div class="categoriestree__subcategoryname">
-                                    <a class="categoriestree__subcategoryanchor js-vehiclepage-categories-tree-keyboardable js-vehiclepage-categories-tree-focusable" href="/en/Full-offer/Filters/Cabin-filter-casing-gasket/c/tecdoc-6100000-6114000?q=%3Adefault%3Avehicle%3ACAR_132930">
-                                        Cabin filter/casing/gasket<span class="categoriestree__subcategorycount">41</span><span class="categoriestree__subcategorylink"></span>
-                                    </a>
-                                </div>
-                                <div class="categoriestree__subcategories js-vehiclepage-categories-tree-subcategories"></div>
-                            </div>
-                            <div class="categoriestree__subcategory js-vehiclepage-categories-tree-subcategory" data-code="6115000">
-                                <div class="categoriestree__subcategorytoggle js-vehiclepage-categories-tree-subcategory-toggle"></div>
-                                <div class="categoriestree__subcategoryname">
-                                    <a class="categoriestree__subcategoryanchor js-vehiclepage-categories-tree-keyboardable js-vehiclepage-categories-tree-focusable" href="/en/Full-offer/Filters/Hydraulic-Filter/c/tecdoc-6100000-6115000?q=%3Adefault%3Avehicle%3ACAR_132930">
-                                        Hydraulic Filter<span class="categoriestree__subcategorycount">7</span><span class="categoriestree__subcategorylink"></span>
-                                    </a>
-                                </div>
-                                <div class="categoriestree__subcategories js-vehiclepage-categories-tree-subcategories"></div>
-                            </div>
-                        </div>
-                    </div>
-                    --}}
                     @foreach($categories as $category)
                         @if($loop->odd)
                             <div class="categoriestree__category js-vehiclepage-categories-tree-category" data-code="{{$category->getAssemblyGroupNodeId()}}" data-child="{{$category->getHasChilds()}}">
@@ -172,8 +126,6 @@
                         console.log($(this))
                         let parentId = $(this).attr("data-code");
                         let cat = $(this).children('.categoriestree__subcategories');
-                        /*$(this).children('.categoriestree__subcategories').css("display", "block");*/
-                        /*let cat = $(this).children('.categoriestree__separator');*/
                         $.ajaxSetup({
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -217,8 +169,6 @@
                                             '                                        </use>\n' +
                                             '                                    </svg>')
                                     }
-                                    /*cat.after('<div class="categoriestree__subcategories"' +
-                                        ' data-code="' + item.assemblyGroupNodeId + '" data-child="' + item.hasChilds + '">' + item.assemblyGroupName + '</div>');*/
                                 });
                                 console.log(data);
                                 //don't forget error handling!
@@ -239,8 +189,6 @@
                     if ( e.target.getAttribute("data-child") !== 'false') {
                         console.log(4)
                         let parentId = element.attr("data-code");
-                        /*$(this).children('.categoriestree__subcategories').css("display", "block");*/
-                        /*let cat = $(this).children('.categoriestree__separator');*/
                         $.ajaxSetup({
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -285,8 +233,6 @@
                                             '                                        </use>\n' +
                                             '                                    </svg>')
                                     }
-                                    /*cat.after('<div class="categoriestree__subcategories"' +
-                                        ' data-code="' + item.assemblyGroupNodeId + '" data-child="' + item.hasChilds + '">' + item.assemblyGroupName + '</div>');*/
                                 });
                                 console.log(data);
                                 //don't forget error handling!
@@ -298,38 +244,9 @@
                     } else if(e.target.getAttribute("data-child") === 'false') {
                         let parentId = element.attr("data-code");
                         let carId = {{isset($modification['carId']) ? $modification['carId'] : null}};
-                        //console.log(parentId)
-                        //console.log(carId)
+
                         console.log(window.location);
-                        //console.log(window.location.origin + "/vehicleCat/products?category=" + parentId + "&carId=" +carId);
                         window.location.href = window.location.origin + "/vehicle-cat?category=" + parentId + "&carId=" +carId;
-                        /*$(this).children('.categoriestree__subcategories').css("display", "block");*/
-                        /*let cat = $(this).children('.categoriestree__separator');*/
-                        /*  $.ajaxSetup({
-                              headers: {
-                                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                              }
-                          });
-                          e.preventDefault();
-                          var formData = {
-                              category: parentId,
-                              carId: {{isset($modification['carId']) ? $modification['carId'] : null}}
-                        };
-                        var type = "GET";
-                        var ajaxurl = '{{route('tecProducts')}}';
-                        $.ajax({
-                            type: type,
-                            url: ajaxurl,
-                            data: formData,
-                            dataType: 'json',
-                            success: function (data) {
-                                console.log(data);
-                                //don't forget error handling!
-                            },
-                            error: function (data) {
-                                console.log(data);
-                            }
-                        });*/
                     }
                 }
             });

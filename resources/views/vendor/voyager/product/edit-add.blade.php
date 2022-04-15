@@ -421,13 +421,6 @@
                 $(this).parent().remove();
                 $('[data-id='+ id +']').click();
             });
-           /* $('.pstaggerClosingCross').on('click', function() {
-                let id = $(this).data("id");
-                console.log($(this));
-                $(this).parent().remove();
-                $('[data-id='+ id +']').click();
-            })*/
-
 
             $("input[type=checkbox]").click(function () {
                 console.log($(this).val());

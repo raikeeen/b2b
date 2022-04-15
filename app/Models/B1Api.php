@@ -75,48 +75,6 @@ class B1Api extends Model
                     'shippingAmount' => ($order->delivery_price + $order->payment_price) * 100,
                     'items' => $itemsB1
                 ];
-                /*$data = [
-                    'shopId' => '32a99',
-                    'prefix' => '32a99',
-                    'internalId' => $order->id,//$order->id,
-                    'date' => date('Y-m-d'),
-                    'number' => $order->reference,
-                    'discount' => isset($order->coupon->value) ? $order->coupon->value*100: 0,
-                    'total' => $order->total*100,
-                    'email' => $order->user->email,
-                    'writeOff' => 1,
-                    'vatRate' => 0.21,
-                    'currencyCode' => 'EUR',
-                    'billing' => array
-                    (
-                        'isJuridical' => 1,
-                        'name' => $order->user->address->company_name,
-                        'code' => $order->user->address->vat,
-                        'address' => $order->user->address->street
-                            ." ".$order->user->address->building,
-                        'city' => $order->user->address->city->name,
-                        'postcode' => $order->user->address->post_code,
-                        'countryCode' => 'LT',
-                    ),
-                    'delivery' => array
-                    (
-                        'isJuridical' => 1,
-                        'name' => $order->user->email,
-                        'code' => $order->user->address->vat,
-                        'address' => $order->user->address->street
-                            ." ".$order->user->address->building,
-                        'city' => $order->user->address->city->name,
-                        'postcode' => $order->user->address->post_code,
-                        'countryCode' => 'LT',
-                    ),
-                    'payer' => [
-                        'name' => $order->user->address->company_name,
-                        'code' => $order->user->address->vat,
-                        'countryCode' => 'LT',
-                    ],
-                    'shipping' => $order->delivery_price*100,
-                    'items' => $itemsB1
-                ];*/
                 $result = $keys->b1->request('shop/orders/add', $data);
 
                 if($result->getContent()['code'] !== 200)
@@ -125,13 +83,8 @@ class B1Api extends Model
                     print_r($result);
                 }
                 return $result->getContent();
-                //print_r($result);
         } catch (\B1Exception $e) {
-            //dd($e->getMessage());
-            //dd($e->getExtraData());
-            //dd($e->getMessage(),$e->getExtraData());
             SendMail::dispatch(['name' => 'order '.$order->id.' got any errors it dont sent to b1'])->onQueue('mail');
-            //Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'order '.$order->id.' got any errors it dont sent to b1']));
         }
     }
     static function synchronizationStock()
@@ -143,56 +96,6 @@ class B1Api extends Model
 
             // Using version 2.0.0 and up of the B1.php library.
             $keys = new B1Api;
-            /*$products =\DB::table('product')
-                ->where('b1_product_id', '!=',null)
-                ->select(['b1_product_id'])
-                ->orderBy('b1_product_id', 'ASC')
-                ->get();*/
-
-           /* foreach ($products as $product) {
-
-                $count = 0;
-
-                /*$data = [
-                    'warehouseId' => 1,
-                    'page' => 1,
-                    'pageSize' => 20,
-                    'rows' => 100,
-                    'filters' => [
-                        'groupOp' => 'AND',
-                        'rules' => [
-                            [
-                                'field' => 'id',
-                                'op' => 'eq',
-                                'data' => $product->b1_product_id
-                            ]
-                        ],
-                    ],
-
-                ];
-
-                $result = $keys->b1->request('warehouse/stock/list', $data);
-                $filter = $result->getContent()['data'];
-
-                if(empty($filter)) {
-
-                    \DB::table('product')
-                        ->where('b1_product_id', '=', $product->b1_product_id)
-                        ->update(['stock_shop' => $count]);
-                    continue;
-                }
-
-                foreach ($filter as $item) {
-
-                    $count += $item['stock'];
-                }
-
-                $product->stock_shop = $count;
-
-                \DB::table('product')
-                    ->where('b1_product_id', '=', $product->b1_product_id)
-                    ->update(['stock_shop' => $count]);*/
-            //}*/
 
             $totalPages = 1;
             $i = 1;
@@ -298,7 +201,6 @@ class B1Api extends Model
 
 
             }
-            //Mail::to(config('mail')['admin'])->send(new SynchronizationMail(['name' => 'Synchronization b1 stocks success', 'time' => 'Время выполнения скрипта: '.round(microtime(true) - $start, 4).' сек.']));
             SendMail::dispatch(['name' => 'Synchronization b1 stocks success', 'time' => 'Время выполнения скрипта: '.round(microtime(true) - $start, 4).' сек.'])->onQueue('mail');
 
         } catch (B1Exception $e) {

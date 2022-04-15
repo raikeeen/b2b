@@ -183,17 +183,6 @@
                                                         </svg>
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                               {{--                         <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="https://www.rm-autodalys.eu/zaloguj-sie?returnUrl=%2Fvariklio-dangcio-amortizatorius-kapoto-dujin-spyruokl--a89040e&amp;hw-lang=en-GB" title="ENGLISH">
-                                                            <div>ENGLISH</div>
-                                                            <div class="ml-2">
-
-
-                                                                <svg class="c-icon c-icon-language">
-                                                                    <use xlink:href="#en-GB"></use>
-                                                                </svg>
-
-                                                            </div>
-                                                        </a>--}}
                                                         <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="#" title="LITHUANIAN">
                                                             <div>LITHUANIAN</div>
                                                             <div class="ml-2">
@@ -208,28 +197,6 @@
 
                                                             </div>
                                                         </a>
- {{--                                                       <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="https://www.rm-autodalys.eu/zaloguj-sie?returnUrl=%2Fvariklio-dangcio-amortizatorius-kapoto-dujin-spyruokl--a89040e&amp;hw-lang=pl-PL" title="POLSKI">
-                                                            <div>POLSKI</div>
-                                                            <div class="ml-2">
-
-
-                                                                <svg class="c-icon c-icon-language">
-                                                                    <use xlink:href="#pl-PL"></use>
-                                                                </svg>
-
-                                                            </div>
-                                                        </a>
-                                                        <a class="c-lang-selector__link d-flex justify-content-between align-items-center dropdown-item my-2" href="https://www.rm-autodalys.eu/zaloguj-sie?returnUrl=%2Fvariklio-dangcio-amortizatorius-kapoto-dujin-spyruokl--a89040e&amp;hw-lang=ru-RU" title="RUSSIAN">
-                                                            <div>RUSSIAN</div>
-                                                            <div class="ml-2">
-
-
-                                                                <svg class="c-icon c-icon-language">
-                                                                    <use xlink:href="#ru-RU"></use>
-                                                                </svg>
-
-                                                            </div>
-                                                        </a>--}}
                                                     </div>
                                                 </div>
                                             </div>

@@ -18,78 +18,6 @@
                     </svg>
                 </span>
             </div>
-
-            {{--<div class="c-filter__wrapper d-none d-lg-block">
-                <div id="hook_articlelistsidebar">
-                    <div data-control-name="" data-control-type="ArticleListAvailability">
-                        <div class="mb-4 pl-2">
-                            <div class="custom-control custom-checkbox custom-control--availability custom-checkbox--switch">
-                                <input type="checkbox" name="fromAdvancedSearch1" class="custom-control-input" id="fromAvailableSearch1">
-                                <span class="availibility-slider"></span>
-                                <label class="custom-control-label custom-control-label--availability c-input__text">
-                                    <span>Tik prieinamus</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div data-control-name="" data-control-type="ArticleListPrices">
-                        <div class="mb-3">
-                            <div class="">
-                                <form novalidate="" id="price_form">
-                                    <div class="row no-gutters d-flex align-items-center justify-content-between mt-4">
-                                        <div class="col-12 col-sm col-lg-12 col-xl-5 c-input__text mb-3 pl-2">
-                                            <span>Kainų diapazonas</span>
-                                        </div>
-                                        <div class="col col-md-5 col-xl-3">
-                                            <div class="c-form-group d-flex align-items-center">
-                                                <label for="from" class="label-in-input"></label>
-                                                <input class="c-input c-input--label-in text-center" type="text"
-                                                       name="price-from" id="from" value="1,25">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 font-weight-bold">–</div>
-                                        <div class="col col-md-5 col-xl-3">
-                                            <div class="c-form-group d-flex align-items-center">
-                                                <label for="to" class="label-in-input"></label>
-                                                <input class="c-input c-input--label-in text-center" type="text"
-                                                       name="price-to" id="to" value="37,62">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 d-flex justify-content-center px-3 mb-3">
-                                            <div class="slider slider-horizontal" id="">
-                                                <div class="slider-track">
-                                                    <div class="slider-track-low" style="left: 0px; width: 0.137476%;"></div>
-                                                    <div class="slider-selection" style="left: 0.137476%; width: 99.8075%;"></div>
-                                                    <div class="slider-track-high" style="right: 0px; width: 0.0549904%;"></div>
-                                                </div>
-                                                <div class="tooltip tooltip-main top" role="presentation" style="left: 50.0412%;">
-                                                    <div class="tooltip-arrow"></div>
-                                                    <div class="tooltip-inner">1.3 : 37.6</div>
-                                                </div>
-                                                <div class="tooltip tooltip-min top" role="presentation" style="left: 0.137476%;">
-                                                    <div class="tooltip-arrow"></div>
-                                                    <div class="tooltip-inner">1.3</div>
-                                                </div>
-                                                <div class="tooltip tooltip-max top" role="presentation" style="left: 99.945%;">
-                                                    <div class="tooltip-arrow"></div>
-                                                    <div class="tooltip-inner">37.6</div>
-                                                </div>
-                                                <div class="slider-handle min-slider-handle round" role="slider" aria-valuemin="1.25" aria-valuemax="37.62" aria-valuenow="1.3" tabindex="0" style="left: 0.137476%;"></div>
-                                                <div class="slider-handle max-slider-handle round" role="slider" aria-valuemin="1.25" aria-valuemax="37.62" aria-valuenow="37.6" tabindex="0" style="left: 99.945%;"></div>
-                                            </div>
-                                            <input id="input-price-slider" type="text" class="c-slider-price" style="display: none;">
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>--}}
             <div class="">
                 <div id="hook_category" class="" data-asp-hook-name="Category"></div>
             </div>
@@ -391,56 +319,6 @@
 
                     <div class="d-flex align-items-center justify-content-center c-pagination__top-custom mt-2 mt-sm-0"
                          data-control-type="ArticleList">
-
-                        <!--
-                            <span class="">
-
-
-                        <svg class="c-icon c-icon&#45;&#45;pagination">
-                          <use xlink:href="#arrow-left-slider"></use>
-                        </svg>
-
-                            </span>
-                                                <span class="mx-1">
-                            <input class="c-input c-input&#45;&#45;top-pagination text-right p-2 mx-3" value="1">
-                          </span>
-                                                <div class="c-btn c-btn&#45;&#45;white-round">
-                                                    <a class=""
-                                                       href="https://www.rm-autodalys.eu/katalog?nodeId=AMO5&amp;segment1=amort-montavimo-elementai&amp;page=2">
-
-
-                                                        <svg class="c-icon c-icon&#45;&#45;has-next-pagination">
-                                                            <use xlink:href="#arrow-right-slider"></use>
-                                                        </svg>
-
-                                                    </a>
-                                                </div>
-
-                                                <span class="c-pagination__top-custom__title ml-3">
-                            <span>nuo</span>
-                            <a class=""
-                               href="https://www.rm-autodalys.eu/katalog?nodeId=AMO5&amp;segment1=amort-montavimo-elementai&amp;page=10"
-                               title="10">10</a>
-                          </span>-->
-
-
-
-
-                       {{-- <ul class="pagination">
-                            <li class="page-item" v-bind:class="[{disabled: !pagination.prev_page_url}]">
-                                <a class="page-link" href="#" tabindex="-1" @click="fetchProducts(pagination.prev_page_url)">Previous</a>
-                            </li>
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#">Page {{pagination.current_page}} of {{pagination.last_page}}</a>
-                            </li>
-                            <!-- <li  class="page-item">
-                                 <input class="c-input c-input&#45;&#45;top-pagination text-right p-2 mx-3" type="number" v-model="input_page"
-                                        @submit="fetchProducts(pagination.search_page+'value')">
-                             </li>-->
-                            <li class="page-item" v-bind:class="[{disabled: !pagination.next_page_url}]">
-                                <a class="page-link" href="#" @click="fetchProducts(pagination.next_page_url)">Next</a>
-                            </li>
-                        </ul>--}}
                         <div class="col d-sm-flex justify-content-xs-center justify-content-sm-end align-items-center">
 
                             <div class="d-flex align-items-center justify-content-center c-pagination__top-custom mt-2 mt-sm-0" data-control-type="ArticleList">
@@ -495,38 +373,4 @@
             </div>
         </div>
     </div>
-    <script>
-        $( document ).ready(function() {
-
-            /*var queryParams = new URLSearchParams(window.location.search);
-
-// Set new or modify existing parameter value.
-            queryParams.set("myParam", "myValue");
-
-// Replace current querystring with the new one.
-            history.replaceState(null, null, "?"+queryParams.toString());*/
-
-           /* $('.filter-product').change(function(e){
-                e.preventDefault();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    url: "{{route('products.index', ['category' => request()->category])}}",
-                    method: 'get',
-                    data: {
-                        sort: $('.filter-product').val(),
-
-                    },
-                    success: function(result){
-                        console.log(result);
-                    }});
-            });*/
-
-
-        })
-    </script>
 @endsection
